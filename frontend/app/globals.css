@@ -1,25 +1,38 @@
+/* Base styles (desktop) */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Body */
+:root {
+  --accent: 217.2 32.6% 17.5%;
+}
+
 body {
-  background-color: rgb(13, 15, 22);
-  font-family: 'Arial', sans-serif;
+  padding-top: 80px;
 }
 
 /* Header styling */
 header {
   padding: 20px 10%;
-  background-color:  rgb(13, 15, 22);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: rgba(5, 11, 23, 0.7);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  height: 80px;
+  transition: background-color 0.3s ease;
 }
 
 /* Nav menu */
 header nav ul {
   display: flex;
   gap: 20px;
+  margin: 0;
 }
 
 header nav ul li {
@@ -37,7 +50,6 @@ header nav ul li:hover {
 
 /* Logo */
 header img {
-  /* width: 150px; */
   cursor: pointer;
 }
 
@@ -55,6 +67,27 @@ header button {
 header button:hover {
   background-color: rgb(200, 30, 60);
 }
+
+.regist-btn {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  background-color: rgba(5, 11, 23, 0.7); 
+  backdrop-filter: blur(10px);
+  color: white;
+  height: 40px;
+  padding: 8px; 
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+
+.regist-btn:hover {
+  background-color: hsl(var(--accent)); /* Màu nền khi hover */
+}
+
+
 
 /* Banner styling */
 .banner {
@@ -96,114 +129,197 @@ header button:hover {
 /* Keyframes for slideshow */
 @keyframes slideshow {
   0% {
-      margin-left: 0;
+    margin-left: 0;
   }
+
   20% {
-      margin-left: 0;
+    margin-left: 0;
   }
+
   30% {
-      margin-left: -100%;
+    margin-left: -100%;
   }
+
   50% {
-      margin-left: -100%;
+    margin-left: -100%;
   }
+
   60% {
-      margin-left: -200%;
+    margin-left: -200%;
   }
+
   80% {
-      margin-left: -200%;
+    margin-left: -200%;
   }
+
   100% {
-      margin-left: 0;
+    margin-left: 0;
   }
 }
 
-
-.main-content{
+.main-content {
   justify-content: center;
   align-items: center;
 }
-.top-content{
+
+.top-content {
   display: flex;
-  
 }
-.left-content, .right-content {
+
+.left-content,
+.right-content {
   padding: 20px;
   display: flex;
 }
-.card{
+
+.card {
   margin: 0 10px;
 }
-.card-item{
+
+.card-item {
   margin: 10px 0;
 }
 
-.card-link{
+.card-link {
   color: aliceblue;
   list-style: none;
 }
 
-
 /* Footer styling */
 footer {
-  background-color: #343a40; /* Màu nền tối hơn */
-  padding: 20px 0; /* Khoảng cách dọc */
+  background-color: #343a40;
+  /* Màu nền tối hơn */
+  padding: 20px 0;
+  /* Khoảng cách dọc */
 }
 
 .footer {
-  list-style-type: none; /* Bỏ gạch đầu dòng cho danh sách */
+  list-style-type: none;
+  /* Bỏ gạch đầu dòng cho danh sách */
   margin: 0;
   padding: 0;
 }
 
 .footer li {
-  margin: 0 15px; /* Khoảng cách giữa các item trong footer */
+  margin: 0 15px;
+  /* Khoảng cách giữa các item trong footer */
 }
 
 .footer .nav-link {
-  color: #f8f9fa; /* Màu chữ trắng nhạt */
-  text-decoration: none; /* Bỏ gạch chân */
-  transition: color 0.3s ease; /* Hiệu ứng khi hover */
+  color: #f8f9fa;
+  /* Màu chữ trắng nhạt */
+  text-decoration: none;
+  /* Bỏ gạch chân */
+  transition: color 0.3s ease;
+  /* Hiệu ứng khi hover */
 }
 
 .footer .nav-link:hover {
-  color: #ff254a; /* Đổi màu khi hover */
+  color: #ff254a;
+  /* Đổi màu khi hover */
 }
 
-/* Responsive adjustment */
-@media (max-width: 768px) {
-  .footer {
-      flex-direction: column; /* Xếp chồng các item khi màn hình nhỏ */
-      align-items: center; /* Căn giữa các item */
-  }
-
-  .footer li {
-      margin: 10px 0; /* Tạo khoảng cách dọc khi xếp chồng */
-  }
-}
-
-footer img{
-  margin: 0 10px;
-}
 .contact-bottom {
-  padding: 20px; 
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center; 
+  text-align: center;
 }
 
-
 .contact-bottom .text-light p {
-  color: #f8f9fa; /* Màu chữ trắng nhạt */
-  margin: 5px 0; /* Khoảng cách giữa các đoạn văn */
-  font-size: 0.9rem; /* Kích thước chữ phù hợp */
-  line-height: 1.6; /* Độ cao dòng để dễ đọc */
+  color: #f8f9fa;
+  /* Màu chữ trắng nhạt */
+  margin: 5px 0;
+  /* Khoảng cách giữa các đoạn văn */
+  font-size: 0.9rem;
+  /* Kích thước chữ phù hợp */
+  line-height: 1.6;
+  /* Độ cao dòng để dễ đọc */
 }
 
 /* Responsive adjustments */
+@media (max-width: 1024px) {
+  header {
+    padding: 20px 5%;
+  }
+
+  header nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header nav ul li {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .slider-banner {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
+  header {
+    padding: 15px 5%;
+  }
+
+  header nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header nav ul li {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+
+  .top-content {
+    flex-direction: column;
+  }
+
+  .left-content,
+  .right-content {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .card {
+    margin: 10px 0;
+  }
+
+  footer {
+    padding: 10px 0;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer li {
+    margin: 5px 0;
+  }
+
   .contact-bottom .text-light p {
-      font-size: 0.8rem; /* Giảm kích thước chữ trên màn hình nhỏ */
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 10px 2%;
+  }
+
+  header nav ul {
+    gap: 10px;
+  }
+
+  header nav ul li {
+    font-size: 0.7rem;
+  }
+
+  .contact-bottom .text-light p {
+    font-size: 0.7rem;
   }
 }

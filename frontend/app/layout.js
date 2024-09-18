@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "../public/bootstrap-5.3.3-dist/css/bootstrap.min.css";
-import Header from "./header";
-import Footer from "./footer";
+import Header from "./components/header";
+import Footer from "./components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body style={{backgroundColor: '#050B17'}}>
       <Header/>
         {children}
         <Footer/>
