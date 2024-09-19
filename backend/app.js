@@ -11,7 +11,7 @@ const indexRouter = require('./routes/index');
 var KhachHangRouter = require('./routes/KhachHangs');
 var SuatChieuRouter = require('./routes/SuatChieu');
 var VeXemPhimRouter = require('./routes/VeXemPhim');
-
+var ContactRouter = require('./routes/Contacts');
 
 const app = express();
 
@@ -31,7 +31,7 @@ app.use('/', indexRouter);
 app.use('/khachhang', KhachHangRouter);
 app.use('/suatchieu', SuatChieuRouter);
 app.use('/vexemphim', VeXemPhimRouter);
-
+app.use('/lienhe', ContactRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
