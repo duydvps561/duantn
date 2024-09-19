@@ -4,206 +4,94 @@
   box-sizing: border-box;
 }
 
-/* Body */
+:root {
+  --accent: 217.2 32.6% 17.5%;
+}
+
 body {
-  background-color: rgb(13, 15, 22);
-  font-family: 'Arial', sans-serif;
+  padding-top: 70px;
 }
 
 /* Header styling */
 header {
-  padding: 20px 10%;
-  background-color:  rgb(13, 15, 22);
-}
-
-/* Nav menu */
-header nav ul {
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 70px;
+  background-color: rgba(5, 11, 23, 0.7);
+  backdrop-filter: blur(20px); /* Làm mờ phần tử dưới header */
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   gap: 20px;
-}
-
-header nav ul li {
-  list-style: none;
-  color: rgb(255, 255, 255);
-  cursor: pointer;
-  padding: 10px 20px;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-header nav ul li:hover {
-  color: rgb(255, 37, 74);
-  transform: scale(1.1);
-}
-
-/* Logo */
-header img {
-  /* width: 150px; */
-  cursor: pointer;
-}
-
-/* Button */
-header button {
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  background-color: rgb(255, 37, 74);
-  color: white;
-  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-header button:hover {
-  background-color: rgb(200, 30, 60);
+/* Logo styling */
+header img {
+  height: 50px;
 }
 
-/* Banner styling */
-.banner {
-  min-height: 100vh;
+/* Navigation styling */
+header .nav-list {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-/* Slider styling */
-.slider-banner {
-  overflow: hidden;
-  width: 100%;
-  max-width: 1440px;
-  height: auto;
-  margin-bottom: 50px;
-}
-
-.slider-banner-area {
-  width: 300%;
-  display: flex;
-  animation: slideshow 3s infinite;
-}
-
-.list-img {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.list-img img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
-/* Keyframes for slideshow */
-@keyframes slideshow {
-  0% {
-      margin-left: 0;
-  }
-  20% {
-      margin-left: 0;
-  }
-  30% {
-      margin-left: -100%;
-  }
-  50% {
-      margin-left: -100%;
-  }
-  60% {
-      margin-left: -200%;
-  }
-  80% {
-      margin-left: -200%;
-  }
-  100% {
-      margin-left: 0;
-  }
-}
-
-
-.main-content{
-  justify-content: center;
-  align-items: center;
-}
-.top-content{
-  display: flex;
-  
-}
-.left-content, .right-content {
-  padding: 20px;
-  display: flex;
-}
-.card{
-  margin: 0 10px;
-}
-.card-item{
-  margin: 10px 0;
-}
-
-.card-link{
-  color: aliceblue;
   list-style: none;
+  margin-top: 15px;
+  gap: 25px;
 }
 
+.nav-list li a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
 
-/* Footer styling */
-footer {
-  background-color: #343a40; /* Màu nền tối hơn */
-  padding: 20px 0; /* Khoảng cách dọc */
+  color: rgb(255, 255, 255);
+  transition: color 0.3s ease; 
 }
 
-.footer {
-  list-style-type: none; /* Bỏ gạch đầu dòng cho danh sách */
-  margin: 0;
-  padding: 0;
+.nav-list li a:hover {
+  color: #e91c25; 
 }
+.nav-list li a.active {
+  color: rgb(255, 37, 74); /* Màu sắc cho liên kết hiện tại */
 
-.footer li {
-  margin: 0 15px; /* Khoảng cách giữa các item trong footer */
 }
-
-.footer .nav-link {
-  color: #f8f9fa; /* Màu chữ trắng nhạt */
-  text-decoration: none; /* Bỏ gạch chân */
-  transition: color 0.3s ease; /* Hiệu ứng khi hover */
-}
-
-.footer .nav-link:hover {
-  color: #ff254a; /* Đổi màu khi hover */
-}
-
-/* Responsive adjustment */
-@media (max-width: 768px) {
-  .footer {
-      flex-direction: column; /* Xếp chồng các item khi màn hình nhỏ */
-      align-items: center; /* Căn giữa các item */
-  }
-
-  .footer li {
-      margin: 10px 0; /* Tạo khoảng cách dọc khi xếp chồng */
-  }
-}
-
-footer img{
-  margin: 0 10px;
-}
-.contact-bottom {
-  padding: 20px; 
+/* Button styling */
+.btn-section {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center; 
+  margin-right: 100px;
+  gap: 10px;
 }
 
-
-.contact-bottom .text-light p {
-  color: #f8f9fa; /* Màu chữ trắng nhạt */
-  margin: 5px 0; /* Khoảng cách giữa các đoạn văn */
-  font-size: 0.9rem; /* Kích thước chữ phù hợp */
-  line-height: 1.6; /* Độ cao dòng để dễ đọc */
+.regist-btn {
+  color: #ffffff;
+  background-color: rgba(5, 11, 23, 0.7);
+  width: 132px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  transition: background-color 0.2s ease;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .contact-bottom .text-light p {
-      font-size: 0.8rem; /* Giảm kích thước chữ trên màn hình nhỏ */
-  }
+.regist-btn:hover {
+  cursor: pointer;
+  background-color: #072c31;
+}
+
+.login-btn {
+  background-color: #e91c25;
+  color: white;
+  height: 40px;
+  width: 132px;
+  text-align: center;
+  border: none;
+  border-radius: 20px;
+  transition: transform 0.2s ease;
+}
+
+.login-btn:hover {
+  transform: scale(1.1);
 }
