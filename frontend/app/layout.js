@@ -14,10 +14,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body style={{backgroundColor: '#050B17'}}>
-      <Header/>
+      <body style={{ backgroundColor: '#050B17' }}>
+        <Header />
         {children}
-        <Footer/>
+        <Footer />
         <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
       </body>
     </html>

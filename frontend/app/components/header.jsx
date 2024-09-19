@@ -1,45 +1,76 @@
+'use client'
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
 export default function Header() {
+    const pathname = usePathname(); // Lấy đường dẫn hiện tại
+
     return (
-        <header className=" py-3">
-            <div className="container d-flex justify-content-between align-items-center">
-                <div classNameName="logo">Logo</div>
-                <nav>
-                    <ul className="nav">
-                        <li className="nav-item">
-                            <Link href="/" className="nav-link text-light">
-                                Trang Chu
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="#" className="nav-link text-light">
-                                Lich Chieu
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="#" className="nav-link text-light">
-                                Tin Tuc
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="#" className="nav-link text-light">
-                                Khuyen Mai
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="/ticket" className="nav-link text-light">
-                                Gia Ve
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="#" className="nav-link text-light">
-                                Gioi Thieu
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
+        <header>
+            <Link href="/"><img src="img/logo.png" alt="anh logo" /></Link>
+            <nav>
+                <ul className='nav-list'>
+                    <li>
+                        <Link 
+                            href="/" 
+                            className={pathname === '/' ? 'active' : ''}
+                        >
+                            Trang chủ
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href="#" 
+                            className={pathname === '/some-path' ? 'active' : ''} 
+                        >
+                            Lịch chiếu
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href="#" 
+                            className={pathname === '/some-path' ? 'active' : ''} 
+                        >
+                            Tin tức
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href="#" 
+                            className={pathname === '/some-path' ? 'active' : ''} 
+                        >
+                            Khuyến mãi
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href="/ticket" 
+                            className={pathname === '/ticket' ? 'active' : ''}
+                        >
+                            Giá vé
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href="#" 
+                            className={pathname === '/some-path' ? 'active' : ''} 
+                        >
+                            Liên hoan phim
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            href="#" 
+                            className={pathname === '/some-path' ? 'active' : ''} 
+                        >
+                            Giới thiệu
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
+            <div className='btn-section'>
                 <button className='regist-btn'>Đăng Ký</button>
-                <button className="btn btn-danger fw-bold">Dang Nhap</button>
+                <button className="login-btn">Đăng Nhập</button>
             </div>
         </header>
     );
