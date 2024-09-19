@@ -8,6 +8,7 @@ const cors = require('cors');
 const database = require('./config/db');
 
 const indexRouter = require('./routes/index');
+var testRouter= require('./routes/test');
 var KhachHangRouter = require('./routes/KhachHangs');
 var SuatChieuRouter = require('./routes/SuatChieu');
 var VeXemPhimRouter = require('./routes/VeXemPhim');
@@ -28,19 +29,17 @@ app.use(cors());
 database.connect();
 
 app.use('/', indexRouter);
+app.use('/test',testRouter)
 app.use('/khachhang', KhachHangRouter);
 app.use('/suatchieu', SuatChieuRouter);
 app.use('/vexemphim', VeXemPhimRouter);
-
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   if (req.app.get('env') === 'development') {
     res.status(err.status || 500);
     res.render('error');
