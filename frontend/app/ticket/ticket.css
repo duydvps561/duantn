@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+body {
+    padding: 80px; /* Đảm bảo padding không quá lớn */
+  }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    opacity: 1;
+    font-family: "Montserrat", sans-serif; ;
+}
+.t-title{
+    color: #ffffff;
+    font-size: 32px;
+    text-align: center;
+    font-weight: bold;
+    margin: 62px 0 0 0px;
+}
+.apply-date{
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+    margin: 0 0 85px 0;
+}
+.table-title{
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 51px 0;
+}
+:root {
+    --border: 217, 32%, 70%;  /* Màu xám nhạt cho viền */
+    --text-standard: 0, 0%, 100%; /* Màu trắng cho văn bản ghế thường */
+    --text-vip: 48, 100%, 53%; /* Màu vàng cho văn bản ghế VIP */
+    --text-cuple: 0, 85%, 60%; /* Màu đỏ cho văn bản ghế đôi */
+    --time-color: 210, 13%, 55%; /* Màu xám nhạt cho thời gian */
+}
+
+.ticket-table {
+    border: 1px solid;
+    border-color:  hsl(var(--border));
+    border-collapse: separate;
+    border-radius: 14px;
+    width: 100%;
+    border-spacing: 0;
+    overflow: hidden;
+    margin: 0 auto;
+
+}
+
+.ticket-table th, .ticket-table td {
+    border: 1px solid;
+    border-color: hsl(var(--border));
+    padding: 10px;
+
+}
+
+thead th,cd {
+    text-align: center;
+    color: hsl(var(--text-standard)); /* Màu trắng cho văn bản tiêu đề */
+}
+
+tbody td{
+    color: hsl(var(--text-standard));
+}
+tbody th{
+    text-align: center;
+    color: hsl(var(--text-standard)); /* Màu trắng cho hàng thời gian */
+}
+
+.t-time {
+    color: hsl(var(--time-color)); /* Màu xám nhạt cho văn bản thời gian */
+}
+
+.standard {
+    color: hsl(var(--text-standard)); /* Màu trắng cho ghế thường */
+}
+
+.vip {
+    color: hsl(var(--text-vip)); /* Màu vàng cho ghế VIP */
+}
+
+.cuple {
+    color: hsl(var(--text-cuple)); /* Màu đỏ cho ghế đôi */
+}
+.notice{
+    color: #9E9E9E;
+    font-size: 16px;
+    margin: 20px 0 54px 0 ;
+}
+.detail-en{
+    margin-top: 24px;
+}
+.d-1{
+    margin-bottom: 24px;
+    color: #ffffff;
+}
+.d-1 p{
+    color: #ffffff;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.d-2{
+    color: #ffffff;
+    margin-bottom: 24px;
+}
+.ticket-detail p{
+    color: #ffffff;
+    font-size:16px ;
+    font-weight: bold;
+}
+.d-4 span{
+    color: #ffffff;
+}
+.ticket-detail span{
+    color: #ffffff;
+    margin-bottom: 24px;
+}
+.d-3{
+    color: #ffffff;
+    margin-bottom: 24px;
+}
