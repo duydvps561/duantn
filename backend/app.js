@@ -29,8 +29,6 @@ database.connect();
 
 app.use('/', indexRouter);
 app.use('/khachhang', KhachHangRouter);
-app.use('/suatchieu', SuatChieuRouter);
-app.use('/vexemphim', VeXemPhimRouter);
 app.use('/lienhe', ContactRouter);
 app.use(function(req, res, next) {
   next(createError(404));
