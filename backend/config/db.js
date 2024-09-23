@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
-const atlas = 'mongodb+srv://duantotnghiep:duantotnghiep@duantotnghiep.8tblu.mongodb.net/duantotnghiep';
+const atlas = 'mongodb+srv://duantotnghiep:duantotnghiep@duantotnghiep.kjops.mongodb.net/duantotnghiep';
 // const atlas = 'mongodb://localhost:27017/.....';
 const connect = async () => {
     try {

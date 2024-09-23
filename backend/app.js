@@ -13,6 +13,7 @@ var KhachHangRouter = require('./routes/KhachHangs');
 var SuatChieuRouter = require('./routes/SuatChieu');
 var VeXemPhimRouter = require('./routes/VeXemPhim');
 var ContactRouter = require('./routes/Contacts');
+var FoodRouter = require('./routes/food');
 
 const app = express();
 
@@ -31,9 +32,8 @@ database.connect();
 app.use('/', indexRouter);
 app.use('/test', testRouter)
 app.use('/khachhang', KhachHangRouter);
-app.use('/suatchieu', SuatChieuRouter);
-app.use('/vexemphim', VeXemPhimRouter);
 app.use('/lienhe', ContactRouter);
+app.use('/foods', FoodRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
