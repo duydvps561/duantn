@@ -9,11 +9,10 @@ const database = require('./config/db');
 
 const indexRouter = require('./routes/index');
 var testRouter = require('./routes/test');
-var KhachHangRouter = require('./routes/KhachHangs');
-var SuatChieuRouter = require('./routes/SuatChieu');
-var VeXemPhimRouter = require('./routes/VeXemPhim');
 var ContactRouter = require('./routes/Contacts');
 var FoodRouter = require('./routes/food');
+var TaikhoanRouter = require('./routes/taikhoan');
+var HoadonRouter = require('./routes/hoadon');
 
 const app = express();
 
@@ -31,9 +30,10 @@ database.connect();
 
 app.use('/', indexRouter);
 app.use('/test', testRouter)
-app.use('/khachhang', KhachHangRouter);
 app.use('/lienhe', ContactRouter);
 app.use('/foods', FoodRouter);
+app.use('/taikhoan', TaikhoanRouter);
+app.use('/hoadon', HoadonRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
