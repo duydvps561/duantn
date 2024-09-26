@@ -20,7 +20,7 @@ export default function Header() {
                     </li>
                     <li>
                         <Link 
-                            href="#" 
+                            href="/lichchieu" 
                             className={pathname === '/some-path' ? 'active' : ''} 
                         >
                             Lịch chiếu
@@ -28,7 +28,7 @@ export default function Header() {
                     </li>
                     <li>
                         <Link 
-                            href="#" 
+                            href="/tintuc" 
                             className={pathname === '/some-path' ? 'active' : ''} 
                         >
                             Tin tức
