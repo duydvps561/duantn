@@ -1,0 +1,136 @@
+/* Sidebar.module.css */
+
+.sidebar {
+    background-color: #2c2c2c;
+    padding: 20px 0;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    left: 0;
+    width: 220px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .logo {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .logoImage {
+    width: 120px;
+    height: auto;
+  }
+  
+  .menuList {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .menuItem {
+    padding: 15px 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menuItem:hover {
+    background-color: #444;
+  }
+  
+  .link {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 4px;
+  }
+  
+  .icon {
+    margin-right: 10px;
+  }
+  
+  .svgIcon {
+    width: 18px; /* Set icon size */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  .text {
+    font-size: 16px;
+  }
+  .menuList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menuItem {
+    position: relative; /* Position relative for dropdown */
+    margin-bottom: 10px; /* Space between menu items */
+}
+
+.link {
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space between text and arrow */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    padding: 10px; /* Padding for clickable area */
+}
+
+.icon {
+    margin-right: 10px; /* Space between icon and text */
+}
+
+.dropdownMenu {
+    display: block; /* Show dropdown as a block */
+    background: none; /* Background color for the dropdown */
+    padding: 10px; /* Padding inside the dropdown */
+    z-index: 1000; /* Ensure dropdown is on top */
+    width: 100%; /* Set width to 100% of the parent */
+    margin-top: 0; /* Remove any top margin */
+    position: relative; /* Set position to relative */
+    color: white !important;
+    margin-left: 4rem;
+}
+
+.menuItem {
+    position: relative; /* Position relative for dropdown */
+    margin-bottom: 10px; /* Space between menu items */
+    display: flex; /* Make sure the menu items are flex */
+    flex-direction: column; /* Align items in a column for dropdown */
+    color: white !important;
+
+}
+
+
+.subLink {
+    display: block; /* Make each submenu link a block */
+    padding: 8px 10px; /* Padding for submenu items */
+    color: white;
+    list-style: none;
+    text-transform: none; /* Text color for submenu */
+    text-decoration: none; /* Ensure no underline on hover */
+
+}
+
+.subLink:hover {
+    background: #f0f0f040; /* Hover effect for submenu items */
+}
+
+.svgIcon {
+    transition: transform 0.2s ease; /* Add transition for rotation */
+}
+
+/* Add a class to rotate the icon when dropdown is open */
+.open {
+    transform: rotate(180deg); /* Rotate the icon */
+}
