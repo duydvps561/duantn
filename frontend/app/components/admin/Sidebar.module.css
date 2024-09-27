@@ -103,7 +103,7 @@
 }
 
 .menuItem {
-    position: relative; /* Position relative for dropdown */
+    position:  relative; /* Position relative for dropdown */
     margin-bottom: 10px; /* Space between menu items */
     display: flex; /* Make sure the menu items are flex */
     flex-direction: column; /* Align items in a column for dropdown */
