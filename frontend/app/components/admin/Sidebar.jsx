@@ -55,7 +55,7 @@ const DropdownMenu = ({ item }) => {
         {isOpen && (
           <ul className={styles.dropdownMenu}>
             <li>
-              <Link href={`${item.href}/list`} className={styles.subLink}>Danh Sách</Link>
+              <Link href={`${item.href}`} className={styles.subLink}>Danh Sách</Link>
             </li>
             <li>
               <Link href={`${item.href}/create`} className={styles.subLink}>Tạo Mới</Link>
