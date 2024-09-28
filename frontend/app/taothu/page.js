@@ -24,7 +24,7 @@ const AddFood = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:3000/foods/add', formData, {
+      const res = await axios.post('http://localhost:3000/food/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
