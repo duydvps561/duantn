@@ -49,7 +49,7 @@ app.use('/', indexRouter);
 //account
 app.use('/taikhoan', TaikhoanRouter);
 //food
-app.use('/foods', FoodRouter);
+app.use('/food', FoodRouter);
 app.use('/foododer', FoodOderRouter);
 app.use('/hoadon', HoadonRouter);
 //movie

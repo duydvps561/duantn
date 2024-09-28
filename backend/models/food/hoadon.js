@@ -6,7 +6,7 @@ const hoadonSchema = new Schema({
     ve_id: { type: Schema.Types.ObjectId, ref: 've', required: true }, // Sử dụng ObjectId cho liên kết
     foododer_id: { type: Schema.Types.ObjectId, ref: 'foodOrder', required: true }, // Sử dụng ObjectId cho liên kết
     ngaylap: { type: Date, required: true }, // Ngày lập nên là Date
-    giolap: { type: Date, required: true }, // Giờ lập không cần unique
+    giolap: { type: String, required: true }, // Giờ lập không cần unique
     tongtien: { type: Number, required: true }, // Đổi sang Number để dễ tính toán
     trangthai: { type: String, default: '1' },
 }, { timestamps: true });
