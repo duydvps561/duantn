@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const Taikhoan = require('../models/taikhoan');
+const Giave = require('../../models/ticket/giave');
 
 router.get('/', async function(req, res, next) {
   try {
-    const taikhoan = await Taikhoan.find(); 
-    res.json(taikhoan);
+    const giave = await Giave.find(); 
+    res.json(giave);
   } catch (err) {
     next(err);
   }
@@ -13,8 +13,8 @@ router.get('/', async function(req, res, next) {
 
 router.post('/add', async (req, res) => {
   try {
-    const taikhoan = new Taikhoan(req.body);
-    const result = await taikhoan.save();
+    const giave = new Giave(req.body);
+    const result = await giave.save();
     res.status(201).send(result);
   } catch (err) {
     res.status(500).send({ error: err.message });

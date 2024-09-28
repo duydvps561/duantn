@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const Food = require('../models/food');
+const Loaighe = require('../../models/room/loaighe');
 
 router.get('/', async function(req, res, next) {
   try {
-    const food = await Food.find(); 
-    res.json(food);
+    const loaighe = await Loaighe.find(); 
+    res.json(loaighe);
   } catch (err) {
     next(err);
   }
@@ -13,8 +13,8 @@ router.get('/', async function(req, res, next) {
 
 router.post('/add', async (req, res) => {
   try {
-    const food = new Food(req.body);
-    const result = await food.save();
+    const loaighe = new Loaighe(req.body);
+    const result = await loaighe.save();
     res.status(201).send(result);
   } catch (err) {
     res.status(500).send({ error: err.message });

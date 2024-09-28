@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const VeXemPhim = require('../models/VeXemPhim');
+const Ve = require('../../models/ticket/ve');
 
 router.get('/', async function(req, res, next) {
   try {
-    const veXemPhim = await VeXemPhim.find(); 
-    res.json(veXemPhim);
+    const ve = await Ve.find(); 
+    res.json(ve);
   } catch (err) {
     next(err);
   }
@@ -13,8 +13,8 @@ router.get('/', async function(req, res, next) {
 
 router.post('/add', async (req, res) => {
   try {
-    const veXemPhim = new VeXemPhim(req.body);
-    const result = await veXemPhim.save();
+    const ve = new Ve(req.body);
+    const result = await ve.save();
     res.status(201).send(result);
   } catch (err) {
     res.status(500).send({ error: err.message });
