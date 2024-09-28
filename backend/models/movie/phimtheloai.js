@@ -6,6 +6,6 @@ const phimtheloaiSchema = new Schema({
     theloai_id: { type: Schema.Types.ObjectId, ref: 'PhimTheLoai', required: true }, // Khóa ngoại
 }, { timestamps: true });
 phimtheloaiSchema.index({ phim_id: 1, theloai_id: 1 }, { unique: true });
-// Đảm bảo tên mô hình tuân theo quy tắc PascalCase
+
 module.exports = mongoose.model('phimtheloai', phimtheloaiSchema);
 
