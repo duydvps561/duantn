@@ -10,6 +10,7 @@ const phimSchema = new Schema({
     trailler: { type: String, required: true }, // Ngày lập nên là Date
     ngayhieuluc: { type: String, required: true }, // Giờ lập không cần unique
     ngayhieulucden: { type: String, required: true }, // Giờ lập không cần unique
+    img: { type: String, required: true }, // Giờ lập không cần unique
     trangthai: { type: String, default: '1' },
 }, { timestamps: true });
 
