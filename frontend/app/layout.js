@@ -3,7 +3,6 @@ import "./globals.css";
 import "../public/bootstrap-5.3.3-dist/css/bootstrap.min.css";
 import Header from "./components/header";
 import Footer from "./components/footer";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
