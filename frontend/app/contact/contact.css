@@ -1,34 +1,5 @@
-<<<<<<< HEAD
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Montserrat", sans-serif; ;
-}
-.container{
-    width: 100%;
-    margin: 0 auto;
-}
-.c-title{
-    color: #ffffff;
-    font-size: 32px;
-    text-align: center;
-    font-weight: bold;
-    margin: 62px 0 0 0px;
-}
-.c-section{
-    display: flex;
-}
-.c-section-1{
-    width: 40%;
 
-}
-.c-section-2{
-    width: 60%;
-}
-=======
 /* Global Styles */
 .container {
     max-width: 1200px;
@@ -153,4 +124,3 @@
 .form-contact input[type="submit"]:hover {
   background: linear-gradient(to left, red, rgb(243, 77, 77));
 }
->>>>>>> 3d5c282697b46e22ee1cc032aadbdd8ea8e01dd6

@@ -5,7 +5,7 @@ export default function filmdetail() {
         <slide/>
         <section class="film-detail justify-content-center">
         <div class="card bg-dark">
-            <img src="img/0017840_0 1-3.png" class="card-img object-fit-cover" alt="..."/>
+            <img src="img/0017840_0 1-3.png" class="card-img object-fit-cover" alt="...da"/>
             <div class="card-img-overlay d-lg-flex justify-content-center">
                 <div class="img-overlay">
                     <img src="img/0017840_0 1-3.png" alt="" style={{width: '250', height: '350px'}}/>
