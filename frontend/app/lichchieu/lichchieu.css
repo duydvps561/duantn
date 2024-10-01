@@ -1,0 +1,98 @@
+/* Container */
+.container {
+    margin-top: 30px;
+}
+
+/* Căn giữa tiêu đề */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+}
+.node{
+    text-align: center;
+}
+
+/* List days */
+.list-day ul {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.list-day ul li {
+    margin: 0 10px;
+}
+
+.daylink {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #343a40;
+}
+
+.daylink:hover {
+    background-color: #495057;
+}
+
+/* Main Card Section */
+.main {
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Cards */
+.card {
+    border: none;
+    background-color: #212529;
+    margin: 10px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    margin-bottom: 15px;
+}
+
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.time {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.timechieu {
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 1px solid #fff;
+    background-color: #343a40;
+}
+
+.timechieu:hover {
+    background-color: #495057;
+}
+
+/* Image inside cards */
+.card img {
+    object-fit: cover;
+    height: 100%;
+}
