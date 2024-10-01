@@ -7,14 +7,14 @@ export default function Home() {
         <section className="main-content">
             <h2 className="text-light fw-bold fs-5">Phim dang chieu</h2>
             <div className="top-content d-flex justify-content-center">
-                <div className="col-12 col-lg-8 left-content">
-                    <div className="card bg-dark" style={{ width: "20rem" }}>
+                <div className=" d-flex col-12 col-lg-8 left-content">
+                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
                         <img src="img/0017840_0 1.png" className="card-img-top" alt="..." />
-                        <div className="card-body">
+                        <div className="card-body text-start">
                             <a href="#" className="card-link">
                                 Hanh Dong
                             </a>
-                            <a href="#" className="card-link">
+                            <a href="#" className="card-link ms-4 ps-4">
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">
@@ -22,17 +22,17 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem" }}>
+                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-1.png"
                             className="card-img-top"
                             alt="..."
                         />
-                        <div className="card-body">
+                        <div className="card-body text-start">
                             <a href="#" className="card-link">
                                 Hanh Dong
                             </a>
-                            <a href="#" className="card-link">
+                            <a href="#" className="card-link ms-4 ps-4">
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">
@@ -40,17 +40,17 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem" }}>
+                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-2.png"
                             className="card-img-top"
                             alt="..."
                         />
-                        <div className="card-body">
+                        <div className="card-body text-start">
                             <a href="#" className="card-link">
                                 Hanh Dong
                             </a>
-                            <a href="#" className="card-link">
+                            <a href="#" className="card-link ms-4 ps-4">
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">
@@ -58,17 +58,17 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem" }}>
+                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-3.png"
                             className="card-img-top"
                             alt="..."
                         />
-                        <div className="card-body">
+                        <div className="card-body text-start">
                             <a href="#" className="card-link">
                                 Hanh Dong
                             </a>
-                            <a href="#" className="card-link">
+                            <a href="#" className="card-link ms-4 ps-4">
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">
@@ -89,16 +89,16 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <h2 className="text-light fw-bold fs-5">Phim sap chieu</h2>
+            <h2 className="text-light fw-bold fs-5 mt-5">Phim sap chieu</h2>
             <div className="bot-content d-flex justify-content-center">
-                <div className="col-12 col-lg-8 left-content">
-                    <div className="card bg-dark" style={{ width: "20rem" }}>
+                <div className="d-flex col-12 col-lg-8 left-content">
+                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
                         <img src="img/0017840_0 1.png" className="card-img-top" alt="..." />
-                        <div className="card-body">
+                        <div className="card-body text-start">
                             <a href="#" className="card-link">
                                 Hanh Dong
                             </a>
-                            <a href="#" className="card-link">
+                            <a href="#" className="card-link ms-4 ps-4">
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">
@@ -106,17 +106,17 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem" }}>
+                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-1.png"
                             className="card-img-top"
                             alt="..."
                         />
-                        <div className="card-body">
+                        <div className="card-body text-start">
                             <a href="#" className="card-link">
                                 Hanh Dong
                             </a>
-                            <a href="#" className="card-link">
+                            <a href="#" className="card-link ms-4 ps-4">
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">
@@ -124,17 +124,17 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem" }}>
+                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-2.png"
                             className="card-img-top"
                             alt="..."
                         />
-                        <div className="card-body">
+                        <div className="card-body text-start">
                             <a href="#" className="card-link">
                                 Hanh Dong
                             </a>
-                            <a href="#" className="card-link">
+                            <a href="#" className="card-link ms-4 ps-4">
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">
@@ -142,17 +142,17 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem" }}>
+                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-3.png"
                             className="card-img-top"
                             alt="..."
                         />
-                        <div className="card-body">
+                        <div className="card-body text-start">
                             <a href="#" className="card-link">
                                 Hanh Dong
                             </a>
-                            <a href="#" className="card-link">
+                            <a href="#" className="card-link ms-4 ps-4">
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">

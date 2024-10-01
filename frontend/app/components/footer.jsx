@@ -8,7 +8,7 @@ export default function Footer() {
                 <li class="nav-item"><a href="#" class="nav-link text-light">Tin Tuc</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-light">Gia Ve</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-light">Hoi Dap</a></li>
-                <li class="nav-item"><a href="#" class="nav-link text-light">Lien He</a></li>
+                <li class="nav-item"><a href="/contact" class="nav-link text-light">Lien He</a></li>
             </ul>
         </div>
         <div class="img py-3 d-flex justify-content-center align-items-center">
