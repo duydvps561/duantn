@@ -28,8 +28,8 @@ export default function Header() {
                     </li>
                     <li>
                         <Link 
-                            href="#" 
-                            className={pathname === '/some-path' ? 'active' : ''} 
+                            href="/news" 
+                            className={pathname === '/news' ? 'active' : ''} 
                         >
                             Tin tức
                         </Link>
