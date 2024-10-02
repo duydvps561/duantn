@@ -21,4 +21,18 @@ router.post('/add', async (req, res) => {
   }
 });
 
+// xóa giá vé đã cũ
+
+router.delete('/:id', async (rep,res,next)=>{
+  try{
+    const giave= await Giave.findByIdAndDelete(rep.params.id);
+    if(!giave){
+      return res.status(404).send({error:'Giá vé không tồn tại'});
+    }
+    res.json(giave);
+  }catch(err){
+    next(err);
+  }
+})
+
 module.exports = router;
