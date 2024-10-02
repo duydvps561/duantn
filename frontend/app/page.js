@@ -18,7 +18,7 @@ export default function Home() {
                                 30/08/2024
                             </a>
                             <div className="card-title text-light fw-bold">
-                                <h2>HELLBOY: ĐẠI CHIẾN QUỶ DỮ-T16</h2>
+                                <h2>HELLBOY: ĐẠI CHIẾN QUỶ DỮ-T161</h2>
                             </div>
                         </div>
                     </div>

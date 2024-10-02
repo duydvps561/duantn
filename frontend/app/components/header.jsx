@@ -1,13 +1,14 @@
 'use client'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import logo from '../../public/img/logo.png'; // Adjust the path if necessary
 
 export default function Header() {
     const pathname = usePathname(); // Lấy đường dẫn hiện tại
 
     return (
         <header>
-            <Link href="/"><img src="img/logo.png" alt="anh logo" /></Link>
+            <Link href="/"><img src="http://localhost:3000/img/logo.png" alt="anh logo" /></Link>
             <nav>
                 <ul className='nav-list'>
                     <li>
