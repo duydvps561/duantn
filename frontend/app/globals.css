@@ -71,7 +71,7 @@ body {
 }
 
 .card-link {
-  color: #ffcc00;
+  color: #ffffff;
   font-weight: 600;
   text-decoration: none;
   display: inline-block;
@@ -81,7 +81,7 @@ body {
 }
 
 .card-link:hover {
-  color: #ffaa00;
+  color: #e72b2b;
   text-decoration: underline;
 }
 
@@ -240,7 +240,7 @@ header .nav-list {
 
 .regist-btn:hover {
   cursor: pointer;
-  background-color: #072c31;
+  background-color: #272c2c;
 }
 
 .login-btn {

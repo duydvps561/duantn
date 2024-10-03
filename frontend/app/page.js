@@ -8,7 +8,7 @@ export default function Home() {
             <h2 className="text-light fw-bold fs-5">Phim dang chieu</h2>
             <div className="top-content d-flex justify-content-center">
                 <div className=" d-flex col-12 col-lg-8 left-content">
-                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img src="img/0017840_0 1.png" className="card-img-top" alt="..." />
                         <div className="card-body text-start">
                             <a href="#" className="card-link">
@@ -22,7 +22,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-1.png"
                             className="card-img-top"
@@ -40,7 +40,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-2.png"
                             className="card-img-top"
@@ -58,7 +58,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-3.png"
                             className="card-img-top"
@@ -92,7 +92,7 @@ export default function Home() {
             <h2 className="text-light fw-bold fs-5 mt-5">Phim sap chieu</h2>
             <div className="bot-content d-flex justify-content-center">
                 <div className="d-flex col-12 col-lg-8 left-content">
-                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img src="img/0017840_0 1.png" className="card-img-top" alt="..." />
                         <div className="card-body text-start">
                             <a href="#" className="card-link">
@@ -106,7 +106,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-1.png"
                             className="card-img-top"
@@ -124,7 +124,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-2.png"
                             className="card-img-top"
@@ -142,7 +142,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="card bg-dark" style={{ width: "20rem", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img
                             src="img/0017840_0 1-3.png"
                             className="card-img-top"
@@ -163,7 +163,7 @@ export default function Home() {
                 </div>
                 <div className="col-12 col-lg-2 right-content">
                     <div>
-                        <h2 className="text-light fw-bold fs-4">Khuyen Mai</h2>
+                        <h2 className="text-light fw-bold fs-4">Sự Kiện</h2>
                         <div className="card-item" style={{ width: "18rem" }}>
                             <img src="img/Event_2.png" className="card-img-top" alt="..." />
                         </div>
