@@ -17,7 +17,7 @@ export default function Footer() {
             <img src="img/image 26-3.png" alt=""/>
             <img src="img/image 26-2.png" alt=""/>
             <img src="img/image 26-1.png" alt=""/>
-            <img src="img/image 26.png" alt=""/>
+            <img src="img/image 25.png" alt=""/>
         </div>
         <div class="contact-bottom">
             <div class="text-light">

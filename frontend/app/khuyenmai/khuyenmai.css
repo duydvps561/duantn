@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 1rem; 
+}
+.card {
+    width: 100%; 
+}
+
+.card-img-top {
+    object-fit: cover; 
+    height: 200px; 
+}
+.card-body {
+    text-align: left; 
+}
+.col-3 {
+    flex: 1 1 calc(25% - 1rem); 
+    color: white;
+    margin: 1rem auto;
+}
+
+
+@media (max-width: 1200px) {
+    .col-3 {
+        flex: 1 1 calc(33.33% - 1rem); 
+    }
+}
+
+
+@media (max-width: 768px) {
+    .col-3 {
+        flex: 1 1 calc(50% - 1rem); 
+    }
+}
+
+
+@media (max-width: 576px) {
+    .col-3 {
+        flex: 1 1 calc(100% - 1rem); 
+    }
+}
