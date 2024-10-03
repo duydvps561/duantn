@@ -40,9 +40,7 @@ router.post('/add', upload.single('img'), async (req, res) => {
   try {
     const { tenfood, loai, gia, trangthai } = req.body;
     const img = req.file ? req.file.originalname : null; // Ensure img is set
-
     const newFood = { tenfood, loai, img, gia, trangthai };
-
     const result = await Food.create(newFood);
     res.status(201).send(result);
   } catch (err) {
