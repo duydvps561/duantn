@@ -37,7 +37,7 @@ export default function Header() {
                     </li>
                     <li>
                         <Link 
-                            href="#" 
+                            href="/khuyenmai" 
                             className={pathname === '/some-path' ? 'active' : ''} 
                         >
                             Khuyến mãi
@@ -46,7 +46,7 @@ export default function Header() {
                     <li>
                         <Link 
                             href="/ticket" 
-                            className={pathname === '/ticket' ? 'active' : ''}
+                            className={pathname === '/some-path' ? 'active' : ''}
                         >
                             Giá vé
                         </Link>
