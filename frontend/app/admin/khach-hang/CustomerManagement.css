@@ -71,8 +71,11 @@
   
   
   .editButton:hover {
-    background-color: #0056b3;
+    background-color: #405843;
+    color: #fff;
+    transition: all 1s;
   }
+  
   
   .deleteButton {
   padding: 8px 15px; /* Increased button padding */
@@ -85,7 +88,10 @@
   }
   
   .deleteButton:hover {
-    background-color: #c82333;
+    background-color: #7c0000;
+    color: #fff;
+    transition: all 1s;
+    border: 1px solid #7c0000;
   }
   
   th, td {
