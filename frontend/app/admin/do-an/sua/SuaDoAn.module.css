@@ -1,0 +1,35 @@
+.editForm {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formGroup {
+    margin-bottom: 20px;
+  }
+  
+  .imageContainer, .imagePreviewContainer {
+    margin-top: 10px;
+  }
+  
+  .currentImage, .imagePreview {
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-top: 10px;
+  }
+  
+  .submitButton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .submitButton:hover {
+    background-color: #45a049;
+  }
+  

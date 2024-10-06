@@ -29,7 +29,7 @@ export default function Header() {
                     </li>
                     <li>
                         <Link 
-                            href="/tintuc" 
+                            href="/tin-tuc" 
                             className={pathname === '/some-path' ? 'active' : ''} 
                         >
                             Tin tức
