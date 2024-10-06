@@ -24,7 +24,7 @@ const layoutStyle = {
 const mainContentStyle = {
   marginLeft: '200px', // Adjust this to match the width of Sidebar
   width: '100%',
-  // minHeight: '100vh',
+  minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: 'white'
