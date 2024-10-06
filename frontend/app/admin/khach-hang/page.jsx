@@ -6,7 +6,7 @@ import '../../globals.css'; // Import global styles
 
 const CustomerManagement = () => {
   const [customers, setCustomers] = useState([
-    { id: 1, lastName: 'Đỗ Hồng', firstName: 'Nhanh', email: 'hongthanhtdev@gmail.com', phone: '0786979090', role: 'Admin' },
+    { id: 1, lastName: 'Đỗ Hồng', firstName: 'Nhanh', email: 'hongnhanhfedev@gmail.com', phone: '0786979090', role: 'Admin' },
     { id: 2, lastName: 'Nguyễn Văn', firstName: 'B', email: 'nguyenvanb@gmail.com', phone: '0312345679', role: 'User' },
     { id: 3, lastName: 'Nguyễn Văn', firstName: 'C', email: 'nguyenvanc@gmail.com', phone: '0312345668', role: 'User' },
     { id: 4, lastName: 'Nguyễn Văn', firstName: 'D', email: 'nguyenvand@gmail.com', phone: '0312345658', role: 'User' },

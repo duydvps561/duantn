@@ -1,0 +1,119 @@
+
+  .add-category-btn-container{
+    text-align: right;
+    margin-bottom: 20px;
+  }
+  
+  
+  .add-category-btn {
+    
+    padding: 10px 20px;
+    background-color: #4d6950;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  
+  }
+  
+  .add-category-btn:hover{
+    background-color: #218838;
+    transition: all 1s;
+  }
+  
+  .tablesContainer {
+    margin-top: 20px;
+  }
+  
+  .tableSection {
+    margin-bottom: 30px;
+  }
+  
+  .tableTitle {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  
+  .table {
+    width: 100%;
+    background: white;
+    border-radius: .5rem;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #dddddd46;
+    padding: 15px 20px; /* Increased padding */
+    text-align: center;
+  }
+  
+  .table th {
+    background-color: #4d6950;
+    color: white;
+    
+    padding: 15px 20px; /* Adjust padding for headers */
+  }
+  
+  /* .foodImage {
+    width: 50px;
+    height: auto;
+  } */
+  
+  .editButton {
+  padding: 8px 15px; /* Increased button padding */
+  background-color: #4d6950;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+  }
+  
+  
+  .editButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .deleteButton {
+  padding: 8px 15px; /* Increased button padding */
+  background-color: white;
+  color: black;
+  
+  border: 1px solid #4d6950;
+  border-radius: 5px;
+  cursor: pointer;
+  }
+  
+  .deleteButton:hover {
+    background-color: #c82333;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  thead {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .edit-btn, .delete-btn {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: #f44336;
+    color: white;
+  } 
+
+  
