@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const multer = require('multer'); // Import multer
+const multer = require('multer');
 const tintuc = require('../models/tintuc');
 
+// Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/img');
+    cb(null, './public/img/tintuc');
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -21,6 +22,7 @@ function checkFileUpLoad(req, file, cb) {
 
 const upload = multer({ storage: storage, fileFilter: checkFileUpLoad });
 
+// Get all tintuc
 router.get('/', async (req, res, next) => {
   try {
     const tintucs = await tintuc.find(); 
@@ -30,10 +32,11 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// Add new tintuc
 router.post('/add', upload.single('image'), async (req, res) => {
   try {
     const { title, describe, content, view, loai, trangthai } = req.body;
-    const image = req.file.originalname; 
+    const image = req.file ? req.file.originalname : null; // Nếu có image thì lấy, không thì để null
     const newTintuc = { title, describe, content, image, view, loai, trangthai };
     
     const result = await tintuc.create(newTintuc);
@@ -43,6 +46,7 @@ router.post('/add', upload.single('image'), async (req, res) => {
   }
 });
 
+// Update tintuc by ID
 router.put('/update/:id', upload.single('image'), async (req, res) => {
   try {
     const { id } = req.params;
@@ -61,16 +65,14 @@ router.put('/update/:id', upload.single('image'), async (req, res) => {
   }
 });
 
+// Search tintuc
 router.get('/search', async (req, res) => {
   const { keyword, loai, startDate, endDate } = req.query;
-
   const query = {};
 
   if (keyword) {
     const regex = new RegExp(keyword, 'i');
-    query.$or = [
-      { title: { $regex: regex } }
-    ];
+    query.$or = [{ title: { $regex: regex } }];
   }
 
   if (loai) {
@@ -92,6 +94,7 @@ router.get('/search', async (req, res) => {
   }
 });
 
+// Get single tintuc by ID
 router.get('/:id', async (req, res) => {
   try {
     const tintucId = req.params.id;
@@ -106,11 +109,12 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Delete tintuc by ID
 router.delete('/deletetintuc/:id', async (req, res) => {
   try {
     const { id } = req.params;
     await tintuc.findByIdAndDelete(id);
-    res.json({ message: "Xóa sản phẩm thành công" });
+    res.json({ message: "Xóa bài viết thành công" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

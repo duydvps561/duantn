@@ -1,0 +1,101 @@
+.addRoomButtonContainer {
+    text-align: right;
+    margin-bottom: 20px;
+  }
+  
+  .addRoomButton {
+    padding: 10px 20px;
+    background-color: #4d6950;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .addRoomButton:hover {
+    background-color: #218838;
+  }
+  
+  .tablesContainer {
+    margin-top: 20px;
+  }
+  
+  .tableSection {
+    margin-bottom: 30px;
+  }
+  
+  .tableTitle {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  
+  .table {
+    width: 100%;
+    background: white;
+    border-radius: .5rem;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #dddddd46;
+    padding: 15px 20px; /* Increased padding */
+    text-align: center;
+  }
+  
+  .table th {
+    background-color: #4d6950;
+    color: white;
+    
+    padding: 15px 20px; /* Adjust padding for headers */
+  }
+  
+.editButton {
+  padding: 8px 15px; /* Increased button padding */
+  background-color: #4d6950;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.deleteButton {
+  padding: 8px 15px; /* Increased button padding */
+  background-color: white;
+  color: black;
+
+  border: 1px solid #4d6950;
+  border-radius: 5px;
+  cursor: pointer;
+}
+  
+  .editButton:hover {
+    background-color: #0056b3;
+  }
+  
+.editButton {
+  padding: 8px 15px; /* Increased button padding */
+  background-color: #4d6950;
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.deleteButton {
+  padding: 8px 15px; /* Increased button padding */
+  background-color: white;
+  color: black;
+
+  border: 1px solid #4d6950;
+  border-radius: 5px;
+  cursor: pointer;
+}
+  
+  .deleteButton:hover {
+    background-color: #c82333;
+  }
+  
