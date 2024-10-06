@@ -5,21 +5,42 @@ import './MovieCategoryManagement.css'; // Import CSS custom nếu cần
 import '../../globals.css'; // Import global styles
 
 const MovieCategoryManagement = () => {
+  // Dữ liệu mẫu cho các thể loại phim
   const [categories, setCategories] = useState([
     { id: 1, name: 'Hành Động', movieCount: 20 },
     { id: 2, name: 'Kinh Dị', movieCount: 20 },
     { id: 3, name: 'Hài', movieCount: 20 },
     { id: 4, name: 'Ngôn Tình', movieCount: 20 },
     { id: 5, name: 'Lịch Sử', movieCount: 20 },
+    { id: 6, name: 'Viễn Tưởng', movieCount: 20 },
+    { id: 7, name: 'Tâm Lý', movieCount: 20 },
+    { id: 8, name: 'Tài Liệu', movieCount: 20 },
+    { id: 9, name: 'Chiến Tranh', movieCount: 20 },
+    { id: 10, name: 'Phiêu Lưu', movieCount: 20 },
+    { id: 11, name: 'Gia Đình', movieCount: 20 },
+    { id: 12, name: 'Tội Phạm', movieCount: 20 },
   ]);
 
+  // Biến phân trang
+  const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
+  const [itemsPerPage] = useState(10);  // Số mục trên mỗi trang
+
+  // Tính toán chỉ số mục đầu và cuối dựa trên trang hiện tại
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = categories.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Tính toán số trang
+  const totalPages = Math.ceil(categories.length / itemsPerPage);
+
+  // Hàm thay đổi trang
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   const handleEdit = (id) => {
-    // Hàm xử lý logic khi người dùng bấm nút Sửa
     console.log(`Edit category with id: ${id}`);
   };
 
   const handleDelete = (id) => {
-    // Hàm xử lý logic khi người dùng bấm nút Xóa
     setCategories(categories.filter(category => category.id !== id));
     console.log(`Deleted category with id: ${id}`);
   };
@@ -46,9 +67,9 @@ const MovieCategoryManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map((category, index) => (
+                {currentItems.map((category, index) => (
                   <tr key={category.id}>
-                    <td>{index + 1}</td>
+                    <td>{indexOfFirstItem + index + 1}</td> {/* Số thứ tự chính xác trên mỗi trang */}
                     <td>{category.name}</td>
                     <td>{category.movieCount}</td>
                     <td>
@@ -59,6 +80,29 @@ const MovieCategoryManagement = () => {
                 ))}
               </tbody>
             </table>
+
+            {/* Phân trang */}
+            <nav className='pagination-container'>
+              <ul className="pagination">
+                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                  <button onClick={() => paginate(currentPage - 1)} className="page-link">
+                  <span aria-hidden="true">&laquo;</span>
+                  </button>
+                </li>
+                {[...Array(totalPages)].map((_, index) => (
+                  <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                    <button onClick={() => paginate(index + 1)} className="page-link">
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                  <button onClick={() => paginate(currentPage + 1)} className="page-link">
+                  <span aria-hidden="true">&raquo;</span>
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>

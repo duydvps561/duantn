@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Layout from "@/app/components/admin/Layout"; // Có thể thay đổi theo cấu trúc thư mục của bạn
+import Layout from "@/app/components/admin/Layout";
 import './CustomerManagement.css'; // Import CSS custom nếu cần
 import '../../globals.css'; // Import global styles
 
@@ -13,8 +13,21 @@ const CustomerManagement = () => {
     { id: 5, lastName: 'Nguyễn Văn', firstName: 'E', email: 'nguyenvane@gmail.com', phone: '0312345648', role: 'User' },
     { id: 6, lastName: 'Nguyễn Văn', firstName: 'F', email: 'nguyenvanf@gmail.com', phone: '0312345378', role: 'User' },
     { id: 7, lastName: 'Nguyễn Văn', firstName: 'G', email: 'nguyenvang@gmail.com', phone: '0312345628', role: 'User' },
-    { id: 8, lastName: 'Nguyễn Văn', firstName: 'H', email: 'nguyenvanh@gmail.com', phone: '0312345378', role: 'User' }
+    { id: 8, lastName: 'Nguyễn Văn', firstName: 'H', email: 'nguyenvanh@gmail.com', phone: '0312345378', role: 'User' },
+    // Thêm dữ liệu khách hàng để phân trang thử nghiệm
   ]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const customersPerPage = 10;
+
+  // Lấy các khách hàng của trang hiện tại
+  const indexOfLastCustomer = currentPage * customersPerPage;
+  const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
+  const currentCustomers = customers.slice(indexOfFirstCustomer, indexOfLastCustomer);
+
+  const totalPages = Math.ceil(customers.length / customersPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleEdit = (id) => {
     // Hàm xử lý logic khi người dùng bấm nút Sửa
@@ -29,17 +42,17 @@ const CustomerManagement = () => {
 
   return (
     <Layout>
-      <div class="customer-management">
+      <div className="customer-management">
         <h2>Quản Lý Khách Hàng</h2>
         <p>Đây là trang quản lý người dùng.</p>
-        <div class="add-customer-btn-container">
-          <button class="add-customer-btn">Thêm Khách Hàng</button>
+        <div className="add-customer-btn-container">
+          <button className="add-customer-btn">Thêm Khách Hàng</button>
         </div>
 
-        <div class="tablesContainer">
-          <div class="tableSection">
-            <h2 class="tableTitle">Danh Sách Khách Hàng</h2>
-            <table class="table">
+        <div className="tablesContainer">
+          <div className="tableSection">
+            <h2 className="tableTitle">Danh Sách Khách Hàng</h2>
+            <table className="table">
               <thead>
                 <tr>
                   <th>STT</th>
@@ -52,22 +65,45 @@ const CustomerManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {customers.map((customer, index) => (
+                {currentCustomers.map((customer, index) => (
                   <tr key={customer.id}>
-                    <td>{index + 1}</td>
+                    <td>{index + 1 + indexOfFirstCustomer}</td> {/* Đánh STT theo trang */}
                     <td>{customer.lastName}</td>
                     <td>{customer.firstName}</td>
                     <td>{customer.email}</td>
                     <td>{customer.phone}</td>
                     <td>{customer.role}</td>
                     <td>
-                      <button class="editButton" onClick={() => handleEdit(customer.id)}>Sửa</button>
-                      <button class="deleteButton" onClick={() => handleDelete(customer.id)}>Xóa</button>
+                      <button className="editButton" onClick={() => handleEdit(customer.id)}>Sửa</button>
+                      <button className="deleteButton" onClick={() => handleDelete(customer.id)}>Xóa</button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            {/* Phân trang */}
+            <nav className="pagination-container" aria-label="Pagination">
+              <ul className="pagination pagination-sm justify-content-center">
+                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                  <button onClick={() => paginate(currentPage - 1)} className="page-link">
+                    <span aria-hidden="true">&laquo;</span>
+                  </button>
+                </li>
+                {[...Array(totalPages)].map((_, index) => (
+                  <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                    <button onClick={() => paginate(index + 1)} className="page-link">
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                  <button onClick={() => paginate(currentPage + 1)} className="page-link">
+                    <span aria-hidden="true">&raquo;</span>
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
