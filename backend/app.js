@@ -26,6 +26,7 @@ var LoaiphongRouter = require('./routes/room/loaiphong');
 var PhongchieuRouter = require('./routes/room/phongchieu');
 //ticket
 var CachieuRouter = require('./routes/ticket/cachieu');
+var GeshowtimeRouter = require('./routes/ticket/gheshowtime')
 var GiaveRouter = require('./routes/ticket/giave');
 var VeRouter = require('./routes/ticket/ve');
 //
@@ -62,7 +63,8 @@ app.use('/loaighe', LoaigheRouter);
 app.use('/loaiphong', LoaiphongRouter);
 app.use('/phongchieu', PhongchieuRouter);
 //ticket
-app.use('/cachieu', CachieuRouter);
+app.use('/xuatchieu', CachieuRouter);
+app.use('/gheshowtime', GeshowtimeRouter);
 app.use('/giave', GiaveRouter);
 app.use('/ve', VeRouter);
 ///
