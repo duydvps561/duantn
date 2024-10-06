@@ -1,19 +1,23 @@
-.addFoodButtonContainer {
+.add-order-btn-container{
     text-align: right;
     margin-bottom: 20px;
   }
   
-  .addFoodButton {
+  
+  .add-order-btn {
+    
     padding: 10px 20px;
     background-color: #4d6950;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+  
   }
   
-  .addFoodButton:hover {
+  .add-order-btn:hover{
     background-color: #218838;
+    transition: all 1s;
   }
   
   .tablesContainer {
@@ -49,12 +53,12 @@
     padding: 15px 20px; /* Adjust padding for headers */
   }
   
-  .foodImage {
+  /* .foodImage {
     width: 50px;
     height: auto;
-  }
+  } */
   
-.editButton {
+  .editButton {
   padding: 8px 15px; /* Increased button padding */
   background-color: #4d6950;
   color: white;
@@ -63,25 +67,52 @@
   border-radius: 5px;
   cursor: pointer;
   margin-right: 5px;
-}
-
+  }
+  
   
   .editButton:hover {
     background-color: #0056b3;
   }
   
-.deleteButton {
+  .deleteButton {
   padding: 8px 15px; /* Increased button padding */
   background-color: white;
   color: black;
-
+  
   border: 1px solid #4d6950;
   border-radius: 5px;
   cursor: pointer;
-}
+  }
   
   .deleteButton:hover {
     background-color: #c82333;
   }
   
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  thead {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .edit-btn, .delete-btn {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: #f44336;
+    color: white;
+  } 
+
   

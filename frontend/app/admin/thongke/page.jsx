@@ -75,13 +75,14 @@ const ThongKePage = () => {
         </div>
       </div>
 
-      {/* Revenue Chart Section */}
-      <div className={styles.chartSection}>
-        {/* <h2 className={styles.chartTitle}>Doanh Thu 3 Tháng Gần Nhất</h2> */}
-        <div className={styles.chart}>
-          <Line data={revenueData} options={options} /> {/* Change to Line */}
-        </div>
-      </div>
+     {/* Revenue Chart Section */}
+<div className={styles.chartSection}>
+  <h2 className={styles.chartTitle}>Doanh Thu 3 Tháng Gần Nhất</h2> {/* Có thể bật lại phần tiêu đề */}
+  <div className={styles.chart}>
+    <Line data={revenueData} options={options} /> {/* Change to Line */}
+  </div>
+</div>
+
 
       {/* Tables Section */}
       <div className={styles.tablesContainer}>
