@@ -21,8 +21,7 @@ router.post('/add', async (req, res) => {
   }
 });
 
-// xóa giá vé đã cũ
-
+// xóa giá ghế đã cũ
 router.delete('/:id', async (rep,res,next)=>{
   try{
     const giaghe= await Giaghe.findByIdAndDelete(rep.params.id);
