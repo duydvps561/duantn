@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 const veSchema = new Schema({
     cachieu_id: { type: Schema.Types.ObjectId, ref: 'cachieu', required: true  },
-    ghe_id: { type: Schema.Types.ObjectId, ref: 'ghe', required: true  },
-    giave_id: { type: Schema.Types.ObjectId, ref: 'giave', required: true  },
+    gheshowtime_id: { type: Schema.Types.ObjectId, ref: 'gheshowtime', required: true  },
     trangthai: { type: String, default: "1" },
 }, { timestamps: true });
 
