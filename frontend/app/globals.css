@@ -221,7 +221,7 @@ left: 150px;
 }
 @media screen and (max-width:991px) 
 {
-    .main-content
+    .main-contentgit 
     {
         width: 100%;
     }
