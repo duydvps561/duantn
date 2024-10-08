@@ -11,13 +11,13 @@ export default function Footer() {
                 <li class="nav-item"><a href="/contact" class="nav-link text-light">Lien He</a></li>
             </ul>
         </div>
-        <div class="img py-3 d-flex justify-content-center align-items-center">
-            <img src="img/image 26-5.png" alt=""/>
-            <img src="img/image 26-4.png" alt=""/>
-            <img src="img/image 26-3.png" alt=""/>
-            <img src="img/image 26-2.png" alt=""/>
-            <img src="img/image 26-1.png" alt=""/>
-            <img src="img/image 25.png" alt=""/>
+        <div class="img d-flex justify-content-center align-items-center">
+            <img src="img/facebook.png" alt="" style={{height: '50px'}}/>
+            <img src="img/zalo.png" alt="" style={{height: '55px'}}/>
+            <img src="img/youtube.png" alt="" style={{height: '50px'}}/>
+            <img src="img/ggplay.png" alt="" />
+            <img src="img/appstore.png" alt=""/>
+            <img src="img/bocongthuong.png" alt=""/>
         </div>
         <div class="contact-bottom">
             <div class="text-light">

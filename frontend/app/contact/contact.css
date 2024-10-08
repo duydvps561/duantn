@@ -79,7 +79,7 @@
   .form-contact {
     width: 100%;
     max-width: 700px; /* Giới hạn chiều rộng của form */
-    margin: 0 auto; /* Canh giữa form */
+    margin: 30px auto; /* Canh giữa form */
     padding: 20px; /* Khoảng cách bên trong */
     border-radius: 8px; /* Bo góc */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */

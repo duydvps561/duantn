@@ -2,6 +2,7 @@ import './khuyenmai.css'
 export default function khuyenmai() {
     return(
         <div class="container">
+        <h2 className='title-khuyenmai'>Khuyến Mãi</h2>
         <div class="row">
             <div class="col-3 mb-4">
                 <div class="card bg-dark">
