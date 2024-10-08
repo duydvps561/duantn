@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
-const multer = require('multer'); // Import multer
-const Food = require('../../models/food/food'); // Import food model
+const express = require('express');
+const router = express.Router();
+const multer = require('multer');
+const Food = require('../../models/food/food');
 const path = require('path');
 
-// Configure Multer for file storage
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../../public/img')); 
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, file.originalname); 
   }
 });
 
-// File type validation
+
 function checkFileUpload(req, file, cb) {
   const fileTypes = /\.(jpg|jpeg|png|gif)$/;
   if (!file.originalname.match(fileTypes)) {
@@ -25,55 +25,94 @@ function checkFileUpload(req, file, cb) {
 
 const upload = multer({ storage: storage, fileFilter: checkFileUpload });
 
-// GET all food items
-router.get('/', async (req, res, next) => {
+
+router.get('/', async (req, res) => {
   try {
     const foods = await Food.find();
-    res.json(foods);
+    res.status(200).json(foods);
   } catch (err) {
-    next(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
-// POST a new food item
+
+router.get('/:id', async (req, res) => {
+  try {
+    const food = await Food.findById(req.params.id);
+    if (!food) {
+      return res.status(404).json({ message: 'Món ăn không tồn tại' });
+    }
+    res.status(200).json(food);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 router.post('/add', upload.single('img'), async (req, res) => {
   try {
-    const { tenfood, loai, gia, trangthai } = req.body;
-    const img = req.file ? req.file.originalname : null; // Ensure img is set
+    const { tenfood, soluong, loai, gia, trangthai } = req.body;
+    const img = req.file ? req.file.originalname : null;
 
-    const newFood = { tenfood, loai, img, gia, trangthai };
+    const newFood = new Food({
+      tenfood,
+      soluong,
+      gia,
+      loai,
+      trangthai: soluong == 0 ? 0 : trangthai, 
+      img
+    });
 
-    const result = await Food.create(newFood);
-    res.status(201).send(result);
+    const savedFood = await newFood.save();
+    res.status(201).json(savedFood);
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
-// PUT update a food item
+
 router.put('/update/:id', upload.single('img'), async (req, res) => {
   try {
-    const { id } = req.params;
-    const { tenfood, loai, gia, trangthai } = req.body;
-    const img = req.file ? req.file.originalname : undefined; // Handle optional image
+    const { tenfood, soluong, loai, gia, trangthai } = req.body;
+    const img = req.file ? req.file.originalname : null;
 
-    const updatedFood = { tenfood, loai, gia, trangthai };
-    if (img) {
-      updatedFood.img = img;
-    }
+    // Kiểm tra nếu soluong = 0, chuyển trạng thái thành hết hàng
+    let updatedTrangthai = trangthai;
+    if (soluong == 0) updatedTrangthai = 0;
 
-    const result = await Food.findByIdAndUpdate(id, updatedFood, { new: true });
-    if (result) {
-      res.status(200).send(result);
-    } else {
-      res.status(404).send({ error: 'Món ăn không tồn tại' });
-    }
+    const food = await Food.findById(req.params.id);
+    if (!food) return res.status(404).json({ message: 'Món ăn không tồn tại' });
+
+    // Update fields
+    food.tenfood = tenfood;
+    food.soluong = soluong;
+    food.gia = gia;
+    food.loai = loai;
+    food.trangthai = updatedTrangthai;
+    if (img) food.img = img;
+
+    await food.save();
+    res.status(200).json({ message: 'Cập nhật món ăn thành công' });
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
-// GET search food items
+
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const food = await Food.findById(req.params.id);
+    if (!food) {
+      return res.status(404).json({ message: 'Món ăn không tồn tại' });
+    }
+
+    await food.remove();
+    res.status(200).json({ message: 'Xóa món ăn thành công' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 router.get('/search', async (req, res) => {
   const { keyword, loai, startDate, endDate } = req.query;
 
@@ -104,34 +143,4 @@ router.get('/search', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
-// GET a food item by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const foodId = req.params.id;
-    const foodData = await Food.findById(foodId);
-    if (foodData) {
-      res.json(foodData);
-    } else {res.status(404).send({ error: 'Món ăn không tồn tại' });
-  }
-} catch (err) {
-  res.status(500).send({ error: err.message });
-}
-});
-
-// DELETE a food item
-router.delete('/delete/:id', async (req, res) => {
-try {
-  const { id } = req.params;
-  const deletedFood = await Food.findByIdAndDelete(id);
-  if (deletedFood) {
-    res.json({ message: "Xóa món ăn thành công" });
-  } else {
-    res.status(404).send({ error: 'Món ăn không tồn tại' });
-  }
-} catch (error) {
-  res.status(500).json({ message: error.message });
-}
-});
-
 module.exports = router;

@@ -1,0 +1,172 @@
+/* ThongKe.module.css */
+
+.widgetsContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Ensure widgets wrap on smaller screens */
+    margin: 20px 0; /* Optional: add margin for spacing */
+  }
+  
+  .widget {
+    flex: 1; /* Allow widgets to grow and take equal space */
+    margin: 10px; /* Add margin between widgets */
+    padding: 20px; /* Padding inside the widgets */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    display: flex;
+    flex-direction: column; /* Stack title and value vertically */
+    align-items: center; /* Center content */
+    justify-content: center; /* Center content */
+  }
+  .seeMoreButton {
+    margin-top: 10px; /* Space above the button */
+    padding: 10px 15px; /* Padding for the button */
+    background-color: #4d6950; /* White background */
+    color: white; /* Dark text color */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: .5rem; /* Rounded corners */
+    cursor: pointer; /* Cursor changes to pointer on hover */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+  }
+  
+  .seeMoreButton:hover {
+    background-color: #f0f0f0; /* Change background on hover */
+    color: #000; /* Darker text color on hover */
+  }
+  
+  .widget:nth-child(1) {
+    background-color: white; /* Yellow */
+  }
+  
+  .widget:nth-child(2) {
+    background-color: white; /* Red */
+  }
+  
+  .widget:nth-child(3) {
+    background-color: white; /* Green */
+  }
+  
+  .widget:nth-child(4) {
+    background-color: white; /* Blue */
+  }
+  
+  .title {
+    font-size: 18px; /* Adjust font size */
+    margin-bottom: 10px; /* Space between title and value */
+  }
+  
+  .value {
+    font-size: 24px; /* Adjust font size for value */
+    font-weight: bold; /* Make the value bold */
+  }
+  
+  
+  .title {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+ 
+  
+  .chartTitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333; /* Màu chữ đậm */
+  }
+  .chartSection {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff; /* Màu nền trắng */
+    border-radius: 8px; /* Bo góc cho phần nền */
+    padding: 30px 20px; /* Khoảng cách bên trong */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng cho phần nền */
+    margin-bottom: 20px; /* Khoảng cách dưới cùng để tách với các phần khác */
+    width: 100%; /* Đảm bảo chart chiếm hết chiều rộng */
+    margin: 20px 0; /* Optional: add margin for spacing */
+  }
+  
+  .chart {
+    width: 100%; /* Make the chart take the full width of the container */
+    height: 100%; /* Make the chart take the full height of the container */
+    display: flex;
+    justify-content: center;
+    max-width: 100%; /* Đảm bảo chart không vượt quá chiều rộng của khung chứa */
+    height: auto; /* Để chiều cao tự điều chỉnh theo tỉ lệ */
+  }
+  
+  .tablesContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .tableSection {
+    flex: 1;
+    margin: 0 10px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #fff; /* White background for the table */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* To ensure the radius is applied properly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Soft shadow */
+  }
+  
+  .table th {
+    background: #4d6950 !important;
+    color: white !important;
+  }
+  .table th,
+  .table td {
+    padding: 12px 15px; /* Adjusted padding for a clean look */
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: rgba(255, 255, 255, 0.73); /* Light grey for table headers */
+    color: #333; /* Dark text */
+    font-weight: bold; /* Bold headers */
+  }
+  
+  .table td {
+    color: #555; /* Slightly darker text for rows */
+    border-bottom: 1px solid #eee; /* Light bottom border for rows */
+  }
+  
+  .table tr:nth-child(even) {
+    background-color: white; /* Subtle background for even rows */
+  }
+  
+  .table tr:hover {
+    background-color: white; /* Hover effect for rows */
+  }
+  
+  .tableTitle {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333; /* Darker title for clarity */
+    font-weight: bold;
+  }
+  
+  .userImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Circular images */
+    object-fit: cover; /* Ensures image scales well within the container */
+  }
+  
+  

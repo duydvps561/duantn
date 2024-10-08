@@ -71,7 +71,7 @@ body {
 }
 
 .card-link {
-  color: #ffcc00;
+  color: #ffffff;
   font-weight: 600;
   text-decoration: none;
   display: inline-block;
@@ -81,7 +81,7 @@ body {
 }
 
 .card-link:hover {
-  color: #ffaa00;
+  color: #e72b2b;
   text-decoration: underline;
 }
 
@@ -181,7 +181,7 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 99;
   height: 70px;
   background-color: rgba(5, 11, 23, 0.7);
   backdrop-filter: blur(20px); /* Làm mờ phần tử dưới header */
@@ -240,7 +240,7 @@ header .nav-list {
 
 .regist-btn:hover {
   cursor: pointer;
-  background-color: #072c31;
+  background-color: #272c2c;
 }
 
 .login-btn {
