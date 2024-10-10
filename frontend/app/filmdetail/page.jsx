@@ -1,12 +1,13 @@
 'use client'
-import { useState} from 'react';
+import { useState } from 'react';
 import './fimdetail.css'
 import { useRef } from 'react';
 export default function filmdetail() {
   const [show, setShow] = useState(false);
+  const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
   const rollRef = useRef();
-  if(show) {
+  if (show) {
     setTimeout(() => {
       rollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 0);
@@ -139,14 +140,207 @@ export default function filmdetail() {
                   <p className="seat-total-price">Tổng tiền: <span>0đ</span></p>
                 </div>
                 <div className="seat-btn">
-                  <button className="back-btn">Quay lại</button>
-                  <button className="continue-btn">Tiếp tục</button>
+                  <button className="back-btn" onClick={() => { setShow(false) }}>Quay lại</button>
+                  <button className="continue-btn" onClick={() => { setFoodShow(true) }}>Tiếp tục</button>
                 </div>
               </div>
             </div>
           </section>
+          {foodshow && (
+            <>
+              <section className="food-section" ref={rollRef}>
+                <div className="container">
+                  <div className="food-cb">
+                    <p className="food-cb-title">Combo</p>
+                    <div className="d-flex gap-3 justify-content-center mb-2">
+                      <div className="cb-box">
+                        <div className='box-img'>
+                          <img src="../../img/bong-ngo-3.png" alt="hinh anh bong ngo nong hoi" />
+                          <div className="plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                        <div className="cb-content d-flex justify-content-around">
+                          <div className="cb-descript">
+                            <h2>Combo 1</h2>
+                            <p>Món 1, Món 2, Món 3</p>
+                          </div>
+                          <div className="cb-price">
+                            <p>Gia : <br /><span>99999</span></p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="cb-box">
+                        <div className='box-img'>
+                          <img src="../../img/bong-ngo-3.png" alt="hinh anh bong ngo nong hoi" />
+                          <div className="plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                        <div className="cb-content d-flex justify-content-around">
+                          <div className="cb-descript">
+                            <h2>Combo 1</h2>
+                            <p>Món 1, Món 2, Món 3</p>
+                          </div>
+                          <div className="cb-price">
+                            <p>Gia : <br /><span>99999</span></p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="cb-box">
+                        <div className='box-img'>
+                          <img src="../../img/bong-ngo-3.png" alt="hinh anh bong ngo nong hoi" />
+                          <div className="plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                        <div className="cb-content d-flex justify-content-around">
+                          <div className="cb-descript">
+                            <h2>Combo 1</h2>
+                            <p>Món 1, Món 2, Món 3</p>
+                          </div>
+                          <div className="cb-price">
+                            <p>Gia : <br /><span>99999</span></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="food-corn">
+                    <p className="food-corn-title">Corn</p>
+                    <div className="corn-container d-flex gap-3 justify-content-center mb-2">
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>Corn 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>Corn 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>Corn 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>Corn 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>Corn 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>Corn 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="drink">
+                    <p className="food-corn-title">Drink</p>
+                    <div className="corn-container d-flex gap-3 justify-content-center mb-2">
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>CDrink 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>CDrink 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>CDrink 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>CDrink 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>CDrink 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                      <div className="corn-box">
+                        <div className='corn-content'>
+                          <h2>CDrink 1</h2>
+                          <p>Món 1, Món 2, Món 3</p>
+                        </div>
+                        <div className="corn-box-img">
+                          <img src="../../img/bong-ngo-3.png" alt="" />
+                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="container d-flex justify-content-between mt-2 mb-2">
+                  <p className="fs-2 fw-bold text-white">Tong tien: <span>197.000d</span></p>
+                  <button className="btn btn-danger">Thanh toan</button>
+                </div>
+              </section>
+            </>
+          )}
         </>
       )}
+
     </>
   )
 }
