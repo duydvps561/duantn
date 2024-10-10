@@ -11,10 +11,10 @@ export default function lichchieu() {
         </div>
         <p class="node fw-bold">Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h và Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.</p>
         <div class="main d-flex col-12">
-            <div class="card mb-3 bg-dark" style={{maxWidth: "550px"}}>
-                <div class="row">
-                  <div class="col-md-5">
-                    <img src="img/0017840_0 1-1.png" class="img-fluid rounded-start" style={{maxWidth: "230px"}}alt="..."/>
+            <div class="card mb-3 bg-dark" style={{maxWidth: "540px"}}>
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="img/0017840_0 1-1.png" class="img-fluid rounded-start" style={{height: "270px"}} alt="..."/>
                   </div>
                   <div class="col-md-7">
                     <div class="card-body text-start">
@@ -40,10 +40,10 @@ export default function lichchieu() {
                   </div>
                 </div>
             </div>
-            <div class="card mb-3 bg-dark" style={{maxWidth: "550px"}}>
-                <div class="row">
-                  <div class="col-md-5">
-                    <img src="img/0017840_0 1-1.png" class="img-fluid rounded-start" style={{maxWidth: "230px"}}alt="..."/>
+            <div class="card mb-3 bg-dark" style={{maxWidth: "540px"}}>
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="img/0017840_0 1-1.png" class="img-fluid rounded-start" style={{height: "270px"}} alt="..."/>
                   </div>
                   <div class="col-md-7">
                     <div class="card-body text-start">
@@ -69,10 +69,12 @@ export default function lichchieu() {
                   </div>
                 </div>
             </div>
-            <div class="card mb-3 bg-dark" style={{maxWidth: "550px"}}>
-                <div class="row">
-                  <div class="col-md-5">
-                    <img src="img/0017840_0 1-1.png" class="img-fluid rounded-start" style={{maxWidth: "230px"}}alt="..."/>
+        </div>
+        <div class="main d-flex col-12">
+            <div class="card mb-3 bg-dark" style={{maxWidth: "540px"}}>
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="img/0017840_0 1-1.png" class="img-fluid rounded-start" style={{height: "270px"}} alt="..."/>
                   </div>
                   <div class="col-md-7">
                     <div class="card-body text-start">
@@ -98,10 +100,10 @@ export default function lichchieu() {
                   </div>
                 </div>
             </div>
-            <div class="card mb-3 bg-dark" style={{maxWidth: "550px"}}>
-                <div class="row">
-                  <div class="col-md-5">
-                    <img src="img/0017840_0 1-1.png" class="img-fluid rounded-start" style={{maxWidth: "230px"}}alt="..."/>
+            <div class="card mb-3 bg-dark" style={{maxWidth: "540px"}}>
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="img/0017840_0 1-1.png" class="img-fluid rounded-start" style={{height: "270px"}} alt="..."/>
                   </div>
                   <div class="col-md-7">
                     <div class="card-body text-start">

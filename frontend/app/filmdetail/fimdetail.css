@@ -1,6 +1,10 @@
 
 /*film detail styling */
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 .card-img {
     object-fit: cover;
     width: 100%;
@@ -24,13 +28,16 @@
         font-size: small;
     }
 }
+.film-detail{
+    width: 215vh;
+}
 .card-img-overlay {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.5); /* Tạo hiệu ứng overlay mờ */
+    background: rgba(0, 0, 0, 0.5); 
     color: #fff;
     display: flex;
     justify-content: center;
@@ -241,4 +248,111 @@
     border-radius: 20px;
     cursor: pointer;
     margin-left: 40px;
+}
+/* food */
+.food-cb-title{
+    font-size: 34px;
+    font-weight: 700;
+    color: #FC8A06;
+}
+.food-corn-title{
+    font-size: 34px;
+    font-weight: 700;
+    color: #FC8A06;
+}
+.cb-box{
+    width: 400px;
+    height:464px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+}
+.box-img{
+    position: relative;
+}
+
+.box-img img{
+    z-index: 1;
+}
+
+.plus{
+    position: absolute;
+    width: 80px;
+    height: 100px;
+    background-color: #ffffff;
+    right: 0;
+    top: 163px;
+    border-radius: 45px 0 12px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.plus i{
+    font-size: 40px;
+    padding: 11px;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: #ffffff;
+    background-color: #000000;
+}
+.cb-content{
+    margin: 14px 0 0 0;
+}
+.cb-descript h2{
+    font-size:20px ;
+    font-weight: bold;
+    color: #000;
+    line-height: 30px;
+}
+.cb-price {
+    font-size: 20px;
+    color: #EB2719;
+    line-height: 30px;
+    font-weight: bold;
+}
+.corn-container {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.corn-box{
+    width: 400px;
+    height: 245px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-around ;
+}
+.corn-box-img{
+    position: relative;
+}
+.corn-plus{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: #ffffff;
+    right: 0;
+    top: 120px;
+    border-radius: 45px 0 12px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.corn-plus i{
+    font-size: 20px;
+    padding: 11px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #ffffff;
+    background-color: #000000;
+}
+.corn-box-img img{
+    width: 173px;
+    height: 179px ;
 }

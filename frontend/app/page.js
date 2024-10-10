@@ -1,3 +1,5 @@
+import Film from "./components/film";
+import FilmSapChieu from "./components/filmSapChieu";
 import Slide from "./components/slide";
 
 export default function Home() {
@@ -12,7 +14,7 @@ export default function Home() {
                 </div>
                 <a class="showall-left" href="">Xem tất cả</a>
                 <div className=" d-flex col-12 col-lg-8 left-content">
-                    <div className="card bg-transparent" style={{ width: "280px", height: "auto" }}>
+                    <div className="card bg-transparent" style={{ width: "20rem", height: "auto" }}>
                         <img src="img/0017840_0 1.png" className="card-img-top" alt="..." />
                         <div className="card-body text-start">
                             <a href="#" className="card-link">
@@ -173,20 +175,14 @@ export default function Home() {
                 </div>
                 <div className="col-12 col-lg-2 right-content">
                     <div>
-                        <div className="title-right">
-                            <p>Sự kiện</p>
-                            <a href="">Xem tất cả</a>
+
+                        <h2 className="text-light fw-bold fs-4">Sự Kiện</h2>
+                        <div className="card-item" style={{ width: "18rem" }}>
+                            <img src="img/Event_2.png" className="card-img-top" alt="..." />
                         </div>
-                    <div className="item">
-                    <div className="card-item" style={{ width: "18rem"}}>
-                    <img src="img/Event_2.png" className="card-img-top" alt="..." />
-                </div>
-                <div className="card-item" style={{ width: "18rem"}}>
-                    <img src="img/image 38.png" className="card-img-top" alt="..." />
-                </div>
-                    
-                    </div>
-                        
+                        <div className="card-item" style={{ width: "18rem" }}>
+                            <img src="img/image 38.png" className="card-img-top" alt="..." />
+                        </div>
                     </div>
                 </div>
             </div>
