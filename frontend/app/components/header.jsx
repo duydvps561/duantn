@@ -9,6 +9,7 @@ import RegisterModal from './RegisterModal';
 export default function Header() {
   const pathname = usePathname();
 
+
   const [showRegister, setRegister] = useState(false);
   const handleOpenRegister = () => {
     setRegister(true);
@@ -75,4 +76,5 @@ export default function Header() {
       <LoginModal show={showLogin} handleClose={handleCloseLogin} />
     </header>
   );
+
 }

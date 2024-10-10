@@ -4,17 +4,18 @@ const Header = () => {
   return (
     <header style={headerStyle}>
       <div style={titleContainerStyle}>
-        <h1 style={leftTitleStyle}>Admin</h1>
+        <h4 style={leftTitleStyle}>ACE ADMIM</h4>
       </div>
     </header>
   );
 };
 
 const headerStyle = {
-  backgroundColor: '#333',
-  color: '#fff',
+  backgroundColor: '#ffffff',
+  color: 'black',
   padding: '10px',
   textAlign: 'center',
+
 };
 
 const titleContainerStyle = {
@@ -26,6 +27,8 @@ const titleContainerStyle = {
 
 const leftTitleStyle = {
   margin: 0, // Remove default margin
+  color: '#4d6950',
+  
 };
 
 const rightTitleStyle = {

@@ -1,5 +1,5 @@
 export default function Footer() {
-    return (
+    return(
         <footer class="footer bg-dark py-3">
         <div class="d-flex justify-content-center align-items-center">
             <ul class="menu-bot d-flex ">
@@ -26,10 +26,7 @@ export default function Footer() {
                 <p>Giấy phép số: 224/GP- TTĐT ngày 31/8/2010 - Chịu trách nhiệm: Vũ Đức Tùng – Giám đốc.</p>
                 <p>Địa chỉ: 87 Láng Hạ, Quận Ba Đình, Tp. Hà Nội - Điện thoại: 0339.445.887</p>
                 <p>Copyright 2023. NCC All Rights Reservered. Dev by Anvui.vn</p>
-    
             </div>
         </div>
-        
-    </footer>
-    );
-  }
+        </footer>
+    )}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './Header';
-import Footer from './Footer';
+// import Footer from './Footer';
 import Sidebar from './Sidebar';
 
 const Layout = ({ children }) => {
@@ -27,12 +27,13 @@ const mainContentStyle = {
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
+  backgroundColor: 'white'
 };
 
 const mainStyle = {
   flex: '1',
   padding: '20px',
-  backgroundColor: 'white',
+  backgroundColor: '#f4f4f4',
   marginLeft: '2rem',
 };
 
