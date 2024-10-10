@@ -7,8 +7,10 @@ export default function Home() {
         <section className="main-content">
             <div className="top-content d-flex justify-content-center">
                 <div className="title d-flex">
+                <i class="fa fa-circle" style={{color: 'red', fontsize: '30px'}}></i>
                     <h2 className="text-light fw-bold">Phim đang chiếu</h2>
                 </div>
+                <a class="showall-left" href="">Xem tất cả</a>
                 <div className=" d-flex col-12 col-lg-8 left-content">
                     <div className="card bg-transparent" style={{ width: "280px", height: "auto" }}>
                         <img src="img/0017840_0 1.png" className="card-img-top" alt="..." />
@@ -84,7 +86,7 @@ export default function Home() {
                         <p>Khuyến Mãi</p>
                         <a href="/khuyenmai">Xem tất cả</a>
                     </div>  
-                    <div>
+                    <div className="item">
                         <div className="card-item" style={{ width: "18rem"}}>
                             <img src="img/Event_2.png" className="card-img-top" alt="..." />
                         </div>
@@ -95,7 +97,8 @@ export default function Home() {
                 </div>
             </div>
             <div className="bot-content d-flex justify-content-center">
-                <div className="title">
+                <div className="title d-flex">
+                <i class="fa fa-circle" style={{color: 'red', fontsize: '30px'}}></i>
                 <h2 className="text-light fw-bold">Phim sắp chiếu</h2>
                 </div>
                 <div className="d-flex col-12 col-lg-8 left-content">

@@ -3,18 +3,28 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
+
 
 export default function Header() {
   const pathname = usePathname();
 
-  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setRegister] = useState(false);
+  const handleOpenRegister = () => {
+    setRegister(true);
+  }
+  const handleCloseRegister = () => {
+    setRegister(false);
+  }
 
+  const [showLogin, setShowLogin] = useState(false);
   const handleOpenLogin = () => setShowLogin(true);
   const handleCloseLogin = () => setShowLogin(false);
 
 
   return (
     <header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
       <Link href="/">
         <img src="http://localhost:3000/img/logo.png" alt="anh logo" />
       </Link>
@@ -58,11 +68,10 @@ export default function Header() {
         </ul>
       </nav>
         <div className="btn-section">
-          <button className="regist-btn">Đăng Ký</button>
+          <button className="regist-btn" onClick={handleOpenRegister}>Đăng Ký</button>
           <button className="login-btn" onClick={handleOpenLogin}>Đăng Nhập</button>
       </div>
-
-      {/* Hiển thị modal đăng nhập */}
+      <RegisterModal show={showRegister} handleClose={handleCloseRegister}/>
       <LoginModal show={showLogin} handleClose={handleCloseLogin} />
     </header>
   );

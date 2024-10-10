@@ -83,8 +83,17 @@ left: 150px;
   padding: 20px;
   text-align: center;
 }
-
-
+.fa{
+  margin-top: 5px;
+  margin-right: 5px;
+}
+.showall-left{
+  position: absolute;
+  right: 500px;
+  top: -30px;
+  font-size: 20px;
+  color: aliceblue;
+}
 .card-title h2 {
   font-size: 16px;
   margin-top: 15px;
@@ -190,7 +199,28 @@ left: 150px;
     {
         width: 100%;
     }
-    
+    .top-content, .bot-content {
+      width: 100%;
+      display: flex;               
+      flex-direction: column;      
+      justify-content: center;     
+      align-items: center;         
+  }
+  .showall-left{
+    position: absolute;
+    right: 350px;
+    top: -30px;
+    font-size: 20px;
+    color: aliceblue;
+  }
+  .title{
+    position: absolute;
+    top: -30px;
+    left: 350px;
+    }
+  .item{
+    display:flex;
+  }
     
 }
 @media screen and (max-width:1199px) 
@@ -198,6 +228,7 @@ left: 150px;
     .main-content
     {
         width: 100%;
+        position: fixed;
     }
 
   .top-content {
@@ -207,6 +238,10 @@ left: 150px;
         justify-content: center;     
         align-items: center;         
     }
+  .title{
+    width: 100%;
+    text-align: center;
+  }
   .left-content{
 
   }
