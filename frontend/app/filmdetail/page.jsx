@@ -37,7 +37,7 @@ export default function filmdetail() {
     <>
       <slide />
       <section className="film-detail justify-content-center">
-        <div className="card bg-dark">
+        <div className="card bg-dark ">
           <img src="img/0017840_0 1-3.png" className="card-img object-fit-cover" alt="..sad." />
           <div className="card-img-overlay d-lg-flex justify-content-center">
             <div className="img-overlay">

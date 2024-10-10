@@ -1,6 +1,10 @@
 
 /*film detail styling */
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 .card-img {
     object-fit: cover;
     width: 100%;
@@ -24,13 +28,16 @@
         font-size: small;
     }
 }
+.film-detail{
+    width: 215vh;
+}
 .card-img-overlay {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.5); /* Tạo hiệu ứng overlay mờ */
+    background: rgba(0, 0, 0, 0.5); 
     color: #fff;
     display: flex;
     justify-content: center;
