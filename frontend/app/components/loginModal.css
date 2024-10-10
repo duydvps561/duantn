@@ -10,17 +10,16 @@
     z-index: 10000;
 }
 
-.modal-content {
-    opacity: 2;
-    background-color: #414141;  
-    color: aliceblue;
+.modal-login {
+    background-color: #343a40; /* Màu nền tối */
+    color: white;
     padding: 20px;
-    max-width: 680px; 
-    border-radius: 50px;        
-    position: relative;         
-    z-index: 10001;             
-}
-.modal-content h2{
+    border-radius: 10px;
+    width: 90%;
+    max-width: 680px;
+    position: relative;
+  }
+.modal-login h2{
     color: #ffffff;
     margin-bottom: 30px;
     font-size: 40px;
@@ -42,7 +41,7 @@
     color: #333;                
 }
 
-.modal-content input {
+.modal-login input {
     color: white;
     display: block;
     width: 100%;                
@@ -74,9 +73,7 @@
     text-decoration: none; 
 }
 
-
-
-.modal-content button[type="submit"] {
+.modal-login button[type="submit"] {
     background: linear-gradient(to right, #FEA2A2 , #FD4242 35%);    
     color: white;               
     border: none;               
@@ -90,5 +87,3 @@
     font-weight: bold;            
 }
 
-.modal-content button[type="submit"]:hover {
-}

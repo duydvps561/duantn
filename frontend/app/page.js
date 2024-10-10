@@ -177,12 +177,16 @@ export default function Home() {
                             <p>Sự kiện</p>
                             <a href="">Xem tất cả</a>
                         </div>
-                        <div className="card-item" style={{ width: "18rem"}}>
-                            <img src="img/Event_2.png" className="card-img-top" alt="..." />
-                        </div>
-                        <div className="card-item" style={{ width: "18rem"}}>
-                            <img src="img/image 38.png" className="card-img-top" alt="..." />
-                        </div>
+                    <div className="item">
+                    <div className="card-item" style={{ width: "18rem"}}>
+                    <img src="img/Event_2.png" className="card-img-top" alt="..." />
+                </div>
+                <div className="card-item" style={{ width: "18rem"}}>
+                    <img src="img/image 38.png" className="card-img-top" alt="..." />
+                </div>
+                    
+                    </div>
+                        
                     </div>
                 </div>
             </div>

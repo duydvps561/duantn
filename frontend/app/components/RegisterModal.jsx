@@ -7,7 +7,7 @@ export default function LoginModal({ show, handleClose }) {
 
     return (
         <div className="modal-overlay  ">
-            <div className="modal-content bg-dark rounded">
+            <div className="modal-register bg-dark rounded">
                 <button onClick={handleClose} className="close-modal">&times;</button>
                 <h2>Đăng Ký</h2>
                 <form>
@@ -27,21 +27,21 @@ export default function LoginModal({ show, handleClose }) {
             </div>
             <div class="information">
                 <div class="nphone">
-                    <label for="fname">Số điện thoại:</label>
+                    <label for="nphone">Số điện thoại:</label>
                     <input type="text" placeholder="Số điện thoại..."/>
                 </div>
                 <div class="email">
-                    <label for="fname">Email:</label>
+                    <label for="email">Email:</label>
                     <input type="text" placeholder="Email..."/>
                 </div>
             </div>
             <div class="pw">
                 <div class="pass">
-                    <label for="fname">Mật khẩu:</label>
+                    <label for="pass">Mật khẩu:</label>
                     <input type="text" placeholder="Mật khẩu..."/>
                 </div>
                 <div class="repass">
-                    <label for="fname">Xác nhận mật khẩu:</label>
+                    <label for="repass">Xác nhận mật khẩu:</label>
                     <input type="text" placeholder="Xác nhận mật khẩu..."/>
                 </div>
             </div>

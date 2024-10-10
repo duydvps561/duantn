@@ -12,7 +12,7 @@
     z-index: 1000;
   }
   
-  .modal-content {
+  .modal-register {
     background-color: #343a40; /* Màu nền tối */
     color: white;
     padding: 20px;
@@ -21,9 +21,22 @@
     max-width: 980px;
     position: relative;
   }
-  .modal-content h2{
+  .modal-register h2{
     font-size: 36px;
   }
+  .modal-register button[type="submit"] {
+    background: linear-gradient(to right, #FEA2A2 , #FD4242 35%);    
+    color: white;               
+    border: none;               
+    border-radius: 20px;
+    display: block;
+    margin: 20px auto 0 auto;        
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;            
+}
   .close-modal {
     background: none;
     border: none;
@@ -41,7 +54,7 @@
   }
   
   form label {
-    font-size: 14px;
+    font-size: 24px;
     margin-bottom: 5px;
   }
   
@@ -49,7 +62,7 @@
     padding: 10px;
     margin-bottom: 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     width: 100%;
     box-sizing: border-box;
   }

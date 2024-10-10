@@ -7,7 +7,7 @@ export default function LoginModal({ show, handleClose }) {
 
     return (
         <div className="modal-overlay  ">
-            <div className="modal-content bg-dark rounded">
+            <div className="modal-login bg-dark rounded">
                 <button onClick={handleClose} className="close-modal">&times;</button>
                 <h2>Đăng nhập</h2>
                 <form>

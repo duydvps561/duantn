@@ -219,53 +219,45 @@ left: 150px;
     left: 350px;
     }
   .item{
+    width: 100%;
     display:flex;
   }
     
 }
-@media screen and (max-width:1199px) 
-{
-    .main-content
-    {
-        width: 100%;
-        position: fixed;
-    }
 
-  .top-content {
-        width: 100%;
-        display: flex;               
-        flex-direction: column;      
-        justify-content: center;     
-        align-items: center;         
-    }
-  .title{
-    width: 100%;
-    text-align: center;
-  }
-  .left-content{
-
-  }
-  .right-content{
-    display: flex;
-  }
-  .right-content .card-item {
-    width: calc(100% / 2 - 20px); /* Chiều rộng mỗi thẻ chiếm 50% trừ khoảng cách */
-    margin-bottom: 20px;          /* Khoảng cách giữa các thẻ theo chiều dọc */
-}
-    
-}
 @media screen and (max-width:991px) 
 {
-    .main-contentgit 
+    .main-content 
     {
         width: 100%;
     }
-    .top-content{
+    .top-content, .bot-content {
       width: 100%;
+      display: flex;               
+      flex-direction: column;      
+      justify-content: center;     
+      align-items: center;         
+  }
+  .item{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .title-right a{
+    display: none;
+  }
+  .showall-left{
+    display: none;
+  }
+  .title{
+    position: absolute;
+    top: -30px;
+    left: 120px;
     }
-    .col-3{
-        width: calc(50% - 15px);
+    .title-right {
+      margin-left: 120px;
     }
+    
    
 }
 @media screen and (max-width:767px) 
@@ -274,22 +266,37 @@ left: 150px;
     {
         width:100%;
     }
-    .top-content{
+    .top-content, .bot-content {
       width: 100%;
+      display: flex;               
+      flex-direction: column;      
+      justify-content: center;     
+      align-items: center;         
+  }
+  .item{
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .title-right{
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  .title-right a{
+    display: none;
+  }
+  .showall-left{
+    display: none;
+  }
+  .title{
+    position: absolute;
+    top: -30px;
+    left: 120px;
     }
-    aside{
-        width: 100%;
-    }
-    .col-3{
-        width: calc(100% - 15px);
-    }
-    nav ul{
-        display: none;
-    }
-    #menu{
-        display: block;
-       
-    }
+
+  
 }
 @media screen and (max-width:575px) 
 {
@@ -297,12 +304,16 @@ left: 150px;
     {
         width: 100%;
     }
-    .top-content{
+    .top-content, .bot-content {
       width: 100%;
-    }
-    .col-3{
-        width: 100%;
-    }
+      display: flex;               
+      flex-direction: column;      
+      justify-content: center;     
+      align-items: center;         
+  }
+
+ 
+   
 }
  
 
