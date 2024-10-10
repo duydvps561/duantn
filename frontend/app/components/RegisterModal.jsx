@@ -45,7 +45,7 @@ export default function LoginModal({ show, handleClose }) {
                     <input type="text" placeholder="Xác nhận mật khẩu..."/>
                 </div>
             </div>
-                    <button type="submit">Đăng nhập</button>
+                    <button type="submit">Đăng kí</button>
                     <p className="ans text-light">Bạn đã có tài khoản? <a className="login text-danger" href="">Đăng nhập</a></p>
                 </form>
             </div>
