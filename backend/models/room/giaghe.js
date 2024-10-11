@@ -9,5 +9,4 @@ const giagheSchema = new Schema({
     trangthai: { type: Number, required: true ,default: 1  },
 }, { timestamps: true });
 
-// Đảm bảo tên mô hình tuân theo quy tắc PascalCase
 module.exports = mongoose.model('giaghe', giagheSchema);

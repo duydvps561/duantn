@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './contact.css'
 
@@ -43,7 +44,6 @@ const ContactPage = () => {
           />
         </div>
       </div>
-      <h2>Gửi Thông Tin Hỗ Trợ</h2>
       <div className="form-contact">
         <form action="">
           <label htmlFor="fname">Họ và Tên</label><br/>

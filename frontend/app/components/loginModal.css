@@ -1,0 +1,89 @@
+.modal-overlay {
+    position: fixed;           
+    top: 500px;                    
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;              
+    justify-content: center;   
+    align-items: center;        
+    z-index: 10000;
+}
+
+.modal-login {
+    background-color: #343a40; /* Màu nền tối */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 680px;
+    position: relative;
+  }
+.modal-login h2{
+    color: #ffffff;
+    margin-bottom: 30px;
+    font-size: 40px;
+}
+.key{
+    color: #ffffff;
+    margin-bottom: 5px;
+    margin-top: 20px;
+    font-size: 24px;
+}
+.close-modal {
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    background: none;          
+    border: none;
+    font-size: 50px;           
+    cursor: pointer;           
+    color: #333;                
+}
+
+.modal-login input {
+    color: white;
+    display: block;
+    width: 100%;                
+    padding: 10px;             
+    margin-bottom: 15px;        
+    border: 1px solid #383838;
+    background-color: #1D1D1D;    
+    border-radius: 20px;       
+}
+.upPW a{
+    color: #FD4242;
+    text-decoration: none;
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    width: fit-content;
+    font-size: 16px;
+}
+
+.ans {
+    text-align: center; 
+    margin-top: 50px;
+    font-size: 16px;
+}
+
+.register {
+    font-size: 16px;
+    color: #FD4242; 
+    text-decoration: none; 
+}
+
+.modal-login button[type="submit"] {
+    background: linear-gradient(to right, #FEA2A2 , #FD4242 35%);    
+    color: white;               
+    border: none;               
+    border-radius: 20px;
+    display: block;
+    margin: 20px auto 0 auto;        
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;            
+}
+
