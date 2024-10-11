@@ -39,5 +39,15 @@ router.post('/add', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+//xóa phim
+ router.delete('/:id', async (req, res) => {
+  try {
+    const result = await Phim.findByIdAndDelete(req.params.id);
+    if (!result) return res.status(404).send('The phim with the given ID was not found.');
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 
 module.exports = router;
