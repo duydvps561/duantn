@@ -124,3 +124,121 @@
 .date .text:hover{
     background-color: #ff254a;
 }
+
+/* siting**************************************** */
+.sit-header{
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: 500;
+}
+.sit-header .s-p-2{
+    border: 1px solid #FF0101;
+    border-radius: 30px;
+    padding: 5px;
+}
+.seat-content .seat-title{
+    font-size: 28px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 13px 0 0 0;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+}
+.siting-order{
+    display: flex;
+    justify-content: center;
+}
+.siting-table tbody tr{
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+}
+.siting-table tbody tr td{
+    width: 40px;
+    height: 40px;
+    background-color: #FF0101;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #252A31;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.note p{
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+}
+.note .box-color-1{
+    color:#ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #252A31;
+}
+.note .box-color-2{
+    color:#ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #005AD8;
+}
+.note .box-color-3{
+    color:#ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #252A31;
+}
+.note .box-color-4{
+    color:#ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #FF8413;
+}
+.note .box-color-5{
+    color:#ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #FF3741;
+}
+.seat-bill p{
+    font-size: 18px;
+    font-weight: bold;
+    color:#ffffff;
+    padding: 0;
+}
+.seat-btn .back-btn{
+    background-color:#050B17;
+    width: 130px;
+    height: 44px;
+    color: #ffffff;
+    border: 1px solid #A9A9A9;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.seat-btn .back-btn:hover{
+    background-color: #272c2c;
+}
+.continue-btn{
+    background-color:#ffffff;
+    color: #000000;
+    width: 130px;
+    height: 44px;
+    border: 1px solid #A9A9A9;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 40px;
+}

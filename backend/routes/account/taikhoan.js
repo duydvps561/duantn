@@ -2,15 +2,16 @@ var express = require('express');
 var router = express.Router();
 const multer = require('multer'); // Import multer
 const Taikhoan = require('../../models/account/taikhoan.js'); // Import the Taikhoan model
+const Hoadon = require('../../models/food/hoadon.js'); // Mô hình hóa đơn
 const path = require('path');
 
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../public/img')); 
+    cb(null, path.join(__dirname, '../../public/img/user')); 
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); 
+    cb(null, file.originalname);  
   }
 });
 function checkFileUpload(req, file, cb) {
@@ -36,6 +37,30 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+// lấy ra tất cả các tài khoản có hóa đơn lớn hơn 1000
+router.get('/lonhon1000', async (req, res) => {
+  try {
+    // Tìm tất cả hóa đơn có tổng tiền lớn hơn 10,000
+    const invoices = await Hoadon.find({ tongtien: { $gt: 10000 } }).select('taikhoan_id');
+    
+    if (!invoices.length) {
+      return res.status(404).send({ error: 'No accounts found with invoices over 10000' });
+    }
+
+    // Lấy danh sách ID tài khoản từ hóa đơn
+    const accountIds = invoices.map(invoice => invoice.taikhoan_id);
+
+    // Tìm tất cả tài khoản có ID trong danh sách trên
+    const accounts = await Taikhoan.find({ _id: { $in: accountIds } });
+
+    res.json(accounts);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+
 router.get('/:id', async (req, res, next) => {
   try {
     const taikhoan = await Taikhoan.findById(req.params.id);
