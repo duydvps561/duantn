@@ -6,5 +6,4 @@ const giagheSchema = new Schema({
     giaghe: { type: Number, required: true },
 }, { timestamps: true });
 
-// Đảm bảo tên mô hình tuân theo quy tắc PascalCase
 module.exports = mongoose.model('giaghe', giagheSchema);

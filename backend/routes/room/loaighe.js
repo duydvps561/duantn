@@ -48,7 +48,6 @@ router.put('/update/:id', async (req, res) => {
       return res.status(404).send({ error: 'Loại ghế không tồn tại' });
     }
 
-    // Cập nhật thông tin loại ghế
     loaigheData.loaighe = req.body.loaighe || loaigheData.loaighe;
     
     const updatedLoaighe = await loaigheData.save();
