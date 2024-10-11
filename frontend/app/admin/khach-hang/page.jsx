@@ -8,47 +8,101 @@ const CustomerManagement = () => {
   const [customers, setCustomers] = useState([
     { id: 1, lastName: 'Đỗ Hồng', firstName: 'Nhanh', email: 'hongnhanhfedev@gmail.com', phone: '0786979090', role: 'Admin' },
     { id: 2, lastName: 'Nguyễn Văn', firstName: 'B', email: 'nguyenvanb@gmail.com', phone: '0312345679', role: 'User' },
-    { id: 3, lastName: 'Nguyễn Văn', firstName: 'C', email: 'nguyenvanc@gmail.com', phone: '0312345668', role: 'User' },
-    { id: 4, lastName: 'Nguyễn Văn', firstName: 'D', email: 'nguyenvand@gmail.com', phone: '0312345658', role: 'User' },
-    { id: 5, lastName: 'Nguyễn Văn', firstName: 'E', email: 'nguyenvane@gmail.com', phone: '0312345648', role: 'User' },
-    { id: 6, lastName: 'Nguyễn Văn', firstName: 'F', email: 'nguyenvanf@gmail.com', phone: '0312345378', role: 'User' },
-    { id: 7, lastName: 'Nguyễn Văn', firstName: 'G', email: 'nguyenvang@gmail.com', phone: '0312345628', role: 'User' },
-    { id: 8, lastName: 'Nguyễn Văn', firstName: 'H', email: 'nguyenvanh@gmail.com', phone: '0312345378', role: 'User' },
-    // Thêm dữ liệu khách hàng để phân trang thử nghiệm
   ]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const customersPerPage = 10;
+  const [isFormOpen, setIsFormOpen] = useState(false); // Trạng thái để điều khiển hiển thị form
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentCustomer, setCurrentCustomer] = useState(null);
+  const [newCustomer, setNewCustomer] = useState({ lastName: '', firstName: '', email: '', phone: '', role: 'User' });
 
-  // Lấy các khách hàng của trang hiện tại
-  const indexOfLastCustomer = currentPage * customersPerPage;
-  const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
-  const currentCustomers = customers.slice(indexOfFirstCustomer, indexOfLastCustomer);
-
-  const totalPages = Math.ceil(customers.length / customersPerPage);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleEdit = (id) => {
-    // Hàm xử lý logic khi người dùng bấm nút Sửa
-    console.log(`Edit customer with id: ${id}`);
+  const openForm = () => setIsFormOpen(true);  // Hàm mở form
+  const closeForm = () => {
+    setIsFormOpen(false); // Đóng form
+    setIsEditing(false);  // Hủy trạng thái chỉnh sửa
+    setNewCustomer({ lastName: '', firstName: '', email: '', phone: '', role: 'User' }); // Xóa dữ liệu form
   };
 
-  const handleDelete = (id) => {
-    // Hàm xử lý logic khi người dùng bấm nút Xóa
-    setCustomers(customers.filter(customer => customer.id !== id));
-    console.log(`Deleted customer with id: ${id}`);
+  const handleSave = () => {
+    if (isEditing) {
+      setCustomers(customers.map(customer => customer.id === currentCustomer.id ? currentCustomer : customer));
+    } else {
+      setCustomers([...customers, { ...newCustomer, id: customers.length + 1 }]);
+    }
+    closeForm();  // Đóng form sau khi lưu
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (isEditing) {
+      setCurrentCustomer({ ...currentCustomer, [name]: value });
+    } else {
+      setNewCustomer({ ...newCustomer, [name]: value });
+    }
   };
 
   return (
     <Layout>
       <div className="customer-management">
         <h2>Quản Lý Khách Hàng</h2>
-        <p>Đây là trang quản lý người dùng.</p>
+
+        {/* Nút Thêm Khách Hàng */}
         <div className="add-customer-btn-container">
-          <button className="add-customer-btn">Thêm Khách Hàng</button>
+          <button className="add-customer-btn" onClick={openForm}>Thêm Khách Hàng</button>
         </div>
 
+        {/* Overlay và Form Thêm/Sửa Khách Hàng */}
+        {isFormOpen && (
+          <div className={`modal-overlay ${isFormOpen ? 'active' : ''}`}>
+            <div className="customer-form">
+              <h3>{isEditing ? "Sửa Khách Hàng" : "Thêm Khách Hàng"}</h3>
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Họ"
+                value={isEditing ? currentCustomer?.lastName : newCustomer.lastName}
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="firstName"
+                placeholder="Tên"
+                value={isEditing ? currentCustomer?.firstName : newCustomer.firstName}
+                onChange={handleInputChange}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={isEditing ? currentCustomer?.email : newCustomer.email}
+                onChange={handleInputChange}
+              />
+
+              {/* Gộp ô SĐT và Role */}
+              <div className="phone-role-container">
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="SĐT"
+                  value={isEditing ? currentCustomer?.phone : newCustomer.phone}
+                  onChange={handleInputChange}
+                />
+                <select
+                  name="role"
+                  value={isEditing ? currentCustomer?.role : newCustomer.role}
+                  onChange={handleInputChange}
+                >
+                  <option value="User">User</option>
+                  <option value="Admin">Admin</option>
+                </select>
+              </div>
+
+              <button onClick={handleSave}>{isEditing ? "Lưu Thay Đổi" : "Thêm Khách Hàng"}</button>
+              <button className="cancel-btn" onClick={closeForm}>Hủy</button>
+            </div>
+          </div>
+        )}
+
+        {/* Hiển thị danh sách khách hàng */}
         <div className="tablesContainer">
           <div className="tableSection">
             <h2 className="tableTitle">Danh Sách Khách Hàng</h2>
@@ -65,45 +119,23 @@ const CustomerManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentCustomers.map((customer, index) => (
+                {customers.map((customer, index) => (
                   <tr key={customer.id}>
-                    <td>{index + 1 + indexOfFirstCustomer}</td> {/* Đánh STT theo trang */}
+                    <td>{index + 1}</td>
                     <td>{customer.lastName}</td>
                     <td>{customer.firstName}</td>
                     <td>{customer.email}</td>
                     <td>{customer.phone}</td>
                     <td>{customer.role}</td>
                     <td>
-                      <button className="editButton" onClick={() => handleEdit(customer.id)}>Sửa</button>
-                      <button className="deleteButton" onClick={() => handleDelete(customer.id)}>Xóa</button>
+                      <button className="editButton" onClick={() => { setIsEditing(true); setCurrentCustomer(customer); openForm(); }}>Sửa</button>
+                      <button className="deleteButton" onClick={() => setCustomers(customers.filter(c => c.id !== customer.id))}>Xóa</button>
                     </td>
+
                   </tr>
                 ))}
               </tbody>
             </table>
-
-            {/* Phân trang */}
-            <nav className="pagination-container" aria-label="Pagination">
-              <ul className="pagination pagination-sm justify-content-center">
-                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                  <button onClick={() => paginate(currentPage - 1)} className="page-link">
-                    <span aria-hidden="true">&laquo;</span>
-                  </button>
-                </li>
-                {[...Array(totalPages)].map((_, index) => (
-                  <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                    <button onClick={() => paginate(index + 1)} className="page-link">
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                  <button onClick={() => paginate(currentPage + 1)} className="page-link">
-                    <span aria-hidden="true">&raquo;</span>
-                  </button>
-                </li>
-              </ul>
-            </nav>
           </div>
         </div>
       </div>
