@@ -13,6 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get Gia Ghe by ID
 router.get('/:id', async (req, res) => {
   try {
     const giagheId = req.params.id;
@@ -26,37 +27,58 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
+// Add Gia Ghe
 router.post('/add', async (req, res) => {
   try {
-    const { loaighe_id, giaghe } = req.body;
+    const { loaighe_id, giaghe, giobatdau, gioketthuc, trangthai } = req.body;
 
     const loaighe = await Loaighe.findById(loaighe_id);
     if (!loaighe) {
       return res.status(404).send({ error: 'Loại ghế không tồn tại' });
     }
 
-    const newGiaghe = new Giaghe({ loaighe_id, giaghe });
+    if (!giaghe || giaghe <= 0) {
+      return res.status(400).send({ error: 'Giá ghế phải lớn hơn 0' });
+    }
+
+    const newGiaghe = new Giaghe({
+      loaighe_id,
+      giaghe,
+      giobatdau,
+      gioketthuc,
+      trangthai: trangthai || 1 // Giá trị mặc định là 1 nếu không có
+    });
+
     const result = await newGiaghe.save();
-    
     res.status(201).send(result);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
 
+// Update Gia Ghe
 router.put('/update/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { loaighe_id, giaghe } = req.body;
+    const { loaighe_id, giaghe, giobatdau, gioketthuc, trangthai } = req.body;
 
     const giagheData = await Giaghe.findById(id);
     if (!giagheData) {
       return res.status(404).send({ error: 'Giá ghế không tồn tại' });
     }
 
-    giagheData.loaighe_id = loaighe_id || giagheData.loaighe_id;
+    if (loaighe_id) {
+      const loaighe = await Loaighe.findById(loaighe_id);
+      if (!loaighe) {
+        return res.status(404).send({ error: 'Loại ghế không tồn tại' });
+      }
+      giagheData.loaighe_id = loaighe_id;
+    }
+
     giagheData.giaghe = giaghe || giagheData.giaghe;
+    giagheData.giobatdau = giobatdau || giagheData.giobatdau;
+    giagheData.gioketthuc = gioketthuc || giagheData.gioketthuc;
+    giagheData.trangthai = trangthai !== undefined ? trangthai : giagheData.trangthai;
 
     const updatedGiaghe = await giagheData.save();
     res.status(200).send(updatedGiaghe);
@@ -65,6 +87,7 @@ router.put('/update/:id', async (req, res) => {
   }
 });
 
+// Delete Gia Ghe
 router.delete('/delete/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -72,7 +95,7 @@ router.delete('/delete/:id', async (req, res) => {
     if (!giaghe) {
       return res.status(404).send({ error: 'Giá ghế không tồn tại' });
     }
-    res.status(200).send({ message: 'Giá ghế đã được xóa' });
+    res.status(200).send({ message: 'Giá ghế đã được xóa thành công' });
   } catch (err) {
     res.status(500).send({ error: err.message });
   }

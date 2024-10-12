@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
 import Layout from '@/app/components/admin/Layout';
+import styles from './ThemTinTuc.module.css'; // Create or update the CSS file
 
 const ThemTinTuc = () => {
   const [formData, setFormData] = useState({
@@ -32,7 +33,7 @@ const ThemTinTuc = () => {
   const handleEditorChange = (content) => {
     setFormData({
       ...formData,
-      content
+      content: content  // Ensure the content is updated correctly
     });
   };
 
@@ -62,81 +63,86 @@ const ThemTinTuc = () => {
 
   return (
     <Layout>
-            <div>
-      <h1>Thêm Tin Tức</h1>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          <label>Title</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Describe</label>
-          <input
-            type="text"
-            name="describe"
-            value={formData.describe}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Content</label>
-          <Editor
-                apiKey="sxuecqw6ie1p3ksawpdq4piz7jvlucsub11a6z83r8atnksh"
-                onInit={(evt, editor) => { editorVnRef.current = editor; }}
-                initialValue={formData.content}
-                init={{
-                  height: 300,
-                  menubar: false,
-                  plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount'
-                  ],
-                  toolbar:
-                    'undo redo | formatselect | bold italic backcolor | \
-                    alignleft aligncenter alignright alignjustify | \
-                    bullist numlist outdent indent | removeformat | help'
-                }}
-                onEditorChange={(content) => handleEditorChange(content, editorVnRef.current, 'content')}
-              />
-        </div>
-        <div>
-          <label>Image</label>
-          <input
-            type="file"
-            name="image"
-            onChange={handleImageChange} // Handle file upload
-            required
-          />
-        </div>
-        <div>
-          <label>Loại</label>
-          <input
-            type="number"
-            name="loai"
-            value={formData.loai}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Trạng Thái</label>
-          <input
-            type="number"
-            name="trangthai"
-            value={formData.trangthai}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button type="submit">Thêm</button>
-      </form>
-    </div>
+      <div className={styles.container}>
+        <h1 className={styles.title}>Thêm Tin Tức</h1>
+        <form onSubmit={handleSubmit} className={styles.form} encType="multipart/form-data">
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Tiêu đề</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Mô tả</label>
+            <input
+              type="text"
+              name="describe"
+              value={formData.describe}
+              onChange={handleInputChange}
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Nội dung</label>
+            <Editor
+              apiKey="sxuecqw6ie1p3ksawpdq4piz7jvlucsub11a6z83r8atnksh"
+              onInit={(evt, editor) => { editorVnRef.current = editor; }}
+              value={formData.content}  // Ensure correct value is passed
+              init={{
+                height: 300,
+                menubar: false,
+                plugins: [
+                  'advlist autolink lists link image charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                  'undo redo | formatselect | bold italic backcolor | \
+                  alignleft aligncenter alignright alignjustify | \
+                  bullist numlist outdent indent | removeformat | help'
+              }}
+              onEditorChange={handleEditorChange}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Hình ảnh</label>
+            <input
+              type="file"
+              name="image"
+              onChange={handleImageChange}
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Loại</label>
+            <input
+              type="number"
+              name="loai"
+              value={formData.loai}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Trạng thái</label>
+            <input
+              type="number"
+              name="trangthai"
+              value={formData.trangthai}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+          </div>
+          <button type="submit" className={styles.submitButton}>Thêm</button>
+        </form>
+      </div>
     </Layout>
   );
 };
