@@ -1,5 +1,5 @@
-import Film from "./components/film";
-import FilmSapChieu from "./components/filmSapChieu";
+// import Film from "./components/film";
+// import FilmSapChieu from "./components/filmSapChieu";
 import Slide from "./components/slide";
 
 export default function Home() {

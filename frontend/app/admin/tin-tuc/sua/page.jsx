@@ -13,12 +13,13 @@ const SuaTinTuc = () => {
     loai: 0,
     trangthai: 1
   });
-  const [image, setImage] = useState(null); 
-  const [imagePreview, setImagePreview] = useState(''); 
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
+  const [isContentLoaded, setIsContentLoaded] = useState(false);
   const editorVnRef = useRef(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const tinTucId = searchParams.get('id'); 
+  const tinTucId = searchParams.get('id');
 
   useEffect(() => {
     const fetchTinTuc = async () => {
@@ -32,6 +33,7 @@ const SuaTinTuc = () => {
           trangthai: response.data.trangthai,
         });
         setImagePreview(`http://localhost:3000/img/${response.data.image}`);
+        setIsContentLoaded(true);
       } catch (error) {
         console.error('Error fetching tin tức data:', error);
       }
@@ -54,28 +56,28 @@ const SuaTinTuc = () => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      setImagePreview(URL.createObjectURL(file)); 
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
   const handleEditorChange = (content) => {
     setFormData({
       ...formData,
-      content
+      content,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formDataToSend = new FormData(); 
+    const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('describe', formData.describe);
     formDataToSend.append('content', formData.content);
     formDataToSend.append('loai', formData.loai);
     formDataToSend.append('trangthai', formData.trangthai);
     if (image) {
-      formDataToSend.append('image', image); 
+      formDataToSend.append('image', image);
     }
 
     try {
@@ -117,25 +119,27 @@ const SuaTinTuc = () => {
         </div>
         <div>
           <label>Content</label>
-          <Editor
-            apiKey="sxuecqw6ie1p3ksawpdq4piz7jvlucsub11a6z83r8atnksh"
-            onInit={(evt, editor) => { editorVnRef.current = editor; }}
-            initialValue={formData.content}
-            init={{
-              height: 300,
-              menubar: false,
-              plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
-              ],
-              toolbar:
-                'undo redo | formatselect | bold italic backcolor | \
-                alignleft aligncenter alignright alignjustify | \
-                bullist numlist outdent indent | removeformat | help'
-            }}
-            onEditorChange={(content) => handleEditorChange(content, editorVnRef.current, 'content')}
-          />
+          {isContentLoaded && (
+            <Editor
+              apiKey="sxuecqw6ie1p3ksawpdq4piz7jvlucsub11a6z83r8atnksh"
+              onInit={(evt, editor) => { editorVnRef.current = editor; }}
+              value={formData.content} // Bind to value instead of initialValue
+              init={{
+                height: 300,
+                menubar: false,
+                plugins: [
+                  'advlist autolink lists link image charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                  'undo redo | formatselect | bold italic backcolor | \
+                  alignleft aligncenter alignright alignjustify | \
+                  bullist numlist outdent indent | removeformat | help'
+              }}
+              onEditorChange={handleEditorChange}
+            />
+          )}
         </div>
         <div>
           <label>Hình Ảnh Hiện Tại</label>
