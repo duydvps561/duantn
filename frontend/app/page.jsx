@@ -104,11 +104,15 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="mt-3">
-                            <img className="" style={{width:"320px",height:"180px"}} src="/img/image_30.png" alt="" />
+                            <img className="" style={{width:"260px",height:"130px"}} src="/img/image_30.png" alt="" />
                             
                         </div>
-                        <div className="mt-3">
-                            <img className="" style={{width:"320px",height:"180px"}} src="/img/image_30.png" alt="" />
+                        <div className="mt-2">
+                            <img className="" style={{width:"260px",height:"130px"}} src="/img/image_30.png" alt="" />
+                            
+                        </div>
+                        <div className="mt-2">
+                            <img className="" style={{width:"260px",height:"130px"}} src="/img/image_30.png" alt="" />
                             
                         </div>
                     </div>
@@ -185,7 +189,28 @@ export default function Home() {
 
                         </div>
                     </div>
-                    <div className="col-md-3  mt-3"></div>
+                    <div className="col-md-3 ">
+                        <div className="d-flex justify-content-between align-items-center">
+                            <div className="text d-flex align-items-center gap-2 ">
+                                <p className="text-uppercase text-white" style={{ fontSize: "20px" }}>Sự Kiện</p>
+                            </div>
+                            <div className="text">
+                                <p className="" style={{ fontSize: "15px" }}> <a className="text-decoration-none  text-white" href="">xem tất cả</a></p>
+                            </div>
+                        </div>
+                        <div className="mt-3">
+                            <img className="" style={{width:"260px",height:"130px"}} src="/img/image_30.png" alt="" />
+                            
+                        </div>
+                        <div className="mt-2">
+                            <img className="" style={{width:"260px",height:"130px"}} src="/img/image_30.png" alt="" />
+                            
+                        </div>
+                        <div className="mt-2">
+                            <img className="" style={{width:"260px",height:"130px"}} src="/img/image_30.png" alt="" />
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
