@@ -10,8 +10,8 @@ const SuaTinTuc = () => {
     title: '',
     describe: '',
     content: '',
-    loai: 0,
-    trangthai: 1
+    loai: 'Tin tức', // Set default to 'Tin tức'
+    trangthai: 'Hiện' // Set default to 'Hiện'
   });
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
@@ -123,7 +123,7 @@ const SuaTinTuc = () => {
             <Editor
               apiKey="sxuecqw6ie1p3ksawpdq4piz7jvlucsub11a6z83r8atnksh"
               onInit={(evt, editor) => { editorVnRef.current = editor; }}
-              value={formData.content} // Bind to value instead of initialValue
+              value={formData.content}
               init={{
                 height: 300,
                 menubar: false,
@@ -159,21 +159,18 @@ const SuaTinTuc = () => {
         </div>
         <div>
           <label>Loại</label>
-          <input
-            type="number"
-            name="loai"
-            value={formData.loai}
-            onChange={handleInputChange}
-          />
+          <select name="loai" value={formData.loai} onChange={handleInputChange}>
+            <option value="Tin tức">Tin tức</option>
+            <option value="Sự kiện">Sự kiện</option>
+            <option value="Quà tặng">Quà tặng</option>
+          </select>
         </div>
         <div>
           <label>Trạng Thái</label>
-          <input
-            type="number"
-            name="trangthai"
-            value={formData.trangthai}
-            onChange={handleInputChange}
-          />
+          <select name="trangthai" value={formData.trangthai} onChange={handleInputChange}>
+            <option value="Ẩn">Ẩn</option>
+            <option value="Hiện">Hiện</option>
+          </select>
         </div>
         <button type="submit">Cập Nhật</button>
       </form>
