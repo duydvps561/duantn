@@ -465,7 +465,29 @@ footer img{
   font-size: 17px; /* Kích thước chữ phù hợp */
   line-height: 1.6; /* Độ cao dòng để dễ đọc */
 }
+.box-product {
+  padding:0px;
+  overflow: hidden; /* Ẩn phần hình ảnh tràn ra ngoài */
+  position: relative;             
+  width: 225px;
+  height: 290px;
+  border-radius: 10px;
+}
 
+.box-product img {
+  width: 100%; /* Chiếm toàn bộ chiều rộng của khung chứa */
+  height: auto; /* Giữ tỉ lệ khung hình */
+  border-radius: 10px;
+  transition: transform 0.3s ease; /* Chuyển động cho transform */
+  
+}
+
+.box-product img:hover {
+  transform: scale(1.2);
+}
+.custom-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .contact-bottom .text-light p {
