@@ -183,14 +183,7 @@ left: 150px;
 }
 
 
-/* Typography */
-.fs-4 {
-  font-size: 1.75rem;
-}
 
-.fs-5 {
-  font-size: 1.25rem;
-}
 
 /* Media queries for responsiveness */
 @media screen and (max-width:1399px) 
