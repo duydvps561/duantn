@@ -1,169 +1,158 @@
-.add-customer-btn-container{
-    text-align: right;
-    margin-bottom: 20px;
-  }
-  
-  
-  .add-customer-btn {
-    
-    padding: 10px 20px;
-    background-color: #4d6950;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  
-  }
-  
-  .add-customer-btn:hover{
-    background-color: #218838;
-    transition: all 1s;
-  }
-  
-  .tablesContainer {
-    margin-top: 20px;
-  }
-  
-  .tableSection {
-    margin-bottom: 30px;
-  }
-  
-  .tableTitle {
-    font-size: 22px;
-    margin-bottom: 15px;
-  }
-  
-  .table {
-    width: 100%;
-    background: white;
-    border-radius: .5rem;
-    border-collapse: collapse;
-  }
-  
-  .table th, .table td {
-    border: 1px solid #dddddd46;
-    padding: 15px 20px; /* Increased padding */
-    text-align: center;
-  }
-  
-  .table th {
-    background-color: #4d6950;
-    color: white;
-    
-    padding: 15px 20px; /* Adjust padding for headers */
-  }
-  
-  /* .foodImage {
-    width: 50px;
-    height: auto;
-  } */
-  
-  .editButton {
-  padding: 8px 15px; /* Increased button padding */
+/* Nút Thêm Khách Hàng */
+.add-customer-btn-container {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.add-customer-btn {
+  padding: 10px 20px;
   background-color: #4d6950;
   color: white;
-  font-weight: 500;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 5px;
-  }
-  
-  
-  .editButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .deleteButton {
-  padding: 8px 15px; /* Increased button padding */
+}
+
+.add-customer-btn:hover {
+  background-color: #218838;
+  transition: all 0.5s;
+}
+
+/* Overlay nền đen mờ khi hiển thị form */
+.modal-overlay {
+  display: none; /* Ẩn mặc định */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* Nền đen mờ nhẹ */
+  backdrop-filter: blur(8px); /* Hiệu ứng nền blur */
+  z-index: 999; /* Đè lên các nội dung khác */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hiển thị khi modal được bật */
+.modal-overlay.active {
+  display: flex; /* Hiển thị dạng flex để căn giữa */
+}
+
+/* Form Thêm/Sửa Khách Hàng */
+.customer-form {
   background-color: white;
-  color: black;
-  
-  border: 1px solid #4d6950;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%; /* Để form tự chiếm chiều rộng */
+  max-width: 600px; /* Đặt giới hạn chiều rộng tối đa */
+  z-index: 1000;
+}
+
+.customer-form h3 {
+  text-align: center;
+  color: #4d6950;
+}
+
+/* Thêm hiệu ứng viền khi nhấn vào các ô nhập liệu */
+.customer-form input:focus,
+.customer-form select:focus {
+  outline: none; /* Loại bỏ viền mặc định */
+  border-color: #4d6950; /* Thay đổi viền thành màu #4d6950 */
+  box-shadow: 0 0 5px rgba(77, 105, 80, 0.8); /* Hiệu ứng bóng cho viền */
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Hiệu ứng mượt mà */
+}
+
+.customer-form input, 
+.customer-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Gộp ô SĐT và Role thành một hàng */
+.phone-role-container {
+  display: flex;
+  gap: 15px; /* Khoảng cách giữa các ô */
+}
+
+.phone-role-container input,
+.phone-role-container select {
+  width: 100%;
+  flex: 1; /* Để cả 2 ô chiếm đều diện tích */
+}
+
+.customer-form button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
-  }
-  
-  .deleteButton:hover {
-    background-color: #c82333;
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  thead {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .edit-btn, .delete-btn {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .edit-btn {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .delete-btn {
-    background-color: #f44336;
-    color: white;
-  } 
+  background-color: #4d6950;
+  color: white;
+}
 
-  .pagination-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
+.customer-form button:hover {
+  background-color: #218838;
+  transition: all 0.5s;
+}
+
+.customer-form .cancel-btn {
+  background-color: #7c0000;
+}
+
+.customer-form .cancel-btn:hover {
+  background-color: #f44336;
+}
+
+/* Định dạng cho các nút "Sửa" và "Xóa" */
+.editButton{
+  background-color: #4d6950;
+  color: white;
   
-  .pagination {
-    display: flex;
-    list-style-type: none;
-    padding: 0;
-  }
+}
+.deleteButton{
+  background-color: white;
+}
+.editButton, .deleteButton {
+  padding: 5px 10px;
+  /* background-color: #4CAF50; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.editButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Căn chỉnh bảng */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 10px;
+  border: 0.5px solid #ffffff;
+  text-align: center;
+}
+
+.table th {
+  background-color: #4d6950;
+  /* background-color: #f2f2f2; */
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px 0px;
   
-  .page-item {
-    margin: 0 5px;
-  }
-  
-  .page-link {
-    display: inline-block;
-    padding: 10px 15px;
-    color: #4d6950;
-    font-size: 16px;
-    font-weight: 500;
-    border: 1px solid #4d6950;
-    border-radius: 5px;
-    background-color: #fff;
-    transition: all 0.3s ease;
-    text-decoration: none;
-  }
-  
-  .page-link:hover {
-    background-color: #4d6950;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .page-item.active .page-link {
-    background-color: #4d6950;
-    color: #fff;
-    border-color: #4d6950;
-  }
-  
-  .page-item.disabled .page-link {
-    color: #ccc;
-    pointer-events: none;
-    border-color: #ccc;
-  }
-  
-  .page-item.disabled .page-link:hover {
-    background-color: transparent;
-    color: #ccc;
-  }
-  
+}

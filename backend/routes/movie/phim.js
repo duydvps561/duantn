@@ -39,5 +39,56 @@ router.post('/add', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+//xóa phim
+ router.delete('/:id', async (req, res) => {
+  try {
+    const result = await Phim.findByIdAndDelete(req.params.id);
+    if (!result) return res.status(404).send('The phim with the given ID was not found.');
+    res.send(result);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 
+//update phim
+ router.put('/:id', async (req, res) => {
+  try {
+    const phim = await Phim.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!phim) return res.status(404).send('The phim with the given ID was not found.');
+    res.send(phim);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+//lấy phim theo id
+ router.get('/:id', async (req, res) => {
+  try {
+    const phim = await Phim.findById(req.params.id);
+    if (!phim) return res.status(404).send('The phim with the given ID was not found.');
+    res.send(phim);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+//tìm kiếm phim theo tên
+ router.get('/:name', async (req, res) => {
+  try {
+    const phim = await Phim.find({ tenphim: new RegExp(req.params.name, 'i') });
+    res.json(phim);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+//lấy phim theo thể loại
+ router.get('/theloai/:id', async (req, res) => {
+  try {
+    const phim = await Phim.find({ theloai: req.params.id });
+    res.json(phim);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 module.exports = router;
