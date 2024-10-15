@@ -44,6 +44,7 @@ h2 {
 
 /* Main Card Section */
 .main {
+    margin-top: 10px;
     justify-content: center;
     gap: 15px;
     flex-wrap: wrap;
@@ -96,12 +97,8 @@ h2 {
     display: flex;
     gap: 10px;
 }
-.time li{
-    margin-top: 10px;
-    
-}
 
-.timechieu {
+.timechieu { 
     padding: 5px 10px;
     border-radius: 5px;
     text-decoration: none;
