@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "@/app/components/admin/Layout"; 
-import "./ThemGhe.css"; // Thêm tệp CSS
+import "./ThemGhe.css"; 
 
 const ThemGhe = () => {
   const [soHang, setSoHang] = useState(1);
@@ -11,7 +11,6 @@ const ThemGhe = () => {
   const [loaigheList, setLoaigheList] = useState([]);   
   const [phongchieuList, setPhongchieuList] = useState([]); 
 
-  // Lấy danh sách phòng chiếu và loại ghế khi component load
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,7 +25,6 @@ const ThemGhe = () => {
     fetchData();
   }, []);
 
-  // Cập nhật số hàng và danh sách hàng khi người dùng nhập
   const handleSoHangChange = (e) => {
     const soHangMoi = parseInt(e.target.value);
     setSoHang(soHangMoi);
@@ -39,21 +37,18 @@ const ThemGhe = () => {
     setDanhSachHang(dsHang);
   };
 
-  // Cập nhật thông tin từng hàng ghế
   const handleHangChange = (index, field, value) => {
     const dsHangMoi = [...danhSachHang];
     dsHangMoi[index][field] = value;
     setDanhSachHang(dsHangMoi);
   };
 
-  // Thêm loại ghế cho một hàng cụ thể
   const handleThemLoaiGhe = (index) => {
     const dsHangMoi = [...danhSachHang];
     dsHangMoi[index].loaiGheTheoViTri.push({ tuViTri: 1, denViTri: 1, loaiGheId: "" });
     setDanhSachHang(dsHangMoi);
   };
 
-  // Xử lý khi form được gửi
   const handleSubmit = async () => {
     if (!phongchieuId) {
       alert("Vui lòng chọn phòng chiếu.");
@@ -76,7 +71,6 @@ const ThemGhe = () => {
       <div className="them-ghe-container">
         <h1>Thêm Ghế</h1>
 
-        {/* Chọn phòng chiếu */}
         <div className="form-group">
           <label>Chọn Phòng Chiếu:</label>
           <select 
@@ -93,7 +87,6 @@ const ThemGhe = () => {
           </select>
         </div>
 
-        {/* Nhập số hàng */}
         <div className="form-group">
           <label>Số hàng:</label>
           <input 
