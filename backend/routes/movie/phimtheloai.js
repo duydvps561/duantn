@@ -19,5 +19,24 @@ router.post('/add', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
+// sửa 
+router.put('/edit/:id', async (req, res) => {
+  try {
+    const phimtheloai = await Phimtheloai.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    if (!phimtheloai) return res.status(404).send('The phim the loai with the given ID was not found.');
+    res.send(phimtheloai);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+// xóa
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const phimtheloai = await Phimtheloai.findByIdAndDelete(req.params.id);
+    if (!phimtheloai) return res.status(404).send('The phim the loai with the given ID was not found.');
+    res.send(phimtheloai);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 module.exports = router;
