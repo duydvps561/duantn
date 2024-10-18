@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Phongchieu = require('../../models/room/phongchieu');
 const Loaiphong = require('../../models/room/loaiphong');
-
+const Ghe = require('../../models/room/ghe');
 // Lấy tất cả phòng chiếu
 router.get('/', async (req, res, next) => {
   try {
@@ -78,6 +78,31 @@ router.delete('/delete/:id', async (req, res) => {
       return res.status(404).send({ error: 'Phòng chiếu không tồn tại' });
     }
     res.status(200).send({ message: 'Phòng chiếu đã được xóa' });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+router.get('/ghe/:id', async (req, res) => {
+  try {
+    const phongchieuId = req.params.id;
+
+    // Tìm phòng chiếu theo ID
+    const phongchieuData = await Phongchieu.findById(phongchieuId).populate('loaiphong_id', 'loaiphong');
+    if (!phongchieuData) {
+      return res.status(404).send({ error: 'Phòng chiếu không tồn tại' });
+    }
+
+    // Tìm tất cả ghế thuộc phòng chiếu đó, sắp xếp theo hàng và cột
+    const gheData = await Ghe.find({ phongchieu_id: phongchieuId }).sort({ hang: 1, cot: 1 }).populate('loaighe_id', 'tenLoaiGhe');
+    
+    // Tạo một cấu trúc trả về với thông tin chi tiết phòng chiếu và danh sách ghế
+    const phongchieuDetail = {
+      phongchieu: phongchieuData,
+      ghe: gheData
+    };
+
+    // Trả về kết quả
+    res.json(phongchieuDetail);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
