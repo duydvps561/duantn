@@ -1,5 +1,6 @@
 // import Film from "./components/film";
 // import FilmSapChieu from "./components/filmSapChieu";
+import PhimList from "./components/PhimList";
 import Slide from "./components/slide";
 
 export default function Home() {
@@ -19,7 +20,7 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="box row justify-content-between">
-                            <div className="col-md-3  mt-3">
+                            {/* <div className="col-md-3  mt-3">
                                 <div className="custom-shadow cursor-pointer ">
                                     <div className="box-product ">
                                         <img src="/img/0017840_0 1-1.png" alt="" />
@@ -90,8 +91,8 @@ export default function Home() {
                                     </div>
                                 </div>
                             </div>
-                            
-
+                             */}
+                            <PhimList/>
                         </div>
                     </div>
                     <div className="col-md-3 ">
