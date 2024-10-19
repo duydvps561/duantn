@@ -65,10 +65,9 @@ const ThemGhe = () => {
     }
   };
 
-  const generateColorFromId = (id) => {
-    const hash = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const hue = hash % 760; // Chọn hue trong khoảng [0, 360]
-    return `hsl(${hue}, 100%, 40%)`; // Trả về màu HSL
+  const getLoaiGheColor = (loaiGheId) => {
+    const loaiGhe = loaigheList.find(loai => loai._id === loaiGheId);
+    return loaiGhe ? loaiGhe.mau : "#ccc"; // Lấy màu từ loại ghế hoặc màu mặc định
   };
 
   const renderSeat = (hang, cot) => {
@@ -76,7 +75,7 @@ const ThemGhe = () => {
     const seat = selectedSeats.find(seat => seat.key === seatKey);
     
     const seatColor = seat
-      ? seatColors[seat.loaiGheId] || "#ccc" // Nếu có loại ghế thì dùng màu, nếu không dùng màu xám
+      ? getLoaiGheColor(seat.loaiGheId) // Sử dụng màu của loại ghế
       : "#fff"; // Nếu không có ghế thì màu trắng
 
     return (
@@ -111,20 +110,63 @@ const ThemGhe = () => {
   const handleLoaiGheChange = (e) => {
     const loaiGheId = e.target.value;
     setSelectedLoaiGhe(loaiGheId); // Cập nhật loại ghế đã chọn
-
-    // Nếu loại ghế đã được chọn trước đó, không thay đổi màu sắc
-    if (!seatColors[loaiGheId]) {
-      setSeatColors({
-        ...seatColors,
-        [loaiGheId]: generateColorFromId(loaiGheId), // Tạo màu mới cho loại ghế
-      });
-    }
   };
 
   return (
     <Layout>
       <div className="them-ghe-container">
         <h1>Thêm Ghế</h1>
+
+        <div className="row">
+          <div className="form-group col-6 col-md-3">
+            <label>Số Hàng:</label>
+            <input
+              type="number"
+              value={soHang}
+              onChange={(e) => setSoHang(Number(e.target.value))}
+              className="form-control"
+              min="1"
+            />
+          </div>
+
+          <div className="form-group col-6 col-md-3">
+            <label>Tên Hàng Ghế:</label>
+            <input
+              type="text"
+              value={tenHang.join(", ")} // Hiển thị tên hàng ghế
+              onChange={(e) => setTenHang(e.target.value.split(",").map(item => item.trim()))}
+              className="form-control"
+              placeholder="Nhập tên hàng ghế, cách nhau bằng dấu phẩy"
+            />
+          </div>
+
+          <div className="form-group col-6 col-md-3">
+            <label>Số Cột:</label>
+            <input
+              type="number"
+              value={soCot}
+              onChange={(e) => setSoCot(Number(e.target.value))}
+              className="form-control"
+              min="1"
+            />
+          </div>
+
+          <div className="form-group col-6 col-md-3">
+            <label>Chọn Loại Ghế:</label>
+            <select
+              value={selectedLoaiGhe}
+              onChange={handleLoaiGheChange}
+              className="form-control"
+            >
+              <option value="">Chọn loại ghế</option>
+              {loaigheList.map((loai) => (
+                <option key={loai._id} value={loai._id}>
+                  {loai.loaighe}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
         <div className="form-group">
           <label>Chọn Phòng Chiếu:</label>
@@ -137,55 +179,6 @@ const ThemGhe = () => {
             {phongchieuList.map((phong) => (
               <option key={phong._id} value={phong._id}>
                 {phong.tenphong}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label>Số Hàng:</label>
-          <input
-            type="number"
-            value={soHang}
-            onChange={(e) => setSoHang(Number(e.target.value))}
-            className="form-control"
-            min="1"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Tên Hàng Ghế:</label>
-          <input
-            type="text"
-            value={tenHang.join(", ")} // Hiển thị tên hàng ghế
-            onChange={(e) => setTenHang(e.target.value.split(",").map(item => item.trim()))}
-            className="form-control"
-            placeholder="Nhập tên hàng ghế, cách nhau bằng dấu phẩy"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Số Cột:</label>
-          <input
-            type="number"
-            value={soCot}
-            onChange={(e) => setSoCot(Number(e.target.value))}
-            className="form-control"
-            min="1"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Chọn Loại Ghế:</label>
-          <select
-            value={selectedLoaiGhe}
-            onChange={handleLoaiGheChange}
-            className="form-control"
-          >
-            <option value="">Chọn loại ghế</option>
-            {loaigheList.map((loai) => (
-              <option key={loai._id} value={loai._id}>
-                {loai.loaighe}
               </option>
             ))}
           </select>

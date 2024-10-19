@@ -1,5 +1,5 @@
 .them-ghe-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
@@ -9,10 +9,6 @@
 
 .form-group {
   margin-bottom: 15px;
-  padding: 10px;
-  border: 1px solid #eaeaea;
-  border-radius: 5px;
-  background-color: #f9f9f9;
 }
 
 label {
@@ -35,42 +31,49 @@ input:focus, select:focus {
   outline: none;
 }
 
-.seat-row {
+.row {
   display: flex;
-  justify-content: flex-start;
-  margin: 5px 0;
-}
-
-.seat-wrapper {
-  margin-right: 10px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f2f2f2;
-  transition: background-color 0.3s;
-}
-
-.seat-wrapper input {
-  margin-right: 5px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .seats-container {
-  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seat-row {
+  display: flex;
+  gap: 5px;
+}
+
+.seat-wrapper {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.seat-wrapper:hover {
+  background-color: #f1f1f1;
 }
 
 .btn {
-  margin-top: 10px;
-  padding: 10px 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #5cb85c;
   border: none;
-  background-color: #007bff;
-  color: white;
+  border-radius: 5px;
   cursor: pointer;
-  border-radius: 4px;
   transition: background-color 0.3s;
 }
 
 .btn:hover {
-  background-color: #0056b3;
+  background-color: #4cae4c;
 }
