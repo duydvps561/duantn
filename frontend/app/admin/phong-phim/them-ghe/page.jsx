@@ -118,18 +118,7 @@ const ThemGhe = () => {
         <h1>Thêm Ghế</h1>
 
         <div className="row">
-          <div className="form-group col-6 col-md-3">
-            <label>Số Hàng:</label>
-            <input
-              type="number"
-              value={soHang}
-              onChange={(e) => setSoHang(Number(e.target.value))}
-              className="form-control"
-              min="1"
-            />
-          </div>
-
-          <div className="form-group col-6 col-md-3">
+          <div className="form-group col-6 col-md-2">
             <label>Tên Hàng Ghế:</label>
             <input
               type="text"
@@ -140,7 +129,18 @@ const ThemGhe = () => {
             />
           </div>
 
-          <div className="form-group col-6 col-md-3">
+          <div className="form-group col-6 col-md-2">
+            <label>Số Hàng:</label>
+            <input
+              type="number"
+              value={soHang}
+              onChange={(e) => setSoHang(Number(e.target.value))}
+              className="form-control"
+              min="1"
+            />
+          </div>
+
+          <div className="form-group col-6 col-md-2">
             <label>Số Cột:</label>
             <input
               type="number"
@@ -151,7 +151,7 @@ const ThemGhe = () => {
             />
           </div>
 
-          <div className="form-group col-6 col-md-3">
+          <div className="form-group col-6 col-md-2">
             <label>Chọn Loại Ghế:</label>
             <select
               value={selectedLoaiGhe}

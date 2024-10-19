@@ -1,5 +1,5 @@
 .them-ghe-container {
-  max-width: 1000px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
@@ -19,7 +19,7 @@ label {
 }
 
 input, select {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #ccc;
