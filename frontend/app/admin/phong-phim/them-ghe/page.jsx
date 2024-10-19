@@ -1,201 +1,19 @@
-// "use client";
-// import { useState, useEffect } from "react";
-// import axios from "axios";
-// import Layout from "@/app/components/admin/Layout"; 
-// import "./ThemGhe.css"; 
-
-// const ThemGhe = () => {
-//   const [soHang, setSoHang] = useState(1);
-//   const [danhSachHang, setDanhSachHang] = useState([]);
-//   const [phongchieuId, setPhongchieuId] = useState(""); 
-//   const [loaigheList, setLoaigheList] = useState([]);   
-//   const [phongchieuList, setPhongchieuList] = useState([]); 
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const phongchieuRes = await axios.get("http://localhost:3000/phongchieu");
-//         const loaigheRes = await axios.get("http://localhost:3000/loaighe");
-//         setPhongchieuList(phongchieuRes.data);
-//         setLoaigheList(loaigheRes.data);
-//       } catch (err) {
-//         console.error("Lỗi khi lấy dữ liệu", err);
-//       }
-//     };
-//     fetchData();
-//   }, []);
-
-//   const handleSoHangChange = (e) => {
-//     const soHangMoi = parseInt(e.target.value);
-//     setSoHang(soHangMoi);
-    
-//     const dsHang = Array.from({ length: soHangMoi }, () => ({
-//       hang: "",
-//       soCot: 1,
-//       loaiGheTheoViTri: [{ tuViTri: 1, denViTri: 1, loaiGheId: "" }]
-//     }));
-//     setDanhSachHang(dsHang);
-//   };
-
-//   const handleHangChange = (index, field, value) => {
-//     const dsHangMoi = [...danhSachHang];
-//     dsHangMoi[index][field] = value;
-//     setDanhSachHang(dsHangMoi);
-//   };
-
-//   const handleThemLoaiGhe = (index) => {
-//     const dsHangMoi = [...danhSachHang];
-//     dsHangMoi[index].loaiGheTheoViTri.push({ tuViTri: 1, denViTri: 1, loaiGheId: "" });
-//     setDanhSachHang(dsHangMoi);
-//   };
-
-//   const handleSubmit = async () => {
-//     if (!phongchieuId) {
-//       alert("Vui lòng chọn phòng chiếu.");
-//       return;
-//     }
-//     try {
-//       const response = await axios.post("http://localhost:3000/ghe/them-ghe", {
-//         phongchieu_id: phongchieuId,
-//         danhSachHang
-//       });
-//       alert("Thêm ghế thành công!");
-//     } catch (err) {
-//       console.error(err);
-//       alert("Lỗi khi thêm ghế.");
-//     }
-//   };
-
-//   return (
-//     <Layout>
-//       <div className="them-ghe-container">
-//         <h1>Thêm Ghế</h1>
-
-//         <div className="form-group">
-//           <label>Chọn Phòng Chiếu:</label>
-//           <select 
-//             value={phongchieuId} 
-//             onChange={(e) => setPhongchieuId(e.target.value)}
-//             className="form-control"
-//           >
-//             <option value="">Chọn phòng chiếu</option>
-//             {phongchieuList.map((phong) => (
-//               <option key={phong._id} value={phong._id}>
-//                 {phong.tenphong}
-//               </option>
-//             ))}
-//           </select>
-//         </div>
-
-//         <div className="form-group">
-//           <label>Số hàng:</label>
-//           <input 
-//             type="number" 
-//             value={soHang} 
-//             onChange={handleSoHangChange} 
-//             min={1} 
-//             className="form-control"
-//           />
-//         </div>
-
-//         {/* Danh sách hàng và cấu hình ghế */}
-//         {danhSachHang.map((hang, index) => (
-//           <div key={index} className="hang-container">
-//             <h3>Hàng {index + 1}</h3>
-//             <div className="form-group">
-//               <label>Hàng:</label>
-//               <input
-//                 type="text"
-//                 value={hang.hang}
-//                 onChange={(e) => handleHangChange(index, "hang", e.target.value)}
-//                 className="form-control"
-//               />
-//             </div>
-//             <div className="form-group">
-//               <label>Số cột:</label>
-//               <input
-//                 type="number"
-//                 value={hang.soCot}
-//                 onChange={(e) => handleHangChange(index, "soCot", parseInt(e.target.value))}
-//                 min={1}
-//                 className="form-control"
-//               />
-//             </div>
-
-//             {/* Loại ghế theo vị trí */}
-//             {hang.loaiGheTheoViTri.map((loaiGhe, loaiIndex) => (
-//               <div key={loaiIndex} className="loai-ghe-container">
-//                 <div className="form-group">
-//                   <label>Từ vị trí:</label>
-//                   <input
-//                     type="number"
-//                     value={loaiGhe.tuViTri}
-//                     onChange={(e) => {
-//                       const newLoaiGhe = [...danhSachHang];
-//                       newLoaiGhe[index].loaiGheTheoViTri[loaiIndex].tuViTri = parseInt(e.target.value);
-//                       setDanhSachHang(newLoaiGhe);
-//                     }}
-//                     className="form-control"
-//                   />
-//                 </div>
-//                 <div className="form-group">
-//                   <label>Đến vị trí:</label>
-//                   <input
-//                     type="number"
-//                     value={loaiGhe.denViTri}
-//                     onChange={(e) => {
-//                       const newLoaiGhe = [...danhSachHang];
-//                       newLoaiGhe[index].loaiGheTheoViTri[loaiIndex].denViTri = parseInt(e.target.value);
-//                       setDanhSachHang(newLoaiGhe);
-//                     }}
-//                     className="form-control"
-//                   />
-//                 </div>
-//                 <div className="form-group">
-//                   <label>Loại ghế:</label>
-//                   <select
-//                     value={loaiGhe.loaiGheId}
-//                     onChange={(e) => {
-//                       const newLoaiGhe = [...danhSachHang];
-//                       newLoaiGhe[index].loaiGheTheoViTri[loaiIndex].loaiGheId = e.target.value;
-//                       setDanhSachHang(newLoaiGhe);
-//                     }}
-//                     className="form-control"
-//                   >
-//                     <option value="">Chọn loại ghế</option>
-//                     {loaigheList.map((loai) => (
-//                       <option key={loai._id} value={loai._id}>
-//                         {loai.loaighe}
-//                       </option>
-//                     ))}
-//                   </select>
-//                 </div>
-//               </div>
-//             ))}
-
-//             <button className="btn btn-secondary" onClick={() => handleThemLoaiGhe(index)}>Thêm loại ghế</button>
-//           </div>
-//         ))}
-
-//         <button className="btn btn-primary" onClick={handleSubmit}>Thêm Ghế</button>
-//       </div>
-//     </Layout>
-//   );
-// };
-
-// export default ThemGhe;
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Layout from "@/app/components/admin/Layout"; 
-import "./ThemGhe.css"; 
+import Layout from "@/app/components/admin/Layout";
+import "./ThemGhe.css";
 
 const ThemGhe = () => {
-  const [soHang, setSoHang] = useState(1);
-  const [danhSachHang, setDanhSachHang] = useState([]);
-  const [phongchieuId, setPhongchieuId] = useState(""); 
-  const [loaigheList, setLoaigheList] = useState([]);   
-  const [phongchieuList, setPhongchieuList] = useState([]); 
+  const [soHang, setSoHang] = useState(1); // Số hàng ghế
+  const [tenHang, setTenHang] = useState([]); // Tên hàng ghế
+  const [soCot, setSoCot] = useState(1); // Số cột ghế
+  const [selectedSeats, setSelectedSeats] = useState([]); // Ghế đã chọn
+  const [phongchieuId, setPhongchieuId] = useState(""); // ID phòng chiếu
+  const [loaigheList, setLoaigheList] = useState([]); // Danh sách loại ghế
+  const [phongchieuList, setPhongchieuList] = useState([]); // Danh sách phòng chiếu
+  const [selectedLoaiGhe, setSelectedLoaiGhe] = useState(""); // Loại ghế được chọn cho một ghế
+  const [seatColors, setSeatColors] = useState({}); // Lưu màu sắc cho mỗi loại ghế
 
   useEffect(() => {
     const fetchData = async () => {
@@ -211,49 +29,95 @@ const ThemGhe = () => {
     fetchData();
   }, []);
 
-  const handleSoHangChange = (e) => {
-    const soHangMoi = parseInt(e.target.value);
-    setSoHang(soHangMoi);
-    
-    const dsHang = Array.from({ length: soHangMoi }, () => ({
-      hang: "",
-      soCot: 1,
-      loaiGheTheoViTri: []
-    }));
-    setDanhSachHang(dsHang);
-  };
+  const handleSeatClick = (seatKey) => {
+    const currentSeat = selectedSeats.find(seat => seat.key === seatKey);
+    const updatedSeats = currentSeat
+      ? selectedSeats.filter(seat => seat.key !== seatKey) // Bỏ chọn ghế
+      : [...selectedSeats, { key: seatKey, loaiGheId: selectedLoaiGhe }]; // Chọn ghế mới với loại ghế
 
-  const handleHangChange = (index, field, value) => {
-    const dsHangMoi = [...danhSachHang];
-    dsHangMoi[index][field] = value;
-    setDanhSachHang(dsHangMoi);
-  };
-
-  const handleSoCotChange = (index, value) => {
-    const dsHangMoi = [...danhSachHang];
-    dsHangMoi[index].soCot = parseInt(value);
-    dsHangMoi[index].loaiGheTheoViTri = Array.from({ length: parseInt(value) }, () => ({
-      tuViTri: 1,
-      denViTri: 1,
-      loaiGheId: ""
-    }));
-    setDanhSachHang(dsHangMoi);
+    setSelectedSeats(updatedSeats);
   };
 
   const handleSubmit = async () => {
-    if (!phongchieuId) {
-      alert("Vui lòng chọn phòng chiếu.");
+    if (!phongchieuId || selectedSeats.length === 0 || !selectedLoaiGhe) {
+      alert("Vui lòng chọn phòng chiếu, loại ghế và ít nhất một ghế.");
       return;
     }
+
+    const danhSachGhe = selectedSeats.map(seat => ({
+      hang: seat.key[0], // Lấy hàng từ key
+      cot: seat.key.substring(1), // Lấy cột từ key
+      loaiGheId: seat.loaiGheId, // Gửi loại ghế đã chọn
+    }));
+
     try {
-      const response = await axios.post("http://localhost:3000/ghe/them-ghe", {
+      await axios.post("http://localhost:3000/ghe/them-ghe", {
         phongchieu_id: phongchieuId,
-        danhSachHang
+        danhSachGhe,
       });
       alert("Thêm ghế thành công!");
+      setSelectedSeats([]); // Xóa ghế đã chọn sau khi thêm
+      setSelectedLoaiGhe(""); // Reset loại ghế đã chọn
+      setSeatColors({}); // Reset màu sắc
     } catch (err) {
       console.error(err);
       alert("Lỗi khi thêm ghế.");
+    }
+  };
+
+  const generateColorFromId = (id) => {
+    const hash = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const hue = hash % 760; // Chọn hue trong khoảng [0, 360]
+    return `hsl(${hue}, 100%, 40%)`; // Trả về màu HSL
+  };
+
+  const renderSeat = (hang, cot) => {
+    const seatKey = `${hang}${cot}`; 
+    const seat = selectedSeats.find(seat => seat.key === seatKey);
+    
+    const seatColor = seat
+      ? seatColors[seat.loaiGheId] || "#ccc" // Nếu có loại ghế thì dùng màu, nếu không dùng màu xám
+      : "#fff"; // Nếu không có ghế thì màu trắng
+
+    return (
+      <div 
+        key={seatKey} 
+        className="seat-wrapper" 
+        style={{ backgroundColor: seatColor }} 
+        onClick={() => handleSeatClick(seatKey)} // Thêm sự kiện click cho ghế
+      >
+        <label>{seatKey}</label>
+      </div>
+    );
+  };
+
+  const renderSeats = () => {
+    const rows = [];
+    for (let i = 0; i < soHang; i++) {
+      const hang = tenHang[i] || String.fromCharCode(65 + i); // Mặc định là A, B, C...
+      const row = [];
+      for (let j = 1; j <= soCot; j++) {
+        row.push(renderSeat(hang, j));
+      }
+      rows.push(
+        <div key={hang} className="seat-row">
+          {row}
+        </div>
+      );
+    }
+    return rows;
+  };
+
+  const handleLoaiGheChange = (e) => {
+    const loaiGheId = e.target.value;
+    setSelectedLoaiGhe(loaiGheId); // Cập nhật loại ghế đã chọn
+
+    // Nếu loại ghế đã được chọn trước đó, không thay đổi màu sắc
+    if (!seatColors[loaiGheId]) {
+      setSeatColors({
+        ...seatColors,
+        [loaiGheId]: generateColorFromId(loaiGheId), // Tạo màu mới cho loại ghế
+      });
     }
   };
 
@@ -264,8 +128,8 @@ const ThemGhe = () => {
 
         <div className="form-group">
           <label>Chọn Phòng Chiếu:</label>
-          <select 
-            value={phongchieuId} 
+          <select
+            value={phongchieuId}
             onChange={(e) => setPhongchieuId(e.target.value)}
             className="form-control"
           >
@@ -279,68 +143,59 @@ const ThemGhe = () => {
         </div>
 
         <div className="form-group">
-          <label>Số hàng:</label>
-          <input 
-            type="number" 
-            value={soHang} 
-            onChange={handleSoHangChange} 
-            min={1} 
+          <label>Số Hàng:</label>
+          <input
+            type="number"
+            value={soHang}
+            onChange={(e) => setSoHang(Number(e.target.value))}
             className="form-control"
+            min="1"
           />
         </div>
 
-        {/* Danh sách hàng và cấu hình ghế */}
-        {danhSachHang.map((hang, index) => (
-          <div key={index} className="hang-container">
-            <h3>Hàng {index + 1}</h3>
-            <div className="form-group">
-              <label>Tên Hàng:</label>
-              <input
-                type="text"
-                value={hang.hang}
-                onChange={(e) => handleHangChange(index, "hang", e.target.value)}
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label>Số cột:</label>
-              <input
-                type="number"
-                value={hang.soCot}
-                onChange={(e) => handleSoCotChange(index, e.target.value)}
-                min={1}
-                className="form-control"
-              />
-            </div>
+        <div className="form-group">
+          <label>Tên Hàng Ghế:</label>
+          <input
+            type="text"
+            value={tenHang.join(", ")} // Hiển thị tên hàng ghế
+            onChange={(e) => setTenHang(e.target.value.split(",").map(item => item.trim()))}
+            className="form-control"
+            placeholder="Nhập tên hàng ghế, cách nhau bằng dấu phẩy"
+          />
+        </div>
 
-            {/* Loại ghế theo vị trí */}
-            {hang.loaiGheTheoViTri.map((loaiGhe, loaiIndex) => (
-              <div key={loaiIndex} className="loai-ghe-container">
-                <div className="form-group">
-                  <label>Loại ghế:</label>
-                  <select
-                    value={loaiGhe.loaiGheId}
-                    onChange={(e) => {
-                      const newLoaiGhe = [...danhSachHang];
-                      newLoaiGhe[index].loaiGheTheoViTri[loaiIndex].loaiGheId = e.target.value;
-                      setDanhSachHang(newLoaiGhe);
-                    }}
-                    className="form-control"
-                  >
-                    <option value="">Chọn loại ghế</option>
-                    {loaigheList.map((loai) => (
-                      <option key={loai._id} value={loai._id}>
-                        {loai.loaighe}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+        <div className="form-group">
+          <label>Số Cột:</label>
+          <input
+            type="number"
+            value={soCot}
+            onChange={(e) => setSoCot(Number(e.target.value))}
+            className="form-control"
+            min="1"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Chọn Loại Ghế:</label>
+          <select
+            value={selectedLoaiGhe}
+            onChange={handleLoaiGheChange}
+            className="form-control"
+          >
+            <option value="">Chọn loại ghế</option>
+            {loaigheList.map((loai) => (
+              <option key={loai._id} value={loai._id}>
+                {loai.loaighe}
+              </option>
             ))}
-          </div>
-        ))}
+          </select>
+        </div>
 
-        <button className="btn btn-primary submit-btn" onClick={handleSubmit}>Thêm Ghế</button>
+        <div className="seats-container">
+          {renderSeats()}
+        </div>
+
+        <button onClick={handleSubmit} className="btn btn-primary">Thêm Ghế</button>
       </div>
     </Layout>
   );
