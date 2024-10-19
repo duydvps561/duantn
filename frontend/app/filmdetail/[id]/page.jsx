@@ -1,9 +1,14 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './fimdetail.css'
 import { useRef } from 'react';
-export default function filmdetail() {
+import { useRouter } from 'next/router';
+export default function filmdetail({ params }) {
+  const id = params.id;
   const [show, setShow] = useState(false);
+  const [phimChitiet, setPhimChitiet] = useState([]);
+  const [cachieu, setCaChieu] = useState([]);
+  const [phimCachieu, setPhimCachieu] = useState([]);
   const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
   const rollRef = useRef();
@@ -33,29 +38,67 @@ export default function filmdetail() {
       setSeatSelected([...seatSelected, seat]);
     }
   };
+  const fetchPhimChitiet = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/phim/${id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setPhimChitiet(data);
+    } catch (error) {
+      console.error('Error fetching film details:', error);
+    }
+  }
+  const fetchCaChieu = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/xuatchieu`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setCaChieu(data);
+    } catch (error) {
+      console.error('Error fetching film details:', error);
+    }
+  }
+  useEffect(() => {
+    fetchPhimChitiet();
+    fetchCaChieu();
+  }, [id]);
+  useEffect(() => {
+    if (id && cachieu && Array.isArray(cachieu)) {
+      const foundPhim = cachieu.find((item) => item.phim_id === id);
+      setPhimCachieu(foundPhim || null);
+    } else {
+      setPhimCachieu(null);
+    }
+  }, [id, cachieu]);
+
+  console.log(phimCachieu);
+
   return (
     <>
-      <slide />
       <section className="film-detail justify-content-center">
         <div className="card bg-dark ">
           <img src="img/0017840_0 1-3.png" className="card-img object-fit-cover" alt="..sad." />
           <div className="card-img-overlay d-lg-flex justify-content-center">
             <div className="img-overlay">
-              <img src="img/0017840_0 1-3.png" alt="" style={{ width: '250', height: '350px' }} />
+              <img src={`../../../img/${phimChitiet.img}`} alt="" style={{ width: '250', height: '350px' }} />
             </div>
             <div className="title-overlay ms-3">
-              <h1 className="card-title">THE CROW: BÁO THÙ-T18</h1>
+              <h1 className="card-title">{phimChitiet.tenphim}</h1>
               <ul>
                 <li>
                   <a href="">Kinh di</a>
                   <a href="">America</a>
-                  <a href="">110 phut</a>
-                  <a href="">Đạo diễn: Alexs Stadermann</a>
+                  <a href="">{phimChitiet.thoiluong}</a>
+                  <a href="">{phimChitiet.daodien}</a>
                 </li>
               </ul>
-              <p className="card-text">Diễn viên: Ilai Swindells, Elizabeth Nabben, Jennifer Saunders,…</p>
-              <p className="card-text">Khởi chiếu: 30/08/2024</p>
-              <p className="card-text"><small>Sau khi Eric cùng vị hôn thê Shelly bị sát hại dã man, anh được trao cơ hội để trở lại trần thế. Eric bắt đầu bước vào con đường báo thù những kẻ đã hủy hoại cuộc đời anh và người mình yêu.</small></p>
+              <p className="card-text">{phimChitiet.dienvien}</p>
+              <p className="card-text">Khởi chiếu: {phimChitiet.ngayhieuluc}</p>
+              <p className="card-text"><small>{phimChitiet.noidung}</small></p>
               <p className="card-text text-danger">Kiểm duyệt: T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)</p>
               <div className="view-detail d-flex">
                 <p className="card-text mt-2">Chi tiet noi dung</p>
@@ -67,21 +110,26 @@ export default function filmdetail() {
       </section>
       <div className="date-order">
         <div className="date text-light">
-          <div className="text mt-3" onClick={() => setShow(!show)}>
-            <p>Th. 09</p>
-            <h2>14</h2>
-            <p>Thu bay</p>
-          </div>
-          <div className="text ms-3 mt-3" onClick={() => setShow(!show)}>
+          {phimCachieu ? (
+            <div className="text ms-3 mt-3">
+              <p>Th {new Date(phimCachieu.ngaychieu).getMonth() + 1}</p> {/* Lấy tháng (0-11), cộng thêm 1 */}
+              <h2>{new Date(phimCachieu.ngaychieu).getDate()}</h2> {/* Lấy ngày (1-31) */}
+              <p>{['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'][new Date(phimCachieu.ngaychieu).getDay()]}</p> {/* Lấy thứ (0-6) */}
+            </div>
+          ) : (
+            <p>Không tìm thấy thông tin phim.</p>
+          )}
+
+          {/* <div className="text ms-3 mt-3">
             <p>Th. 09</p>
             <h2>15</h2>
             <p>Chu nhat</p>
-          </div>
-          <div className="text ms-3 mt-3" onClick={() => setShow(!show)}>
+          </div> */}
+          {/* <div className="text ms-3 mt-3">
             <p>Th. 09</p>
             <h2>16</h2>
             <p>Thu hai</p>
-          </div>
+          </div> */}
         </div>
         <div className="note">
           <p>Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h và Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.</p>
@@ -89,7 +137,7 @@ export default function filmdetail() {
       </div>
       {show && (
         <>
-          <section className="film-sit-order" ref={rollRef}>
+          <section className="film-sit-order">
             <div className="sit-header d-flex justify-content-around">
               <p>Gio chieu</p>
               <p className="s-p-2">Thoi gian chon ghe</p>
@@ -148,7 +196,7 @@ export default function filmdetail() {
           </section>
           {foodshow && (
             <>
-              <section className="food-section" ref={rollRef}>
+              <section className="food-section">
                 <div className="container">
                   <div className="food-cb">
                     <p className="food-cb-title">Combo</p>
