@@ -60,7 +60,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "@/app/components/admin/Layout";
-import "./ThemGhe.css";
+// import "./ThemGhe.css";
 
 const ThemGhe = () => {
   const [soHang, setSoHang] = useState(2); // Số hàng ghế

@@ -44,15 +44,15 @@ const MovieCategoryManagement = () => {
     setCategories(categories.filter(category => category.id !== id));
     console.log(`Deleted category with id: ${id}`);
   };
-
+  
   return (
     <Layout>
       <div className="category-management">
         <h2>Quản Lý Thể Loại Phim</h2>
         <p>Đây là trang quản lý thể loại phim.</p>
-        <div className="add-category-btn-container">
+        {/* <div className="add-category-btn-container">
           <button className="add-category-btn">Thêm Loại</button>
-        </div>
+        </div> */}
 
         <div className="tablesContainer">
           <div className="tableSection">
