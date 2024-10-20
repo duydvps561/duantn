@@ -7,6 +7,7 @@ const Loaighe = require('../../models/room/loaighe'); // Import model Loaighe đ
 router.get('/', async (req, res) => {
   try {
     const giagheList = await Giaghe.find().populate('loaighe_id', 'loaighe');
+
     res.json(giagheList);
   } catch (err) {
     res.status(500).send({ error: err.message });
