@@ -3,6 +3,8 @@ const router = express.Router();
 const Phongchieu = require('../../models/room/phongchieu');
 const Loaiphong = require('../../models/room/loaiphong');
 const Ghe = require('../../models/room/ghe');
+const Loaighe = require('../../models/room/loaighe');
+
 // Lấy tất cả phòng chiếu
 router.get('/', async (req, res, next) => {
   try {
@@ -57,7 +59,6 @@ router.put('/update/:id', async (req, res) => {
       return res.status(404).send({ error: 'Phòng chiếu không tồn tại' });
     }
 
-    // Cập nhật thông tin phòng chiếu
     phongchieuData.loaiphong_id = loaiphong_id || phongchieuData.loaiphong_id;
     phongchieuData.tenphong = tenphong || phongchieuData.tenphong;
     phongchieuData.trangthai = trangthai || phongchieuData.trangthai;
@@ -82,29 +83,62 @@ router.delete('/delete/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+
+// Lấy danh sách ghế theo phòng chiếu ID
 router.get('/ghe/:id', async (req, res) => {
   try {
     const phongchieuId = req.params.id;
 
-    // Tìm phòng chiếu theo ID
     const phongchieuData = await Phongchieu.findById(phongchieuId).populate('loaiphong_id', 'loaiphong');
     if (!phongchieuData) {
       return res.status(404).send({ error: 'Phòng chiếu không tồn tại' });
     }
 
-    // Tìm tất cả ghế thuộc phòng chiếu đó, sắp xếp theo hàng và cột
-    const gheData = await Ghe.find({ phongchieu_id: phongchieuId }).sort({ hang: 1, cot: 1 }).populate('loaighe_id', 'tenLoaiGhe');
+    const gheData = await Ghe.find({ phongchieu_id: phongchieuId }).sort({ hang: 1, cot: 1 }).populate('loaighe_id', 'loaighe');
     
-    // Tạo một cấu trúc trả về với thông tin chi tiết phòng chiếu và danh sách ghế
     const phongchieuDetail = {
       phongchieu: phongchieuData,
       ghe: gheData
     };
 
-    // Trả về kết quả
     res.json(phongchieuDetail);
   } catch (err) {
     res.status(500).send({ error: err.message });
+  }
+});
+
+// Cập nhật ghế theo ID
+router.put('/ghe/update/:id', async (req, res) => {
+  try {
+    const gheId = req.params.id;
+    const updatedData = req.body;
+    
+    const ghe = await Ghe.findByIdAndUpdate(gheId, updatedData, { new: true });
+
+    if (!ghe) {
+        return res.status(404).json({ message: 'Ghế không tồn tại' });
+    }
+
+    res.status(200).json({ message: 'Cập nhật ghế thành công', ghe });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi khi cập nhật ghế', error: err });
+  }
+});
+
+// Xóa ghế theo ID
+router.delete('/ghe/delete/:id', async (req, res) => {
+  try {
+    const gheId = req.params.id;
+    const ghe = await Ghe.findById(gheId);
+
+    if (!ghe) {
+      return res.status(404).json({ message: 'Ghế không tồn tại' });
+    }
+
+    await Ghe.findByIdAndDelete(gheId);
+    res.status(200).json({ message: 'Ghế đã được xóa thành công' });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi khi xóa ghế', error: err });
   }
 });
 

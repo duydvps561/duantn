@@ -118,7 +118,7 @@ const ThemGhe = () => {
         <h1>Thêm Ghế</h1>
 
         <div className="row">
-          <div className="form-group col-6 col-md-2">
+          <div className="form-group col-6 col-md-3">
             <label>Tên Hàng Ghế:</label>
             <input
               type="text"
