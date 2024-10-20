@@ -1,9 +1,20 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './fimdetail.css'
 import { useRef } from 'react';
-export default function filmdetail() {
+import { useRouter } from 'next/router';
+export default function filmdetail({ params }) {
+  const id = params.id;
   const [show, setShow] = useState(false);
+  const [phimChitiet, setPhimChitiet] = useState([]);
+  const [cachieu, setCaChieu] = useState([]);
+  const [gheData, setGheData] = useState([]);
+  const [ghetheoPhong, setGheTheoPhong] = useState([]);
+  const [phongchieuid, setPhongChieuid] = useState([]);
+  const [phimCachieu, setPhimCachieu] = useState([]);
+  const [phongchieu, setPhongChieu] = useState([]);
+  const [phongchieudata, setPhongChieudata] = useState([]);
+  const [giochieu, setgiochieu] = useState([]);
   const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
   const rollRef = useRef();
@@ -12,20 +23,7 @@ export default function filmdetail() {
       rollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 0);
   }
-  const Aseat = [
-    ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14"],
-    ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B11", "B12", "B13", "B14"],
-    ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12", "C13", "C14"],
-    ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "D11", "D12", "D13", "D14"],
-    ["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "E11", "E12", "E13", "E14"],
-    ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14"],
-    ["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13", "G14"],
-    ["H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "H11", "H12", "H13", "H14"],
-    ["I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "I11", "I12", "I13", "I14"],
-    ["J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10", "J11", "J12", "J13", "J14"],
-    ["K1", "K2", "K3", "K4", "K5", "K6", "K7", "K8", "K9", "K10", "K11", "K12"],
 
-  ];
   const handleSeatClick = (seat) => {
     if (seatSelected.includes(seat)) {
       setSeatSelected(seatSelected.filter(s => s !== seat));
@@ -33,29 +31,115 @@ export default function filmdetail() {
       setSeatSelected([...seatSelected, seat]);
     }
   };
+  const fetchPhimChitiet = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/phim/${id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setPhimChitiet(data);
+    } catch (error) {
+      console.error('Error fetching film details:', error);
+    }
+  }
+
+  const fetchCaChieu = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/xuatchieu`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setCaChieu(data);
+    } catch (error) {
+      console.error('Error fetching film details:', error);
+    }
+  }
+  const fetchPhongchieu = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/phongchieu`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setPhongChieu(data);
+    } catch (error) {
+      console.error('Error fetching film details:', error);
+    }
+  };
+  const fetchSeat = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/ghe`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setGheData(data);
+    } catch (error) {
+      console.error('Error fetching seat data:', error);
+    }
+  }
+  useEffect(() => {
+    fetchPhimChitiet();
+    fetchCaChieu();
+    fetchPhongchieu();
+    fetchSeat();
+  }, [id]);
+  useEffect(() => {
+    if (id && cachieu && Array.isArray(cachieu)) {
+      const foundPhim = cachieu.find((item) => item.phim_id === id);
+      setPhimCachieu(foundPhim || null);
+    } else {
+      setPhimCachieu(null);
+    }
+
+  }, [id, cachieu]);
+  useEffect(() => {
+    if (phimCachieu) {
+      setPhongChieuid(phimCachieu.phongchieu_id);
+    }
+  }, [phimCachieu]);
+  useEffect(() => {
+    const phongchieudata = phongchieu.find((item) => item._id === phongchieuid);
+    setPhongChieudata(phongchieudata);
+  }, [phongchieu]);
+
+  useEffect(() => {
+    const gheMap = {};
+    gheData.forEach((ghe) => {
+
+      if (!gheMap[phongchieuid]) {
+        gheMap[phongchieuid] = [];
+      }
+      gheMap[phongchieuid].push(ghe);
+    });
+
+    setGheTheoPhong(gheMap);
+  }, [gheData]);
+  console.log(gheData);
   return (
     <>
-      <slide />
       <section className="film-detail justify-content-center">
         <div className="card bg-dark ">
           <img src="img/0017840_0 1-3.png" className="card-img object-fit-cover" alt="..sad." />
           <div className="card-img-overlay d-lg-flex justify-content-center">
             <div className="img-overlay">
-              <img src="img/0017840_0 1-3.png" alt="" style={{ width: '250', height: '350px' }} />
+              <img src={`../../../img/${phimChitiet.img}`} alt="" style={{ width: '250', height: '350px' }} />
             </div>
             <div className="title-overlay ms-3">
-              <h1 className="card-title">THE CROW: BÁO THÙ-T18</h1>
+              <h1 className="card-title">{phimChitiet.tenphim}</h1>
               <ul>
                 <li>
                   <a href="">Kinh di</a>
                   <a href="">America</a>
-                  <a href="">110 phut</a>
-                  <a href="">Đạo diễn: Alexs Stadermann</a>
+                  <a href="">{phimChitiet.thoiluong}</a>
+                  <a href="">{phimChitiet.daodien}</a>
                 </li>
               </ul>
-              <p className="card-text">Diễn viên: Ilai Swindells, Elizabeth Nabben, Jennifer Saunders,…</p>
-              <p className="card-text">Khởi chiếu: 30/08/2024</p>
-              <p className="card-text"><small>Sau khi Eric cùng vị hôn thê Shelly bị sát hại dã man, anh được trao cơ hội để trở lại trần thế. Eric bắt đầu bước vào con đường báo thù những kẻ đã hủy hoại cuộc đời anh và người mình yêu.</small></p>
+              <p className="card-text">{phimChitiet.dienvien}</p>
+              <p className="card-text">Khởi chiếu: {phimChitiet.ngayhieuluc}</p>
+              <p className="card-text"><small>{phimChitiet.noidung}</small></p>
               <p className="card-text text-danger">Kiểm duyệt: T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)</p>
               <div className="view-detail d-flex">
                 <p className="card-text mt-2">Chi tiet noi dung</p>
@@ -67,48 +151,54 @@ export default function filmdetail() {
       </section>
       <div className="date-order">
         <div className="date text-light">
-          <div className="text mt-3" onClick={() => setShow(!show)}>
-            <p>Th. 09</p>
-            <h2>14</h2>
-            <p>Thu bay</p>
-          </div>
-          <div className="text ms-3 mt-3" onClick={() => setShow(!show)}>
-            <p>Th. 09</p>
-            <h2>15</h2>
-            <p>Chu nhat</p>
-          </div>
-          <div className="text ms-3 mt-3" onClick={() => setShow(!show)}>
-            <p>Th. 09</p>
-            <h2>16</h2>
-            <p>Thu hai</p>
-          </div>
+          {phimCachieu ? (
+
+            <div className="text ms-3 mt-3">
+              <p>Th {new Date(phimCachieu.ngaychieu).getMonth() + 1}</p> {/* Lấy tháng (0-11), cộng thêm 1 */}
+              <h2>{new Date(phimCachieu.ngaychieu).getDate()}</h2> {/* Lấy ngày (1-31) */}
+              <p>{['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'][new Date(phimCachieu.ngaychieu).getDay()]}</p> {/* Lấy thứ (0-6) */}
+            </div>
+          ) : (
+            <p>Không tìm thấy thông tin phim.</p>
+          )}
         </div>
         <div className="note">
           <p>Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h và Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.</p>
+          <div className='thoigian_chieu'>
+            {phimCachieu ? (
+              <button className='chonthoigian' type='button' onClick={() => { setShow(true); setgiochieu(phimCachieu.giobatdau) }}>
+                {phimCachieu.giobatdau}
+              </button>
+            ) : (
+              <p>Chưa có thông tin phim.</p>
+            )}
+          </div>
         </div>
       </div>
       {show && (
         <>
-          <section className="film-sit-order" ref={rollRef}>
+          <section className="film-sit-order">
             <div className="sit-header d-flex justify-content-around">
-              <p>Gio chieu</p>
+              <span className='fs-5 font-monsterat'>Giờ chiếu : <strong>{giochieu}</strong></span>
               <p className="s-p-2">Thoi gian chon ghe</p>
             </div>
             <div className="sit-img d-flex justify-content-center">
               <img src="../../img/image 35.png" alt="decorimg" />
             </div>
             <div className="seat-content">
-              <p className="seat-title">Phong chieu so 1 </p>
+              <p className="seat-title">{phongchieudata.tenphong}</p>
               <div className="siting-order" >
                 <table className="siting-table">
                   <tbody>
-                    {Aseat.map((row, rowIndex) => (
-                      <tr key={rowIndex}>
-                        {row.map((seat, seatIndex) => (
-                          <td className={`${seatSelected.includes(seat) ? 'bg-primary' : ''}`} key={seatIndex} onClick={() => handleSeatClick(seat)}>{seat}</td>
-                        ))}
-                      </tr>
-                    ))}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(14, 1fr)' }}>
+                      {gheData.map((ghe) => (
+                        <tr
+                          key={ghe._id}
+                        >
+                          <td>{`${ghe.hang}${ghe.cot}`}</td>
+                        </tr>
+                      ))}
+                    </div>
                   </tbody>
                 </table>
               </div>
@@ -148,7 +238,7 @@ export default function filmdetail() {
           </section>
           {foodshow && (
             <>
-              <section className="food-section" ref={rollRef}>
+              <section className="food-section">
                 <div className="container">
                   <div className="food-cb">
                     <p className="food-cb-title">Combo</p>

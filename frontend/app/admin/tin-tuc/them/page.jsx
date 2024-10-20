@@ -4,15 +4,15 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
 import Layout from '@/app/components/admin/Layout';
-import styles from './ThemTinTuc.module.css'; // Create or update the CSS file
+import styles from './ThemTinTuc.module.css'; // CSS file
 
 const ThemTinTuc = () => {
   const [formData, setFormData] = useState({
     title: '',
     describe: '',
     content: '',
-    loai: 0,
-    trangthai: 1
+    loai: 'Tin tức', // Default value
+    trangthai: 'Hiện' // Default value
   });
   const [image, setImage] = useState(null); 
   const router = useRouter(); 
@@ -33,7 +33,7 @@ const ThemTinTuc = () => {
   const handleEditorChange = (content) => {
     setFormData({
       ...formData,
-      content: content  // Ensure the content is updated correctly
+      content: content 
     });
   };
 
@@ -93,7 +93,7 @@ const ThemTinTuc = () => {
             <Editor
               apiKey="sxuecqw6ie1p3ksawpdq4piz7jvlucsub11a6z83r8atnksh"
               onInit={(evt, editor) => { editorVnRef.current = editor; }}
-              value={formData.content}  // Ensure correct value is passed
+              value={formData.content} 
               init={{
                 height: 300,
                 menubar: false,
@@ -122,23 +122,28 @@ const ThemTinTuc = () => {
           </div>
           <div className={styles.formGroup}>
             <label className={styles.label}>Loại</label>
-            <input
-              type="number"
+            <select
               name="loai"
               value={formData.loai}
               onChange={handleInputChange}
-              className={styles.input}
-            />
+              className={styles.select}
+            >
+              <option value="Tin tức">Tin tức</option>
+              <option value="Sự kiện">Sự kiện</option>
+              <option value="Quà tặng">Quà tặng</option>
+            </select>
           </div>
           <div className={styles.formGroup}>
             <label className={styles.label}>Trạng thái</label>
-            <input
-              type="number"
+            <select
               name="trangthai"
               value={formData.trangthai}
               onChange={handleInputChange}
-              className={styles.input}
-            />
+              className={styles.select}
+            >
+              <option value="Ẩn">Ẩn</option>
+              <option value="Hiện">Hiện</option>
+            </select>
           </div>
           <button type="submit" className={styles.submitButton}>Thêm</button>
         </form>

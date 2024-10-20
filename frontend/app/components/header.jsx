@@ -27,7 +27,7 @@ export default function Header() {
     <header>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
       <Link href="/">
-        <img src="http://localhost:3000/img/logo.png" alt="anh logo" />
+        <img src="/img/logo.png" alt="anh logo" />
       </Link>
       <nav>
         <ul className="nav-list">

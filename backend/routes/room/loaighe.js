@@ -30,15 +30,26 @@ router.get('/:id', async (req, res) => {
 // Add new Loai Ghe
 router.post('/add', async (req, res) => {
   try {
-    const loaighe = new Loaighe(req.body);
-    const result = await loaighe.save();
+    const { loaighe, mau } = req.body;
+    
+    // Kiểm tra nếu thiếu dữ liệu
+    if (!loaighe || !mau) {
+      return res.status(400).send({ error: 'Thiếu thông tin loại ghế hoặc màu sắc' });
+    }
+
+    const newLoaighe = new Loaighe({
+      loaighe,
+      mau,
+    });
+
+    const result = await newLoaighe.save();
     res.status(201).send(result);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
 
-// Update Loai Ghe by ID
+// Update Loai Ghe by ID (sửa tên loại ghế và màu sắc)
 router.put('/update/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -48,7 +59,9 @@ router.put('/update/:id', async (req, res) => {
       return res.status(404).send({ error: 'Loại ghế không tồn tại' });
     }
 
+    // Cập nhật loại ghế và màu nếu có
     loaigheData.loaighe = req.body.loaighe || loaigheData.loaighe;
+    loaigheData.mau = req.body.mau || loaigheData.mau;
     
     const updatedLoaighe = await loaigheData.save();
     res.status(200).send(updatedLoaighe);
@@ -57,7 +70,7 @@ router.put('/update/:id', async (req, res) => {
   }
 });
 
-// Delete Loai Ghe by ID
+// Delete Loai Ghe by ID (xóa loại ghế)
 router.delete('/delete/:id', async (req, res) => {
   try {
     const { id } = req.params;

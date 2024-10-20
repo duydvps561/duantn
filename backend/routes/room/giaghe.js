@@ -27,6 +27,16 @@ router.get('/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+// lấy tất cả các giá theo giờ bắt đầu
+    router.get('/batdau/:giobatdau', async (req, res) => {
+      try {
+        const giobatdau = parseInt(req.params.giobatdau);
+        const giagheList = await Giaghe.find({ giobatdau: { $gte: giobatdau } }).populate('loaighe_id', 'loaighe');
+        res.json(giagheList);
+      } catch (err) {
+        res.status(500).send({ error: err.message });
+      }
+    });
 
 // Add Gia Ghe
 router.post('/add', async (req, res) => {
@@ -42,12 +52,19 @@ router.post('/add', async (req, res) => {
       return res.status(400).send({ error: 'Giá ghế phải lớn hơn 0' });
     }
 
+    // Chuyển đổi giờ (chuỗi) sang phút (số)
+    const [startHour, startMinute] = giobatdau.split(':').map(Number);
+    const [endHour, endMinute] = gioketthuc.split(':').map(Number);
+    
+    const startTotalMinutes = startHour * 60 + startMinute;
+    const endTotalMinutes = endHour * 60 + endMinute;
+
     const newGiaghe = new Giaghe({
       loaighe_id,
       giaghe,
-      giobatdau,
-      gioketthuc,
-      trangthai: trangthai || 1 // Giá trị mặc định là 1 nếu không có
+      giobatdau: startTotalMinutes,
+      gioketthuc: endTotalMinutes,
+      trangthai: trangthai || 1
     });
 
     const result = await newGiaghe.save();
@@ -83,6 +100,21 @@ router.put('/update/:id', async (req, res) => {
 
     const updatedGiaghe = await giagheData.save();
     res.status(200).send(updatedGiaghe);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+// lấy ra giá loại ghế
+router.get('/loaighe/:id', async (req, res) => {
+  try {
+    const loaigheId = req.params.id;
+
+    const giagheList = await Giaghe.find({ loaighe_id: loaigheId }).populate('loaighe_id', 'loaighe');
+
+    if (giagheList.length === 0) {
+      return res.status(404).send({ error: 'Không có giá ghế nào cho loại ghế này' });
+    }
+    res.json(giagheList);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }

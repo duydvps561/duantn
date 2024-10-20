@@ -7,8 +7,8 @@ const tintucSchema = new Schema({
     content: { type: String, required: true },
     image: { type: String, required: true },
     view: { type: Number, default: 0 },
-    loai: { type: Number, default: 0 },
-    trangthai: { type: Number, default: 1 },
+    loai: { type: String, default: 'Tin tức' }, 
+    trangthai: { type: String, default: 'Hiện' }, 
 }, { timestamps: true });
 
 module.exports = mongoose.model('tintuc', tintucSchema);
