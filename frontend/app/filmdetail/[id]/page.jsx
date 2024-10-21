@@ -9,7 +9,23 @@ export default function filmdetail({ params }) {
   const [phimChitiet, setPhimChitiet] = useState([]);
   const [cachieu, setCaChieu] = useState([]);
   const [gheData, setGheData] = useState([]);
-  const [ghetheoPhong, setGheTheoPhong] = useState([]);
+  const [loaighe, setloaiGhe] = useState([]);
+  const [timeleft,setTimeLeft] = useState(10*60);
+  useEffect(() => {
+    if (timeleft > 0) {
+      const timer = setTimeout(() => {
+        setTimeLeft(prevTime => prevTime - 1); 
+      }, 1000);
+  
+
+      return () => clearTimeout(timer);
+    } else {
+
+      setShow(false);
+    }
+  }, [timeleft]);
+  
+  // const [ghetheoPhong, setGheTheoPhong] = useState([]);
   const [phongchieuid, setPhongChieuid] = useState([]);
   const [phimCachieu, setPhimCachieu] = useState([]);
   const [phongchieu, setPhongChieu] = useState([]);
@@ -23,7 +39,8 @@ export default function filmdetail({ params }) {
       rollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 0);
   }
-
+  const minutes = Math.floor(timeleft / 60);
+  const seconds = timeleft % 60;
   const handleSeatClick = (seat) => {
     if (seatSelected.includes(seat)) {
       setSeatSelected(seatSelected.filter(s => s !== seat));
@@ -80,11 +97,24 @@ export default function filmdetail({ params }) {
       console.error('Error fetching seat data:', error);
     }
   }
+  const fetchSeatModel = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/loaighe`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setloaiGhe(data);
+    } catch (error) {
+      console.error('Error fetching seat data:', error);
+    }
+  }
   useEffect(() => {
     fetchPhimChitiet();
     fetchCaChieu();
     fetchPhongchieu();
     fetchSeat();
+    fetchSeatModel();
   }, [id]);
   useEffect(() => {
     if (id && cachieu && Array.isArray(cachieu)) {
@@ -115,9 +145,8 @@ export default function filmdetail({ params }) {
       gheMap[phongchieuid].push(ghe);
     });
 
-    setGheTheoPhong(gheMap);
+    // setGheTheoPhong(gheMap);
   }, [gheData]);
-  console.log(gheData);
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -180,7 +209,7 @@ export default function filmdetail({ params }) {
           <section className="film-sit-order">
             <div className="sit-header d-flex justify-content-around">
               <span className='fs-5 font-monsterat'>Giờ chiếu : <strong>{giochieu}</strong></span>
-              <p className="s-p-2">Thoi gian chon ghe</p>
+              <p className="s-p-2">{minutes.toString().padStart(2, '0')} : {seconds.toString().padStart(2, '0')}</p>
             </div>
             <div className="sit-img d-flex justify-content-center">
               <img src="../../img/image 35.png" alt="decorimg" />
@@ -191,13 +220,38 @@ export default function filmdetail({ params }) {
                 <table className="siting-table">
                   <tbody>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(14, 1fr)' }}>
-                      {gheData.map((ghe) => (
-                        <tr
-                          key={ghe._id}
-                        >
-                          <td>{`${ghe.hang}${ghe.cot}`}</td>
-                        </tr>
-                      ))}
+                      {gheData.map((ghe) => {
+                        const seat = `${ghe.hang}${ghe.cot}`;
+                        const isSelected = seatSelected.includes(seat);
+                        const loaigheItem = loaighe.find((item) => item._id === ghe.loaighe_id);
+                        let style = {};
+                        if (loaigheItem) {
+                          style.backgroundColor = loaigheItem.mau;
+                        }
+                        if (isSelected) {
+                          style.backgroundColor = '#005AD8';
+                          style.color = 'white';
+                        }
+                        return (
+                          <tr key={ghe._id}>
+                            <td
+                              style={style}
+                              className="text-center" 
+                              onClick={() => {
+                                if (isSelected) {
+                                  setSeatSelected(seatSelected.filter(selected => selected !== seat));
+                                } else {
+                                  setSeatSelected([...seatSelected, seat]);
+                                }
+                              }}
+                            >
+                              {seat}
+                            </td>
+                          </tr>
+                        );
+                      })}
+
+
                     </div>
                   </tbody>
                 </table>
@@ -226,11 +280,11 @@ export default function filmdetail({ params }) {
               </div>
               <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 align-items-center ">
                 <div className="seat-bill">
-                  <p className="seat-selected">Ghế đã chọn: <span>H3</span></p>
+                  <p className="seat-selected">Ghế đã chọn: <span>{seatSelected.join(', ')}</span></p>
                   <p className="seat-total-price">Tổng tiền: <span>0đ</span></p>
                 </div>
                 <div className="seat-btn">
-                  <button className="back-btn" onClick={() => { setShow(false) }}>Quay lại</button>
+                  <button className="back-btn" onClick={() => { setShow(false);setTimeLeft(10*60) }}>Quay lại</button>
                   <button className="continue-btn" onClick={() => { setFoodShow(true) }}>Tiếp tục</button>
                 </div>
               </div>
