@@ -182,7 +182,7 @@
     color: #ffffff;
     text-align: center;
     display: flex;
-    padding: 10px;
+    padding: 2px;
 }
 
 .siting-table tbody tr td {
@@ -403,8 +403,6 @@
     height: 179px;
 }
 
-
-
 /* Thoigian */
 .thoigian_chieu {
     display: flex;
@@ -412,8 +410,9 @@
     justify-content: space-between;
     max-width: 60%;
     margin: 0 auto;
-    
-  }
+
+}
+
 .chonthoigian {
     color: #ffffff;
     height: 40px;
@@ -422,7 +421,7 @@
     border-radius: 20px;
     transition: background-color 0.2s ease;
     flex: 0 0 calc(20% - 10px);
-    margin:  0 0 20px 0;
+    margin: 0 0 20px 0;
     font-size: 15px;
 }
 
