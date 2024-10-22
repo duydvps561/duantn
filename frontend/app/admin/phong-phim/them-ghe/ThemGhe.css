@@ -25,6 +25,7 @@ input, select {
   border: 1px solid #ccc;
   transition: border-color 0.3s;
   background-color: white !important;
+  color: black !important;
 }
 
 input:focus, select:focus {
