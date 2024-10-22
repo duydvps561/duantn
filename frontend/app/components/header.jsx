@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import LoginModal from './LoginModal';
-import RegisterModal from './RegisterModal';
+import RegisterModal from '../register/RegisterModal';
 
 
 export default function Header() {
@@ -69,7 +69,7 @@ export default function Header() {
         </ul>
       </nav>
         <div className="btn-section">
-          <button className="regist-btn" onClick={handleOpenRegister}>Đăng Ký</button>
+        <button href="/register" className="regist-btn" onClick={handleOpenRegister}>Đăng Ký</button>
           <button className="login-btn" onClick={handleOpenLogin}>Đăng Nhập</button>
       </div>
       <RegisterModal show={showRegister} handleClose={handleCloseRegister}/>
