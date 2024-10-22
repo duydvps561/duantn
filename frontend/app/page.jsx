@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+=======
+// import Film from "./components/film";
+// import FilmSapChieu from "./components/filmSapChieu";
+import PhimList from "./components/PhimList";
+>>>>>>> dd0f13c081b371200bffdb251ae3f7040e4be134
 import Slide from "./components/slide";
 
 export default function Home() {
@@ -62,7 +68,83 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="box row justify-content-between">
+<<<<<<< HEAD
                             {renderMovieCards(moviesNowPlaying)}
+=======
+                            {/* <div className="col-md-3  mt-3">
+                                <div className="custom-shadow cursor-pointer ">
+                                    <div className="box-product ">
+                                        <img src="/img/0017840_0 1-1.png" alt="" />
+                                    </div>
+                                    <div className="text-product">
+                                        <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
+                                            <p>Kinh dị</p>
+                                            <p>17/01/2004</p>
+                                        </div>
+                                        <p className="mt-2 text-sm text-xl fw-bold text-light">TEE YOD: QUỶ ĂN TẠNG PHẦN 2-T18</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="col-md-3  mt-3 ">
+                                <div className="custom-shadow cursor-pointer ">
+                                    <div className="box-product ">
+                                        <img src="/img/0017840_0 1-1.png" alt="" />
+                                    </div>
+                                    <div className="text-product">
+                                        <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
+                                            <p>Kinh dị</p>
+                                            <p>17/01/2004</p>
+                                        </div>
+                                        <p className="mt-2 text-sm text-xl fw-bold text-light">TEE YOD: QUỶ ĂN TẠNG PHẦN 2-T18</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-3  mt-3 ">
+                                <div className="custom-shadow cursor-pointer ">
+                                    <div className="box-product ">
+                                        <img src="/img/0017840_0 1-1.png" alt="" />
+                                    </div>
+                                    <div className="text-product">
+                                        <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
+                                            <p>Kinh dị</p>
+                                            <p>17/01/2004</p>
+                                        </div>
+                                        <p className="mt-2 text-sm text-xl fw-bold text-light">TEE YOD: QUỶ ĂN TẠNG PHẦN 2-T18</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-3  mt-3 ">
+                                <div className="custom-shadow cursor-pointer ">
+                                    <div className="box-product ">
+                                        <img src="/img/0017840_0 1-1.png" alt="" />
+                                    </div>
+                                    <div className="text-product">
+                                        <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
+                                            <p>Kinh dị</p>
+                                            <p>17/01/2004</p>
+                                        </div>
+                                        <p className="mt-2 text-sm text-xl fw-bold text-light">TEE YOD: QUỶ ĂN TẠNG PHẦN 2-T18</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-3  mt-3 ">
+                                <div className="custom-shadow cursor-pointer ">
+                                    <div className="box-product ">
+                                        <img src="/img/0017840_0 1-1.png" alt="" />
+                                    </div>
+                                    <div className="text-product">
+                                        <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
+                                            <p>Kinh dị</p>
+                                            <p>17/01/2004</p>
+                                        </div>
+                                        <p className="mt-2 text-sm text-xl fw-bold text-light">TEE YOD: QUỶ ĂN TẠNG PHẦN 2-T18</p>
+                                    </div>
+                                </div>
+                            </div>
+                             */}
+                            <PhimList/>
+>>>>>>> dd0f13c081b371200bffdb251ae3f7040e4be134
                         </div>
                     </div>
                     <div className="col-md-3">

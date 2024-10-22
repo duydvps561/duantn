@@ -1,43 +1,49 @@
-
 /*film detail styling */
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 .card-img {
     object-fit: cover;
     width: 100%;
     height: 500px;
 }
+
 @media screen and (max-width: 1960px) {
-    .card-img{
+    .card-img {
         width: 100%;
     }
-    .card{
+
+    .card {
         width: 100%;
     }
 }
-@media screen and (max-width: 991px){
-    .card-img{
+
+@media screen and (max-width: 991px) {
+    .card-img {
         height: 800px;
     }
 }
+
 @media screen and (max-width: 756px) {
-    .title-overlay{
+    .title-overlay {
         font-size: small;
     }
 }
-.film-detail{
+
+.film-detail {
     width: 215vh;
 }
+
 .card-img-overlay {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.5); 
+    background: rgba(0, 0, 0, 0.5);
     color: #fff;
     display: flex;
     justify-content: center;
@@ -93,57 +99,71 @@
 }
 
 .view-detail .btn {
-    background-color: #343a40; /* Màu nền tối */
-    color: #ffc107; /* Màu chữ vàng */
-    border: 1px solid #ffc107; /* Viền vàng */
+    background-color: #343a40;
+    /* Màu nền tối */
+    color: #ffc107;
+    /* Màu chữ vàng */
+    border: 1px solid #ffc107;
+    /* Viền vàng */
     padding: 10px 20px;
     font-size: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Hiệu ứng chuyển đổi */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Hiệu ứng chuyển đổi */
 }
 
 .view-detail .btn:hover {
-    background-color: #ffc107; /* Màu nền khi hover */
-    color: #343a40; /* Màu chữ khi hover */
-    border: 1px solid #343a40; /* Viền màu tối khi hover */
+    background-color: #ffc107;
+    /* Màu nền khi hover */
+    color: #343a40;
+    /* Màu chữ khi hover */
+    border: 1px solid #343a40;
+    /* Viền màu tối khi hover */
 }
 
 /* date*/
-.note{
+.note {
     text-align: center;
     color: rgb(211, 88, 0);
     font-size: 20px;
 }
 
 .date {
-    background: rgba(34, 34, 34, 0.5); /* Tạo hiệu ứng overlay mờ */
+    background: rgba(34, 34, 34, 0.5);
+    /* Tạo hiệu ứng overlay mờ */
 
     justify-content: center;
     clear: both;
     display: flex;
     /* flex-direction: column; */
-    align-items: center; /* Căn giữa theo chiều ngang */
+    align-items: center;
+    /* Căn giữa theo chiều ngang */
 }
+
 .date .text {
     padding: 10px 20px;
-    text-align: center; /* Căn giữa nội dung bên trong */
+    text-align: center;
+    /* Căn giữa nội dung bên trong */
     cursor: pointer;
 }
-.date .text:hover{
+
+.date .text:hover {
     background-color: #ff254a;
 }
 
 /* siting**************************************** */
-.sit-header{
+.sit-header {
     color: #ffffff;
     font-size: 23px;
     font-weight: 500;
 }
-.sit-header .s-p-2{
+
+.sit-header .s-p-2 {
     border: 1px solid #FF0101;
     border-radius: 30px;
     padding: 5px;
 }
-.seat-content .seat-title{
+
+.seat-content .seat-title {
     font-size: 28px;
     font-weight: 400;
     color: #ffffff;
@@ -152,18 +172,20 @@
     display: flex;
     justify-content: center;
 }
-.siting-order{
+
+.siting-order {
     display: flex;
     justify-content: center;
 }
-.siting-table tbody tr{
+
+.siting-table tbody tr {
     color: #ffffff;
     text-align: center;
     display: flex;
-    padding: 10px;
-    gap: 10px;
+    padding: 2px;
 }
-.siting-table tbody tr td{
+
+.siting-table tbody tr td {
     width: 40px;
     height: 40px;
     background-color: #FF0101;
@@ -174,54 +196,62 @@
     font-weight: bold;
     cursor: pointer;
 }
-.note p{
+
+.note p {
     color: #ffffff;
     font-size: 20px;
     font-weight: 500;
 }
-.note .box-color-1{
-    color:#ffffff;
+
+.note .box-color-1 {
+    color: #ffffff;
     width: 40px;
     height: 40px;
     border-radius: 5px;
     background-color: #252A31;
 }
-.note .box-color-2{
-    color:#ffffff;
+
+.note .box-color-2 {
+    color: #ffffff;
     width: 40px;
     height: 40px;
     border-radius: 5px;
     background-color: #005AD8;
 }
-.note .box-color-3{
-    color:#ffffff;
+
+.note .box-color-3 {
+    color: #ffffff;
     width: 40px;
     height: 40px;
     border-radius: 5px;
     background-color: #252A31;
 }
-.note .box-color-4{
-    color:#ffffff;
+
+.note .box-color-4 {
+    color: #ffffff;
     width: 40px;
     height: 40px;
     border-radius: 5px;
     background-color: #FF8413;
 }
-.note .box-color-5{
-    color:#ffffff;
+
+.note .box-color-5 {
+    color: #ffffff;
     width: 40px;
     height: 40px;
     border-radius: 5px;
     background-color: #FF3741;
 }
-.seat-bill p{
+
+.seat-bill p {
     font-size: 18px;
     font-weight: bold;
-    color:#ffffff;
+    color: #ffffff;
     padding: 0;
 }
-.seat-btn .back-btn{
-    background-color:#050B17;
+
+.seat-btn .back-btn {
+    background-color: #050B17;
     width: 130px;
     height: 44px;
     color: #ffffff;
@@ -233,11 +263,13 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
-.seat-btn .back-btn:hover{
+
+.seat-btn .back-btn:hover {
     background-color: #272c2c;
 }
-.continue-btn{
-    background-color:#ffffff;
+
+.continue-btn {
+    background-color: #ffffff;
     color: #000000;
     width: 130px;
     height: 44px;
@@ -249,33 +281,37 @@
     cursor: pointer;
     margin-left: 40px;
 }
+
 /* food */
-.food-cb-title{
+.food-cb-title {
     font-size: 34px;
     font-weight: 700;
     color: #FC8A06;
 }
-.food-corn-title{
+
+.food-corn-title {
     font-size: 34px;
     font-weight: 700;
     color: #FC8A06;
 }
-.cb-box{
+
+.cb-box {
     width: 400px;
-    height:464px;
+    height: 464px;
     background-color: #ffffff;
     border-radius: 16px;
     padding: 20px;
 }
-.box-img{
+
+.box-img {
     position: relative;
 }
 
-.box-img img{
+.box-img img {
     z-index: 1;
 }
 
-.plus{
+.plus {
     position: absolute;
     width: 80px;
     height: 100px;
@@ -287,7 +323,8 @@
     justify-content: center;
     align-items: center;
 }
-.plus i{
+
+.plus i {
     font-size: 40px;
     padding: 11px;
     cursor: pointer;
@@ -297,40 +334,47 @@
     color: #ffffff;
     background-color: #000000;
 }
-.cb-content{
+
+.cb-content {
     margin: 14px 0 0 0;
 }
-.cb-descript h2{
-    font-size:20px ;
+
+.cb-descript h2 {
+    font-size: 20px;
     font-weight: bold;
     color: #000;
     line-height: 30px;
 }
+
 .cb-price {
     font-size: 20px;
     color: #EB2719;
     line-height: 30px;
     font-weight: bold;
 }
+
 .corn-container {
     margin-top: 14px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
-.corn-box{
+
+.corn-box {
     width: 400px;
     height: 245px;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 16px;
     display: flex;
-    justify-content: space-around ;
+    justify-content: space-around;
 }
-.corn-box-img{
+
+.corn-box-img {
     position: relative;
 }
-.corn-plus{
+
+.corn-plus {
     position: absolute;
     width: 60px;
     height: 60px;
@@ -342,7 +386,8 @@
     justify-content: center;
     align-items: center;
 }
-.corn-plus i{
+
+.corn-plus i {
     font-size: 20px;
     padding: 11px;
     cursor: pointer;
@@ -352,8 +397,36 @@
     color: #ffffff;
     background-color: #000000;
 }
-.corn-box-img img{
+
+.corn-box-img img {
     width: 173px;
     height: 179px ;
 }
 
+
+/* Thoigian */
+.thoigian_chieu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 60%;
+    margin: 0 auto;
+
+}
+
+.chonthoigian {
+    color: #ffffff;
+    height: 40px;
+    background-color: rgba(5, 11, 23, 0.7);
+    border: 1px solid #2b4151;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+    flex: 0 0 calc(20% - 10px);
+    margin: 0 0 20px 0;
+    font-size: 15px;
+}
+
+.chonthoigian:hover {
+    cursor: pointer;
+    background-color: #2b4151;
+}

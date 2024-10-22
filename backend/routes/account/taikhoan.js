@@ -60,8 +60,7 @@ router.get('/lonhon1000', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
-
+// tìm tài khoản theo id
 router.get('/:id', async (req, res, next) => {
   try {
     const taikhoan = await Taikhoan.findById(req.params.id);
@@ -114,7 +113,7 @@ router.post('/add', upload.single('img'), async (req, res) => {
   }
 });
 
-// Update account by ID
+// cập nhật tài khoản
 router.put('/:id', async (req, res) => {
   try {
     const taikhoan = await Taikhoan.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -127,7 +126,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete account by ID
+// xóa tài khoản theo id 
 router.delete('/:id', async (req, res) => {
   try {
     const taikhoan = await Taikhoan.findByIdAndDelete(req.params.id);
@@ -140,7 +139,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// Search account by name
+// tìm kiếm tài khoản theo tên
 router.get('/search/:name', async (req, res) => {
   try {
     const taikhoan = await Taikhoan.find({ tentaikhoan: new RegExp(req.params.name, 'i') });
