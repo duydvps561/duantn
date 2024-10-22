@@ -4,6 +4,7 @@ const multer = require('multer'); // Import multer
 const Taikhoan = require('../../models/account/taikhoan.js'); // Import the Taikhoan model
 const Hoadon = require('../../models/food/hoadon.js'); // Mô hình hóa đơn
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 
 const storage = multer.diskStorage({
