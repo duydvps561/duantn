@@ -32,11 +32,20 @@ router.post('/them-ghe', async (req, res) => {
         return res.status(400).json({ message: 'Thông tin ghế không hợp lệ' });
       }
 
-      // Tạo ghế mới
+      // Kiểm tra xem ghế ở hàng đó đã có chưa
+      const existingSeats = await Ghe.find({ phongchieu_id, hang });
+      
+      // Tìm số cột lớn nhất đã có trong hàng
+      let maxCot = existingSeats.reduce((max, ghe) => Math.max(max, parseInt(ghe.cot)), 0);
+
+      // Nếu số cột đã tồn tại (maxCot), tăng tiếp số cột từ đó
+      let newCot = parseInt(cot) + maxCot;
+
+      // Tạo ghế mới với cột tăng dần
       const ghe = new Ghe({
         phongchieu_id,
         hang,
-        cot,
+        cot: newCot,
         loaighe_id: loaiGheId
       });
       gheMoi.push(ghe);
