@@ -29,18 +29,15 @@ router.get('/:id', async (req, res) => {
 
 router.post('/add', async (req, res) => {
   try {
-    const { loaiphong_id, tenphong } = req.body;
+    const { loaiphong, trangthai } = req.body;
 
-    if (!loaiphong_id || !tenphong) {
-      return res.status(400).send({ error: 'loaiphong_id và tenphong là bắt buộc.' });
+    // Check if both fields are provided
+    if (!loaiphong || !trangthai) {
+      return res.status(400).send({ error: 'loaiphong và trangthai là bắt buộc.' });
     }
 
-    const loaiphong = await Loaiphong.findById(loaiphong_id);
-    if (!loaiphong) {
-      return res.status(404).send({ error: 'Loại phòng không tồn tại' });
-    }
-
-    const phongchieu = new Phongchieu({ loaiphong_id, tenphong });
+    // Save the new record
+    const phongchieu = new Loaiphong({ loaiphong, trangthai });
     const result = await phongchieu.save();
     
     res.status(201).send(result);
@@ -49,25 +46,31 @@ router.post('/add', async (req, res) => {
   }
 });
 
+
 // Cập nhật loại phòng theo ID
 router.put('/update/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { loaiphong, trangthai } = req.body;
 
+    // Find the existing Loaiphong by ID
     const loaiphongData = await Loaiphong.findById(id);
     if (!loaiphongData) {
       return res.status(404).send({ error: 'Loại phòng không tồn tại' });
     }
 
+    // Update loaiphong and trangthai fields if provided
     loaiphongData.loaiphong = loaiphong || loaiphongData.loaiphong;
+    loaiphongData.trangthai = trangthai || loaiphongData.trangthai;
 
+    // Save the updated Loaiphong data
     const updatedLoaiphong = await loaiphongData.save();
     res.status(200).send(updatedLoaiphong);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
+
 
 // Xóa loại phòng theo ID
 router.delete('/delete/:id', async (req, res) => {

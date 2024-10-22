@@ -118,11 +118,23 @@ const ThemGhe = () => {
         <h1>Thêm Ghế</h1>
 
         <div className="row">
-          <div className="form-group col-6 col-md-3">
+        <div className="form-group col-6 col-md-2">
+            <label>Phòng Chiếu:</label>
+            <select className="form-control" value={phongchieuId} onChange={(e) => setPhongchieuId(e.target.value)}>
+              <option value="">Chọn phòng chiếu</option>
+              {phongchieuList.map(phongChieu => (
+                <option key={phongChieu._id} value={phongChieu._id}>
+                  {phongChieu.tenphong}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group col-6 col-md-2">
             <label>Tên Hàng Ghế:</label>
             <input
               type="text"
-              value={tenHang.join(", ")} // Hiển thị tên hàng ghế
+              value={tenHang.join(", ")}
               onChange={(e) => setTenHang(e.target.value.split(",").map(item => item.trim()))}
               className="form-control"
               placeholder="Nhập tên hàng ghế, cách nhau bằng dấu phẩy"
@@ -152,43 +164,23 @@ const ThemGhe = () => {
           </div>
 
           <div className="form-group col-6 col-md-2">
-            <label>Chọn Loại Ghế:</label>
-            <select
-              value={selectedLoaiGhe}
-              onChange={handleLoaiGheChange}
-              className="form-control"
-            >
+            <label>Loại Ghế:</label>
+            <select className="form-control" value={selectedLoaiGhe} onChange={handleLoaiGheChange}>
               <option value="">Chọn loại ghế</option>
-              {loaigheList.map((loai) => (
-                <option key={loai._id} value={loai._id}>
-                  {loai.loaighe}
+              {loaigheList.map(loaiGhe => (
+                <option key={loaiGhe._id} value={loaiGhe._id}>
+                  {loaiGhe.loaighe}
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        <div className="form-group">
-          <label>Chọn Phòng Chiếu:</label>
-          <select
-            value={phongchieuId}
-            onChange={(e) => setPhongchieuId(e.target.value)}
-            className="form-control"
-          >
-            <option value="">Chọn phòng chiếu</option>
-            {phongchieuList.map((phong) => (
-              <option key={phong._id} value={phong._id}>
-                {phong.tenphong}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="seats-container">
+        <div className="seat-map">
           {renderSeats()}
         </div>
 
-        <button onClick={handleSubmit} className="btn btn-primary">Thêm Ghế</button>
+        <button className="btn btn-primary mt-3" onClick={handleSubmit}>Thêm Ghế</button>
       </div>
     </Layout>
   );
