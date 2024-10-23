@@ -29,7 +29,7 @@ export default function lichchieu() {
       
       <div className="main d-flex col-12">
           {listPhim.map((phim, index) => (
-              <div className="card mb-3 bg-dark" style={{ maxWidth: "550px", height: "300px" }} key={index}>
+              <div className="card mb-3 bg-dark" style={{ minWidth: "550px", height: "300px" }} key={index}>
                   <div className="row g-0">
                       <div className="col-md-5">
                           <img src={phim.img} className="img-fluid rounded-start" style={{ maxWidth: "230px", height: "300px" }} alt={phim.title} />
