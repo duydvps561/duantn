@@ -1,7 +1,28 @@
 var express = require('express');
 var router = express.Router();
+const multer = require('multer');
 const Phim = require('../../models/movie/phim');
+const path = require('path');
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../../public/img/phim')); 
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);  
+  }
+});
+function checkFileUpload(req, file, cb) {
+  const fileTypes = /\.(jpg|jpeg|png|gif)$/;
+  if (!file.originalname.match(fileTypes)) {
+    return cb(new Error('Bạn chỉ được upload file ảnh'));
+  }
+  cb(null, true);
+}
+const upload = multer({ 
+  storage: storage, 
+  fileFilter: checkFileUpload 
+});
 
 // lấy ra tất cả các phim 
 router.get('/', async function(req, res, next) {
@@ -30,13 +51,42 @@ router.get('/', async function(req, res, next) {
     next(err);
   }
 });
-router.post('/add', async (req, res) => {
+
+// upload phim 
+router.post('/add', upload.single('img'), async (req, res) => {
   try {
-    const phim = new Phim(req.body);
-    const result = await phim.save();
+    const {
+      tenphim,
+      theloai,
+      ngonngu,
+      diemdanhgiavt,
+      diemdanhgiamot,
+      ngaykhoichieu,
+      ngayhetHan,
+      diemdanhgia,
+      noidung,
+    } = req.body; // Sử dụng req thay vì rep
+
+    const img = req.file ? req.file.originalname : null; // Sử dụng req ở đây nữa
+
+    const newpgim = {
+      tenphim,
+      theloai,
+      ngonngu,
+      diemdanhgiavt,
+      diemdanhgiamot,
+      ngaykhoichieu,
+      ngayhetHan,
+      diemdanhgia,
+      noidung,
+      img,
+    };
+
+    const result = await Phim.create(newpgim);
     res.status(201).send(result);
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    console.error(err); // Ghi lại lỗi để tiện kiểm tra
+    res.status(500).send('Lỗi upload'); // Có thể cung cấp thông điệp lỗi rõ ràng hơn nếu cần
   }
 });
 //xóa phim

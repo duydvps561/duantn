@@ -1,27 +1,103 @@
 "use client"; 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
 import styles from './QuanLyPhong.module.css'; // CSS module for styling
 import '../../globals.css'; // Import global styles
 
 const QuanLyPhongPage = () => {
-  // Mock data for the room list
-  const rooms = [
-    { id: 1, name: 'Phòng 1', status: 'Đang Hoạt Động' },
-    { id: 2, name: 'Phòng 2', status: 'Ngừng Hoạt Động' },
-    { id: 3, name: 'Phòng 3', status: 'Đang Hoạt Động' },
-    { id: 4, name: 'Phòng 4', status: 'Ngừng Hoạt Động' },
-    // Thêm phòng khác nếu cần
-  ];
+  const [rooms, setRooms] = useState([]); // State for room list
+  const [roomName, setRoomName] = useState(''); // State for room name input
+  const [status, setStatus] = useState('1'); // Default status is "1"
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
+
+  // Fetch room list
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+
+  const fetchRooms = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/loaiphong');
+      setRooms(response.data);
+    } catch (error) {
+      console.error('Error fetching rooms:', error);
+    }
+  };
+
+  // Add new room
+  const addRoom = async () => {
+    try {
+      await axios.post('http://localhost:3001/loaiphong/add', { loaiphong: roomName, trangthai: status });
+      fetchRooms(); // Refresh the list
+      setRoomName(''); // Clear the input
+      setStatus('1'); // Reset status to default
+    } catch (error) {
+      console.error('Error adding room:', error);
+    }
+  };
+
+  // Update room
+  const updateRoom = async (id) => {
+    try {
+      await axios.put(`http://localhost:3001/loaiphong/update/${id}`, { loaiphong: roomName, trangthai: status });
+      fetchRooms(); // Refresh the list
+      setRoomName(''); // Clear the input
+      setStatus('1'); // Reset status to default
+      setIsEditing(false);
+      setEditId(null);
+    } catch (error) {
+      console.error('Error updating room:', error);
+    }
+  };
+
+  // Edit handler
+  const handleEdit = (id, currentName, currentStatus) => {
+    setRoomName(currentName);
+    setStatus(currentStatus);
+    setIsEditing(true);
+    setEditId(id);
+  };
+
+  // Delete room
+  const deleteRoom = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/loaiphong/delete/${id}`);
+      fetchRooms(); // Refresh the list
+    } catch (error) {
+      console.error('Error deleting room:', error);
+    }
+  };
 
   return (
     <Layout>
       <h1>Quản Lý Phòng Phim</h1>
       <p>Đây là trang quản lý phòng phim.</p>
 
-      {/* Nút Thêm Phòng */}
-      <div className={styles.addRoomButtonContainer}>
-        <button className={styles.addRoomButton}>Thêm Phòng</button>
+      {/* Form to Add or Edit Room */}
+      <div className={styles.formContainer}>
+        <input
+          type="text"
+          value={roomName}
+          onChange={(e) => setRoomName(e.target.value)}
+          placeholder="Nhập tên phòng"
+          className={styles.inputField}
+        />
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className={styles.selectField}
+        >
+          <option value="1">Đang Hoạt Động</option>
+          <option value="0">Ngừng Hoạt Động</option>
+        </select>
+        <button 
+          onClick={isEditing ? () => updateRoom(editId) : addRoom} 
+          className={styles.submitButton}
+        >
+          {isEditing ? 'Cập Nhật' : 'Thêm Phòng'}
+        </button>
       </div>
 
       {/* Tables Section */}
@@ -39,13 +115,23 @@ const QuanLyPhongPage = () => {
             </thead>
             <tbody>
               {rooms.map((room, index) => (
-                <tr key={room.id}>
+                <tr key={room._id}>
                   <td>{index + 1}</td>
-                  <td>{room.name}</td>
-                  <td>{room.status}</td>
+                  <td>{room.loaiphong}</td>
+                  <td>{room.trangthai === '1' ? 'Đang Hoạt Động' : 'Ngừng Hoạt Động'}</td>
                   <td>
-                    <button className={styles.editButton}>Sửa</button>
-                    <button className={styles.deleteButton}>Xóa</button>
+                    <button 
+                      className={styles.editButton} 
+                      onClick={() => handleEdit(room._id, room.loaiphong, room.trangthai)}
+                    >
+                      Sửa
+                    </button>
+                    <button 
+                      className={styles.deleteButton} 
+                      onClick={() => deleteRoom(room._id)}
+                    >
+                      Xóa
+                    </button>
                   </td>
                 </tr>
               ))}
