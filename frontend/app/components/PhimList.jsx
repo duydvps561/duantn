@@ -27,16 +27,15 @@ export default function PhimList() {
             {phimList.map((phim) => {
                 return (
                     <>
-
                         <div className="col-md-3  mt-3">
                             <div className="custom-shadow cursor-pointer ">
                                 <Link href={`filmdetail/${phim._id}`} style={{ textDecoration: "none" }}>
                                     <div className="box-product ">
-                                        <img src="/img/0017840_0 1-1.png" alt="" />
+                                        <img src={phim.} alt="" />
                                     </div>
                                     <div className="text-product">
                                         <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
-                                            <p style={{ color: "#363e4e" }}>Kinh di</p>
+                                            <p style={{ color: "#363e4e" }}>{phim.theloai}</p>
                                             <p style={{ color: "#363e4e" }}>{phim.ngayhieuluc}</p>
                                         </div>
                                         <p className="mt-2 text-sm text-xl fw-bold text-light">{phim.tenphim}</p>
