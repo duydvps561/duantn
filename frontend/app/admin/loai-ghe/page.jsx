@@ -21,7 +21,7 @@ const QuanLyLoaiGhePage = () => {
 
   const fetchSeatTypes = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/loaighe");
+      const response = await axios.get("http://localhost:3000/loaighe");
       setSeatTypes(response.data);
     } catch (error) {
       console.error("Failed to fetch seat types:", error);
@@ -47,7 +47,7 @@ const QuanLyLoaiGhePage = () => {
 
   const updateSeatType = async (id) => {
     try {
-      await axios.put(`http://localhost:3001/loaighe/update/${id}`, { 
+      await axios.put(`http://localhost:3000/loaighe/update/${id}`, { 
         loaighe: seatTypeName,
         mau: seatTypeColor // Add color field
       });
@@ -70,7 +70,7 @@ const QuanLyLoaiGhePage = () => {
 
   const deleteSeatType = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/loaighe/delete/${id}`);
+      await axios.delete(`http://localhost:3000/loaighe/delete/${id}`);
       fetchSeatTypes();
     } catch (error) {
       console.error("Error deleting seat type:", error);
@@ -150,9 +150,6 @@ const QuanLyLoaiGhePage = () => {
     {isEditing ? "Cập Nhật" : "Thêm Loại Ghế"}
   </button>
 </div>
-
-
-
       <div className={styles.tablesContainer}>
         <div className={styles.tableSection}>
           <h2 className={styles.tableTitle}>Danh Sách Loại Ghế</h2>
