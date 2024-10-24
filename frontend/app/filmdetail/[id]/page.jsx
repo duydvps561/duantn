@@ -10,13 +10,13 @@ export default function filmdetail({ params }) {
   const [cachieu, setCaChieu] = useState([]);
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
-  const [timeleft,setTimeLeft] = useState(10*60);
+  const [timeleft, setTimeLeft] = useState(10 * 60);
   useEffect(() => {
     if (timeleft > 0) {
       const timer = setTimeout(() => {
-        setTimeLeft(prevTime => prevTime - 1); 
+        setTimeLeft(prevTime => prevTime - 1);
       }, 1000);
-  
+
 
       return () => clearTimeout(timer);
     } else {
@@ -24,12 +24,13 @@ export default function filmdetail({ params }) {
       setShow(false);
     }
   }, [timeleft]);
-  
+
   // const [ghetheoPhong, setGheTheoPhong] = useState([]);
   const [phongchieuid, setPhongChieuid] = useState([]);
   const [phimCachieu, setPhimCachieu] = useState([]);
   const [phongchieu, setPhongChieu] = useState([]);
-  const [phongchieudata, setPhongChieudata] = useState([]);
+  const [phongchieudata, setPhongChieuData] = useState([]);
+  const [ngaychieuSelected, setNgayChieuSelected] = useState('');
   const [giochieu, setgiochieu] = useState([]);
   const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
@@ -118,23 +119,13 @@ export default function filmdetail({ params }) {
   }, [id]);
   useEffect(() => {
     if (id && cachieu && Array.isArray(cachieu)) {
-      const foundPhim = cachieu.find((item) => item.phim_id === id);
+      const foundPhim = cachieu.filter((item) => item.phim_id === id);
       setPhimCachieu(foundPhim || null);
     } else {
       setPhimCachieu(null);
     }
 
   }, [id, cachieu]);
-  useEffect(() => {
-    if (phimCachieu) {
-      setPhongChieuid(phimCachieu.phongchieu_id);
-    }
-  }, [phimCachieu]);
-  useEffect(() => {
-    const phongchieudata = phongchieu.find((item) => item._id === phongchieuid);
-    setPhongChieudata(phongchieudata);
-  }, [phongchieu]);
-
   useEffect(() => {
     const gheMap = {};
     gheData.forEach((ghe) => {
@@ -144,9 +135,8 @@ export default function filmdetail({ params }) {
       }
       gheMap[phongchieuid].push(ghe);
     });
-
-    // setGheTheoPhong(gheMap);
   }, [gheData]);
+  console.log(phimCachieu)
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -180,27 +170,48 @@ export default function filmdetail({ params }) {
       </section>
       <div className="date-order">
         <div className="date text-light">
-          {phimCachieu ? (
-
-            <div className="text ms-3 mt-3">
-              <p>Th {new Date(phimCachieu.ngaychieu).getMonth() + 1}</p> {/* Lấy tháng (0-11), cộng thêm 1 */}
-              <h2>{new Date(phimCachieu.ngaychieu).getDate()}</h2> {/* Lấy ngày (1-31) */}
-              <p>{['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'][new Date(phimCachieu.ngaychieu).getDay()]}</p> {/* Lấy thứ (0-6) */}
-            </div>
+          {phimCachieu && phimCachieu.length > 0 ? (
+            phimCachieu.map(item => (
+              <div className="text ms-3 mt-3" key={item._id} onClick={() => setNgayChieuSelected(item.ngaychieu)}>
+                <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
+                <h2>{new Date(item.ngaychieu).getDate()}</h2>
+                <p>{['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'][new Date(item.ngaychieu).getDay()]}</p>
+              </div>
+            ))
           ) : (
             <p>Không tìm thấy thông tin phim.</p>
           )}
+
         </div>
         <div className="note">
           <p>Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h và Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.</p>
           <div className='thoigian_chieu'>
-            {phimCachieu ? (
-              <button className='chonthoigian' type='button' onClick={() => { setShow(true); setgiochieu(phimCachieu.giobatdau) }}>
-                {phimCachieu.giobatdau}
-              </button>
+            {phimCachieu && phimCachieu.length > 0 ? (
+              phimCachieu.map((item) => {
+                const phongdata = phongchieu.find(phong => phong._id ===  item.phongchieu_id);
+                if (ngaychieuSelected === item.ngaychieu) {
+                  return (
+                    <button
+                      key={item._id}
+                      className='chonthoigian'
+                      type='button'
+                      onClick={() => {
+                        setShow(true);
+                        setgiochieu(item.giobatdau);
+                        setPhongChieuData(phongdata)
+                      }}
+                    >
+                      {item.giobatdau}
+                    </button>
+                  );
+                }
+                return null;
+              })
             ) : (
               <p>Chưa có thông tin phim.</p>
             )}
+
+
           </div>
         </div>
       </div>
@@ -219,7 +230,7 @@ export default function filmdetail({ params }) {
               <div className="siting-order" >
                 <table className="siting-table">
                   <tbody>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(14, 1fr)' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)' }}>
                       {gheData.map((ghe) => {
                         const seat = `${ghe.hang}${ghe.cot}`;
                         const isSelected = seatSelected.includes(seat);
@@ -236,7 +247,7 @@ export default function filmdetail({ params }) {
                           <tr key={ghe._id}>
                             <td
                               style={style}
-                              className="text-center" 
+                              className="text-center"
                               onClick={() => {
                                 if (isSelected) {
                                   setSeatSelected(seatSelected.filter(selected => selected !== seat));
@@ -250,8 +261,6 @@ export default function filmdetail({ params }) {
                           </tr>
                         );
                       })}
-
-
                     </div>
                   </tbody>
                 </table>
@@ -284,7 +293,7 @@ export default function filmdetail({ params }) {
                   <p className="seat-total-price">Tổng tiền: <span>0đ</span></p>
                 </div>
                 <div className="seat-btn">
-                  <button className="back-btn" onClick={() => { setShow(false);setTimeLeft(10*60) }}>Quay lại</button>
+                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60) }}>Quay lại</button>
                   <button className="continue-btn" onClick={() => { setFoodShow(true) }}>Tiếp tục</button>
                 </div>
               </div>
