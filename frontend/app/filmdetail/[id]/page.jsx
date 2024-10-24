@@ -2,7 +2,9 @@
 import { useEffect, useState } from 'react';
 import './fimdetail.css'
 import { useRef } from 'react';
-import { useRouter } from 'next/router';
+// import ModalPayMoment from '../thanhtoan/page';
+
+// import { useRouter } from 'next/router';
 export default function filmdetail({ params }) {
   const id = params.id;
   const [show, setShow] = useState(false);
@@ -49,6 +51,15 @@ export default function filmdetail({ params }) {
       setSeatSelected([...seatSelected, seat]);
     }
   };
+  const [showTrailer, setShowTrailer] = useState(false);
+  const toggleTrailer = () => {
+    setShowTrailer(!showTrailer);
+  };
+  const [showPay, setShowPay] = useState(false);
+  const handleOpenPay = () => setShowPay(true);
+  const handleClosePay = () => setShowPay(false);
+
+
   const fetchPhimChitiet = async () => {
     try {
       const response = await fetch(`http://localhost:3000/phim/${id}`);
@@ -162,11 +173,38 @@ export default function filmdetail({ params }) {
               <p className="card-text text-danger">Kiểm duyệt: T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)</p>
               <div className="view-detail d-flex">
                 <p className="card-text mt-2">Chi tiet noi dung</p>
-                <button className="btn ms-3 rounded-pill bg-dark text-warning border border-warning">Xem Trailer</button>
+                <button onClick={toggleTrailer} className="btn ms-3 rounded-pill bg-dark text-warning border border-warning">Xem Trailer</button>
               </div>
             </div>
           </div>
         </div>
+
+      {showTrailer && (
+        <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Trailer: THE CROW</h5>
+                <button type="button" className="btn-close" onClick={toggleTrailer}></button>
+              </div>
+              <div className="modal-body">
+                <div className="embed-responsive embed-responsive-16by9">
+                  <iframe
+                    className="embed-responsive-item"
+                    width="100%"
+                    height="400px"
+                    src="https://youtu.be/djSKp_pwmOA?si=t2Tg7PcbZBzjzVNq&t=25"
+                    title="The Crow Trailer"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       </section>
       <div className="date-order">
         <div className="date text-light">
@@ -210,8 +248,6 @@ export default function filmdetail({ params }) {
             ) : (
               <p>Chưa có thông tin phim.</p>
             )}
-
-
           </div>
         </div>
       </div>
@@ -486,7 +522,7 @@ export default function filmdetail({ params }) {
                 </div>
                 <div className="container d-flex justify-content-between mt-2 mb-2">
                   <p className="fs-2 fw-bold text-white">Tong tien: <span>197.000d</span></p>
-                  <button className="btn btn-danger">Thanh toan</button>
+                  <button  className="btn btn-danger">Thanh toan</button>
                 </div>
               </section>
             </>

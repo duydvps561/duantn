@@ -10,8 +10,6 @@ router.get('/', async function(req, res, next) {
     next(err);
   }
 });
-
-// vừa hiện tất cả các cachieu của phim cụ thể vừa yêu cầu ngày cụ thể
 router.get('/phim/:phimId/ngay/:ngay', async (req, res, next) => {
   try {
     const phimId = req.params.phimId;
@@ -22,9 +20,6 @@ router.get('/phim/:phimId/ngay/:ngay', async (req, res, next) => {
     next(err);
   }
 });
-
-
- 
 router.post('/add', async (req, res) => {
   try {
     const cachieu = new Cachieu(req.body);

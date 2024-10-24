@@ -37,43 +37,36 @@ router.get('/:id', async (req, res) => {
         res.status(500).send({ error: err.message });
       }
     });
-
 // Add Gia Ghe
 router.post('/add', async (req, res) => {
   try {
-    const { loaighe_id, giaghe, giobatdau, gioketthuc, trangthai } = req.body;
-
+    const {
+      loaighe_id,
+      giaghe,
+      giobatdau,
+      gioketthuc,
+      trangthai,
+    } = req.body; // Sử dụng req thay vì rep
     const loaighe = await Loaighe.findById(loaighe_id);
     if (!loaighe) {
       return res.status(404).send({ error: 'Loại ghế không tồn tại' });
     }
-
     if (!giaghe || giaghe <= 0) {
       return res.status(400).send({ error: 'Giá ghế phải lớn hơn 0' });
     }
-
-    // Chuyển đổi giờ (chuỗi) sang phút (số)
-    const [startHour, startMinute] = giobatdau.split(':').map(Number);
-    const [endHour, endMinute] = gioketthuc.split(':').map(Number);
-    
-    const startTotalMinutes = startHour * 60 + startMinute;
-    const endTotalMinutes = endHour * 60 + endMinute;
-
     const newGiaghe = new Giaghe({
       loaighe_id,
       giaghe,
-      giobatdau: startTotalMinutes,
-      gioketthuc: endTotalMinutes,
+      giobatdau,
+      gioketthuc,
       trangthai: trangthai || 1
     });
-
     const result = await newGiaghe.save();
     res.status(201).send(result);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
-
 // Update Gia Ghe
 router.put('/update/:id', async (req, res) => {
   try {
