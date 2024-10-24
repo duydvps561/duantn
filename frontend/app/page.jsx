@@ -35,7 +35,7 @@ export default function Home() {
                 <div className="custom-shadow cursor-pointer">
                 <Link href={`filmdetail/${movie._id}`} style={{ textDecoration: "none" }}></Link>
                     <div className="box-product">
-                        <img src={movie.img} alt={movie.tenphim} />
+                        <img src={`/img/${movie.img}`} alt={movie.tenphim} />
                     </div>
                     <div className="text-product">
                         <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
