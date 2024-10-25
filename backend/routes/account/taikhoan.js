@@ -26,7 +26,6 @@ const upload = multer({
   storage: storage, 
   fileFilter: checkFileUpload 
 });
-
 router.get('/', async (req, res, next) => {
   try {
     const taikhoan = await Taikhoan.find();

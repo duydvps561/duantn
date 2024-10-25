@@ -99,7 +99,6 @@ router.post('/add', upload.single('img'), async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
 //update phim
  router.put('/:id', async (req, res) => {
   try {
