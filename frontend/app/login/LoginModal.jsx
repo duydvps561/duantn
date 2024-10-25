@@ -10,22 +10,22 @@ export default function LoginModal({ show, handleClose }) {
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
+      matkhau: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Email không hợp lệ").required("Bắt buộc"),
-      password: Yup.string().required("Bắt buộc"),
+      matkhau: Yup.string().required("Bắt buộc"),
     }),
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
-        const res = await fetch("http://localhost:3000/login", {
+        const res = await fetch("http://localhost:3000/login/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             email: values.email,
-            password: values.password,
+            matkhau: values.matkhau, // Chỉnh sửa trường này cho phù hợp với API
           }),
         });
 
@@ -37,6 +37,8 @@ export default function LoginModal({ show, handleClose }) {
         // Lưu token vào cookie
         const data = await res.json();
         document.cookie = `token=${data.token}; path=/; max-age=${60 * 60}`;
+
+        alert("Đăng nhập thành công!");
 
         // Chuyển trang theo role
         const token = data.token;
@@ -79,21 +81,21 @@ export default function LoginModal({ show, handleClose }) {
             <div className="error">{formik.errors.email}</div>
           ) : null}
 
-          <label className="key" htmlFor="password">
+          <label className="key" htmlFor="matkhau">
             Mật khẩu:
           </label>
           <input
-            type="password"
-            id="password"
-            name="password"
+            type="matkhau"
+            id="matkhau"
+            name="matkhau"
             required
             placeholder="Mật khẩu...."
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.password}
+            value={formik.values.matkhau}
           />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="error">{formik.errors.password}</div>
+          {formik.touched.matkhau && formik.errors.matkhau ? (
+            <div className="error">{formik.errors.matkhau}</div>
           ) : null}
 
           <p className="upPW">
