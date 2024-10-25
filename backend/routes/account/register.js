@@ -16,16 +16,13 @@ router.post('/register', async (req, res, next) => {
         if (!email || !matkhau) {
             return res.status(400).json({ message: "Email và mật khẩu là bắt buộc." });
         }
-
         // Kiểm tra xem email đã tồn tại chưa
         const existingUser = await Taikhoan.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "Email đã tồn tại" });
         }
-
         // Mã hóa mật khẩu
         const hashPassword = await bcrypt.hash(matkhau, 10);
-
         // Tạo đối tượng người dùng mới
         const newUser = new Taikhoan({ 
             tentaikhoan, 
