@@ -1,10 +1,11 @@
-"use client";
+import { useRouter } from "next/router";
+("use client");
 import { useEffect, useState } from "react";
 import "./fimdetail.css";
 import { useRef } from "react";
-import ModalPayMoment from "../../thanhtoan/page";
+// import ModalPayMoment from '../thanhtoan/page';
 
-import { useRouter } from "next/router";
+// import { useRouter } from 'next/router';
 export default function filmdetail({ params }) {
   const id = params.id;
   const [show, setShow] = useState(false);

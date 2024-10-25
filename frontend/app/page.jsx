@@ -32,6 +32,7 @@ export default function Home() {
       });
   }, []);
 
+<<<<<<< HEAD
   const renderMovieCards = (movies) => {
     return movies.map((movie) => (
       <div className="col-md-3 mt-3">
@@ -42,6 +43,24 @@ export default function Home() {
           >
             <div className="box-product">
               <img src="img/0017840_0 1-3.png" alt={movie.tenphim} />
+=======
+    const renderMovieCards = (movies) => {
+        return movies.map(movie => (
+            <div className="col-md-3 mt-3">
+                <div className="custom-shadow cursor-pointer">
+                <Link href={`filmdetail/${movie._id}`} style={{ textDecoration: "none" }}></Link>
+                    <div className="box-product">
+                        <img src={`/img/${movie.img}`} alt={movie.tenphim} />
+                    </div>
+                    <div className="text-product">
+                        <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
+                            <p>{movie.thoiluong}</p>
+                            <p>{movie.ngayhieuluc}</p>
+                        </div>
+                        <p className="mt-2 text-sm text-xl fw-bold text-light">{movie.tenphim}</p>
+                    </div>
+                </div>
+>>>>>>> 65c5fce7059ddbaad27ca2d29a5fe96777d18ae1
             </div>
             <div className="text-product">
               <div className="d-flex flex flex-wrap items-center gap-xl-5 text-[#5D6A81] text-sm mt-3">
