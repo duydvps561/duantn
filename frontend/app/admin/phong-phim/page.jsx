@@ -19,7 +19,7 @@ const QuanLyPhongPage = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/loaiphong');
+      const response = await axios.get('http://localhost:3000/loaiphong');
       setRooms(response.data);
     } catch (error) {
       console.error('Error fetching rooms:', error);
@@ -29,7 +29,7 @@ const QuanLyPhongPage = () => {
   // Add new room
   const addRoom = async () => {
     try {
-      await axios.post('http://localhost:3001/loaiphong/add', { loaiphong: roomName, trangthai: status });
+      await axios.post('http://localhost:3000/loaiphong/add', { loaiphong: roomName, trangthai: status });
       fetchRooms(); // Refresh the list
       setRoomName(''); // Clear the input
       setStatus('1'); // Reset status to default
@@ -41,7 +41,7 @@ const QuanLyPhongPage = () => {
   // Update room
   const updateRoom = async (id) => {
     try {
-      await axios.put(`http://localhost:3001/loaiphong/update/${id}`, { loaiphong: roomName, trangthai: status });
+      await axios.put(`http://localhost:3000/loaiphong/update/${id}`, { loaiphong: roomName, trangthai: status });
       fetchRooms(); // Refresh the list
       setRoomName(''); // Clear the input
       setStatus('1'); // Reset status to default
@@ -63,7 +63,7 @@ const QuanLyPhongPage = () => {
   // Delete room
   const deleteRoom = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/loaiphong/delete/${id}`);
+      await axios.delete(`http://localhost:3000/loaiphong/delete/${id}`);
       fetchRooms(); // Refresh the list
     } catch (error) {
       console.error('Error deleting room:', error);

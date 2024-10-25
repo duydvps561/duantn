@@ -28,7 +28,7 @@ const QuanLyGiaGhePage = () => {
 
   const fetchSeatPrices = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/giaghe");
+      const response = await axios.get("http://localhost:3000/giaghe");
       setSeatPrices(response.data); // Set fetched data to state
     } catch (error) {
       console.error("Failed to fetch seat prices:", error);
@@ -40,7 +40,7 @@ const QuanLyGiaGhePage = () => {
 
   const fetchSeatTypes = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/loaighe");
+      const response = await axios.get("http://localhost:3000/loaighe");
       setSeatTypes(response.data); // Set fetched data to state
     } catch (error) {
       console.error("Failed to fetch seat types:", error);
@@ -51,7 +51,7 @@ const QuanLyGiaGhePage = () => {
   // Add new seat price
   const addSeatPrice = async () => {
     try {
-      await axios.post("http://localhost:3001/giaghe/add", selectedSeatPrice);
+      await axios.post("http://localhost:3000/giaghe/add", selectedSeatPrice);
       fetchSeatPrices(); // Refresh the list
       resetForm(); // Clear the input fields
     } catch (error) {
@@ -62,7 +62,7 @@ const QuanLyGiaGhePage = () => {
   // Update seat price
   const updateSeatPrice = async (id) => {
     try {
-      await axios.put(`http://localhost:3001/giaghe/update/${id}`, selectedSeatPrice);
+      await axios.put(`http://localhost:3000/giaghe/update/${id}`, selectedSeatPrice);
       fetchSeatPrices(); // Refresh the list
       resetForm(); // Clear the input fields
       setIsEditing(false);
@@ -82,7 +82,7 @@ const QuanLyGiaGhePage = () => {
   // Delete seat price
   const deleteSeatPrice = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/giaghe/delete/${id}`);
+      await axios.delete(`http://localhost:3000/giaghe/delete/${id}`);
       fetchSeatPrices(); // Refresh the list
     } catch (error) {
       console.error("Error deleting seat price:", error);
