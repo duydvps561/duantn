@@ -2,9 +2,8 @@
 import { useEffect, useState } from 'react';
 import './fimdetail.css'
 import { useRef } from 'react';
-// import ModalPayMoment from '../thanhtoan/page';
-
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+import Food from '@/app/components/food';
 export default function filmdetail({ params }) {
   const id = params.id;
   const [show, setShow] = useState(false);
@@ -27,7 +26,6 @@ export default function filmdetail({ params }) {
     }
   }, [timeleft]);
 
-  // const [ghetheoPhong, setGheTheoPhong] = useState([]);
   const [phongchieuid, setPhongChieuid] = useState([]);
   const [phimCachieu, setPhimCachieu] = useState([]);
   const [phongchieu, setPhongChieu] = useState([]);
@@ -36,6 +34,7 @@ export default function filmdetail({ params }) {
   const [giochieu, setgiochieu] = useState([]);
   const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
+  const [cartFood ,setCartFood] = useState([]);
   const rollRef = useRef();
   if (show) {
     setTimeout(() => {
@@ -44,22 +43,10 @@ export default function filmdetail({ params }) {
   }
   const minutes = Math.floor(timeleft / 60);
   const seconds = timeleft % 60;
-  const handleSeatClick = (seat) => {
-    if (seatSelected.includes(seat)) {
-      setSeatSelected(seatSelected.filter(s => s !== seat));
-    } else {
-      setSeatSelected([...seatSelected, seat]);
-    }
-  };
   const [showTrailer, setShowTrailer] = useState(false);
   const toggleTrailer = () => {
     setShowTrailer(!showTrailer);
   };
-  const [showPay, setShowPay] = useState(false);
-  const handleOpenPay = () => setShowPay(true);
-  const handleClosePay = () => setShowPay(false);
-
-
   const fetchPhimChitiet = async () => {
     try {
       const response = await fetch(`http://localhost:3000/phim/${id}`);
@@ -147,7 +134,6 @@ export default function filmdetail({ params }) {
       gheMap[phongchieuid].push(ghe);
     });
   }, [gheData]);
-  console.log(phimCachieu)
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -179,32 +165,32 @@ export default function filmdetail({ params }) {
           </div>
         </div>
 
-      {showTrailer && (
-        <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-          <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Trailer: THE CROW</h5>
-                <button type="button" className="btn-close" onClick={toggleTrailer}></button>
-              </div>
-              <div className="modal-body">
-                <div className="embed-responsive embed-responsive-16by9">
-                  <iframe
-                    className="embed-responsive-item"
-                    width="100%"
-                    height="400px"
-                    src="https://youtu.be/djSKp_pwmOA?si=t2Tg7PcbZBzjzVNq&t=25"
-                    title="The Crow Trailer"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
+        {showTrailer && (
+          <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+            <div className="modal-dialog modal-lg" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Trailer: THE CROW</h5>
+                  <button type="button" className="btn-close" onClick={toggleTrailer}></button>
+                </div>
+                <div className="modal-body">
+                  <div className="embed-responsive embed-responsive-16by9">
+                    <iframe
+                      className="embed-responsive-item"
+                      width="100%"
+                      height="400px"
+                      src="https://youtu.be/djSKp_pwmOA?si=t2Tg7PcbZBzjzVNq&t=25"
+                      title="The Crow Trailer"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       </section>
       <div className="date-order">
         <div className="date text-light">
@@ -226,7 +212,7 @@ export default function filmdetail({ params }) {
           <div className='thoigian_chieu'>
             {phimCachieu && phimCachieu.length > 0 ? (
               phimCachieu.map((item) => {
-                const phongdata = phongchieu.find(phong => phong._id ===  item.phongchieu_id);
+                const phongdata = phongchieu.find(phong => phong._id === item.phongchieu_id);
                 if (ngaychieuSelected === item.ngaychieu) {
                   return (
                     <button
@@ -337,194 +323,7 @@ export default function filmdetail({ params }) {
           </section>
           {foodshow && (
             <>
-              <section className="food-section">
-                <div className="container">
-                  <div className="food-cb">
-                    <p className="food-cb-title">Combo</p>
-                    <div className="d-flex gap-3 justify-content-center mb-2">
-                      <div className="cb-box">
-                        <div className='box-img'>
-                          <img src="../../img/bong-ngo-3.png" alt="hinh anh bong ngo nong hoi" />
-                          <div className="plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                        <div className="cb-content d-flex justify-content-around">
-                          <div className="cb-descript">
-                            <h2>Combo 1</h2>
-                            <p>Món 1, Món 2, Món 3</p>
-                          </div>
-                          <div className="cb-price">
-                            <p>Gia : <br /><span>99999</span></p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="cb-box">
-                        <div className='box-img'>
-                          <img src="../../img/bong-ngo-3.png" alt="hinh anh bong ngo nong hoi" />
-                          <div className="plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                        <div className="cb-content d-flex justify-content-around">
-                          <div className="cb-descript">
-                            <h2>Combo 1</h2>
-                            <p>Món 1, Món 2, Món 3</p>
-                          </div>
-                          <div className="cb-price">
-                            <p>Gia : <br /><span>99999</span></p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="cb-box">
-                        <div className='box-img'>
-                          <img src="../../img/bong-ngo-3.png" alt="hinh anh bong ngo nong hoi" />
-                          <div className="plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                        <div className="cb-content d-flex justify-content-around">
-                          <div className="cb-descript">
-                            <h2>Combo 1</h2>
-                            <p>Món 1, Món 2, Món 3</p>
-                          </div>
-                          <div className="cb-price">
-                            <p>Gia : <br /><span>99999</span></p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="food-corn">
-                    <p className="food-corn-title">Corn</p>
-                    <div className="corn-container d-flex gap-3 justify-content-center mb-2">
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="drink">
-                    <p className="food-corn-title">Drink</p>
-                    <div className="corn-container d-flex gap-3 justify-content-center mb-2">
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className='corn-content'>
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus"><i className="fa-solid fa-plus"></i></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="container d-flex justify-content-between mt-2 mb-2">
-                  <p className="fs-2 fw-bold text-white">Tong tien: <span>197.000d</span></p>
-                  <button  className="btn btn-danger">Thanh toan</button>
-                </div>
-              </section>
+              <Food/>
             </>
           )}
         </>
