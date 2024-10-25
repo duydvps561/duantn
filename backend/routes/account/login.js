@@ -1,10 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcryptjs");
-
-var express = require("express");
-var router = express.Router();
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { connect } = require("../../config/db.js");
 const Taikhoan = require("../../models/account/taikhoan.js"); // Import the Taikhoan model
