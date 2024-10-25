@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <Footer/>
-        <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/ea6209cd9f.js" crossorigin="anonymous"></script>
       </body>
     </html>
