@@ -9,7 +9,7 @@ export default function Tintuc() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3001/tintuc");
+        const res = await fetch("http://localhost:3000/tintuc");
         if (!res.ok) {
           throw new Error(`Could not fetch data: ${res.status}`);
         }

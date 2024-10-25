@@ -1,5 +1,5 @@
+"use client";
 import { useRouter } from "next/router";
-("use client");
 import { useEffect, useState } from "react";
 import "./fimdetail.css";
 import { useRef } from "react";
