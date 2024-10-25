@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react';
 import './fimdetail.css'
 import { useRef } from 'react';
 import Food from '@/app/components/food';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSeat } from '@/redux/slice/cartSlice';
 export default function filmdetail({ params }) {
+  const dispatch = useDispatch();
+  const {cart} = useSelector((state) => state.cart)
   const id = params.id;
   const [show, setShow] = useState(false);
   const [phimChitiet, setPhimChitiet] = useState([]);
@@ -30,7 +34,6 @@ export default function filmdetail({ params }) {
   const [giochieu, setgiochieu] = useState([]);
   const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
-  const [cartFood, setCartFood] = useState([]);
   const rollRef = useRef();
   if (show) {
     setTimeout(() => {
@@ -135,7 +138,9 @@ export default function filmdetail({ params }) {
       gheMap[phongchieuid].push(ghe);
     });
   }, [gheData]);
-  console.log(phimCachieu)
+useEffect(()=>{
+  console.log('gio hang cap nhap',cart);
+},[cart])
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -253,7 +258,7 @@ export default function filmdetail({ params }) {
                     </button>
                   );
                 }
-                return null; // Trả về null nếu không khớp với ngày chiếu đã chọn
+                return null;
               })
             ) : (
               <p>Chưa có thông tin phim.</p>
@@ -282,7 +287,7 @@ export default function filmdetail({ params }) {
               <div className="siting-order">
                 <table className="siting-table">
                   <tbody>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(14, 1fr)' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)' }}>
                       {gheData.map((ghe) => {
                         const seat = `${ghe.hang}${ghe.cot}`;
                         const isSelected = seatSelected.includes(seat);
@@ -301,22 +306,20 @@ export default function filmdetail({ params }) {
                           <tr key={ghe._id}>
                             <td
                               style={style}
-                              className="text-center"
+                              className={`text-center ${isSelected ? 'selected' : ''}`}
                               onClick={() => {
                                 if (isSelected) {
-                                  setSeatSelected(
-                                    seatSelected.filter(
-                                      (selected) => selected !== seat
-                                    )
-                                  );
+                                  setSeatSelected(seatSelected.filter(selected => selected !== seat));
                                 } else {
                                   setSeatSelected([...seatSelected, seat]);
                                 }
+                                dispatch(addSeat({ _id: ghe._id,seat }));
                               }}
                             >
                               {seat}
                             </td>
                           </tr>
+
                         );
                       })}
                     </div>
@@ -350,9 +353,9 @@ export default function filmdetail({ params }) {
                   <p className="seat-selected">
                     Ghế đã chọn: <span>{seatSelected.join(", ")}</span>
                   </p>
-                  <p className="seat-total-price">
+                  {/* <p className="seat-total-price">
                     Tổng tiền: <span>0đ</span>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="seat-btn">
                   <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60) }}>Quay lại</button>
