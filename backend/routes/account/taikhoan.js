@@ -4,7 +4,6 @@ const multer = require('multer'); // Import multer
 const Taikhoan = require('../../models/account/taikhoan.js'); // Import the Taikhoan model
 const Hoadon = require('../../models/food/hoadon.js'); // Mô hình hóa đơn
 const path = require('path');
-const bcrypt = require('bcrypt');
 
 
 const storage = multer.diskStorage({
@@ -71,7 +70,6 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
-
 // Add a new account
 router.post('/add', upload.single('img'), async (req, res) => {
   try {
@@ -104,14 +102,12 @@ router.post('/add', upload.single('img'), async (req, res) => {
       vaitro, 
       img 
     };
-
     const result = await Taikhoan.create(newtaikhoan);
     res.status(201).send(result);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
-
 // cập nhật tài khoản
 router.put('/:id', async (req, res) => {
   try {
