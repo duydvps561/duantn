@@ -41,5 +41,4 @@ router.post('/add', async (req, res, next) => {
         res.status(500).json({ message: console.log(req.body) });
     }
 });
-
 module.exports = router;

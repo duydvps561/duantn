@@ -91,7 +91,6 @@ export default function LoginModal({ show, handleClose }) {
                             <div>{formik.errors.tentaikhoan}</div>
                         ) : null}
                     </div>
-
                     <div>
                         <label>Giới tính</label>
                         <select
