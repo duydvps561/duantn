@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index');
 var ContactRouter = require('./routes/Contacts');
 //account
 var TaikhoanRouter = require('./routes/account/taikhoan');
+var RegisterRouter = require('./routes/account/register');
 //food
 var FoodRouter = require('./routes/food/food');
 var FoodOderRouter = require('./routes/food/foododer');
@@ -48,6 +49,7 @@ app.use('/', indexRouter);
 /////////////////
 //account
 app.use('/taikhoan', TaikhoanRouter);
+app.use('/register', RegisterRouter);
 //food
 app.use('/food', FoodRouter);
 app.use('/foododer', FoodOderRouter);
