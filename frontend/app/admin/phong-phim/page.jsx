@@ -12,7 +12,6 @@ const QuanLyPhongPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  // Fetch room list
   useEffect(() => {
     fetchRooms();
   }, []);
@@ -26,25 +25,24 @@ const QuanLyPhongPage = () => {
     }
   };
 
-  // Add new room
   const addRoom = async () => {
     try {
       await axios.post('http://localhost:3001/loaiphong/add', { loaiphong: roomName, trangthai: status });
-      fetchRooms(); // Refresh the list
-      setRoomName(''); // Clear the input
-      setStatus('1'); // Reset status to default
+      fetchRooms(); 
+      setRoomName(''); 
+      setStatus('1'); 
     } catch (error) {
       console.error('Error adding room:', error);
     }
   };
 
-  // Update room
+
   const updateRoom = async (id) => {
     try {
       await axios.put(`http://localhost:3001/loaiphong/update/${id}`, { loaiphong: roomName, trangthai: status });
-      fetchRooms(); // Refresh the list
-      setRoomName(''); // Clear the input
-      setStatus('1'); // Reset status to default
+      fetchRooms(); 
+      setRoomName(''); 
+      setStatus('1'); 
       setIsEditing(false);
       setEditId(null);
     } catch (error) {
@@ -52,7 +50,6 @@ const QuanLyPhongPage = () => {
     }
   };
 
-  // Edit handler
   const handleEdit = (id, currentName, currentStatus) => {
     setRoomName(currentName);
     setStatus(currentStatus);
@@ -60,7 +57,7 @@ const QuanLyPhongPage = () => {
     setEditId(id);
   };
 
-  // Delete room
+
   const deleteRoom = async (id) => {
     try {
       await axios.delete(`http://localhost:3001/loaiphong/delete/${id}`);

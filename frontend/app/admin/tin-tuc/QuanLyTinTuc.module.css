@@ -1,63 +1,66 @@
 .addFoodButtonContainer {
-    text-align: right;
-    margin-bottom: 20px;
-  }
-  
-  .addFoodButton {
-    padding: 10px 20px;
-    background-color: #4d6950;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .addFoodButton:hover {
-    background-color: #218838;
-  }
-  
-  .tablesContainer {
-    margin-top: 20px;
-  }
-  
-  .tableSection {
-    margin-bottom: 30px;
-  }
-  
-  .tableTitle {
-    font-size: 22px;
-    margin-bottom: 15px;
-  }
-  
-  .table {
-    width: 100%;
-    background: white;
-    border-radius: .5rem;
-    border-collapse: collapse;
-  }
-  
-  .table th, .table td {
-    border: 1px solid #dddddd46;
-    padding: 15px 20px; /* Increased padding */
-    text-align: center;
-  }
-  
-  .table th {
-    background-color: #4d6950;
-    color: white;
-    
-    padding: 15px 20px; /* Adjust padding for headers */
-  }
-  
-  .newsImage {
-    width: 100px; 
-    height: auto; 
-    object-fit: cover; 
-    border-radius: 5px; 
-  }
-  
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.addNewsButton {
+  padding: 10px 20px;
+  background-color: #4d6950;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 150px; /* Kích thước cố định cho nút */
+}
+
+.addNewsButton:hover {
+  background-color: #218838;
+}
+
+.tablesContainer {
+  margin-top: 20px;
+}
+
+.tableSection {
+  margin-bottom: 30px;
+}
+
+.tableTitle {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.table {
+  width: 100%;
+  background: white;
+  border-radius: .5rem;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid #dddddd46;
+  padding: 15px 10px; /* Giảm padding để tối ưu không gian */
+  text-align: center;
+  word-wrap: break-word; /* Ngăn nội dung dài bị tràn */
+  max-width: 200px; /* Kích thước tối đa cho ô */
+}
+
+.table th {
+  background-color: #4d6950;
+  color: white;
+  padding: 15px 10px; /* Giảm padding cho tiêu đề */
+}
+
+.newsImage {
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
 .editButton {
-  padding: 8px 15px; /* Increased button padding */
+  padding: 8px 10px; /* Giảm padding cho nút */
   background-color: #4d6950;
   color: white;
   font-weight: 500;
@@ -67,23 +70,41 @@
   margin-right: 5px;
 }
 
-  
-  .editButton:hover {
-    background-color: #0056b3;
-  }
-  
+.editButton:hover {
+  background-color: #0056b3;
+}
+
 .deleteButton {
-  padding: 8px 15px; /* Increased button padding */
+  padding: 8px 10px; /* Giảm padding cho nút */
   background-color: white;
   color: black;
-
   border: 1px solid #4d6950;
   border-radius: 5px;
   cursor: pointer;
 }
-  
-  .deleteButton:hover {
-    background-color: #c82333;
-  }
-  
-  
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+.paginationContainer {
+  margin-top: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center; /* Căn giữa các trang */
+}
+
+.page-item {
+  margin: 0 5px; /* Khoảng cách giữa các trang */
+}
+
+.page-link {
+  padding: 8px 12px; /* Padding cho các liên kết trang */
+  border-radius: 5px;
+}
+
+.page-item.disabled .page-link {
+  opacity: 0.5; /* Hiệu ứng khi trang bị vô hiệu hóa */
+}
