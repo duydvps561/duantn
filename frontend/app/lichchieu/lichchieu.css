@@ -1,118 +1,119 @@
 /* Container */
 .container {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 /* Căn giữa tiêu đề */
 h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 20px;
 }
-.node{
-    text-align: center;
-    font-size: 20px;
-    margin-bottom: 50px;
-    color: #FF4000;
+.node {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 50px;
+  color: #ff4000;
 }
 
 /* List days */
-.list-day{
-    list-style-type: none;
-    padding-left: 0;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+.list-day {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .day {
-    text-decoration: none;
-    color: #ffffff;
-    margin-top: 40px;
-    margin-bottom: 10px;      
-    border-radius: 20px;
-    margin-right: 20px;
-    background-color: #343a40;
-    font-size: 20px;
-    width: 200px;
-    height: 50px;
+  text-decoration: none;
+  color: #ffffff;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  margin-right: 20px;
+  background-color: #343a40;
+  font-size: 20px;
+  width: 200px;
+  height: 50px;
 }
 
 .day:hover {
-    background-color: #495057;
+  background-color: #495057;
 }
 
 /* Main Card Section */
 .main {
-    margin-top: 10px;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
+  margin-top: 10px;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 /* Cards */
 .card {
-    border: none;
-    background-color: #212529;
-    margin: 10px;
+  border: none;
+  background-color: #212529;
+  margin: 10px;
 }
 
 .card-body {
-    padding: 20px;
-    color: #fff;
-    font-size: 14px;
+  padding: 20px;
+  color: #fff;
+  font-size: 14px;
 }
 
 .card-title {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .card-text-node {
-    color: #FF4000;
+  color: #ff4000;
+  width: 250px;
 }
 
 .timeline {
-    display: flex;
-    margin-bottom: 10px;  
+  display: flex;
+  margin-bottom: 10px;
 }
-.infor{
-    font-size: 14px;
+.infor {
+  font-size: 14px;
 }
-.infor-time{
-    margin-left: 30px;
-    font-size: 14px;
+.infor-time {
+  margin-left: 30px;
+  font-size: 14px;
 }
 
 .giochieu .time {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Chia thành 4 cột */
-    gap: 10px; /* Khoảng cách giữa các phần tử */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Chia thành 4 cột */
+  gap: 10px; /* Khoảng cách giữa các phần tử */
 }
 
 .time {
-    list-style-type: none;
-    padding-left: 0;
-    display: flex;
-    gap: 10px;
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  gap: 10px;
 }
 
-.timechieu { 
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    border: 1px solid #fff;
-    background-color: #343a40;
-    cursor: pointer;
+.timechieu {
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  border: 1px solid #fff;
+  background-color: #343a40;
+  cursor: pointer;
 }
 
 .timechieu:hover {
-    background-color: #495057;
+  background-color: #495057;
 }
 
 /* Image inside cards */
 .card img {
-    object-fit: cover;
-    height: 100%;
+  object-fit: cover;
+  height: 100%;
 }

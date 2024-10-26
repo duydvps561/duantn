@@ -12,8 +12,6 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
-
-// Lấy CaChieu cho một bộ phim và ngày cụ thể
 router.get('/phim/:phimId/ngay/:ngay', async (req, res, next) => {
   try {
     const phimId = req.params.phimId;
