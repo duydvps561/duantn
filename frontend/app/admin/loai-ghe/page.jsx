@@ -33,7 +33,7 @@ const QuanLyLoaiGhePage = () => {
 
   const addSeatType = async () => {
     try {
-      await axios.post("http://localhost:3001/loaighe/add", { 
+      await axios.post("http://localhost:3000/loaighe/add", { 
         loaighe: seatTypeName,
         mau: seatTypeColor // Add color field
       });
