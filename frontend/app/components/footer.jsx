@@ -1,7 +1,7 @@
 export default function Footer() {
     return(
         <footer className="footer bg-dark py-3">
-        {/* <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center">
             <ul className="menu-bot d-flex ">
                 <li className="nav-item"><a href="#" className="nav-link text-light">Chinh Sach</a></li>
                 <li className="nav-item"><a href="#" className="nav-link text-light">Lich Chieu</a></li>
@@ -27,6 +27,6 @@ export default function Footer() {
                 <p>Địa chỉ: 87 Láng Hạ, Quận Ba Đình, Tp. Hà Nội - Điện thoại: 0339.445.887</p>
                 <p>Copyright 2023. NCC All Rights Reservered. Dev by Anvui.vn</p>
             </div>
-        </div> */}
+        </div>
         </footer>
     )}

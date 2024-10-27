@@ -1,9 +1,11 @@
 'use client'
 import "./globals.css";
 import "../public/bootstrap-5.3.3-dist/css/bootstrap.min.css";
+import '../public/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js';
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Providers from "@/redux/Provider";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -13,7 +15,6 @@ export default function RootLayout({ children }) {
         {children}
         <Footer/>
         </Providers>
-        <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/ea6209cd9f.js" crossorigin="anonymous"></script>
       </body>
     </html>
