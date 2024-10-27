@@ -138,7 +138,14 @@ const ThemGhe = () => {
             <input
               type="text"
               value={tenHang.join(", ")}
-              onChange={(e) => setTenHang(e.target.value.split(",").map(item => item.trim()))}
+              onChange={(e) =>
+                setTenHang(
+                  e.target.value
+                    .toUpperCase()
+                    .split(",")
+                    .map(item => item.trim())
+                )
+              }
               className="form-control"
               placeholder="Nhập tên hàng ghế, cách nhau bằng dấu phẩy"
             />
@@ -149,9 +156,13 @@ const ThemGhe = () => {
             <input
               type="number"
               value={soHang}
-              onChange={(e) => setSoHang(Number(e.target.value))}
+              onChange={(e) => {
+                const value = Math.min(28, Math.max(1, Number(e.target.value)));
+                setSoHang(value);
+              }}
               className="form-control"
               min="1"
+              max="28"
             />
           </div>
 
@@ -160,9 +171,13 @@ const ThemGhe = () => {
             <input
               type="number"
               value={soCot}
-              onChange={(e) => setSoCot(Number(e.target.value))}
+              onChange={(e) => {
+                const value = Math.min(30, Math.max(1, Number(e.target.value)));
+                setSoCot(value);
+              }}
               className="form-control"
               min="1"
+              max="30"
             />
           </div>
 

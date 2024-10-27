@@ -4,17 +4,35 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Layout from "@/app/components/admin/Layout";
 import Link from 'next/link';
+import './CaChieuPage.css';
 
 export default function CaChieuPage() {
     const [caChieux, setCaChieux] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     useEffect(() => {
         const fetchCaChieux = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/xuatchieu');
-                setCaChieux(response.data);
+                const caChieuData = await Promise.all(
+                    response.data.map(async (caChieu) => {
+                        const phongChieuResponse = await axios.get(`http://localhost:3000/phongchieu/${caChieu.phongchieu_id}`);
+                        const phimResponse = await axios.get(`http://localhost:3000/phim/${caChieu.phim_id}`);
+                        return {
+                            ...caChieu,
+                            tenphong: phongChieuResponse.data.tenphong,
+                            tenphim: phimResponse.data.tenphim,
+                        };
+                    })
+                );
+                setCaChieux(caChieuData);
             } catch (error) {
                 console.error('Error fetching CaChieu:', error);
+                Swal.fire('Lỗi!', 'Không thể tải danh sách ca chiếu.', 'error');
+            } finally {
+                setLoading(false);
             }
         };
         fetchCaChieux();
@@ -41,38 +59,83 @@ export default function CaChieuPage() {
         }
     };
 
+    const sortedCaChieux = caChieux.sort((a, b) => new Date(b.ngaychieu) - new Date(a.ngaychieu));
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = sortedCaChieux.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(sortedCaChieux.length / itemsPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <Layout>
-            <div className="container">
-                <h1>Danh Sách Ca Chiếu</h1>
-                <Link href="/admin/cachieu/them" className="btn btn-primary">Thêm Ca Chiếu</Link>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Phòng Chiếu</th>
-                            <th>Phim</th>
-                            <th>Ngày Chiếu</th>
-                            <th>Giờ Bắt Đầu</th>
-                            <th>Giờ Kết Thúc</th>
-                            <th>Hành Động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {caChieux.map(caChieu => (
-                            <tr key={caChieu._id}>
-                                <td>{caChieu.phongchieu_id}</td>
-                                <td>{caChieu.phim_id}</td>
-                                <td>{new Date(caChieu.ngaychieu).toLocaleDateString()}</td>
-                                <td>{caChieu.giobatdau}</td>
-                                <td>{caChieu.gioketthuc}</td>
-                                <td>
-                                    <Link href={`/admin/cachieu/sua/${caChieu._id}`} className="btn btn-warning">Sửa</Link>
-                                    <button onClick={() => handleDelete(caChieu._id)} className="btn btn-danger">Xóa</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            <div className="container-fluid">
+                <h1 className="my-4">Danh Sách Ca Chiếu</h1>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <Link href="/admin/cachieu/them" className="btn btn-primary">
+                        Thêm Ca Chiếu
+                    </Link>
+                </div>
+                {loading ? (
+                    <div className="text-center">
+                        <p>Đang tải dữ liệu...</p>
+                    </div>
+                ) : (
+                    <>
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Phòng Chiếu</th>
+                                    <th>Phim</th>
+                                    <th>Ngày Chiếu</th>
+                                    <th>Giờ Bắt Đầu</th>
+                                    <th>Giờ Kết Thúc</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentItems.map(caChieu => (
+                                    <tr key={caChieu._id}>
+                                        <td>{caChieu.tenphong}</td>
+                                        <td>{caChieu.tenphim}</td>
+                                        <td>{new Date(caChieu.ngaychieu).toLocaleDateString()}</td>
+                                        <td>{caChieu.giobatdau}</td>
+                                        <td>{caChieu.gioketthuc}</td>
+                                        <td>
+                                            <Link href={`/admin/cachieu/sua?id=${caChieu._id}`} className="btn me-2 sua">
+                                                Sửa
+                                            </Link>
+                                            <button onClick={() => handleDelete(caChieu._id)} className="btn xoa ">
+                                                Xóa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <nav aria-label="Pagination">
+                            <ul className="pagination pagination-sm justify-content-center">
+                                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                    <button onClick={() => paginate(currentPage - 1)} className="page-link">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </button>
+                                </li>
+                                {[...Array(totalPages)].map((_, index) => (
+                                    <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                        <button onClick={() => paginate(index + 1)} className="page-link">
+                                            {index + 1}
+                                        </button>
+                                    </li>
+                                ))}
+                                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                                    <button onClick={() => paginate(currentPage + 1)} className="page-link">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </>
+                )}
             </div>
         </Layout>
     );
