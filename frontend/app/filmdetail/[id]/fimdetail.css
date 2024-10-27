@@ -209,6 +209,7 @@
     height: 40px;
     border-radius: 5px;
     background-color: #252A31;
+
 }
 
 .note .box-color-2 {
@@ -249,13 +250,22 @@
     color: #ffffff;
     padding: 0;
 }
+.seat-selected {
+    max-width: 100%; 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0 auto; 
+    gap: 10px; 
+    padding: 10px;
+}
 
 .seat-btn .back-btn {
     background-color: #050B17;
     width: 130px;
     height: 44px;
     color: #ffffff;
-    border: 1px solid #A9A9A9;
+    border: 1px solid #2b4151;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
@@ -273,13 +283,19 @@
     color: #000000;
     width: 130px;
     height: 44px;
-    border: 1px solid #A9A9A9;
+    border: 1px solid #2b4151;
     padding: 10px;
     font-weight: bold;
     font-size: 16px;
     border-radius: 20px;
     cursor: pointer;
     margin-left: 40px;
+}
+.continue-btn:disabled {
+    background-color: #6c757d; /* Màu tối khi nút bị vô hiệu hóa */
+    color: #cccccc; /* Màu chữ mờ hơn cho trạng thái disabled */
+    cursor: not-allowed; /* Đổi con trỏ khi nút bị vô hiệu hóa */
+    opacity: 0.7; /* Làm nhạt nút một chút */
 }
 
 /* food */
@@ -414,7 +430,7 @@
     justify-content: space-between;
     max-width: 60%;
     margin: 0 auto;
-
+    overflow-x: auto; 
 }
 
 .chonthoigian {
@@ -427,7 +443,9 @@
     flex: 0 0 calc(20% - 10px);
     margin: 0 0 20px 0;
     font-size: 15px;
+
 }
+
 
 .chonthoigian:hover {
     cursor: pointer;

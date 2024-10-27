@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addSeat } from '@/redux/slice/cartSlice';
 export default function filmdetail({ params }) {
   const dispatch = useDispatch();
-  const {cart} = useSelector((state) => state.cart)
+  const { cart } = useSelector((state) => state.cart)
   const id = params.id;
   const [show, setShow] = useState(false);
   const [phimChitiet, setPhimChitiet] = useState([]);
@@ -138,9 +138,10 @@ export default function filmdetail({ params }) {
       gheMap[phongchieuid].push(ghe);
     });
   }, [gheData]);
-useEffect(()=>{
-  console.log('gio hang cap nhap',cart);
-},[cart])
+  useEffect(() => {
+    console.log('gio hang cap nhap', cart);
+  }, [cart]);
+
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -245,7 +246,7 @@ useEffect(()=>{
                 if (item.ngaychieu === ngaychieuSelected) {
                   return (
                     <button
-                      key={item._id} 
+                      key={item._id}
                       className='chonthoigian'
                       type='button'
                       onClick={() => {
@@ -291,37 +292,57 @@ useEffect(()=>{
                       {gheData.map((ghe) => {
                         const seat = `${ghe.hang}${ghe.cot}`;
                         const isSelected = seatSelected.includes(seat);
-                        const loaigheItem = loaighe.find(
-                          (item) => item._id === ghe.loaighe_id
-                        );
+                        const loaigheItem = loaighe.find(item => item._id === ghe.loaighe_id);
                         let style = {};
+
                         if (loaigheItem) {
                           style.backgroundColor = loaigheItem.mau;
                         }
+
                         if (isSelected) {
                           style.backgroundColor = "#005AD8";
                           style.color = "white";
                         }
+
                         return (
                           <tr key={ghe._id}>
                             <td
                               style={style}
                               className={`text-center ${isSelected ? 'selected' : ''}`}
                               onClick={() => {
-                                if (isSelected) {
-                                  setSeatSelected(seatSelected.filter(selected => selected !== seat));
+                                if (loaigheItem && loaigheItem.loaighe === 'Ghế Đôi') {
+                                  const firstSeat = seat;
+                                  const secondSeat = `${ghe.hang}${parseInt(ghe.cot) + 1}`;
+
+                                  if (isSelected) {
+                                    setSeatSelected(prevSeats =>
+                                      prevSeats.filter(selected => selected !== firstSeat && selected !== secondSeat)
+                                    );
+                                  } else {
+                                    setSeatSelected(prevSeats =>
+                                      [...prevSeats, firstSeat, secondSeat]
+                                    );
+                                  }
                                 } else {
-                                  setSeatSelected([...seatSelected, seat]);
+                                  if (isSelected) {
+                                    setSeatSelected(prevSeats =>
+                                      prevSeats.filter(selected => selected !== seat)
+                                    );
+                                  } else {
+                                    setSeatSelected(prevSeats =>
+                                      [...prevSeats, seat]
+                                    );
+                                  }
                                 }
-                                dispatch(addSeat({ _id: ghe._id,seat }));
+                                dispatch(addSeat({ _id: ghe._id, seat }));
                               }}
                             >
                               {seat}
                             </td>
                           </tr>
-
                         );
                       })}
+
                     </div>
                   </tbody>
                 </table>
@@ -348,7 +369,7 @@ useEffect(()=>{
                   <p>Ghế đôi</p>
                 </div>
               </div>
-              <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 align-items-center ">
+              <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 mb-3 align-items-center ">
                 <div className="seat-bill">
                   <p className="seat-selected">
                     Ghế đã chọn: <span>{seatSelected.join(", ")}</span>
@@ -358,8 +379,14 @@ useEffect(()=>{
                   </p> */}
                 </div>
                 <div className="seat-btn">
-                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60) }}>Quay lại</button>
-                  <button className="continue-btn" onClick={() => { setFoodShow(true) }}>Tiếp tục</button>
+                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60); setFoodShow(false); setSeatSelected([]) }}>Quay lại</button>
+                  <button
+                    className="continue-btn"
+                    onClick={() => setFoodShow(true)}
+                    disabled={seatSelected.length === 0}
+                  >
+                    Tiếp tục
+                  </button>
                 </div>
               </div>
             </div>
