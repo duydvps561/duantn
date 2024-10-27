@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import Food from '@/app/components/food';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSeat } from '@/redux/slice/cartSlice';
+import { clearMovieInfo, updateGioChieu, updateMovieInfo, updateNgayChieu, updatePhongChieu, updateTenPhim } from '@/redux/slice/filmSlice';
 export default function filmdetail({ params }) {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart)
@@ -15,6 +16,7 @@ export default function filmdetail({ params }) {
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
   const [timeleft, setTimeLeft] = useState(10 * 60);
+  const [thongtin,setThongtin] = useState([]);
   useEffect(() => {
     if (timeleft > 0) {
       const timer = setTimeout(() => {
@@ -42,13 +44,6 @@ export default function filmdetail({ params }) {
   }
   const minutes = Math.floor(timeleft / 60);
   const seconds = timeleft % 60;
-  const handleSeatClick = (seat) => {
-    if (seatSelected.includes(seat)) {
-      setSeatSelected(seatSelected.filter(s => s !== seat));
-    } else {
-      setSeatSelected([...seatSelected, seat]);
-    }
-  };
   const [showTrailer, setShowTrailer] = useState(false);
   const toggleTrailer = () => {
     setShowTrailer(!showTrailer);
@@ -61,6 +56,7 @@ export default function filmdetail({ params }) {
       }
       const data = await response.json();
       setPhimChitiet(data);
+      dispatch(updateTenPhim(data.tenphim))
     } catch (error) {
       console.error("Error fetching film details:", error);
     }
@@ -225,7 +221,7 @@ export default function filmdetail({ params }) {
               <div
                 className="text ms-3 mt-3"
                 key={item.id}
-                onClick={() => setNgayChieuSelected(item.ngaychieu)}
+                onClick={() =>{ setNgayChieuSelected(item.ngaychieu);dispatch(updateNgayChieu(item.ngaychieu))}}
               >
                 <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
                 <h2>{new Date(item.ngaychieu).getDate()}</h2>
@@ -252,7 +248,9 @@ export default function filmdetail({ params }) {
                       onClick={() => {
                         setShow(true);
                         setgiochieu(item.giobatdau);
-                        setPhongChieuData(phongchieudt)
+                        setPhongChieuData(phongchieudt);
+                        dispatch(updateGioChieu(item.giobatdau));
+                        dispatch(updatePhongChieu(phongchieudt.tenphong));
                       }}
                     >
                       {item.giobatdau}
@@ -294,16 +292,13 @@ export default function filmdetail({ params }) {
                         const isSelected = seatSelected.includes(seat);
                         const loaigheItem = loaighe.find(item => item._id === ghe.loaighe_id);
                         let style = {};
-
                         if (loaigheItem) {
                           style.backgroundColor = loaigheItem.mau;
                         }
-
                         if (isSelected) {
                           style.backgroundColor = "#005AD8";
                           style.color = "white";
                         }
-
                         return (
                           <tr key={ghe._id}>
                             <td
@@ -313,28 +308,24 @@ export default function filmdetail({ params }) {
                                 if (loaigheItem && loaigheItem.loaighe === 'Ghế Đôi') {
                                   const firstSeat = seat;
                                   const secondSeat = `${ghe.hang}${parseInt(ghe.cot) + 1}`;
-
                                   if (isSelected) {
                                     setSeatSelected(prevSeats =>
                                       prevSeats.filter(selected => selected !== firstSeat && selected !== secondSeat)
                                     );
+                                    dispatch(addSeat({ _id: ghe._id, seat: [] })); // Xóa cả hai ghế đôi
                                   } else {
-                                    setSeatSelected(prevSeats =>
-                                      [...prevSeats, firstSeat, secondSeat]
-                                    );
+                                    setSeatSelected(prevSeats => [...prevSeats, firstSeat, secondSeat]);
+                                    dispatch(addSeat({ _id: ghe._id, seat: [firstSeat, secondSeat] })); // Thêm cả hai ghế
                                   }
                                 } else {
                                   if (isSelected) {
-                                    setSeatSelected(prevSeats =>
-                                      prevSeats.filter(selected => selected !== seat)
-                                    );
+                                    setSeatSelected(prevSeats => prevSeats.filter(selected => selected !== seat));
+                                    dispatch(addSeat({ _id: ghe._id, seat: [] })); // Xóa ghế đơn
                                   } else {
-                                    setSeatSelected(prevSeats =>
-                                      [...prevSeats, seat]
-                                    );
+                                    setSeatSelected(prevSeats => [...prevSeats, seat]);
+                                    dispatch(addSeat({ _id: ghe._id, seat: [seat] })); // Thêm ghế đơn
                                   }
                                 }
-                                dispatch(addSeat({ _id: ghe._id, seat }));
                               }}
                             >
                               {seat}
@@ -342,7 +333,6 @@ export default function filmdetail({ params }) {
                           </tr>
                         );
                       })}
-
                     </div>
                   </tbody>
                 </table>
@@ -379,7 +369,7 @@ export default function filmdetail({ params }) {
                   </p> */}
                 </div>
                 <div className="seat-btn">
-                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60); setFoodShow(false); setSeatSelected([]) }}>Quay lại</button>
+                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60); setFoodShow(false); setSeatSelected([]);dispatch(clearMovieInfo()) }}>Quay lại</button>
                   <button
                     className="continue-btn"
                     onClick={() => setFoodShow(true)}
@@ -393,7 +383,7 @@ export default function filmdetail({ params }) {
           </section>
           {foodshow && (
             <>
-              <Food />
+              <Food  />
             </>
           )}
         </>
