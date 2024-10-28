@@ -9,29 +9,6 @@ export default function Danhmuc() {
                         <div className="container">
                             <ul className="row">
                                 <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
-                                <a href=""className="col-md-2 my-3" ><li className=" text-light list-unstyled text-center ">Kinh dị</li></a>
                             </ul>
                         </div>
 
