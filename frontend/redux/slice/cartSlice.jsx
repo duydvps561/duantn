@@ -13,7 +13,7 @@ export const cartSlice = createSlice({
     name: "cart",
     initialState: {
         items: [],
-        cart: JSON.parse(localStorage.getItem('cart')) || [], // Đọc giỏ hàng từ localStorage
+        cart: JSON.parse(localStorage.getItem('cart')) || [], 
         isOpen: false,
         loading: false,
         error: null
