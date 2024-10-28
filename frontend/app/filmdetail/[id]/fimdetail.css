@@ -209,6 +209,7 @@
     height: 40px;
     border-radius: 5px;
     background-color: #252A31;
+
 }
 
 .note .box-color-2 {
@@ -249,13 +250,22 @@
     color: #ffffff;
     padding: 0;
 }
+.seat-selected {
+    max-width: 100%; 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0 auto; 
+    gap: 10px; 
+    padding: 10px;
+}
 
 .seat-btn .back-btn {
     background-color: #050B17;
     width: 130px;
     height: 44px;
     color: #ffffff;
-    border: 1px solid #A9A9A9;
+    border: 1px solid #2b4151;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
@@ -273,7 +283,7 @@
     color: #000000;
     width: 130px;
     height: 44px;
-    border: 1px solid #A9A9A9;
+    border: 1px solid #2b4151;
     padding: 10px;
     font-weight: bold;
     font-size: 16px;
@@ -281,129 +291,138 @@
     cursor: pointer;
     margin-left: 40px;
 }
+.continue-btn:disabled {
+    background-color: #6c757d; /* Màu tối khi nút bị vô hiệu hóa */
+    color: #cccccc; /* Màu chữ mờ hơn cho trạng thái disabled */
+    cursor: not-allowed; /* Đổi con trỏ khi nút bị vô hiệu hóa */
+    opacity: 0.7; /* Làm nhạt nút một chút */
+}
 
 /* food */
+.food-banner img{
+    width: 100%;
+    height: auto;
+}
 .food-cb-title {
     font-size: 34px;
     font-weight: 700;
     color: #FC8A06;
 }
 
-.food-corn-title {
+.food-title {
     font-size: 34px;
     font-weight: 700;
     color: #FC8A06;
 }
 
-.cb-box {
-    width: 400px;
-    height: 464px;
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
+.best-seller {
+    padding: 10px;
+    border-radius: 8px;
 }
 
-.box-img {
-    position: relative;
+.food-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #FC8A06;
 }
 
-.box-img img {
-    z-index: 1;
-}
-
-.plus {
-    position: absolute;
-    width: 80px;
-    height: 100px;
-    background-color: #ffffff;
-    right: 0;
-    top: 163px;
-    border-radius: 45px 0 12px 0;
+.food-bestsell {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.plus i {
-    font-size: 40px;
-    padding: 11px;
-    cursor: pointer;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    color: #ffffff;
-    background-color: #000000;
-}
-
-.cb-content {
-    margin: 14px 0 0 0;
-}
-
-.cb-descript h2 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #000;
-    line-height: 30px;
-}
-
-.cb-price {
-    font-size: 20px;
-    color: #EB2719;
-    line-height: 30px;
-    font-weight: bold;
-}
-
-.corn-container {
-    margin-top: 14px;
-    display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
+    gap: 30px;
 }
 
-.corn-box {
-    width: 400px;
-    height: 245px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 16px;
-    display: flex;
-    justify-content: space-around;
+.food-box {
+    width: 250px;
+    height: 377px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s;
+}
+.food-box:hover {
+    transform: scale(1.05);
+}
+.food-box img {
+    width: 100%;
+    height: 250px;
+    border-bottom: 1px solid #ddd;
 }
 
-.corn-box-img {
-    position: relative;
+.food-content {
+    padding: 10px;
 }
-
-.corn-plus {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background-color: #ffffff;
-    right: 0;
-    top: 120px;
-    border-radius: 45px 0 12px 0;
+.food-content h2 {
+    font-size: 18px;
+    color: #333;
+}
+.food-content span {
+    color: #777;
+    font-size: 16px;
+}
+.food-btn-addCart {
+    width: 100%;
+    height: 55px;
+    padding: 10px;
+    font-size: 16px;
+    color: #555555;
+    background-color: #F39421;
+    /* Màu cam sáng */
+    border: none;
+    border-radius: 0 0 8px 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-pre{
+    color: #ffffff;
+    font-size: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-.corn-plus i {
-    font-size: 20px;
-    padding: 11px;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+.btn-next{
     color: #ffffff;
-    background-color: #000000;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
-
-.corn-box-img img {
-    width: 173px;
-    height: 179px ;
+.btn-pre i:hover{
+    cursor: pointer;
+    color: rgb(42, 49, 64);
 }
-
-
+.btn-next i:hover{
+    cursor: pointer;
+    color: rgb(42, 49, 64);
+}
+.food-btn-addCart:hover {
+    background-color: #1bc92d;
+    /* Màu cam đậm khi hover */
+}
+.btn-cart{
+    margin: 20px 230px 20px 0;
+}
+.btn-checkout{
+    width: 270px;
+    height: 55px;
+    color: #ffffff;
+    background-color: #E61F1F;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 30px;
+}
+.btn-checkout:hover{
+    background-color: #964f4f;
+    color: #ffffff;
+}
 /* Thoigian */
 .thoigian_chieu {
     display: flex;
@@ -411,7 +430,7 @@
     justify-content: space-between;
     max-width: 60%;
     margin: 0 auto;
-
+    overflow-x: auto; 
 }
 
 .chonthoigian {
@@ -424,7 +443,9 @@
     flex: 0 0 calc(20% - 10px);
     margin: 0 0 20px 0;
     font-size: 15px;
+
 }
+
 
 .chonthoigian:hover {
     cursor: pointer;

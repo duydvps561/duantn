@@ -88,7 +88,6 @@ const TinTucPage = () => {
           </div>
         </div>
 
-        {/* Pagination */}
         <nav className={styles.paginationContainer} aria-label="Pagination">
           <ul className={`pagination pagination-sm justify-content-center`}>
             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>

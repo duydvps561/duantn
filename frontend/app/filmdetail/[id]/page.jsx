@@ -1,12 +1,14 @@
-"use client";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import "./fimdetail.css";
-import { useRef } from "react";
-// import ModalPayMoment from '../thanhtoan/page';
-
-// import { useRouter } from 'next/router';
+'use client'
+import { useEffect, useState } from 'react';
+import './fimdetail.css'
+import { useRef } from 'react';
+import Food from '@/app/components/food';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSeat } from '@/redux/slice/cartSlice';
+import { clearMovieInfo, updateGioChieu, updateMovieInfo, updateNgayChieu, updatePhongChieu, updateTenPhim } from '@/redux/slice/filmSlice';
 export default function filmdetail({ params }) {
+  const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.cart)
   const id = params.id;
   const [show, setShow] = useState(false);
   const [phimChitiet, setPhimChitiet] = useState([]);
@@ -14,23 +16,23 @@ export default function filmdetail({ params }) {
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
   const [timeleft, setTimeLeft] = useState(10 * 60);
+  const [thongtin,setThongtin] = useState([]);
   useEffect(() => {
     if (timeleft > 0) {
       const timer = setTimeout(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
+        setTimeLeft(prevTime => prevTime - 1);
       }, 1000);
-
       return () => clearTimeout(timer);
     } else {
       setShow(false);
     }
   }, [timeleft]);
 
-  // const [ghetheoPhong, setGheTheoPhong] = useState([]);
   const [phongchieuid, setPhongChieuid] = useState([]);
   const [phimCachieu, setPhimCachieu] = useState([]);
   const [phongchieu, setPhongChieu] = useState([]);
-  const [phongchieudata, setPhongChieudata] = useState([]);
+  const [phongchieudata, setPhongChieuData] = useState([]);
+  const [ngaychieuSelected, setNgayChieuSelected] = useState('');
   const [giochieu, setgiochieu] = useState([]);
   const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
@@ -42,29 +44,19 @@ export default function filmdetail({ params }) {
   }
   const minutes = Math.floor(timeleft / 60);
   const seconds = timeleft % 60;
-  const handleSeatClick = (seat) => {
-    if (seatSelected.includes(seat)) {
-      setSeatSelected(seatSelected.filter((s) => s !== seat));
-    } else {
-      setSeatSelected([...seatSelected, seat]);
-    }
-  };
   const [showTrailer, setShowTrailer] = useState(false);
   const toggleTrailer = () => {
     setShowTrailer(!showTrailer);
   };
-  const [showPay, setShowPay] = useState(false);
-  const handleOpenPay = () => setShowPay(true);
-  const handleClosePay = () => setShowPay(false);
-
   const fetchPhimChitiet = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/phim/${id}`);
+      const response = await fetch(`http://localhost:3000/phim/${id}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
       setPhimChitiet(data);
+      dispatch(updateTenPhim(data.tenphim))
     } catch (error) {
       console.error("Error fetching film details:", error);
     }
@@ -72,7 +64,7 @@ export default function filmdetail({ params }) {
 
   const fetchCaChieu = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/xuatchieu`);
+      const response = await fetch(`http://localhost:3000/xuatchieu`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -84,7 +76,7 @@ export default function filmdetail({ params }) {
   };
   const fetchPhongchieu = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/phongchieu`);
+      const response = await fetch(`http://localhost:3000/phongchieu`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -96,7 +88,7 @@ export default function filmdetail({ params }) {
   };
   const fetchSeat = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/ghe`);
+      const response = await fetch(`http://localhost:3000/ghe`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -108,7 +100,7 @@ export default function filmdetail({ params }) {
   };
   const fetchSeatModel = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/loaighe`);
+      const response = await fetch(`http://localhost:3000/loaighe`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -127,22 +119,12 @@ export default function filmdetail({ params }) {
   }, [id]);
   useEffect(() => {
     if (id && cachieu && Array.isArray(cachieu)) {
-      const foundPhim = cachieu.find((item) => item.phim_id === id);
+      const foundPhim = cachieu.filter((item) => item.phim_id === id);
       setPhimCachieu(foundPhim || null);
     } else {
       setPhimCachieu(null);
     }
   }, [id, cachieu]);
-  useEffect(() => {
-    if (phimCachieu) {
-      setPhongChieuid(phimCachieu.phongchieu_id);
-    }
-  }, [phimCachieu]);
-  useEffect(() => {
-    const phongchieudata = phongchieu.find((item) => item._id === phongchieuid);
-    setPhongChieudata(phongchieudata);
-  }, [phongchieu]);
-
   useEffect(() => {
     const gheMap = {};
     gheData.forEach((ghe) => {
@@ -151,9 +133,11 @@ export default function filmdetail({ params }) {
       }
       gheMap[phongchieuid].push(ghe);
     });
-
-    // setGheTheoPhong(gheMap);
   }, [gheData]);
+  useEffect(() => {
+    console.log('gio hang cap nhap', cart);
+  }, [cart]);
+
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -204,21 +188,12 @@ export default function filmdetail({ params }) {
         </div>
 
         {showTrailer && (
-          <div
-            className="modal d-block"
-            tabIndex="-1"
-            role="dialog"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
-          >
+          <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title">Trailer: THE CROW</h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    onClick={toggleTrailer}
-                  ></button>
+                  <button type="button" className="btn-close" onClick={toggleTrailer}></button>
                 </div>
                 <div className="modal-body">
                   <div className="embed-responsive embed-responsive-16by9">
@@ -241,51 +216,53 @@ export default function filmdetail({ params }) {
       </section>
       <div className="date-order">
         <div className="date text-light">
-          {phimCachieu ? (
-            <div className="text ms-3 mt-3">
-              <p>Th {new Date(phimCachieu.ngaychieu).getMonth() + 1}</p>{" "}
-              {/* Lấy tháng (0-11), cộng thêm 1 */}
-              <h2>{new Date(phimCachieu.ngaychieu).getDate()}</h2>{" "}
-              {/* Lấy ngày (1-31) */}
-              <p>
-                {
-                  [
-                    "Chủ Nhật",
-                    "Thứ Hai",
-                    "Thứ Ba",
-                    "Thứ Tư",
-                    "Thứ Năm",
-                    "Thứ Sáu",
-                    "Thứ Bảy",
-                  ][new Date(phimCachieu.ngaychieu).getDay()]
-                }
-              </p>{" "}
-              {/* Lấy thứ (0-6) */}
-            </div>
+          {phimCachieu.length > 0 ? (
+            phimCachieu.map((item) => (
+              <div
+                className="text ms-3 mt-3"
+                key={item.id}
+                onClick={() =>{ setNgayChieuSelected(item.ngaychieu);dispatch(updateNgayChieu(item.ngaychieu))}}
+              >
+                <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
+                <h2>{new Date(item.ngaychieu).getDate()}</h2>
+                <p>{['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'][new Date(item.ngaychieu).getDay()]}</p> {/* Lấy thứ (0-6) */}
+              </div>
+            ))
           ) : (
             <p>Không tìm thấy thông tin phim.</p>
           )}
         </div>
         <div className="note">
-          <p>
-            Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h
-            và Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.
-          </p>
-          <div className="thoigian_chieu">
-            {phimCachieu ? (
-              <button
-                className="chonthoigian"
-                type="button"
-                onClick={() => {
-                  setShow(true);
-                  setgiochieu(phimCachieu.giobatdau);
-                }}
-              >
-                {phimCachieu.giobatdau}
-              </button>
+          <p>Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h và Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.</p>
+          <div className='thoigian_chieu'>
+            {phimCachieu.length > 0 ? (
+              phimCachieu.map((item) => {
+                const phongchieudt = phongchieu.find(phong => phong._id === item.phongchieu_id);
+
+                if (item.ngaychieu === ngaychieuSelected) {
+                  return (
+                    <button
+                      key={item._id}
+                      className='chonthoigian'
+                      type='button'
+                      onClick={() => {
+                        setShow(true);
+                        setgiochieu(item.giobatdau);
+                        setPhongChieuData(phongchieudt);
+                        dispatch(updateGioChieu(item.giobatdau));
+                        dispatch(updatePhongChieu(phongchieudt.tenphong));
+                      }}
+                    >
+                      {item.giobatdau}
+                    </button>
+                  );
+                }
+                return null;
+              })
             ) : (
               <p>Chưa có thông tin phim.</p>
             )}
+
           </div>
         </div>
       </div>
@@ -305,22 +282,15 @@ export default function filmdetail({ params }) {
               <img src="../../img/image 35.png" alt="decorimg" />
             </div>
             <div className="seat-content">
-              <p className="seat-title">{phongchieudata.tenphong}</p>
+              <p className="seat-title">{phongchieudata.tenphong}</p>;
               <div className="siting-order">
                 <table className="siting-table">
                   <tbody>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(14, 1fr)",
-                      }}
-                    >
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9, 1fr)' }}>
                       {gheData.map((ghe) => {
                         const seat = `${ghe.hang}${ghe.cot}`;
                         const isSelected = seatSelected.includes(seat);
-                        const loaigheItem = loaighe.find(
-                          (item) => item._id === ghe.loaighe_id
-                        );
+                        const loaigheItem = loaighe.find(item => item._id === ghe.loaighe_id);
                         let style = {};
                         if (loaigheItem) {
                           style.backgroundColor = loaigheItem.mau;
@@ -333,16 +303,28 @@ export default function filmdetail({ params }) {
                           <tr key={ghe._id}>
                             <td
                               style={style}
-                              className="text-center"
+                              className={`text-center ${isSelected ? 'selected' : ''}`}
                               onClick={() => {
-                                if (isSelected) {
-                                  setSeatSelected(
-                                    seatSelected.filter(
-                                      (selected) => selected !== seat
-                                    )
-                                  );
+                                if (loaigheItem && loaigheItem.loaighe === 'Ghế Đôi') {
+                                  const firstSeat = seat;
+                                  const secondSeat = `${ghe.hang}${parseInt(ghe.cot) + 1}`;
+                                  if (isSelected) {
+                                    setSeatSelected(prevSeats =>
+                                      prevSeats.filter(selected => selected !== firstSeat && selected !== secondSeat)
+                                    );
+                                    dispatch(addSeat({ _id: ghe._id, seat: [] })); // Xóa cả hai ghế đôi
+                                  } else {
+                                    setSeatSelected(prevSeats => [...prevSeats, firstSeat, secondSeat]);
+                                    dispatch(addSeat({ _id: ghe._id, seat: [firstSeat, secondSeat] })); // Thêm cả hai ghế
+                                  }
                                 } else {
-                                  setSeatSelected([...seatSelected, seat]);
+                                  if (isSelected) {
+                                    setSeatSelected(prevSeats => prevSeats.filter(selected => selected !== seat));
+                                    dispatch(addSeat({ _id: ghe._id, seat: [] })); // Xóa ghế đơn
+                                  } else {
+                                    setSeatSelected(prevSeats => [...prevSeats, seat]);
+                                    dispatch(addSeat({ _id: ghe._id, seat: [seat] })); // Thêm ghế đơn
+                                  }
                                 }
                               }}
                             >
@@ -377,30 +359,21 @@ export default function filmdetail({ params }) {
                   <p>Ghế đôi</p>
                 </div>
               </div>
-              <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 align-items-center ">
+              <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 mb-3 align-items-center ">
                 <div className="seat-bill">
                   <p className="seat-selected">
                     Ghế đã chọn: <span>{seatSelected.join(", ")}</span>
                   </p>
-                  <p className="seat-total-price">
+                  {/* <p className="seat-total-price">
                     Tổng tiền: <span>0đ</span>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="seat-btn">
-                  <button
-                    className="back-btn"
-                    onClick={() => {
-                      setShow(false);
-                      setTimeLeft(10 * 60);
-                    }}
-                  >
-                    Quay lại
-                  </button>
+                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60); setFoodShow(false); setSeatSelected([]);dispatch(clearMovieInfo()) }}>Quay lại</button>
                   <button
                     className="continue-btn"
-                    onClick={() => {
-                      setFoodShow(true);
-                    }}
+                    onClick={() => setFoodShow(true)}
+                    disabled={seatSelected.length === 0}
                   >
                     Tiếp tục
                   </button>
@@ -410,247 +383,7 @@ export default function filmdetail({ params }) {
           </section>
           {foodshow && (
             <>
-              <section className="food-section">
-                <div className="container">
-                  <div className="food-cb">
-                    <p className="food-cb-title">Combo</p>
-                    <div className="d-flex gap-3 justify-content-center mb-2">
-                      <div className="cb-box">
-                        <div className="box-img">
-                          <img
-                            src="../../img/bong-ngo-3.png"
-                            alt="hinh anh bong ngo nong hoi"
-                          />
-                          <div className="plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                        <div className="cb-content d-flex justify-content-around">
-                          <div className="cb-descript">
-                            <h2>Combo 1</h2>
-                            <p>Món 1, Món 2, Món 3</p>
-                          </div>
-                          <div className="cb-price">
-                            <p>
-                              Gia : <br />
-                              <span>99999</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="cb-box">
-                        <div className="box-img">
-                          <img
-                            src="../../img/bong-ngo-3.png"
-                            alt="hinh anh bong ngo nong hoi"
-                          />
-                          <div className="plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                        <div className="cb-content d-flex justify-content-around">
-                          <div className="cb-descript">
-                            <h2>Combo 1</h2>
-                            <p>Món 1, Món 2, Món 3</p>
-                          </div>
-                          <div className="cb-price">
-                            <p>
-                              Gia : <br />
-                              <span>99999</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="cb-box">
-                        <div className="box-img">
-                          <img
-                            src="../../img/bong-ngo-3.png"
-                            alt="hinh anh bong ngo nong hoi"
-                          />
-                          <div className="plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                        <div className="cb-content d-flex justify-content-around">
-                          <div className="cb-descript">
-                            <h2>Combo 1</h2>
-                            <p>Món 1, Món 2, Món 3</p>
-                          </div>
-                          <div className="cb-price">
-                            <p>
-                              Gia : <br />
-                              <span>99999</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="food-corn">
-                    <p className="food-corn-title">Corn</p>
-                    <div className="corn-container d-flex gap-3 justify-content-center mb-2">
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>Corn 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="drink">
-                    <p className="food-corn-title">Drink</p>
-                    <div className="corn-container d-flex gap-3 justify-content-center mb-2">
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="corn-box">
-                        <div className="corn-content">
-                          <h2>CDrink 1</h2>
-                          <p>Món 1, Món 2, Món 3</p>
-                        </div>
-                        <div className="corn-box-img">
-                          <img src="../../img/bong-ngo-3.png" alt="" />
-                          <div className="corn-plus">
-                            <i className="fa-solid fa-plus"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="container d-flex justify-content-between mt-2 mb-2">
-                  <p className="fs-2 fw-bold text-white">
-                    Tong tien: <span>197.000d</span>
-                  </p>
-                  <button onClick={handleOpenPay} className="btn btn-danger">
-                    Thanh toan
-                  </button>
-                </div>
-                <ModalPayMoment show={showPay} handleClose={handleClosePay} />
-              </section>
+              <Food  />
             </>
           )}
         </>
