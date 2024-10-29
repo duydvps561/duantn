@@ -71,7 +71,7 @@ const QuanLyPhimPage = () => {
                 <tr key={movie._id}>
                   <td>{index + 1}</td>
                   <td>
-                    <img src={`/img/${movie.img}`} alt={movie.tenphim} className={styles.movieImage} />
+                    <img src={`http://localhost:3000/img/phims/${movie.img}`} alt={movie.tenphim} className={styles.movieImage} />
                   </td>
                   <td>{movie.tenphim}</td>
                   <td>{movie.noidung}</td>

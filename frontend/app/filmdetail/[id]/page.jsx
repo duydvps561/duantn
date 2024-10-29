@@ -142,11 +142,11 @@ export default function filmdetail({ params }) {
     <>
       <section className="film-detail justify-content-center">
         <div className="card bg-dark ">
-          <img
-            src="img/0017840_0 1-3.png"
-            className="card-img object-fit-cover"
-            alt="..sad."
-          />
+        <img
+                src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
+                alt=""
+                style={{ width: "250", height: "350px" }}
+              />
           <div className="card-img-overlay d-lg-flex justify-content-center">
             <div className="img-overlay">
               <img
