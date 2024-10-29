@@ -349,7 +349,7 @@ export default function filmdetail({ params }) {
                                     }}
                                     onClick={() => {
                                       console.log(ghe._id)
-                                      const gia = giaLoaighe ? giaLoaighe.giaghe : 0; // Lấy giá của ghế
+                                      const gia = giaLoaighe ? giaLoaighe.giaghe : 0; 
                                       console.log(loaigheItem ? loaigheItem.loaighe : 'ko co loai ghe');
                                       if (loaigheItem && loaigheItem.loaighe === 'Ghế Đôi') {
                                         const firstSeat = seat;
