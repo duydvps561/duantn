@@ -43,7 +43,7 @@ const QuanLyPhimPage = () => {
       <h1>Quản Lý Phim</h1>
       <p>Đây là trang quản lý phim.</p>
       <div className={styles.addMovieButtonContainer}>
-      <Link href="/admin/phim/add" className={styles.addMovieButton}>Add Product</Link>
+      <Link href="/admin/phim/add" className={styles.addMovieButton}>THÊM PHIM</Link>
       </div>
 
       <div className={styles.tablesContainer}>
