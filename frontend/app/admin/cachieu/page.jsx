@@ -18,18 +18,27 @@ export default function CaChieuPage() {
                 const response = await axios.get('http://localhost:3000/xuatchieu');
                 const caChieuData = await Promise.all(
                     response.data.map(async (caChieu) => {
-                        const phongChieuResponse = await axios.get(`http://localhost:3000/phongchieu/${caChieu.phongchieu_id}`);
-                        const phimResponse = await axios.get(`http://localhost:3000/phim/${caChieu.phim_id}`);
-                        return {
-                            ...caChieu,
-                            tenphong: phongChieuResponse.data.tenphong,
-                            tenphim: phimResponse.data.tenphim,
-                        };
+                        try {
+                            const phongChieuResponse = await axios.get(`http://localhost:3000/phongchieu/${caChieu.phongchieu_id}`);
+                            const phimResponse = await axios.get(`http://localhost:3000/phim/${caChieu.phim_id}`);
+                            return {
+                                ...caChieu,
+                                tenphong: phongChieuResponse.data.tenphong,
+                                tenphim: phimResponse.data.tenphim,
+                            };
+                        } catch (error) {
+                            console.error(`Lỗi tải dữ liệu cho ca chiếu ${caChieu._id}:`, error);
+                            return {
+                                ...caChieu,
+                                tenphong: 'Không xác định',
+                                tenphim: 'Không xác định',
+                            };
+                        }
                     })
                 );
                 setCaChieux(caChieuData);
             } catch (error) {
-                console.error('Error fetching CaChieu:', error);
+                console.error('Error fetching CaChieu:', error.response || error.message || error);
                 Swal.fire('Lỗi!', 'Không thể tải danh sách ca chiếu.', 'error');
             } finally {
                 setLoading(false);
@@ -53,7 +62,7 @@ export default function CaChieuPage() {
                 setCaChieux(caChieux.filter(caChieu => caChieu._id !== id));
                 Swal.fire('Đã xóa!', 'Ca chiếu đã được xóa.', 'success');
             } catch (error) {
-                console.error('Error deleting CaChieu:', error);
+                console.error('Error deleting CaChieu:', error.response || error.message || error);
                 Swal.fire('Lỗi!', 'Không thể xóa ca chiếu.', 'error');
             }
         }
@@ -105,7 +114,7 @@ export default function CaChieuPage() {
                                             <Link href={`/admin/cachieu/sua?id=${caChieu._id}`} className="btn me-2 sua">
                                                 Sửa
                                             </Link>
-                                            <button onClick={() => handleDelete(caChieu._id)} className="btn xoa ">
+                                            <button onClick={() => handleDelete(caChieu._id)} className="btn xoa">
                                                 Xóa
                                             </button>
                                         </td>
