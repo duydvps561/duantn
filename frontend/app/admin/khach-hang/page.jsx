@@ -4,76 +4,52 @@ import Layout from "@/app/components/admin/Layout";
 import './CustomerManagement.css'; // Import CSS custom nếu cần
 import '../../globals.css'; // Import global styles
 
-const CustomerManagement = () => {
+
+function CustomerList() {
   const [customers, setCustomers] = useState([]);
-  const [searchName, setSearchName] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchCustomers();
+    // Gọi API để lấy danh sách tất cả các tài khoản
+    fetch('http://localhost:3000/taikhoan')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setCustomers(data); // Lưu danh sách tài khoản vào state
+        setLoading(false);  // Kết thúc trạng thái loading
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
+      });
   }, []);
 
-  // Fetch all customers
-  const fetchCustomers = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/taikhoan/');
-      setCustomers(response.data);
-    } catch (error) {
-      console.error('Error fetching customers:', error);
-    }
-  };
-
-  // Handle search by name
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/taikhoan/search/${searchName}`);
-      setCustomers(response.data);
-    } catch (error) {
-      console.error('Error searching customers:', error);
-    }
-  };
+  if (loading) return <p>Đang tải danh sách khách hàng...</p>;
+  if (error) return <p>Đã xảy ra lỗi: {error.message}</p>;
 
   return (
     <Layout>
-    <div className="customer-management">
-      <h2>Quản Lý Khách Hàng</h2>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Tìm kiếm theo tên..."
-          value={searchName}
-          onChange={(e) => setSearchName(e.target.value)}
-        />
-        <button onClick={handleSearch}>Tìm Kiếm</button>
-      </div>
-
-      <table className="customer-table">
-        <thead>
-          <tr>
-            <th>STT</th>
-            <th>Họ</th>
-            <th>Tên</th>
-            <th>Email</th>
-            <th>SDT</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {customers.map((customer, index) => (
-            <tr key={customer._id}>
-              <td>{index + 1}</td>
-              <td>{customer.ho}</td>
-              <td>{customer.tentaikhoan}</td>
-              <td>{customer.email}</td>
-              <td>{customer.sdt}</td>
-              <td>{customer.vaitro}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div>
+      <h1>Danh sách khách hàng</h1>
+      <ul>
+        {customers.map((customer) => (
+          <li key={customer.id}>
+            <p>ID: {customer.id}</p>
+            <p>Tên: {customer.tentaikhoan}</p>
+            <p>Email: {customer.email}</p>
+            <p>Vai Trò: {customer.vaitro}</p>
+            <p>Trạng thái: {customer.trangthai}</p>
+          </li>
+        ))}
+      </ul>
     </div>
     </Layout>
   );
-};
+}
 
-export default CustomerManagement;
-
+export default CustomerList;
