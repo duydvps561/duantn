@@ -312,18 +312,18 @@ export default function filmdetail({ params }) {
                                     setSeatSelected(prevSeats =>
                                       prevSeats.filter(selected => selected !== firstSeat && selected !== secondSeat)
                                     );
-                                    dispatch(addSeat({ _id: ghe._id, seat: [] })); // Xóa cả hai ghế đôi
+                                    dispatch(addSeat({ _id: ghe._id, seat: [] }));
                                   } else {
                                     setSeatSelected(prevSeats => [...prevSeats, firstSeat, secondSeat]);
-                                    dispatch(addSeat({ _id: ghe._id, seat: [firstSeat, secondSeat] })); // Thêm cả hai ghế
+                                    dispatch(addSeat({ _id: ghe._id, seat: [firstSeat, secondSeat] }));
                                   }
                                 } else {
                                   if (isSelected) {
                                     setSeatSelected(prevSeats => prevSeats.filter(selected => selected !== seat));
-                                    dispatch(addSeat({ _id: ghe._id, seat: [] })); // Xóa ghế đơn
+                                    dispatch(addSeat({ _id: ghe._id, seat: [] }));
                                   } else {
                                     setSeatSelected(prevSeats => [...prevSeats, seat]);
-                                    dispatch(addSeat({ _id: ghe._id, seat: [seat] })); // Thêm ghế đơn
+                                    dispatch(addSeat({ _id: ghe._id, seat: [seat] }));
                                   }
                                 }
                               }}
