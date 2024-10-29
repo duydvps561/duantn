@@ -61,14 +61,19 @@ const QuanLyPhongPage = () => {
   };
 
   // Delete room
-  const deleteRoom = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3000/loaiphong/delete/${id}`);
-      fetchRooms(); // Refresh the list
-    } catch (error) {
-      console.error('Error deleting room:', error);
-    }
-  };
+ // Delete room with confirmation
+const deleteRoom = async (id) => {
+  const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa phòng này không?');
+  if (!isConfirmed) return;
+
+  try {
+    await axios.delete(`http://localhost:3000/loaiphong/delete/${id}`);
+    fetchRooms(); // Refresh the list
+  } catch (error) {
+    console.error('Error deleting room:', error);
+  }
+};
+
 
   return (
     <Layout>
