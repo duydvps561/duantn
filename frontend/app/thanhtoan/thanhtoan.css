@@ -11,12 +11,11 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 350px 100px 350px;
     gap: 10px;
 }
 
 .layout .item {
-    min-height: 200px;
+    min-height: 400px;
     border: 2px solid black;
     border-radius: 10px;
     background-color: #1A1D23;
@@ -40,7 +39,7 @@ body {
 
 .item .item-body {
     display: flex;
-    margin: 10px 20px;
+    padding: 20px;
 }
 
 .item .title-item {
