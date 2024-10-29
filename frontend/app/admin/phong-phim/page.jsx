@@ -12,7 +12,6 @@ const QuanLyPhongPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  // Fetch room list
   useEffect(() => {
     fetchRooms();
   }, []);
@@ -26,7 +25,6 @@ const QuanLyPhongPage = () => {
     }
   };
 
-  // Add new room
   const addRoom = async () => {
     try {
       await axios.post('http://localhost:3000/loaiphong/add', { loaiphong: roomName, trangthai: status });
@@ -38,7 +36,7 @@ const QuanLyPhongPage = () => {
     }
   };
 
-  // Update room
+
   const updateRoom = async (id) => {
     try {
       await axios.put(`http://localhost:3000/loaiphong/update/${id}`, { loaiphong: roomName, trangthai: status });
@@ -52,7 +50,6 @@ const QuanLyPhongPage = () => {
     }
   };
 
-  // Edit handler
   const handleEdit = (id, currentName, currentStatus) => {
     setRoomName(currentName);
     setStatus(currentStatus);

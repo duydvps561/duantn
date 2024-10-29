@@ -1,7 +1,28 @@
 var express = require('express');
 var router = express.Router();
+const multer = require('multer');
 const Phim = require('../../models/movie/phim');
+const path = require('path');
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../../public/img/phims')); 
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);  
+  }
+});
+function checkFileUpload(req, file, cb) {
+  const fileTypes = /\.(jpg|jpeg|png|gif)$/;
+  if (!file.originalname.match(fileTypes)) {
+    return cb(new Error('Bạn chỉ được upload file ảnh'));
+  }
+  cb(null, true);
+}
+const upload = multer({ 
+  storage: storage, 
+  fileFilter: checkFileUpload 
+});
 
 // lấy ra tất cả các phim 
 router.get('/', async function(req, res, next) {
@@ -30,13 +51,48 @@ router.get('/', async function(req, res, next) {
     next(err);
   }
 });
-router.post('/add', async (req, res) => {
+
+// upload phim 
+router.post('/add', upload.single('img'), async (req, res) => {
+  
   try {
-    const phim = new Phim(req.body);
-    const result = await phim.save();
-    res.status(201).send(result);
+      const {
+          tenphim,
+          noidung,
+          thoiluong,
+          daodien,
+          dienvien,
+          trailler,
+          ngayhieuluc,
+          ngayhieulucden,
+          trangthai,
+      } = req.body;
+
+      const requiredFields = [tenphim, noidung, thoiluong, daodien, dienvien, trailler, ngayhieuluc, ngayhieulucden, trangthai];
+      for (const field of requiredFields) {
+          if (!field) {
+              return res.status(400).send({ message: 'All fields are required.' });
+          }
+      }
+      const img = req.file ? req.file.originalname : null; // Get the uploaded image name
+      const newphim = {
+          tenphim,
+          noidung,
+          thoiluong,
+          daodien,
+          dienvien,
+          trailler, // Make sure to use the correct spelling
+          ngayhieuluc,
+          ngayhieulucden,
+          trangthai,
+          img,
+      };
+
+      const result = await Phim.create(newphim);
+      res.status(201).send(result);
   } catch (err) {
-    res.status(500).send({ error: err.message });
+      console.error('Error uploading movie:', err); 
+      res.status(500).send({ error: 'An error occurred while uploading the movie.' });
   }
 });
 //xóa phim
@@ -49,7 +105,6 @@ router.post('/add', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
 //update phim
  router.put('/:id', async (req, res) => {
   try {

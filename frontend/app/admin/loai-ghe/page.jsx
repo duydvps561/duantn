@@ -150,9 +150,6 @@ const QuanLyLoaiGhePage = () => {
     {isEditing ? "Cập Nhật" : "Thêm Loại Ghế"}
   </button>
 </div>
-
-
-
       <div className={styles.tablesContainer}>
         <div className={styles.tableSection}>
           <h2 className={styles.tableTitle}>Danh Sách Loại Ghế</h2>
