@@ -3,6 +3,11 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.1.4",
-    "react-color": "^2.19.3"
+    "@reduxjs/toolkit": "^2.3.0",
+    "axios": "^1.7.7",
+    "formik": "^2.4.6",
+    "react-color": "^2.19.3",
+    "react-redux": "^9.1.2",
+    "yup": "^1.4.0"
   }
 }

@@ -1,11 +1,10 @@
+
 var express = require('express');
 var router = express.Router();
 const multer = require('multer'); // Import multer
 const Taikhoan = require('../../models/account/taikhoan.js'); // Import the Taikhoan model
 const Hoadon = require('../../models/food/hoadon.js'); // Mô hình hóa đơn
 const path = require('path');
-
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../../public/img/user')); 
@@ -36,7 +35,6 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
-
 // lấy ra tất cả các tài khoản có hóa đơn lớn hơn 1000
 router.get('/lonhon1000', async (req, res) => {
   try {
@@ -46,13 +44,10 @@ router.get('/lonhon1000', async (req, res) => {
     if (!invoices.length) {
       return res.status(404).send({ error: 'No accounts found with invoices over 10000' });
     }
-
     // Lấy danh sách ID tài khoản từ hóa đơn
     const accountIds = invoices.map(invoice => invoice.taikhoan_id);
-
     // Tìm tất cả tài khoản có ID trong danh sách trên
     const accounts = await Taikhoan.find({ _id: { $in: accountIds } });
-
     res.json(accounts);
   } catch (err) {
     res.status(500).send({ error: err.message });
@@ -75,12 +70,10 @@ router.post('/add', upload.single('img'), async (req, res) => {
   try {
     // Destructure request body
     const { tentaikhoan, gioitinh, sdt, ngaysinh, email, matkhau, trangthai, vaitro } = req.body;
-
     // Validate required fields
     if (!tentaikhoan || !matkhau || !email) {
       return res.status(400).send({ error: 'Missing required fields' });
     }
-
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -120,7 +113,6 @@ router.put('/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
 // xóa tài khoản theo id 
 router.delete('/:id', async (req, res) => {
   try {
@@ -133,7 +125,6 @@ router.delete('/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
 // tìm kiếm tài khoản theo tên
 router.get('/search/:name', async (req, res) => {
   try {

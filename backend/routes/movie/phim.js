@@ -6,7 +6,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../public/img/phim')); 
+    cb(null, path.join(__dirname, '../../public/img/phims')); 
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);  
@@ -54,39 +54,45 @@ router.get('/', async function(req, res, next) {
 
 // upload phim 
 router.post('/add', upload.single('img'), async (req, res) => {
+  
   try {
-    const {
-      tenphim,
-      theloai,
-      ngonngu,
-      diemdanhgiavt,
-      diemdanhgiamot,
-      ngaykhoichieu,
-      ngayhetHan,
-      diemdanhgia,
-      noidung,
-    } = req.body; // Sử dụng req thay vì rep
+      const {
+          tenphim,
+          noidung,
+          thoiluong,
+          daodien,
+          dienvien,
+          trailler,
+          ngayhieuluc,
+          ngayhieulucden,
+          trangthai,
+      } = req.body;
 
-    const img = req.file ? req.file.originalname : null; // Sử dụng req ở đây nữa
+      const requiredFields = [tenphim, noidung, thoiluong, daodien, dienvien, trailler, ngayhieuluc, ngayhieulucden, trangthai];
+      for (const field of requiredFields) {
+          if (!field) {
+              return res.status(400).send({ message: 'All fields are required.' });
+          }
+      }
+      const img = req.file ? req.file.originalname : null; // Get the uploaded image name
+      const newphim = {
+          tenphim,
+          noidung,
+          thoiluong,
+          daodien,
+          dienvien,
+          trailler, // Make sure to use the correct spelling
+          ngayhieuluc,
+          ngayhieulucden,
+          trangthai,
+          img,
+      };
 
-    const newpgim = {
-      tenphim,
-      theloai,
-      ngonngu,
-      diemdanhgiavt,
-      diemdanhgiamot,
-      ngaykhoichieu,
-      ngayhetHan,
-      diemdanhgia,
-      noidung,
-      img,
-    };
-
-    const result = await Phim.create(newpgim);
-    res.status(201).send(result);
+      const result = await Phim.create(newphim);
+      res.status(201).send(result);
   } catch (err) {
-    console.error(err); // Ghi lại lỗi để tiện kiểm tra
-    res.status(500).send('Lỗi upload'); // Có thể cung cấp thông điệp lỗi rõ ràng hơn nếu cần
+      console.error('Error uploading movie:', err); 
+      res.status(500).send({ error: 'An error occurred while uploading the movie.' });
   }
 });
 //xóa phim

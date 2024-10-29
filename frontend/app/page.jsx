@@ -1,4 +1,5 @@
 "use client";
+import "./globals.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -31,7 +32,7 @@ export default function Home() {
         <div className="custom-shadow cursor-pointer">
           <Link href={`/filmdetail/${movie._id}`} className="text-decoration-none text-muted">
             <div className="box-product">
-              <img src={`/img/${movie.img}`} alt="" />
+              <img src={`http://localhost:3000/img/phims/${movie.img}`} alt="" />
             </div>
             <div className="text-product">
               <div className="d-flex flex-wrap gap-xl-5 text-muted text-sm mt-3">
