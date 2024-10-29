@@ -1,0 +1,55 @@
+/* Form Container */
+.formContainer {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Groups */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+/* Two-column layout */
+.formRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Gap between columns */
+}
+
+.formGroup {
+  flex: 1;
+  min-width: 200px; /* Minimum width for each column */
+}
+
+/* Preview Image */
+.imagePreview {
+  max-width: 100%; /* Full width */
+  max-height: 200px; /* Height for preview */
+  object-fit: cover; /* Maintain aspect ratio */
+  border-radius: 5px; /* Optional: border-radius for aesthetics */
+}
+
+/* Submit Button */
+.submitButton {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
