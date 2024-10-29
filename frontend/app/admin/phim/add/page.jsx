@@ -73,7 +73,7 @@ const AddMovie = () => {
           </div>
           <div className="form-group my-2">
             <label className="form-label">Thời lượng</label>
-            <input type="text" name="thoiluong" required className="form-control" />
+            <input type="number" name="thoiluong" required className="form-control" />
           </div>
           <div className="form-group my-2">
             <label className="form-label">Đạo diễn</label>
@@ -104,6 +104,7 @@ const AddMovie = () => {
             <select name="trangthai" className="form-control" defaultValue="1">
               <option value="1">Hiện</option>
               <option value="0">Ẩn</option>
+              <option value="2">chưa chiếu </option>
             </select>
           </div>
           <button type="submit" className="btn btn-primary my-3">Thêm Phim</button>
@@ -112,5 +113,4 @@ const AddMovie = () => {
     </Layout>
   );
 };
-
 export default AddMovie;

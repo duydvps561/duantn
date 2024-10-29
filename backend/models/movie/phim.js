@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const phimSchema = new Schema({
     tenphim: { type: String, required: true }, // Tên phim không cần unique
     noidung: { type: String, required: true},
-    thoiluong: { type: String, required: true},
+    thoiluong: { type: Number, required: true},
     daodien: { type: String, required: true }, // Ngày lập nên là Date
     dienvien: { type: String, required: true }, // Ngày lập nên là Date
     trailler: { type: String, required: true }, // Ngày lập nên là Date
