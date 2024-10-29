@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -10,45 +10,64 @@ import './AddCaChieu.css';
 export default function AddCaChieu() {
     const [phongChieus, setPhongChieus] = useState([]);
     const [phims, setPhims] = useState([]);
+    const [caChieus, setCaChieus] = useState([]);
     const [gioBatDauOptions] = useState(
-        Array.from({ length: 22 }, (_, i) => {
-            const hour = String(i + 1).padStart(2, '0');
-            return `${hour}:00`;
-        })
+        Array.from({ length: 22 }, (_, i) => `${String(i + 1).padStart(2, '0')}:00`)
     );
 
     useEffect(() => {
-        axios.get('http://localhost:3000/phongchieu')
-            .then(response => setPhongChieus(response.data))
-            .catch(error => console.error('Error fetching PhongChieu:', error));
+        const fetchData = async () => {
+            try {
+                const phongChieuResponse = await axios.get('http://localhost:3000/phongchieu');
+                setPhongChieus(phongChieuResponse.data);
 
-        axios.get('http://localhost:3000/phim')
-            .then(response => setPhims(response.data))
-            .catch(error => console.error('Error fetching Phim:', error));
+                const phimResponse = await axios.get('http://localhost:3000/phim');
+                setPhims(phimResponse.data);
 
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const tomorrowStr = tomorrow.toISOString().split('T')[0];
-        document.getElementById('ngaychieu').setAttribute('min', tomorrowStr);
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('ngaychieu').setAttribute('min', today);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
     }, []);
 
     const calculateEndTime = (startTime) => {
         if (!startTime) return '';
         const [hour, minute] = startTime.split(':').map(Number);
-        const endHour = (hour + 2) % 24;
+        const endHour = (hour + 2) % 24; // Giả sử ca chiếu dài 2 giờ
         return `${String(endHour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
     };
 
     const checkAvailability = async (values) => {
-        const { phongchieu_id, ngaychieu, giobatdau } = values;
-        const startDateTime = new Date(`${ngaychieu}T${giobatdau}:00+07:00`);
-        
-        const response = await axios.post('http://localhost:3000/xuatchieu/check', {
-            phongchieu_id,
-            ngaychieu,
-            giobatdau: startDateTime.toISOString(),
+        const { phongchieu_id, ngaychieu, giobatdau, gioketthuc } = values;
+        try {
+            const response = await axios.post('http://localhost:3000/xuatchieu/check', {
+                phongchieu_id, ngaychieu, giobatdau, gioketthuc
+            });
+            return response.data.available;
+        } catch (error) {
+            console.error('Error checking availability:', error);
+            return false; 
+        }
+    };
+
+    const isOverlapping = (newShowtime) => {
+        const newStartTime = new Date(`${newShowtime.ngaychieu}T${newShowtime.giobatdau}`);
+        const newEndTime = new Date(`${newShowtime.ngaychieu}T${newShowtime.gioketthuc}`);
+
+        return caChieus.some(caChieu => {
+            const existingStartTime = new Date(`${caChieu.ngaychieu}T${caChieu.giobatdau}`);
+            const existingEndTime = new Date(`${caChieu.ngaychieu}T${caChieu.gioketthuc}`);
+
+            return (
+                (newStartTime >= existingStartTime && newStartTime < existingEndTime) || // Trùng với giờ bắt đầu của ca chiếu đã có
+                (newEndTime > existingStartTime && newEndTime <= existingEndTime) || // Trùng với giờ kết thúc của ca chiếu đã có
+                (newStartTime <= existingStartTime && newEndTime >= existingEndTime) // Ca chiếu mới bao gồm ca chiếu đã có
+            );
         });
-        return response.data.available;
     };
 
     const formik = useFormik({
@@ -62,49 +81,40 @@ export default function AddCaChieu() {
         validationSchema: Yup.object({
             phongchieu_id: Yup.string().required('Chọn phòng chiếu'),
             phim_id: Yup.string().required('Chọn phim'),
-            ngaychieu: Yup.date().required('Chọn ngày chiếu').test('is-future-date', 'Ngày chiếu phải lớn hơn hoặc bằng ngày mai', value => {
-                if (!value) return false;
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(0, 0, 0, 0);
-                return new Date(value).getTime() >= tomorrow.getTime();
-            }),
+            ngaychieu: Yup.date().required('Chọn ngày chiếu'),
             giobatdau: Yup.string().required('Nhập giờ bắt đầu'),
             gioketthuc: Yup.string().required('Nhập giờ kết thúc')
         }),
         onSubmit: async (values, { resetForm }) => {
-            const isAvailable = await checkAvailability(values);
-            if (!isAvailable) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Khoảng thời gian này đã có ca chiếu khác!'
-                });
+            // Kiểm tra trùng lặp
+            if (isOverlapping(values)) {
+                Swal.fire('Khoảng thời gian này đã có ca chiếu khác!');
                 return;
             }
 
-            try {
-                const response = await axios.post('http://localhost:3000/xuatchieu/add', values);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công',
-                    text: 'Ca chiếu đã được thêm thành công!'
-                });
-                resetForm();
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
-            } catch (error) {
-                console.error('Error adding CaChieu:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Đã xảy ra lỗi khi thêm ca chiếu.'
-                });
+            const isAvailable = await checkAvailability(values);
+            if (!isAvailable) {
+                Swal.fire('Khoảng thời gian này đã có ca chiếu khác!');
+                return;
             }
+
+            setCaChieus((prevCaChieus) => [...prevCaChieus, values]); // Cập nhật danh sách Ca Chiếu
+            resetForm();
         }
     });
+
+    const handleAddShowtime = async () => {
+        for (const caChieu of caChieus) {
+            try {
+                await axios.post('http://localhost:3000/xuatchieu/add', caChieu);
+            } catch (error) {
+                console.error('Error adding CaChieu:', error);
+                Swal.fire('Đã xảy ra lỗi khi thêm ca chiếu.');
+            }
+        }
+        Swal.fire('Tất cả các ca chiếu đã được thêm thành công!');
+        setCaChieus([]); // Xóa tất cả ca chiếu sau khi thêm thành công
+    };
 
     useEffect(() => {
         if (formik.values.giobatdau) {
@@ -183,8 +193,8 @@ export default function AddCaChieu() {
                                 onBlur={formik.handleBlur}
                             >
                                 <option value="">Chọn giờ bắt đầu</option>
-                                {gioBatDauOptions.map((time, index) => (
-                                    <option key={index} value={time}>{time}</option>
+                                {gioBatDauOptions.map(gio => (
+                                    <option key={gio} value={gio}>{gio}</option>
                                 ))}
                             </select>
                             {formik.touched.giobatdau && formik.errors.giobatdau ? (
@@ -204,10 +214,31 @@ export default function AddCaChieu() {
                                 <div>{formik.errors.gioketthuc}</div>
                             ) : null}
                         </div>
-                    </div>
 
-                    <button type="submit">Thêm Ca Chiếu</button>
+                        <div className="col-3">
+                            <label>&nbsp;</label>
+                            <button type="submit">Thêm Ca Chiếu</button>
+                        </div>
+                    </div>
                 </form>
+
+                {caChieus.length > 0 && (
+                    <div>
+                        <h2>Danh Sách Ca Chiếu</h2>
+                        <ul>
+                            {caChieus.map((caChieu, index) => {
+                                const phong = phongChieus.find(p => p._id === caChieu.phongchieu_id)?.tenphong;
+                                const phim = phims.find(p => p._id === caChieu.phim_id)?.tenphim;
+                                return (
+                                    <li key={index}>
+                                        {phong} - {phim} - {caChieu.ngaychieu} - {caChieu.giobatdau} - {caChieu.gioketthuc}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        <button onClick={handleAddShowtime}>Lưu Tất Cả</button>
+                    </div>
+                )}
             </div>
         </Layout>
     );

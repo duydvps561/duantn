@@ -5,9 +5,10 @@ import { useRef } from 'react';
 import Food from '@/app/components/food';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSeat } from '@/redux/slice/cartSlice';
+import { clearMovieInfo, updateGioChieu, updateMovieInfo, updateNgayChieu, updatePhongChieu, updateTenPhim } from '@/redux/slice/filmSlice';
 export default function filmdetail({ params }) {
   const dispatch = useDispatch();
-  const {cart} = useSelector((state) => state.cart)
+  const { cart } = useSelector((state) => state.cart)
   const id = params.id;
   const [show, setShow] = useState(false);
   const [phimChitiet, setPhimChitiet] = useState([]);
@@ -15,6 +16,7 @@ export default function filmdetail({ params }) {
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
   const [timeleft, setTimeLeft] = useState(10 * 60);
+  const [thongtin,setThongtin] = useState([]);
   useEffect(() => {
     if (timeleft > 0) {
       const timer = setTimeout(() => {
@@ -42,13 +44,6 @@ export default function filmdetail({ params }) {
   }
   const minutes = Math.floor(timeleft / 60);
   const seconds = timeleft % 60;
-  const handleSeatClick = (seat) => {
-    if (seatSelected.includes(seat)) {
-      setSeatSelected(seatSelected.filter(s => s !== seat));
-    } else {
-      setSeatSelected([...seatSelected, seat]);
-    }
-  };
   const [showTrailer, setShowTrailer] = useState(false);
   const toggleTrailer = () => {
     setShowTrailer(!showTrailer);
@@ -61,6 +56,7 @@ export default function filmdetail({ params }) {
       }
       const data = await response.json();
       setPhimChitiet(data);
+      dispatch(updateTenPhim(data.tenphim))
     } catch (error) {
       console.error("Error fetching film details:", error);
     }
@@ -138,9 +134,10 @@ export default function filmdetail({ params }) {
       gheMap[phongchieuid].push(ghe);
     });
   }, [gheData]);
-useEffect(()=>{
-  console.log('gio hang cap nhap',cart);
-},[cart])
+  useEffect(() => {
+    console.log('gio hang cap nhap', cart);
+  }, [cart]);
+
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -224,7 +221,7 @@ useEffect(()=>{
               <div
                 className="text ms-3 mt-3"
                 key={item.id}
-                onClick={() => setNgayChieuSelected(item.ngaychieu)}
+                onClick={() =>{ setNgayChieuSelected(item.ngaychieu);dispatch(updateNgayChieu(item.ngaychieu))}}
               >
                 <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
                 <h2>{new Date(item.ngaychieu).getDate()}</h2>
@@ -245,13 +242,15 @@ useEffect(()=>{
                 if (item.ngaychieu === ngaychieuSelected) {
                   return (
                     <button
-                      key={item._id} // Sử dụng item._id để đảm bảo uniqueness
+                      key={item._id}
                       className='chonthoigian'
                       type='button'
                       onClick={() => {
                         setShow(true);
                         setgiochieu(item.giobatdau);
-                        setPhongChieuData(phongchieudt)
+                        setPhongChieuData(phongchieudt);
+                        dispatch(updateGioChieu(item.giobatdau));
+                        dispatch(updatePhongChieu(phongchieudt.tenphong));
                       }}
                     >
                       {item.giobatdau}
@@ -291,9 +290,7 @@ useEffect(()=>{
                       {gheData.map((ghe) => {
                         const seat = `${ghe.hang}${ghe.cot}`;
                         const isSelected = seatSelected.includes(seat);
-                        const loaigheItem = loaighe.find(
-                          (item) => item._id === ghe.loaighe_id
-                        );
+                        const loaigheItem = loaighe.find(item => item._id === ghe.loaighe_id);
                         let style = {};
                         if (loaigheItem) {
                           style.backgroundColor = loaigheItem.mau;
@@ -308,18 +305,32 @@ useEffect(()=>{
                               style={style}
                               className={`text-center ${isSelected ? 'selected' : ''}`}
                               onClick={() => {
-                                if (isSelected) {
-                                  setSeatSelected(seatSelected.filter(selected => selected !== seat));
+                                if (loaigheItem && loaigheItem.loaighe === 'Ghế Đôi') {
+                                  const firstSeat = seat;
+                                  const secondSeat = `${ghe.hang}${parseInt(ghe.cot) + 1}`;
+                                  if (isSelected) {
+                                    setSeatSelected(prevSeats =>
+                                      prevSeats.filter(selected => selected !== firstSeat && selected !== secondSeat)
+                                    );
+                                    dispatch(addSeat({ _id: ghe._id, seat: [] })); // Xóa cả hai ghế đôi
+                                  } else {
+                                    setSeatSelected(prevSeats => [...prevSeats, firstSeat, secondSeat]);
+                                    dispatch(addSeat({ _id: ghe._id, seat: [firstSeat, secondSeat] })); // Thêm cả hai ghế
+                                  }
                                 } else {
-                                  setSeatSelected([...seatSelected, seat]);
+                                  if (isSelected) {
+                                    setSeatSelected(prevSeats => prevSeats.filter(selected => selected !== seat));
+                                    dispatch(addSeat({ _id: ghe._id, seat: [] })); // Xóa ghế đơn
+                                  } else {
+                                    setSeatSelected(prevSeats => [...prevSeats, seat]);
+                                    dispatch(addSeat({ _id: ghe._id, seat: [seat] })); // Thêm ghế đơn
+                                  }
                                 }
-                                dispatch(addSeat({ _id: ghe._id,seat }));
                               }}
                             >
                               {seat}
                             </td>
                           </tr>
-
                         );
                       })}
                     </div>
@@ -348,7 +359,7 @@ useEffect(()=>{
                   <p>Ghế đôi</p>
                 </div>
               </div>
-              <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 align-items-center ">
+              <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 mb-3 align-items-center ">
                 <div className="seat-bill">
                   <p className="seat-selected">
                     Ghế đã chọn: <span>{seatSelected.join(", ")}</span>
@@ -358,15 +369,21 @@ useEffect(()=>{
                   </p> */}
                 </div>
                 <div className="seat-btn">
-                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60) }}>Quay lại</button>
-                  <button className="continue-btn" onClick={() => { setFoodShow(true) }}>Tiếp tục</button>
+                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60); setFoodShow(false); setSeatSelected([]);dispatch(clearMovieInfo()) }}>Quay lại</button>
+                  <button
+                    className="continue-btn"
+                    onClick={() => setFoodShow(true)}
+                    disabled={seatSelected.length === 0}
+                  >
+                    Tiếp tục
+                  </button>
                 </div>
               </div>
             </div>
           </section>
           {foodshow && (
             <>
-              <Food />
+              <Food  />
             </>
           )}
         </>

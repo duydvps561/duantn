@@ -8,8 +8,8 @@ const phimSchema = new Schema({
     daodien: { type: String, required: true }, // Ngày lập nên là Date
     dienvien: { type: String, required: true }, // Ngày lập nên là Date
     trailler: { type: String, required: true }, // Ngày lập nên là Date
-    ngayhieuluc: { type: String, required: true }, // Giờ lập không cần unique
-    ngayhieulucden: { type: String, required: true }, // Giờ lập không cần unique
+    ngayhieuluc: { type: Date, required: true }, // Giờ lập không cần unique
+    ngayhieulucden: { type: Date, required: true }, // Giờ lập không cần unique
     img: { type: String, required: true }, // Giờ lập không cần unique
     trangthai: { type: String, default: '1' },
 }, { timestamps: true });

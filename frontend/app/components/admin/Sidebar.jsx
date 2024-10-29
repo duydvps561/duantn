@@ -80,6 +80,7 @@ const DropdownMenu = ({ item, isActive }) => {
 const menuItems = [
   { href: '/admin/thongke', text: 'Thống Kê', icon: faChartBar },
   { href: '/admin/phim', text: 'Phim', icon: faFilm },
+  { href: '/admin/cachieu', text: 'Ca Chiếu Phim', icon: faFilm },
   { href: '/admin/phong-phim', text: 'Phòng Phim', icon: faHome },
   { href: '/admin/loai-ghe', text: 'Loại ghế', icon: faHome },
   { href: '/admin/gia-ghe', text: 'Giá ghế', icon: faHome },
