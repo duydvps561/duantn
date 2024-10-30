@@ -16,6 +16,7 @@ export default function RootLayout({ children }) {
         <Footer/>
         </Providers>
         <script src="https://kit.fontawesome.com/ea6209cd9f.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       </body>
     </html>
   );

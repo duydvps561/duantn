@@ -21,6 +21,9 @@ export async function middleware(request) {
       return NextResponse.redirect(new URL('/login', request.url)); // Chuyển hướng nếu token không hợp lệ
     }
 
+    const userData = await res.json(); // Lấy thông tin người dùng
+    request.user = userData; // Thêm thông tin người dùng vào yêu cầu
+
     // Nếu token hợp lệ, cho phép yêu cầu tiếp tục
     return NextResponse.next();
   } catch (error) {

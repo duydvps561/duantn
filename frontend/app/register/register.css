@@ -1,103 +1,124 @@
 /* Modal Overlay */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-register {
-    background-color: #343a40; /* Màu nền tối */
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 980px;
-    position: relative;
-  }
-  .modal-register h2{
-    font-size: 36px;
-  }
-  .modal-register button[type="submit"] {
-    background: linear-gradient(to right, #FEA2A2 , #FD4242 35%);    
-    color: white;               
-    border: none;               
-    border-radius: 20px;
-    display: block;
-    margin: 20px auto 0 auto;        
-    cursor: pointer;
-    width: 100%;
-    height: 40px;
-    font-size: 20px;
-    font-weight: bold;            
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* Tăng độ mờ cho nền */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
-  .close-modal {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
+
+.modal-register {
+  background-color: #343a40; /* Màu nền tối */
+  color: white;
+  padding: 30px; /* Tăng padding cho không gian thoáng hơn */
+  border-radius: 15px; /* Đường viền mềm mại hơn */
+  width: 90%;
+  max-width: 600px; /* Giới hạn chiều rộng cho thiết bị nhỏ */
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Thêm bóng cho modal */
+}
+.gender-birthdate, .password-group {
+  display: flex; /* Dàn ngang các phần tử */
+  justify-content: space-between; /* Tạo khoảng cách đều giữa các phần tử */
+  gap: 20px; /* Khoảng cách giữa các trường */
+}
+
+label {
+  color: #ffffff;
+  font-size: 20px; /* Kích thước chữ cho label */
+  margin-bottom: 5px; /* Khoảng cách dưới label */
+}
+.modal-register h2 {
+  font-size: 28px; /* Kích thước tiêu đề nhỏ hơn cho cân đối */
+  margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+  text-align: center; /* Căn giữa tiêu đề */
+}
+
+.modal-register button[type="submit"] {
+  background: linear-gradient(to right, #fea2a2, #fd4242 35%);
+  color: white;
+  border: none;
+  border-radius: 25px; /* Đường viền tròn hơn */
+  display: block;
+  margin: 20px auto 0 auto;
+  cursor: pointer;
+  width: 100%;
+  height: 45px; /* Chiều cao nút lớn hơn */
+  font-size: 18px; /* Kích thước chữ cho nút nhỏ hơn */
+  font-weight: bold;
+  transition: background 0.3s; /* Hiệu ứng chuyển màu khi hover */
+}
+
+.modal-register button[type="submit"]:hover {
+  background: linear-gradient(
+    to right,
+    #fd4242,
+    #fea2a2 35%
+  ); /* Đổi màu khi hover */
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px; /* Kích thước lớn hơn cho nút đóng */
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  font-size: 20px; /* Kích thước chữ cho label nhỏ hơn */
+  margin-bottom: 5px;
+}
+
+form input,
+form select {
+  padding: 12px; /* Tăng padding cho input và select */
+  margin-bottom: 20px; /* Khoảng cách dưới các trường nhập */
+  border: none;
+  border-radius: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #495057; /* Màu nền cho input */
+  color: white;
+}
+
+input::placeholder,
+select {
+  color: #ced4da; /* Màu placeholder */
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  background-color: #6c757d; /* Màu nền khi focus */
+}
+
+/* Thông báo lỗi */
+div {
+  color: #ff6b6b; /* Màu đỏ cho thông báo lỗi */
+  font-size: 14px; /* Kích thước chữ cho thông báo lỗi */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-register {
+    padding: 20px; /* Padding nhỏ hơn trên thiết bị nhỏ */
   }
-  
-  form {
-    display: flex;
-    flex-direction: column;
+
+  .modal-register h2 {
+    font-size: 24px; /* Kích thước tiêu đề nhỏ hơn */
   }
-  
-  form label {
-    font-size: 24px;
-    margin-bottom: 5px;
-  }
-  
-  form input {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: none;
-    border-radius: 20px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .hoten, .information, .pw {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px; 
-  }
-  
-  .hoten .ho, .hoten .ten, .information .nphone, .information .email, .pw .pass, .pw .repass {
-    width: 48%; 
-  }
-  
-  input[type="text"] {
-    background-color: #495057;
-    color: white;
-  }
-  
-  input::placeholder {
-    color: #ced4da;
-  }
-  
-  input:focus {
-    outline: none;
-    background-color: #6c757d;
-  }
-  
-  @media (max-width: 768px) {
-    .hoten, .information, .pw {
-      flex-direction: column;
-    }
-  
-    .hoten .ho, .hoten .ten, .information .nphone, .information .email, .pw .pass, .pw .repass {
-      width: 100%;
-    }
-  }
-  
+}

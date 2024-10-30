@@ -394,7 +394,25 @@ header .nav-list {
 .login-btn:hover {
   transform: scale(1.1);
 }
+.welcome-message{
+  cursor: pointer;
+}
+.btn-log-out {
+  background-color: transparent; /* Nền trong suốt */
+  border: none;                  /* Không có viền */
+  cursor: pointer;               /* Con trỏ khi di chuột */
+  padding: 0;                   /* Không có khoảng đệm */
+  margin: 0;                    /* Không có khoảng cách ngoài */
+}
+.icon-log-out {
+  color: red;              /* Màu sắc của biểu tượng */
+  font-size: 24px;        /* Kích thước biểu tượng */
+  transition: color 0.3s; /* Hiệu ứng chuyển màu khi hover */
+}
 
+.icon-log-out:hover {
+  color: darkred;         /* Màu khi hover */
+}
 
 /* Footer styling */
 footer {
