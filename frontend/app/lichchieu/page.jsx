@@ -72,7 +72,7 @@ export default function LichChieu() {
             <div className="row g-0">
               <div className="col-md-5">
                 <img
-                  src={`/img/${phim.img || "0017840_0 1-3.png"}`}
+                  src={`http://localhost:3000/img/phims/${phim.img}`}
                   className="img-fluid rounded-start"
                   style={{ maxWidth: "230px", height: "300px" }}
                   alt={phim.tenphim}

@@ -243,21 +243,25 @@
     border-radius: 5px;
     background-color: #FF3741;
 }
-
+.seat-bill{
+    position: relative;
+}
 .seat-bill p {
     font-size: 18px;
     font-weight: bold;
     color: #ffffff;
     padding: 0;
+
 }
 .seat-selected {
     max-width: 100%; 
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     margin: 0 auto; 
     gap: 10px; 
     padding: 10px;
+
 }
 
 .seat-btn .back-btn {

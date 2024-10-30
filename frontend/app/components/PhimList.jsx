@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 export default function PhimList() {
   const [phimList, setPhimList] = useState([]); // State để lưu danh sách phim
-
   const fetchPhim = async () => {
     try {
       const res = await fetch(`http://localhost:3000/phim`);
