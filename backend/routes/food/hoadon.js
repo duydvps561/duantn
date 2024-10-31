@@ -19,5 +19,28 @@ router.post('/add', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+// lấy hóa đơn theo id 
+
+router.get('/:id', async (req, res) => {
+  try {
+    const hoadon = await Hoadon.findById(req.params.id);
+    res.json(hoadon);
+  } catch (err) {
+    res.status(404).send({ message: 'Hóa đơn không tồn tại' });
+  }
+});
+// chi tiết hóa đơn
+
+router.get('/:id/details', async (req, res) => {
+  try {
+    const hoadon = await Hoadon.findById(req.params.id);
+    if (!hoadon) {
+      return res.status(404).send({ message: 'Hóa đơn không tồn tại' });
+    }
+    res.json(hoadon.details);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+}); 
 
 module.exports = router;
