@@ -22,10 +22,11 @@
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Thêm bóng cho modal */
 }
-.gender-birthdate, .password-group {
+.password-group {
+  justify-content: center;
   display: flex; /* Dàn ngang các phần tử */
   justify-content: space-between; /* Tạo khoảng cách đều giữa các phần tử */
-  gap: 20px; /* Khoảng cách giữa các trường */
+  gap: 10px; /* Khoảng cách giữa các trường */
 }
 
 label {

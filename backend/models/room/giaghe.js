@@ -6,6 +6,7 @@ const giagheSchema = new Schema({
     giaghe: { type: Number, required: true },
     giobatdau: { type: String, required: true }, 
     gioketthuc: { type: String, required: true }, 
+    ngaycuoituan:{ type: Number,required: true ,default: 0 },
     trangthai: { type: Number, required: true ,default: 1  },
 }, { timestamps: true });
 

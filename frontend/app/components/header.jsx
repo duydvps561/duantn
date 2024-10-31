@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons"; // Thêm dòng này
 import LoginModal from "../login/LoginModal";
 import RegisterModal from "../register/RegisterModal";
 import InfoModal from "../InforModal/InforModal"; // Đảm bảo đường dẫn đúng
@@ -19,7 +20,13 @@ export default function Header() {
   const handleCloseLogin = () => setShowLogin(false);
 
   const [showInfo, setShowInfo] = useState(false);
-  const handleOpenInfo = () => setShowInfo(true);
+
+  const handleOpenInfo = () => {
+    if (user) {
+      setShowInfo(true);
+    }
+  };
+
   const handleCloseInfo = () => setShowInfo(false);
 
   const [user, setUser] = useState(null);
@@ -122,14 +129,6 @@ export default function Header() {
           </li>
           <li>
             <Link
-              href="/contact"
-              className={pathname === "/contact" ? "active" : ""}
-            >
-              Liên hoan phim
-            </Link>
-          </li>
-          <li>
-            <Link
               href="#"
               className={pathname === "/some-path" ? "active" : ""}
             >
@@ -142,7 +141,11 @@ export default function Header() {
         {user ? (
           <>
             <div className="welcome-message" onClick={handleOpenInfo}>
-              Xin chào, {user.email}!
+              <FontAwesomeIcon
+                icon={faUser} // Sử dụng biểu tượng người dùng
+                className="icon-log-out"
+              />
+              {user.email}
             </div>
             <button
               type="button"
@@ -172,7 +175,11 @@ export default function Header() {
         handleClose={handleCloseLogin}
         onLoginSuccess={handleLoginSuccess}
       />
-      <InfoModal show={showInfo} handleClose={handleCloseInfo} user={user} />
+      <InfoModal
+        show={showInfo}
+        handleClose={handleCloseInfo}
+        email={user?.email}
+      />
     </header>
   );
 }

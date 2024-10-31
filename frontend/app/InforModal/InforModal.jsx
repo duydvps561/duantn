@@ -1,7 +1,41 @@
-import React from "react";
-import "./infor.css"; // Đảm bảo bạn có CSS cho modal
+// app/inforModal/InforModal.js
+import React, { useEffect, useState } from "react";
+import "./infor.css";
 
-const InfoModal = ({ show, handleClose, user }) => {
+const InfoModal = ({ show, handleClose, email }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      if (token && email) {
+        try {
+          const response = await fetch(
+            `http://localhost:3000/taiKhoan?email=${email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          } else {
+            console.error("Failed to fetch user data");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    if (show) {
+      fetchUserData();
+    }
+  }, [show, email]);
+
   if (!show) return null;
 
   return (
@@ -25,7 +59,7 @@ const InfoModal = ({ show, handleClose, user }) => {
               <strong>SDT:</strong> {user.sdt || "Không có thông tin"}
             </p>
             <p>
-              <strong>Ngày sinh:</strong>
+              <strong>Ngày sinh:</strong>{" "}
               {user.ngaysinh
                 ? new Date(user.ngaysinh).toLocaleDateString("vi-VN")
                 : "Không có thông tin"}
