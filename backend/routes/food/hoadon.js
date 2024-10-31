@@ -55,9 +55,7 @@ router.delete('/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
 // cập nhật hóa đơn
-
 router.put('/:id', async (req, res) => {
   try {
     const hoadon = await Hoadon.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -69,6 +67,4 @@ router.put('/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
-
 module.exports = router;
