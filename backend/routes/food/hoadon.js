@@ -10,7 +10,6 @@ router.get('/', async function(req, res, next) {
     next(err);
   }
 });
-
 router.post('/add', async (req, res) => {
   try {
     const hoadon = new Hoadon(req.body);
