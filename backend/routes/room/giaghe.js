@@ -45,6 +45,7 @@ router.post('/add', async (req, res) => {
       giaghe,
       giobatdau,
       gioketthuc,
+      ngaycuoituan,
       trangthai,
     } = req.body; // Sử dụng req thay vì rep
     const loaighe = await Loaighe.findById(loaighe_id);
@@ -59,6 +60,7 @@ router.post('/add', async (req, res) => {
       giaghe,
       giobatdau,
       gioketthuc,
+      ngaycuoituan:ngaycuoituan|| 0 ,
       trangthai: trangthai || 1
     });
     const result = await newGiaghe.save();
