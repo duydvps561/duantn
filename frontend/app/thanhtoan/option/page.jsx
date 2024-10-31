@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function ThanhtoanQR() {
+    const [totalAmount, setTotalAmount] = useState(0);
     const qrState = useSelector((state) => state.qr);
+    const {cart }= useSelector((state) => state.cart);
+    useEffect((item) =>{
+        const amount = cart.reduce((acc, item) => acc + (item.gia * (item.quantity || 1)), 0);
+        setTotalAmount(amount);
+    },[cart])
     const url = qrState.url;
     const [isLoading, setIsLoading] = useState(false);
     const [timeleft, setTimeleft] = useState(5 * 60);
@@ -37,7 +43,7 @@ export default function ThanhtoanQR() {
     // Lấy ngày theo định dạng dd/mm/yyyy
     const ngaylap = now.toISOString()// Định dạng ngày
     const invoiceData = {
-        "tongtien": 100000,
+        "tongtien": totalAmount,
         "giolap": giolap, // Giờ hiện tại
         "ngaylap": ngaylap, // Ngày hiện tại
         "taikhoan_id": "671ba17131448681a2fcfcde"

@@ -141,6 +141,7 @@ export default function ThanhToan() {
                   name="payment"
                   value={method.toLowerCase().replace(' ', '')}
                   aria-label={`Select ${method} as payment method`}
+                  checked={paymentMethod === method.toLowerCase().replace(' ', '')} 
                   onChange={() => setPaymentMethod(method.toLowerCase().replace(" ", ""))}
                 />
                 <label htmlFor={method}>
@@ -171,7 +172,7 @@ export default function ThanhToan() {
                 <p>{totalAmount.toLocaleString()}đ</p>
               </div>
               <Link href={`/thanhtoan/option?${qrUrllink}`} style={{textDecoration:'none'}}>
-                <button>Thanh toán</button>
+              <button disabled={cart.length === 0 || !paymentMethod}>Thanh toán</button>
               </Link>
               <p className="luuy">
                 Lưu ý: Không mua vé cho trẻ em dưới 13 tuổi đối với các suất chiếu phim kết thúc sau 22h00 và không mua vé cho trẻ em dưới 16 tuổi đối với các suất chiếu phim kết thúc sau 23h00.
