@@ -16,26 +16,27 @@ export default function ThanhToan() {
   const [qrUrllink, setQrUrllink] = useState("");
   useEffect(() => {
     let url = "";
-    const encodedDesc = encodeURIComponent(
+    const  description = encodeURIComponent(
         `Thanh toán ${film.tenphim || "phim"}`
     );
-
+    const accountName = encodeURIComponent('PHAN MINH TUONG');
     switch (paymentMethod) {
-        case "vietqr":
-            url = `vietqr://MB?tk=1911010104&amount=${totalAmount}&desc=${encodedDesc}`;
-            break;
-        case "vnpay":
-            url = `vnpay://payment?amount=${totalAmount}&desc=${encodedDesc}`;
-            break;
-        case "viettelmoney":
-            url = `viettelmoney://pay?amount=${totalAmount}&desc=${encodedDesc}`;
-            break;
-        case "payoo":
-            url = `payoo://pay?amount=${totalAmount}&desc=${encodedDesc}`;
-            break;
-        default:
-            url = ""; // Giá trị mặc định
-    }
+      case "vietqr":
+          url = `https://img.vietqr.io/image/MB-1911010104-compact.png?amount=${totalAmount}&addInfo=${description}&accountName=${accountName}`;
+          break;
+      case "vnpay":
+          url = `https://pay.vnpay.vn/payment?amount=${totalAmount}&addInfo=${description}`;
+          break;
+      case "viettelmoney":
+          url = `https://viettelmoney.vn/pay?amount=${totalAmount}&addInfo=${description}`;
+          break;
+      case "payoo":
+          url = `https://payoo.vn/pay?amount=${totalAmount}&addInfo=${description}`;
+          break;
+      default:
+          url = ""; 
+  }
+  
 
     if (url) {
         setQrUrllink(url); // Cập nhật state cục bộ
@@ -53,11 +54,10 @@ export default function ThanhToan() {
   useEffect(() => {
     const seats = cart.map(item => item.seat).flat().filter(Boolean);
     setghe(seats);
-    setIsLoaded(true); // Đánh dấu đã tải xong
+    setIsLoaded(true);
   }, [cart]);
 
   useEffect(() => {
-    // Tính tổng số tiền mỗi khi giỏ hàng thay đổi
     const amount = cart.reduce((acc, item) => acc + (item.gia * (item.quantity || 1)), 0);
     setTotalAmount(amount);
   }, [cart]);

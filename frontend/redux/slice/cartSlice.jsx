@@ -36,7 +36,7 @@ export const cartSlice = createSlice({
         },
         // Thêm ghế vào cart
         addSeat: (state, action) => {
-            const { _id, seat } = action.payload;
+            const { _id, seat,gia } = action.payload;
 
             // Nếu seat là mảng rỗng, nghĩa là bỏ chọn ghế, thì xóa khỏi cart
             if (seat.length === 0) {
@@ -45,9 +45,10 @@ export const cartSlice = createSlice({
                 const existingItem = state.cart.find(cartItem => cartItem._id === _id);
                 if (existingItem) {
                     existingItem.seat = seat;
-                    existingItem.quantity = seat.length; // Cập nhật số lượng ghế
+                    existingItem.quantity = seat.length;
+                    existingItem.gia = gia;
                 } else {
-                    state.cart.push({ _id, seat, quantity: seat.length, gia: 100000 }); // Thêm mới với số lượng ghế
+                    state.cart.push({ _id, seat, quantity: seat.length, gia}); // Thêm mới với số lượng ghế
                 }
             }
             // Lưu vào localStorage
