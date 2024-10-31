@@ -4,6 +4,7 @@ import Layout from "@/app/components/admin/Layout";
 import Link from 'next/link'; // Import Link from next/link
 import styles from './QuanLyPhim.module.css';
 import '../../globals.css';
+import '../../admin_header.css';
 const QuanLyPhimPage = () => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {

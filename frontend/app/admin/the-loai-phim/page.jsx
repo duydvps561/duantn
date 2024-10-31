@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import Layout from "@/app/components/admin/Layout"; // Thay đổi đường dẫn theo cấu trúc dự án của bạn
 import './MovieCategoryManagement.css'; // Import CSS custom nếu cần
-import '../../globals.css'; // Import global styles
+import '../../globals.css';
+import '../../admin_header.css'; // Import global styles
 
 const MovieCategoryManagement = () => {
   // Dữ liệu mẫu cho các thể loại phim

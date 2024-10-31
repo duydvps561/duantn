@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "@/app/components/admin/Layout";
 import './CustomerManagement.css'; // Import CSS custom nếu cần
-import '../../globals.css'; // Import global styles
+import '../../globals.css';
+import '../../admin_header.css'; // Import global styles
 
 
 function CustomerList() {

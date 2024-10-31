@@ -1,0 +1,30 @@
+/* Header styling */
+header {
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    height: 70px;
+    background-color: rgba(5, 11, 23, 0.7);
+    backdrop-filter: blur(20px); /* Làm mờ phần tử dưới header */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Logo styling */
+  header img {
+    height: 50px;
+  }
+  
+  /* Navigation styling */
+  header .nav-list {
+    display: flex;
+    list-style: none;
+    margin-top: 15px;
+    gap: 25px;
+  }

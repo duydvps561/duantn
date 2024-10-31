@@ -2,7 +2,8 @@
 // import React from 'react';
 // import Layout from "@/app/components/admin/Layout";
 // import styles from './QuanLyDoAn.module.css'; // CSS module for styling
-// import '../../globals.css'; // Import global styles
+// import '../../globals.css';
+import '../../admin_header.css'; // Import global styles
 
 // const QuanLyDoAnPage = () => {
 //   // Mock data for the food list
@@ -62,6 +63,7 @@ import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
 import styles from './QuanLyDoAn.module.css'; 
 import '../../globals.css';
+import '../../admin_header.css';
 import Link from 'next/link';
 const FoodList = () => {
   const [foods, setFoods] = useState([]);
