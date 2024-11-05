@@ -21,7 +21,6 @@ export async function middleware(request) {
   // Nếu token hợp lệ, cho phép yêu cầu tiếp tục
   return NextResponse.next();
 }
-
 export const config = {
   matcher: "/info",
 };
