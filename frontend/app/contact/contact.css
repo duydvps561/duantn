@@ -1,126 +1,271 @@
-
-
-/* Global Styles */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  h2 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 30px;
-    margin-top: 10px;
-  }
-  
-  .contact {
-    display: flex;
-    flex-wrap: wrap; /* Hỗ trợ co giãn cho màn hình nhỏ */
-    gap: 20px;
-  }
-  
-  /* Contact Information */
-  .contact-infor {
-    flex: 1; /* Chiếm 1 phần của màn hình */
-    min-width: 300px; /* Đảm bảo độ rộng tối thiểu */
-  }
-  
-  .infor {
-    margin-bottom: 20px;
-  }
-  
-  .infor h4 {
-    color: #ffffff;
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .infor p {
-    margin: 0 0 5px;
-    color: #727272;
-  }
-  
-  /* Map Styles */
-  .map {
-    flex: 1.5; /* Chiếm 1.5 phần của màn hình */
-    min-width: 300px; /* Đảm bảo độ rộng tối thiểu */
-  }
-  
-  .map iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    min-height: 450px; /* Chiều cao tối thiểu của bản đồ */
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 1024px) {
-    .contact {
-      flex-direction: column; /* Chuyển sang hiển thị theo cột */
-      align-items: center;
-    }
-  
-    .map {
-      margin-top: 20px; /* Thêm khoảng cách phía trên cho bản đồ */
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .infor h4 {
-      font-size: 16px;
-    }
-  
-    .infor p {
-      font-size: 14px;
-    }
-  }
-  
-
-  .form-contact {
-    width: 100%;
-    max-width: 700px; /* Giới hạn chiều rộng của form */
-    margin: 30px auto; /* Canh giữa form */
-    padding: 20px; /* Khoảng cách bên trong */
-    border-radius: 8px; /* Bo góc */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
-    font-family: Arial, sans-serif; /* Font chữ chung */
+.contact-container {
+  width: 1400px !important;
+  margin: 20px auto !important;
 }
 
-.form-contact form {
-    display: flex;
-    flex-direction: column; /* Các thành phần trong form xếp theo cột */
+.contact-row {
+  width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center;
+}
+.contact-row h1 {
+  color: white;
+  margin: 30px auto;
+}
+.contact-top-content {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100%;
+  height: 450px;
 }
 
-.form-contact label {
-    font-size: 16px; /* Kích thước chữ của label */
-    color: #ffffff; /* Màu chữ của label */
+.contact-form-col-8 {
+  width: 70%;
+  height: 100%;
+  border-radius: 20px;
+  padding: 0 10px;
+  margin: 0 10px;
 }
 
-.form-contact input[type="text"] {
-    width: 100%;
-    background-color: #202020;
-    padding: 10px; /* Khoảng cách bên trong của input */
-    margin-bottom: 5px; /* Khoảng cách dưới của input */
-    border: 1px solid #ccc; /* Viền của input */
-    border-radius: 5px; /* Bo góc của input */
-    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước của input */
-    font-size: 14px; /* Kích thước chữ */
-    transition: border-color 0.3s; /* Hiệu ứng chuyển đổi màu viền */
+.contact-form {
+  background-color: rgba(253, 253, 253, 0.1);
+  display: flex;
+  flex-direction: column; /* Xếp theo chiều dọc */
+  gap: 15px; /* Khoảng cách giữa các phần tử */
+  padding: 20px; /* Khoảng đệm bên trong */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  border-radius: 20px;
 }
 
-.form-contact input[type="submit"] {
-    padding: 12px; /* Khoảng cách bên trong của nút */
-    background: linear-gradient(to right, red, rgb(243, 77, 77));
-    color: #fff; /* Màu chữ của nút */
-    border: none; /* Bỏ viền mặc định */
-    border-radius: 5px; /* Bo góc của nút */
-    cursor: pointer; /* Con trỏ chuột dạng bàn tay */
-    font-size: 16px; /* Kích thước chữ của nút */
-    transition: background-color 3s; /* Hiệu ứng chuyển màu nền */
+.contact-information {
+  display: flex; /* Xếp theo hàng */
+  gap: 15px; /* Khoảng cách giữa các input */
 }
 
-.form-contact input[type="submit"]:hover {
-  background: linear-gradient(to left, red, rgb(243, 77, 77));
+.contact-input {
+  background-color: #818181;
+  padding: 20px; /* Khoảng đệm bên trong */
+  border: 1px solid #ccc; /* Viền xám */
+  border-radius: 20px; /* Bo góc cho input */
+  font-size: 16px; /* Kích thước chữ */
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+}
+
+.contact-input:focus {
+  border-color: #222222; /* Màu viền khi focus */
+  outline: none; /* Bỏ outline mặc định */
+}
+
+.contact-input::placeholder {
+  color: #000000; /* Màu chữ placeholder */
+}
+
+.contact-textarea {
+  width: 100%;
+  height: 200px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: #818181;
+  font-size: 16px;
+  resize: none;
+}
+
+.contact-send-btn {
+  background-image: linear-gradient(to right, red , yellow);  color: white; /* Màu chữ trắng */
+  padding: 10px 15px; /* Khoảng đệm bên trong */
+  border: none; /* Bỏ viền mặc định */
+  border-radius: 20px; /* Bo góc cho nút */
+  font-size: 16px; /* Kích thước chữ */
+  cursor: pointer; /* Hiển thị con trỏ tay khi hover */
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
+  width: 200px; /* Đặt chiều rộng tự động để nút ngắn lại */
+  margin-left: 0; /* Đặt lề bên trái bằng 0 */
+}
+
+.contact-send-btn:hover {
+  background-image: linear-gradient(to right , yellow, red);  color: white; /* Màu chữ trắng */
+}
+
+.contact-send-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(161, 162, 163, 0.5);
+}
+
+/* Đặt nút bên trái */
+
+.contact-info-col-4 {
+  background-image: url("../../public/img/bg1.jpg"); /* Đặt hình ảnh nền */
+  background-size: cover; /* Đảm bảo hình ảnh phủ kín toàn bộ phần tử */
+  background-position: center; /* Căn giữa hình ảnh */
+  background-repeat: no-repeat; /* Không lặp lại hình ảnh */
+  width: 30%; /* Chiều rộng của phần tử */
+  min-height: 450px;
+  border-radius: 20px; /* Bo góc cho phần tử */
+  margin: 0 10px; /* Lề bên ngoài */
+  color: white; /* Màu chữ mặc định, có thể điều chỉnh */
+  display: flex; /* Sử dụng flexbox để căn chỉnh nội dung */
+  flex-direction: column; /* Xếp theo chiều dọc */
+  justify-content: flex-start; /* Căn nội dung ở trên cùng */
+}
+
+.contact-info {
+  width: 100%;
+  background-color: rgba(253, 253, 253, 0.3);
+  padding: 20px;
+  border-radius: 20px;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.contact-info h1 {
+  color: white;
+  font-size: 24px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.contact-info p {
+  font-weight: bold;
+  font-size: 16px;
+  width: 90%;
+  margin-top: 30px;
+}
+
+.contact-send-email {
+  margin-top: 100px;
+}
+
+.contact-send-email .contact-email-btn {
+  margin-top: 15px;
+  background-image: linear-gradient(to right, red , yellow);  color: white; /* Màu chữ trắng */
+  padding: 10px 15px; /* Khoảng đệm bên trong */
+  border: none; /* Bỏ viền mặc định */
+  border-radius: 20px; /* Bo góc cho nút */
+  font-size: 16px; /* Kích thước chữ */
+  cursor: pointer; /* Hiển thị con trỏ tay khi hover */
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
+  width: 100%; /* Đặt chiều rộng tự động để nút ngắn lại */
+  margin-left: 0; /* Đặt lề bên trái bằng 0 */
+}
+
+.contact-send-email .contact-email-btn:hover {
+  background-image: linear-gradient(to right , yellow, red);  color: white; /* Màu chữ trắng */
+}
+
+.contact-send-email .contact-email-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(161, 162, 163, 0.5);
+}
+
+.contact-send-email input[type="email"] {
+  background-color: #818181;
+  padding: 20px; /* Khoảng đệm bên trong */
+  border: 1px solid #ccc; /* Viền xám */
+  border-radius: 20px; /* Bo góc cho input */
+  font-size: 16px; /* Kích thước chữ */
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+}
+
+.contact-send-email input[type="email"]:focus {
+  border-color: #222222; /* Màu viền khi focus */
+  outline: none; /* Bỏ outline mặc định */
+}
+
+.contact-send-email input[type="email"]::placeholder {
+  color: #000000; /* Màu chữ placeholder */
+}
+
+.contact-middle-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  justify-content: center;
+  margin-top: 80px;
+  clear: both;
+}
+
+#contact-box-phone {
+  background-color: #222222;
+}
+
+#contact-box-mail {
+  background-color: #3b3b3b;
+}
+
+#contact-box-location {
+  background-color: #4b4c4d;
+}
+
+.contact-box {
+  width: 30%; /* Chiều rộng của phần tử */
+  height: 250px; /* Chiều cao của phần tử */
+  border-radius: 20px; /* Bo góc cho phần tử */
+  padding: 20px; /* Khoảng đệm bên trong */
+  color: white; /* Màu chữ */
+  display: flex; /* Sử dụng flexbox để căn chỉnh nội dung */
+  flex-direction: column; /* Xếp theo chiều dọc */
+  justify-content: flex-start; /* Căn nội dung ở trên cùng */
+}
+
+.contact-title {
+  display: flex;
+  align-items: center; /* Căn giữa các biểu tượng và văn bản */
+  justify-content: center; /* Căn giữa nội dung */
+  margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+}
+
+.contact-card {
+  margin: auto;
+}
+
+.contact-title i {
+  color: #ffffff; /* Màu sắc của biểu tượng */
+  font-size: 36px; /* Kích thước biểu tượng */
+  margin-right: 8px; /* Khoảng cách giữa biểu tượng và văn bản */
+  vertical-align: middle;
+}
+.contact-title .material-symbols-outlined {
+  color: #ffffff; /* Màu sắc của biểu tượng */
+  font-size: 16px; /* Kích thước biểu tượng */
+  margin-right: 8px; /* Khoảng cách giữa biểu tượng và văn bản */
+  vertical-align: middle; /* Căn giữa biểu tượng với văn bản */
+}
+
+.location-name {
+  font-size: 36px;
+}
+
+p {
+  text-align: center;
+  margin: 0; /* Bỏ khoảng cách mặc định */
+  color: #ffffff; /* Màu chữ */
+}
+
+.contact-bot-content {
+  display: flex; /* Sử dụng flexbox để căn giữa */
+  justify-content: center; /* Căn giữa nội dung */
+  margin-top: 30px; /* Khoảng cách trên */
+}
+
+.contact-map-col-12 {
+  width: 100%; /* Chiều rộng của phần tử */
+  max-width: 1400px; /* Giới hạn chiều rộng tối đa */
+  border-radius: 10px; /* Bo góc cho phần tử */
+  overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài */
+}
+
+.contact-map {
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  height: 300px; /* Chiều cao của iframe */
+}
+
+iframe {
+  width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử chứa */
+  height: 100%; /* Chiều cao tự động */
+  border: none; /* Bỏ viền iframe */
 }
