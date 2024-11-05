@@ -35,26 +35,26 @@ body {
 }
 
 /* Top and bottom content */
-.top-content{
+.top-content {
   width: 100%;
   margin-top: 50px;
   margin-bottom: 50px;
   gap: 40px;
   flex-wrap: wrap;
-  position: relative; 
+  position: relative;
 }
-.bot-content{
+.bot-content {
   gap: 40px;
   flex-wrap: wrap;
-  position: relative; 
+  position: relative;
 }
 /* Card styling */
-.title{
-position: absolute;
-top: -30px;
-left: 150px;
+.title {
+  position: absolute;
+  top: -30px;
+  left: 150px;
 }
-.title h2{
+.title h2 {
   font-size: 20px;
 }
 
@@ -83,11 +83,11 @@ left: 150px;
   padding: 20px;
   text-align: center;
 }
-.fa{
+.fa {
   margin-top: 5px;
   margin-right: 5px;
 }
-.showall-left{
+.showall-left {
   position: absolute;
   right: 500px;
   top: -30px;
@@ -123,7 +123,7 @@ left: 150px;
 .ps-4 {
   padding-left: 2rem !important;
 }
-.left-content{
+.left-content {
   width: 70%;
   justify-content: center;
   display: flex;
@@ -154,7 +154,7 @@ left: 150px;
   font-size: 20px;
   color: white;
   margin-right: 15px;
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
 }
 
 .card-item {
@@ -179,134 +179,119 @@ left: 150px;
 
 .card-item .content {
   padding: 10px;
-  text-align: center; 
+  text-align: center;
 }
 
-
-
-
 /* Media queries for responsiveness */
-@media screen and (max-width:1399px) 
-{
-    .main-content
-    {
-        width: 100%;
-    }
-    .top-content, .bot-content {
-      width: 100%;
-      display: flex;               
-      flex-direction: column;      
-      justify-content: center;     
-      align-items: center;         
+@media screen and (max-width: 1399px) {
+  .main-content {
+    width: 100%;
   }
-  .showall-left{
+  .top-content,
+  .bot-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .showall-left {
     position: absolute;
     right: 350px;
     top: -30px;
     font-size: 20px;
     color: aliceblue;
   }
-  .title{
+  .title {
     position: absolute;
     top: -30px;
     left: 350px;
-    }
-  .item{
-    width: 100%;
-    display:flex;
   }
-    
+  .item {
+    width: 100%;
+    display: flex;
+  }
 }
 
-@media screen and (max-width:991px) 
-{
-    .main-content 
-    {
-        width: 100%;
-    }
-    .top-content, .bot-content {
-      width: 100%;
-      display: flex;               
-      flex-direction: column;      
-      justify-content: center;     
-      align-items: center;         
+@media screen and (max-width: 991px) {
+  .main-content {
+    width: 100%;
   }
-  .item{
+  .top-content,
+  .bot-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .item {
     width: 100%;
     justify-content: center;
     align-items: center;
   }
-  .title-right a{
+  .title-right a {
     display: none;
   }
-  .showall-left{
+  .showall-left {
     display: none;
   }
-  .title{
+  .title {
     position: absolute;
     top: -30px;
     left: 120px;
-    }
-    .title-right {
-      margin-left: 120px;
-    }
-    
-   
-}
-@media screen and (max-width:767px) 
-{
-    .main-content
-    {
-        width:100%;
-    }
-    .top-content, .bot-content {
-      width: 100%;
-      display: flex;               
-      flex-direction: column;      
-      justify-content: center;     
-      align-items: center;         
   }
-  .item{
+  .title-right {
+    margin-left: 120px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .main-content {
+    width: 100%;
+  }
+  .top-content,
+  .bot-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .item {
     width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-  .title-right{
-    display:flex;
+  .title-right {
+    display: flex;
     flex-direction: column;
     text-align: center;
   }
-  .title-right a{
+  .title-right a {
     display: none;
   }
-  .showall-left{
+  .showall-left {
     display: none;
   }
-  .title{
+  .title {
     position: absolute;
     top: -30px;
     left: 120px;
-    }
-
-  
-}
-@media screen and (max-width:575px) 
-{
-    .main-content
-    {
-        width: 100%;
-    }
-    .top-content, .bot-content {
-      width: 100%;
-      display: flex;               
-      flex-direction: column;      
-      justify-content: center;     
-      align-items: center;         
   }
-
- 
-   
+}
+@media screen and (max-width: 575px) {
+  .main-content {
+    width: 100%;
+  }
+  .top-content,
+  .bot-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /* Header styling */
@@ -346,15 +331,14 @@ header .nav-list {
   font-weight: 400;
 
   color: rgb(255, 255, 255);
-  transition: color 0.3s ease; 
+  transition: color 0.3s ease;
 }
 
 .nav-list li a:hover {
-  color: #e91c25; 
+  color: #e91c25;
 }
 .nav-list li a.active {
   color: rgb(255, 37, 74); /* Màu sắc cho liên kết hiện tại */
-
 }
 /* Button styling */
 .btn-section {
@@ -392,7 +376,31 @@ header .nav-list {
 .login-btn:hover {
   transform: scale(1.1);
 }
+.welcome-message {
+  cursor: pointer;
+}
+.btn-log-out {
+  background-color: transparent; /* Nền trong suốt */
+  border: none; /* Không có viền */
+  cursor: pointer; /* Con trỏ khi di chuột */
+  padding: 0; /* Không có khoảng đệm */
+  margin-top: 3px; 
+}
+.icon-log-out {
+  color: red; /* Màu sắc của biểu tượng */
+  font-size: 24px; /* Kích thước biểu tượng */
+  transition: color 0.3s; /* Hiệu ứng chuyển màu khi hover */
+  margin: 0 5px;
+}
+.icon-log-out {
+  color: red; /* Màu sắc của biểu tượng */
+  font-size: 24px; /* Kích thước biểu tượng */
+  transition: color 0.3s; /* Hiệu ứng chuyển màu khi hover */
+}
 
+.icon-log-out:hover {
+  color: darkred; /* Màu khi hover */
+}
 
 /* Footer styling */
 footer {
@@ -425,30 +433,28 @@ footer {
 /* Responsive adjustment */
 @media (max-width: 768px) {
   .footer {
-      flex-direction: column; /* Xếp chồng các item khi màn hình nhỏ */
-      align-items: center; /* Căn giữa các item */
+    flex-direction: column; /* Xếp chồng các item khi màn hình nhỏ */
+    align-items: center; /* Căn giữa các item */
   }
 
   .footer li {
-      margin: 10px 0; /* Tạo khoảng cách dọc khi xếp chồng */
+    margin: 10px 0; /* Tạo khoảng cách dọc khi xếp chồng */
   }
 }
 
-footer img{
+footer img {
   margin: 0 10px;
-
 }
-.img{
+.img {
   margin: 10px;
 }
 .contact-bottom {
-  padding: 20px; 
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center; 
+  text-align: center;
 }
-
 
 .contact-bottom .text-light p {
   color: #f8f9fa; /* Màu chữ trắng nhạt */
@@ -457,9 +463,9 @@ footer img{
   line-height: 1.6; /* Độ cao dòng để dễ đọc */
 }
 .box-product {
-  padding:0px;
+  padding: 0px;
   overflow: hidden; /* Ẩn phần hình ảnh tràn ra ngoài */
-  position: relative;             
+  position: relative;
   width: 225px;
   height: 290px;
   border-radius: 10px;
@@ -470,21 +476,18 @@ footer img{
   height: auto; /* Giữ tỉ lệ khung hình */
   border-radius: 10px;
   transition: transform 0.3s ease; /* Chuyển động cho transform */
-  
 }
 
 .box-product img:hover {
   transform: scale(1.2);
 }
 .custom-shadow {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .contact-bottom .text-light p {
-      font-size: 0.8rem; /* Giảm kích thước chữ trên màn hình nhỏ */
+    font-size: 0.8rem; /* Giảm kích thước chữ trên màn hình nhỏ */
   }
 }
-
-
-
