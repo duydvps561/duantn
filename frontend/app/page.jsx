@@ -31,12 +31,12 @@ export default function Home() {
         <div className="custom-shadow cursor-pointer">
           <Link href={`/filmdetail/${movie._id}`} className="text-decoration-none text-muted">
             <div className="box-product">
-              <img src={`/img/${movie.img}`} alt="" />
+              <img src={`http://localhost:3000/img/phims/${movie.img}`} alt="" />
             </div>
-            <div className="text-product">
-              <div className="d-flex flex-wrap gap-xl-5 text-muted text-sm mt-3">
-                <p>{movie.thoiluong}</p>
-                <p>{movie.ngayhieuluc}</p>
+            <div className="text-product mt-2">
+              <div className="">
+                <p className="text-light">{movie.thoiluong} Phút</p>
+                <p>ngày:{movie.ngayhieuluc}</p>
               </div>
               <p className="mt-2 text-sm text-xl fw-bold text-light">{movie.tenphim}</p>
             </div>
@@ -67,6 +67,7 @@ export default function Home() {
     <>
       <Slide />
       <Danhmuc />
+
       <div className="main-content container">
         <div className="row">
           {renderSection("phim đang chiếu", moviesNowPlaying)}
@@ -77,11 +78,11 @@ export default function Home() {
                 <Link href="#" className="text-decoration-none text-white" style={{ fontSize: "15px" }}>xem tất cả</Link>
               </p>
             </div>
-            {[...Array(3)].map((_, index) => (
-              <div className="mt-3" key={index}>
-                <img style={{ width: "260px", height: "130px" }} src="/img/image_30.png" alt="khuyến mãi" />
+            <div  className="box bg-secondary">
+              <div className="">
+              đây là phần sự kiện 
               </div>
-            ))}
+            </div>
           </div>
         </div>
         <div className="row mt-5">
