@@ -3,8 +3,11 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./loginModal.css";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/slice/authSlice";
 
 export default function LoginModal({ show, handleClose }) {
+  const dispatch = useDispatch();
   if (!show) return null;
 
   const formik = useFormik({
@@ -25,7 +28,7 @@ export default function LoginModal({ show, handleClose }) {
           },
           body: JSON.stringify({
             email: values.email,
-            matkhau: values.matkhau, // Chỉnh sửa trường này cho phù hợp với API
+            matkhau: values.matkhau,
           }),
         });
 
@@ -33,21 +36,12 @@ export default function LoginModal({ show, handleClose }) {
           const errorData = await res.json();
           throw new Error(errorData.message || "Đăng nhập thất bại");
         }
-
-        // Lưu token vào cookie
         const data = await res.json();
-        document.cookie = `token=${data.token}; path=/; max-age=${60 * 60}`;
-
+        const {token,user} = data;
+        console.log(data.token);
+        // document.cookie = `token=${data.token}; path=/; max-age=${60 * 60}`;
+        // dispatch(login());
         alert("Đăng nhập thành công!");
-
-        // Chuyển trang theo role
-        const token = data.token;
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        if (payload.role === "admin") {
-          window.location.href = "http://localhost:3002/";
-        } else {
-          window.location.href = "/";
-        }
       } catch (error) {
         setFieldError("general", error.message);
       } finally {
