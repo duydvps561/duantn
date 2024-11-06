@@ -15,191 +15,168 @@ export default function UpdateCaChieu() {
     const [phimDurations, setPhimDurations] = useState({});
     const [loading, setLoading] = useState(true);
     const [gioBatDauOptions] = useState(
-        Array.from({ length: 22 }, (_, i) => `${String(i + 1).padStart(2, '0')}:00`)
+        Array.from({ length: 44 }, (_, i) => {
+            const hours = Math.floor(i / 2) + 1;
+            const minutes = i % 2 === 0 ? '00' : '30';
+            return `${String(hours).padStart(2, '0')}:${minutes}`;
+        }).slice(0, 43)
     );
+
     const router = useRouter();
     const searchParams = useSearchParams();
-    const id = searchParams.get('id');
+    const caChieuId = searchParams.get("id");
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (id) {
-                    const [caChieuRes, phongChieuRes, phimRes] = await Promise.all([
-                        axios.get(`http://localhost:3000/xuatchieu/${id}`),
-                        axios.get('http://localhost:3000/phongchieu'),
-                        axios.get('http://localhost:3000/phim'),
-                    ]);
-                    setCaChieu(caChieuRes.data);
-                    setPhongChieus(phongChieuRes.data);
-                    setPhims(phimRes.data);
-                    const durations = {};
-                    phimRes.data.forEach(phim => {
-                        durations[phim._id] = phim.dodai;
-                    });
-                    setPhimDurations(durations);
-                    setLoading(false);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                Swal.fire('Lỗi!', 'Không thể tải dữ liệu.', 'error');
+                const [phongChieuRes, phimRes, caChieuRes] = await Promise.all([
+                    axios.get('http://localhost:3000/phongchieu'),
+                    axios.get('http://localhost:3000/phim'),
+                    axios.get(`http://localhost:3000/xuatchieu/${caChieuId}`)
+                ]);
+
+                setPhongChieus(phongChieuRes.data);
+                setPhims(phimRes.data);
+                setCaChieu(caChieuRes.data);
+                
+                const phimDurationMap = {};
+                phimRes.data.forEach(phim => phimDurationMap[phim._id] = phim.thoiluong);
+                setPhimDurations(phimDurationMap);
+
                 setLoading(false);
+            } catch (error) {
+                console.error("Error loading data:", error);
             }
         };
         fetchData();
-    }, [id]);
+    }, [caChieuId]);
 
-    const calculateEndTime = (startTime, phimId) => {
-        const duration = phimDurations[phimId] || 120; // Fallback to 2 hours if duration is unavailable
-        const [hour, minute] = startTime.split(':').map(Number);
-        const endHour = (hour + Math.floor(duration / 60)) % 24;
-        const endMinute = (minute + (duration % 60)) % 60;
-        return `${String(endHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`;
+    const tinhGioKetThuc = (gioBatDau, thoiluong) => {
+        if (!gioBatDau) return '';
+        const [gio, phut] = gioBatDau.split(':').map(Number);
+        const totalPhutBatDau = gio * 60 + phut;
+        const totalPhutKetThuc = totalPhutBatDau + thoiluong;
+
+        const gioKetThuc = Math.floor(totalPhutKetThuc / 60) % 24;
+        const phutKetThuc = totalPhutKetThuc % 60;
+        return `${String(gioKetThuc).padStart(2, '0')}:${String(phutKetThuc).padStart(2, '0')}`;
     };
 
     const formik = useFormik({
-        initialValues: {
-            phongchieu_id: caChieu ? caChieu.phongchieu_id : '',
-            phim_id: caChieu ? caChieu.phim_id : '',
-            ngaychieu: caChieu ? caChieu.ngaychieu : '',
-            giobatdau: caChieu ? caChieu.giobatdau : '',
-            gioketthuc: caChieu ? calculateEndTime(caChieu.giobatdau, caChieu.phim_id) : '',
-        },
         enableReinitialize: true,
+        initialValues: caChieu || {
+            phongchieu_id: '',
+            phim_id: '',
+            ngaychieu: '',
+            giobatdau: '',
+            gioketthuc: ''
+        },
         validationSchema: Yup.object({
             phongchieu_id: Yup.string().required('Chọn phòng chiếu'),
             phim_id: Yup.string().required('Chọn phim'),
             ngaychieu: Yup.date().required('Chọn ngày chiếu'),
             giobatdau: Yup.string().required('Nhập giờ bắt đầu'),
-            gioketthuc: Yup.string().required('Nhập giờ kết thúc')
         }),
         onSubmit: async (values) => {
             try {
-                await axios.put(`http://localhost:3000/xuatchieu/update/${id}`, values);
-                Swal.fire('Thành công!', 'Cập nhật ca chiếu thành công.', 'success');
+                values.gioketthuc = tinhGioKetThuc(values.giobatdau, phimDurations[values.phim_id]);
+                
+                await axios.put(`http://localhost:3000/xuatchieu/update/${caChieuId}`, values);
+                Swal.fire('Cập nhật ca chiếu thành công!');
                 router.push('/admin/cachieu');
             } catch (error) {
-                console.error('Error updating CaChieu:', error);
-                Swal.fire('Lỗi!', 'Đã xảy ra lỗi khi cập nhật ca chiếu.', 'error');
+                console.error("Error updating ca chieu:", error);
+                Swal.fire("Có lỗi xảy ra khi cập nhật ca chiếu.");
             }
         }
     });
+
+    useEffect(() => {
+        if (formik.values.giobatdau && formik.values.phim_id) {
+            formik.setFieldValue('gioketthuc', tinhGioKetThuc(formik.values.giobatdau, phimDurations[formik.values.phim_id]));
+        }
+    }, [formik.values.giobatdau, formik.values.phim_id]);
+
+    if (loading) return <div>Loading...</div>;
 
     return (
         <Layout>
             <div className="container">
                 <h1>Cập Nhật Ca Chiếu</h1>
-                {loading ? <p>Loading...</p> : (
-                    <form onSubmit={formik.handleSubmit}>
-                        <div className="row">
-                            {/* Phòng Chiếu */}
-                            <div className="col-6">
-                                <label>Phòng Chiếu</label>
-                                <select
-                                    name="phongchieu_id"
-                                    value={formik.values.phongchieu_id}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                >
-                                    <option value="">Chọn phòng chiếu</option>
-                                    {phongChieus.map(phong => (
-                                        <option key={phong._id} value={phong._id}>{phong.tenphong}</option>
-                                    ))}
-                                </select>
-                                {formik.touched.phongchieu_id && formik.errors.phongchieu_id && (
-                                    <div>{formik.errors.phongchieu_id}</div>
-                                )}
-                            </div>
-
-                            {/* Phim */}
-                            <div className="col-6">
-                                <label>Phim</label>
-                                <select
-                                    name="phim_id"
-                                    value={formik.values.phim_id}
-                                    onChange={(e) => {
-                                        formik.handleChange(e);
-                                        formik.setFieldValue(
-                                            'gioketthuc',
-                                            calculateEndTime(formik.values.giobatdau, e.target.value)
-                                        );
-                                    }}
-                                    onBlur={formik.handleBlur}
-                                >
-                                    <option value="">Chọn phim</option>
-                                    {phims.map(phim => (
-                                        <option key={phim._id} value={phim._id}>{phim.tenphim}</option>
-                                    ))}
-                                </select>
-                                {formik.touched.phim_id && formik.errors.phim_id && (
-                                    <div>{formik.errors.phim_id}</div>
-                                )}
-                            </div>
+                <form onSubmit={formik.handleSubmit}>
+                    <div className="row">
+                        <div className="col-6">
+                            <label>Phòng Chiếu</label>
+                            <select
+                                name="phongchieu_id"
+                                value={formik.values.phongchieu_id}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={formik.touched.phongchieu_id && formik.errors.phongchieu_id ? "error" : ""}
+                            >
+                                <option value="">Chọn phòng chiếu</option>
+                                {phongChieus.map(phongchieu => (
+                                    <option key={phongchieu._id} value={phongchieu._id}>
+                                        {phongchieu.tenphong}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-
-                        {/* Ngày Chiếu & Giờ */}
-                        <div className="row">
-                            {/* Ngày Chiếu */}
-                            <div className="col-3">
-                                <label>Ngày Chiếu</label>
-                                <input
-                                    type="date"
-                                    name="ngaychieu"
-                                    value={formik.values.ngaychieu}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                />
-                                {formik.touched.ngaychieu && formik.errors.ngaychieu && (
-                                    <div>{formik.errors.ngaychieu}</div>
-                                )}
-                            </div>
-
-                            {/* Giờ Bắt Đầu */}
-                            <div className="col-3">
-                                <label>Giờ Bắt Đầu</label>
-                                <select
-                                    name="giobatdau"
-                                    value={formik.values.giobatdau}
-                                    onChange={(e) => {
-                                        formik.handleChange(e);
-                                        formik.setFieldValue(
-                                            'gioketthuc',
-                                            calculateEndTime(e.target.value, formik.values.phim_id)
-                                        );
-                                    }}
-                                    onBlur={formik.handleBlur}
-                                >
-                                    <option value="">Chọn giờ bắt đầu</option>
-                                    {gioBatDauOptions.map(time => (
-                                        <option key={time} value={time}>{time}</option>
-                                    ))}
-                                </select>
-                                {formik.touched.giobatdau && formik.errors.giobatdau && (
-                                    <div>{formik.errors.giobatdau}</div>
-                                )}
-                            </div>
-
-                            {/* Giờ Kết Thúc */}
-                            <div className="col-3">
-                                <label>Giờ Kết Thúc</label>
-                                <input
-                                    type="text"
-                                    name="gioketthuc"
-                                    value={formik.values.gioketthuc}
-                                    readOnly
-                                />
-                                {formik.touched.gioketthuc && formik.errors.gioketthuc && (
-                                    <div>{formik.errors.gioketthuc}</div>
-                                )}
-                            </div>
+                        <div className="col-6">
+                            <label>Phim</label>
+                            <select
+                                name="phim_id"
+                                value={formik.values.phim_id}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={formik.touched.phim_id && formik.errors.phim_id ? "error" : ""}
+                            >
+                                <option value="">Chọn phim</option>
+                                {phims.map(phim => (
+                                    <option key={phim._id} value={phim._id}>
+                                        {phim.tenphim}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-
-                        {/* Submit Button */}
-                        <div className="row mt-3">
-                            <button type="submit">Cập nhật ca chiếu</button>
+                        <div className="col-6">
+                            <label>Ngày Chiếu</label>
+                            <input
+                                type="date"
+                                name="ngaychieu"
+                                value={formik.values.ngaychieu}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={formik.touched.ngaychieu && formik.errors.ngaychieu ? "error" : ""}
+                            />
                         </div>
-                    </form>
-                )}
+                        <div className="col-6">
+                            <label>Giờ Bắt Đầu</label>
+                            <select
+                                name="giobatdau"
+                                value={formik.values.giobatdau}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={formik.touched.giobatdau && formik.errors.giobatdau ? "error" : ""}
+                            >
+                                <option value="">Chọn giờ bắt đầu</option>
+                                {gioBatDauOptions.map((option, index) => (
+                                    <option key={index} value={option}>{option}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="col-6">
+                            <label>Giờ Kết Thúc</label>
+                            <input
+                                type="text"
+                                name="gioketthuc"
+                                value={formik.values.gioketthuc}
+                                readOnly
+                            />
+                        </div>
+                    </div>
+                    <button type="submit">Cập Nhật Ca Chiếu</button>
+                </form>
             </div>
         </Layout>
     );

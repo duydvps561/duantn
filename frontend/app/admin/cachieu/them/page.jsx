@@ -16,7 +16,7 @@ export default function ThemCaChieu() {
             const hours = Math.floor(i / 2) + 1;
             const minutes = i % 2 === 0 ? '00' : '30';
             return `${String(hours).padStart(2, '0')}:${minutes}`;
-        }).slice(0, 22)
+        }).slice(0, 43)
     );
 
     const [thoiluong, setThoiluong] = useState(0); 
