@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { login } from "@/redux/slice/authSlice";
 
 export default function LoginModal({ show, handleClose }) {
+  const dispatch = useDispatch();
   if (!show) return null;
 
   const formik = useFormik({
@@ -36,20 +37,9 @@ export default function LoginModal({ show, handleClose }) {
           throw new Error(errorData.message || "Đăng nhập thất bại");
         }
         const data = await res.json();
-        // const {token,user} = data;
-        // console.log(data.token);
-        // document.cookie = `token=${data.token}; path=/; max-age=${60 * 60}`;
-        // dispatch(login());
+        const { token, user } = data;
+        dispatch(login({ token, user }));
         alert("Đăng nhập thành công!");
-
-        // Chuyển trang theo role
-        const token = data.token;
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        if (payload.role === "admin") {
-          window.location.href = "http://localhost:3000/";
-        } else {
-          window.location.href = "/";
-        }
       } catch (error) {
         setFieldError("general", error.message);
       } finally {
