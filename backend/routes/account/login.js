@@ -1,11 +1,9 @@
-
 var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { connect } = require("../../config/db.js");
 const Taikhoan = require("../../models/account/taikhoan.js"); // Import the Taikhoan model
-// Đường dẫn đến file db.js
 
 router.post("/login", async (req, res, next) => {
   await connect();

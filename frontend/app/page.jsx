@@ -45,7 +45,6 @@ export default function Home() {
       </div>
     ))
   );
-
   const renderSection = (title, movies) => (
     <div className="col-md-9">
       <div className="d-flex justify-content-between align-items-center">

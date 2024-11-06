@@ -26,7 +26,7 @@ export default function Danhmuc() {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
     return (
-        <div className="w-full flex justify-center mt-5">
+        <div className="w-full flex justify-center mt-5 ">
             <div className="container">
                 <h2 className="text-light">Danh mục phim</h2>
                 <div className="d-flex flex w-full justify-center">

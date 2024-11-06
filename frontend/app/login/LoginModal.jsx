@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./loginModal.css";
 
-export default function LoginModal({ show, handleClose }) {
+export default function LoginModal({ show, handleClose, onLoginSuccess }) {
   if (!show) return null;
 
   const formik = useFormik({
@@ -25,7 +25,7 @@ export default function LoginModal({ show, handleClose }) {
           },
           body: JSON.stringify({
             email: values.email,
-            matkhau: values.matkhau, // Chỉnh sửa trường này cho phù hợp với API
+            matkhau: values.matkhau,
           }),
         });
 
@@ -39,6 +39,9 @@ export default function LoginModal({ show, handleClose }) {
         document.cookie = `token=${data.token}; path=/; max-age=${60 * 60}`;
 
         alert("Đăng nhập thành công!");
+
+        // Gọi hàm onLoginSuccess để cập nhật trạng thái người dùng
+        onLoginSuccess({ email: values.email, role: data.role });
 
         // Chuyển trang theo role
         const token = data.token;
@@ -85,7 +88,7 @@ export default function LoginModal({ show, handleClose }) {
             Mật khẩu:
           </label>
           <input
-            type="matkhau"
+            type="password" // Đổi thành type="password" để ẩn mật khẩu
             id="matkhau"
             name="matkhau"
             required
@@ -99,12 +102,14 @@ export default function LoginModal({ show, handleClose }) {
           ) : null}
 
           <p className="upPW">
-            <a href="">Quên mật khẩu</a>
+            <a href="#">Quên mật khẩu</a>
           </p>
-          <button type="submit">Đăng nhập</button>
+          <button type="submit" disabled={formik.isSubmitting}>
+            Đăng nhập
+          </button>
           <p className="ans text-light">
             Bạn chưa có tài khoản?{" "}
-            <a className="register text-danger" href="">
+            <a className="register text-danger" href="/register">
               Đăng ký
             </a>
           </p>
