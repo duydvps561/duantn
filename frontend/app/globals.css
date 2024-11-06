@@ -380,26 +380,32 @@ header .nav-list {
   cursor: pointer;
 }
 .btn-log-out {
-  background-color: transparent; /* Nền trong suốt */
-  border: none; /* Không có viền */
-  cursor: pointer; /* Con trỏ khi di chuột */
-  padding: 0; /* Không có khoảng đệm */
+  background-color: transparent; 
+  border: none; 
+  cursor: pointer; 
+  padding: 0; 
   margin-top: 3px; 
 }
 .icon-log-out {
-  color: red; /* Màu sắc của biểu tượng */
-  font-size: 24px; /* Kích thước biểu tượng */
-  transition: color 0.3s; /* Hiệu ứng chuyển màu khi hover */
+  color: red; 
+  font-size: 24px; 
+  transition: color 0.3s; 
   margin: 0 5px;
 }
 .icon-log-out {
-  color: red; /* Màu sắc của biểu tượng */
-  font-size: 24px; /* Kích thước biểu tượng */
-  transition: color 0.3s; /* Hiệu ứng chuyển màu khi hover */
+  color: red; 
+  font-size: 24px;
+  transition: color 0.3s;
 }
 
 .icon-log-out:hover {
   color: darkred; /* Màu khi hover */
+}
+.dropdown-menu .dropdown-item{
+  color: #ffffff;
+}
+.dropdown-menu .dropdown-item:hover {
+  background-color: #878484;
 }
 
 /* Footer styling */

@@ -91,13 +91,14 @@ export default function Header() {
                 <span className="text-light" style={{ fontSize: "17px" }} onClick={() => setShowOp(true)}>{user.username}</span>
                 <FontAwesomeIcon icon={faChevronDown} style={{ color: "#ffffff",fontSize:'17px' }} />
               </div>
-              <ul className="dropdown-menu p-2 mt-2" style={{backgroundColor:"#10141b"}}  aria-labelledby="dropdownMenuButton">
-                <li><a className="dropdown-item " href="#" style={{ color: "#ffffff",fontSize:'17px' }}>Thông tin cá nhân</a></li>
-                <li><a className="dropdown-item " href="#"style={{ color: "#ffffff",fontSize:'17px' }}><i className="fa-solid fa-arrow-right-from-bracket"></i> Lịch sử mua vé</a></li>
-                <li><a className="dropdown-item " href="#"style={{ color: "#ffffff",fontSize:'17px' }} onClick={() => { setShowOp(false), dispatch(logout()) }}><i className="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a></li>
+              <ul className="dropdown-menu mt-2" style={{backgroundColor:"#10141b"}}  aria-labelledby="dropdownMenuButton">
+                <li><a className="dropdown-item " href="#" style={{fontSize:'17px' }}>Thông tin cá nhân</a></li>
+                <li><a className="dropdown-item " href="#"style={{fontSize:'17px' }}><i className="fa-solid fa-arrow-right-from-bracket"></i> Lịch sử mua vé</a></li>
+                <li><a className="dropdown-item " href="#"style={{fontSize:'17px' }} onClick={() => { setShowOp(false), dispatch(logout()) }}><i className="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a></li>
 
               </ul>
             </div>
+            
           }
         </>
       ) : (
