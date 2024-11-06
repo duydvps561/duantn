@@ -3,8 +3,11 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./loginModal.css";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/slice/authSlice";
 
-export default function LoginModal({ show, handleClose, onLoginSuccess }) {
+export default function LoginModal({ show, handleClose }) {
+  const dispatch = useDispatch();
   if (!show) return null;
 
   const formik = useFormik({
@@ -33,24 +36,10 @@ export default function LoginModal({ show, handleClose, onLoginSuccess }) {
           const errorData = await res.json();
           throw new Error(errorData.message || "Đăng nhập thất bại");
         }
-
-        // Lưu token vào cookie
         const data = await res.json();
-        document.cookie = `token=${data.token}; path=/; max-age=${60 * 60}`;
-
+        const { token, user } = data;
+        dispatch(login({ token, user }));
         alert("Đăng nhập thành công!");
-
-        // Gọi hàm onLoginSuccess để cập nhật trạng thái người dùng
-        onLoginSuccess({ email: values.email, role: data.role });
-
-        // Chuyển trang theo role
-        const token = data.token;
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        if (payload.role === "admin") {
-          window.location.href = "http://localhost:3002/";
-        } else {
-          window.location.href = "/";
-        }
       } catch (error) {
         setFieldError("general", error.message);
       } finally {

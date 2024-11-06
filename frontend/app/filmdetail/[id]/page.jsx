@@ -185,7 +185,7 @@ export default function filmdetail({ params }) {
               />
             </div>
             <div className="title-overlay ms-3">
-              <h1 className="card-title">{phimChitiet.tenphim}</h1>
+              <h1 className="card-title" style={{color:'#ffffff'}}>{phimChitiet.tenphim}</h1>
               <ul>
                 <li>
                   <a href="">Kinh di</a>
@@ -194,8 +194,8 @@ export default function filmdetail({ params }) {
                   <a href="">{phimChitiet.daodien}</a>
                 </li>
               </ul>
-              <p className="card-text">{phimChitiet.dienvien}</p>
-              <p className="card-text">Khởi chiếu: {phimChitiet.ngayhieuluc}</p>
+              <p className="card-text" style={{color:'#ffffff'}}>{phimChitiet.dienvien}</p>
+              <p className="card-text" style={{color:'#ffffff'}}>Khởi chiếu: {phimChitiet.ngayhieuluc}</p>
               <p className="card-text">
                 <small>{phimChitiet.noidung}</small>
               </p>
@@ -204,7 +204,7 @@ export default function filmdetail({ params }) {
                 trở lên (18+)
               </p>
               <div className="view-detail d-flex">
-                <p className="card-text mt-2">Chi tiet noi dung</p>
+                <p className="card-text mt-2" style={{color:'#ffffff'}}>Chi tiet noi dung</p>
                 <button
                   onClick={toggleTrailer}
                   className="btn ms-3 rounded-pill bg-dark text-warning border border-warning"
@@ -248,7 +248,7 @@ export default function filmdetail({ params }) {
           {phimCachieu.length > 0 ? (
             phimCachieu.map((item) => (
               <div
-                className="text ms-3 mt-3"
+                className="text ms-3 mt-3 text-light"
                 key={item.id}
                 onClick={() => { setNgayChieuSelected(item.ngaychieu); dispatch(updateNgayChieu(item.ngaychieu)) }}
               >
@@ -267,7 +267,6 @@ export default function filmdetail({ params }) {
             {phimCachieu.length > 0 ? (
               phimCachieu.map((item) => {
                 const phongchieudt = phongchieu.find(phong => phong._id === item.phongchieu_id);
-
                 if (item.ngaychieu === ngaychieuSelected) {
                   return (
                     <button
@@ -279,7 +278,7 @@ export default function filmdetail({ params }) {
                         setgiochieu(item.giobatdau);
                         setPhongChieuData(phongchieudt);
                         dispatch(updateGioChieu(item.giobatdau));
-                        dispatch(updatePhongChieu(phongchieudt.tenphong));
+                        dispatch(updatePhongChieu(phongchieudt?.tenphong|| null));
                       }}
                     >
                       {item.giobatdau}
@@ -311,8 +310,8 @@ export default function filmdetail({ params }) {
               <img src="../../img/image 35.png" alt="decorimg" />
             </div>
             <div className="seat-content">
-              <p className="seat-title">{phongchieudata.tenphong}</p>;
-              <div className="siting-order">
+            <p className="seat-title">{phongchieudata?.tenphong || 'không có dữ liệu'}</p>
+            <div className="siting-order">
                 <table className="siting-table">
                   <tbody>
                     {Object.entries(seatsByRow).map(([row, seats]) => (
