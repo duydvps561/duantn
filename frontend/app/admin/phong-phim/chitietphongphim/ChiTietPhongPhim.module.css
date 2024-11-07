@@ -40,3 +40,32 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+/* ChiTietPhongPhim.module.css */
+.seatingChart {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* Điều chỉnh số cột tùy vào số lượng ghế */
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.seat {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.seat:hover {
+  transform: scale(1.1);
+}
+
+.seat.selected {
+  border: 2px solid black;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
