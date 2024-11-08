@@ -1,17 +1,26 @@
-'use client'
-import { useEffect, useState } from 'react';
-import './fimdetail.css'
-import { useRef } from 'react';
-import Food from '@/app/components/food';
-import { useDispatch, useSelector } from 'react-redux';
-import { addSeat } from '@/redux/slice/cartSlice';
-import { clearMovieInfo, updateGioChieu, updateMovieInfo, updateNgayChieu, updatePhongChieu, updateTenPhim } from '@/redux/slice/filmSlice';
+"use client";
+import { useEffect, useState } from "react";
+import "./fimdetail.css";
+import { useRef } from "react";
+import Food from "@/app/components/food";
+import { useDispatch, useSelector } from "react-redux";
+import { addSeat } from "@/redux/slice/cartSlice";
+import {
+  clearMovieInfo,
+  updateGioChieu,
+  updateMovieInfo,
+  updateNgayChieu,
+  updatePhongChieu,
+  updateTenPhim,
+} from "@/redux/slice/filmSlice";
 export default function filmdetail({ params }) {
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.cart)
+  const { cart } = useSelector((state) => state.cart);
+
   const id = params.id;
   const [show, setShow] = useState(false);
   const [phimChitiet, setPhimChitiet] = useState([]);
+
   const [cachieu, setCaChieu] = useState([]);
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
@@ -19,7 +28,7 @@ export default function filmdetail({ params }) {
   useEffect(() => {
     if (timeleft > 0) {
       const timer = setTimeout(() => {
-        setTimeLeft(prevTime => prevTime - 1);
+        setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
       return () => clearTimeout(timer);
     } else {
@@ -31,7 +40,7 @@ export default function filmdetail({ params }) {
   const [phimCachieu, setPhimCachieu] = useState([]);
   const [phongchieu, setPhongChieu] = useState([]);
   const [phongchieudata, setPhongChieuData] = useState([]);
-  const [ngaychieuSelected, setNgayChieuSelected] = useState('');
+  const [ngaychieuSelected, setNgayChieuSelected] = useState("");
   const [giochieu, setgiochieu] = useState([]);
   const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
@@ -57,7 +66,7 @@ export default function filmdetail({ params }) {
       }
       const data = await response.json();
       setPhimChitiet(data);
-      dispatch(updateTenPhim(data.tenphim))
+      dispatch(updateTenPhim(data.tenphim));
     } catch (error) {
       console.error("Error fetching film details:", error);
     }
@@ -149,7 +158,7 @@ export default function filmdetail({ params }) {
     });
   }, [gheData]);
   useEffect(() => {
-    console.log('gio hang cap nhap', cart);
+    console.log("gio hang cap nhap", cart);
   }, [cart]);
   // Nhóm ghế theo hàng
   const seatsByRow = gheData.reduce((acc, ghe) => {
@@ -162,7 +171,7 @@ export default function filmdetail({ params }) {
   }, {});
 
   // Sắp xếp ghế theo cột trong mỗi hàng
-  Object.keys(seatsByRow).forEach(row => {
+  Object.keys(seatsByRow).forEach((row) => {
     seatsByRow[row].sort((a, b) => a.cot - b.cot); // Sắp xếp theo cột
   });
   const MAX_SEATS_TO_SHOW = 5;
@@ -171,11 +180,11 @@ export default function filmdetail({ params }) {
     <>
       <section className="film-detail justify-content-center">
         <div className="card bg-dark ">
-        <img
-                src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
-                alt=""
-                style={{ width: "250", height: "350px" }}
-              />
+          <img
+            src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
+            alt=""
+            style={{ width: "250", height: "350px" }}
+          />
           <div className="card-img-overlay d-lg-flex justify-content-center">
             <div className="img-overlay">
               <img
@@ -185,7 +194,9 @@ export default function filmdetail({ params }) {
               />
             </div>
             <div className="title-overlay ms-3">
-              <h1 className="card-title" style={{color:'#ffffff'}}>{phimChitiet.tenphim}</h1>
+              <h1 className="card-title" style={{ color: "#ffffff" }}>
+                {phimChitiet.tenphim}
+              </h1>
               <ul>
                 <li>
                   <a href="">Kinh di</a>
@@ -194,8 +205,12 @@ export default function filmdetail({ params }) {
                   <a href="">{phimChitiet.daodien}</a>
                 </li>
               </ul>
-              <p className="card-text" style={{color:'#ffffff'}}>{phimChitiet.dienvien}</p>
-              <p className="card-text" style={{color:'#ffffff'}}>Khởi chiếu: {phimChitiet.ngayhieuluc}</p>
+              <p className="card-text" style={{ color: "#ffffff" }}>
+                {phimChitiet.dienvien}
+              </p>
+              <p className="card-text" style={{ color: "#ffffff" }}>
+                Khởi chiếu: {phimChitiet.ngayhieuluc}
+              </p>
               <p className="card-text">
                 <small>{phimChitiet.noidung}</small>
               </p>
@@ -204,7 +219,9 @@ export default function filmdetail({ params }) {
                 trở lên (18+)
               </p>
               <div className="view-detail d-flex">
-                <p className="card-text mt-2" style={{color:'#ffffff'}}>Chi tiet noi dung</p>
+                <p className="card-text mt-2" style={{ color: "#ffffff" }}>
+                  Chi tiet noi dung
+                </p>
                 <button
                   onClick={toggleTrailer}
                   className="btn ms-3 rounded-pill bg-dark text-warning border border-warning"
@@ -217,12 +234,21 @@ export default function filmdetail({ params }) {
         </div>
 
         {showTrailer && (
-          <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+          <div
+            className="modal d-block"
+            tabIndex="-1"
+            role="dialog"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+          >
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title">Trailer: THE CROW</h5>
-                  <button type="button" className="btn-close" onClick={toggleTrailer}></button>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={toggleTrailer}
+                  ></button>
                 </div>
                 <div className="modal-body">
                   <div className="embed-responsive embed-responsive-16by9">
@@ -250,11 +276,27 @@ export default function filmdetail({ params }) {
               <div
                 className="text ms-3 mt-3 text-light"
                 key={item.id}
-                onClick={() => { setNgayChieuSelected(item.ngaychieu); dispatch(updateNgayChieu(item.ngaychieu)) }}
+                onClick={() => {
+                  setNgayChieuSelected(item.ngaychieu);
+                  dispatch(updateNgayChieu(item.ngaychieu));
+                }}
               >
                 <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
                 <h2>{new Date(item.ngaychieu).getDate()}</h2>
-                <p>{['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'][new Date(item.ngaychieu).getDay()]}</p> {/* Lấy thứ (0-6) */}
+                <p>
+                  {
+                    [
+                      "Chủ Nhật",
+                      "Thứ Hai",
+                      "Thứ Ba",
+                      "Thứ Tư",
+                      "Thứ Năm",
+                      "Thứ Sáu",
+                      "Thứ Bảy",
+                    ][new Date(item.ngaychieu).getDay()]
+                  }
+                </p>{" "}
+                {/* Lấy thứ (0-6) */}
               </div>
             ))
           ) : (
@@ -262,23 +304,30 @@ export default function filmdetail({ params }) {
           )}
         </div>
         <div className="note">
-          <p>Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h và Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.</p>
-          <div className='thoigian_chieu'>
+          <p>
+            Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h
+            và Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.
+          </p>
+          <div className="thoigian_chieu">
             {phimCachieu.length > 0 ? (
               phimCachieu.map((item) => {
-                const phongchieudt = phongchieu.find(phong => phong._id === item.phongchieu_id);
+                const phongchieudt = phongchieu.find(
+                  (phong) => phong._id === item.phongchieu_id
+                );
                 if (item.ngaychieu === ngaychieuSelected) {
                   return (
                     <button
                       key={item._id}
-                      className='chonthoigian'
-                      type='button'
+                      className="chonthoigian"
+                      type="button"
                       onClick={() => {
                         setShow(true);
                         setgiochieu(item.giobatdau);
                         setPhongChieuData(phongchieudt);
                         dispatch(updateGioChieu(item.giobatdau));
-                        dispatch(updatePhongChieu(phongchieudt?.tenphong|| null));
+                        dispatch(
+                          updatePhongChieu(phongchieudt?.tenphong || null)
+                        );
                       }}
                     >
                       {item.giobatdau}
@@ -290,7 +339,6 @@ export default function filmdetail({ params }) {
             ) : (
               <p>Chưa có thông tin phim.</p>
             )}
-
           </div>
         </div>
       </div>
@@ -310,8 +358,10 @@ export default function filmdetail({ params }) {
               <img src="../../img/image 35.png" alt="decorimg" />
             </div>
             <div className="seat-content">
-            <p className="seat-title">{phongchieudata?.tenphong || 'không có dữ liệu'}</p>
-            <div className="siting-order">
+              <p className="seat-title">
+                {phongchieudata?.tenphong || "không có dữ liệu"}
+              </p>
+              <div className="siting-order">
                 <table className="siting-table">
                   <tbody>
                     {Object.entries(seatsByRow).map(([row, seats]) => (
@@ -322,8 +372,13 @@ export default function filmdetail({ params }) {
                               {seats.map((ghe) => {
                                 const seat = `${ghe.hang}${ghe.cot}`;
                                 const isSelected = seatSelected.includes(seat);
-                                const loaigheItem = loaighe.find(item => item._id === ghe.loaighe_id);
-                                const giaLoaighe = giaghedata.find(item => item.loaighe_id._id === ghe.loaighe_id);
+                                const loaigheItem = loaighe.find(
+                                  (item) => item._id === ghe.loaighe_id
+                                );
+                                const giaLoaighe = giaghedata.find(
+                                  (item) =>
+                                    item.loaighe_id._id === ghe.loaighe_id
+                                );
                                 let style = {};
                                 // Gán màu cho ghế
                                 if (loaigheItem) {
@@ -339,50 +394,114 @@ export default function filmdetail({ params }) {
                                     key={ghe._id}
                                     style={{
                                       ...style,
-                                      textAlign: 'center',
-                                      fontSize: '16px',
-                                      padding: '5px',
-                                      cursor: 'pointer',
-                                      border: '1px solid #ccc',
-                                      margin: '3px'
+                                      textAlign: "center",
+                                      fontSize: "16px",
+                                      padding: "5px",
+                                      cursor: "pointer",
+                                      border: "1px solid #ccc",
+                                      margin: "3px",
                                     }}
                                     onClick={() => {
-                                      console.log(ghe._id)
-                                      const gia = giaLoaighe ? giaLoaighe.giaghe : 0; 
-                                      console.log(loaigheItem ? loaigheItem.loaighe : 'ko co loai ghe');
-                                      if (loaigheItem && loaigheItem.loaighe === 'Ghế Đôi') {
+                                      console.log(ghe._id);
+                                      const gia = giaLoaighe
+                                        ? giaLoaighe.giaghe
+                                        : 0;
+                                      console.log(
+                                        loaigheItem
+                                          ? loaigheItem.loaighe
+                                          : "ko co loai ghe"
+                                      );
+                                      if (
+                                        loaigheItem &&
+                                        loaigheItem.loaighe === "Ghế Đôi"
+                                      ) {
                                         const firstSeat = seat;
-                                        const secondSeat = `${ghe.hang}${parseInt(ghe.cot) + 1}`;
+                                        const secondSeat = `${ghe.hang}${
+                                          parseInt(ghe.cot) + 1
+                                        }`;
                                         if (isSelected) {
                                           // Bỏ chọn ghế đôi
-                                          setSeatSelected(prevSeats =>
-                                            prevSeats.filter(selected => selected !== firstSeat && selected !== secondSeat)
+                                          setSeatSelected((prevSeats) =>
+                                            prevSeats.filter(
+                                              (selected) =>
+                                                selected !== firstSeat &&
+                                                selected !== secondSeat
+                                            )
                                           );
-                                          dispatch(addSeat({ _id: ghe._id, seat: [], gia: 0 }));
+                                          dispatch(
+                                            addSeat({
+                                              _id: ghe._id,
+                                              seat: [],
+                                              gia: 0,
+                                            })
+                                          );
                                           // Cập nhật tổng giá
-                                          setGiaghe(prevTotal => prevTotal - gia * 2);
+                                          setGiaghe(
+                                            (prevTotal) => prevTotal - gia * 2
+                                          );
                                         } else {
                                           // Chọn ghế đôi
-                                          if (gheData.some(g => `${g.hang}${g.cot}` === secondSeat)) {
-                                            setSeatSelected(prevSeats => [...prevSeats, firstSeat, secondSeat]);
-                                            dispatch(addSeat({ _id: ghe._id, seat: [firstSeat, secondSeat], gia }));
+                                          if (
+                                            gheData.some(
+                                              (g) =>
+                                                `${g.hang}${g.cot}` ===
+                                                secondSeat
+                                            )
+                                          ) {
+                                            setSeatSelected((prevSeats) => [
+                                              ...prevSeats,
+                                              firstSeat,
+                                              secondSeat,
+                                            ]);
+                                            dispatch(
+                                              addSeat({
+                                                _id: ghe._id,
+                                                seat: [firstSeat, secondSeat],
+                                                gia,
+                                              })
+                                            );
                                             // Cập nhật tổng giá
-                                            setGiaghe(prevTotal => prevTotal + gia * 2);
+                                            setGiaghe(
+                                              (prevTotal) => prevTotal + gia * 2
+                                            );
                                           }
                                         }
                                       } else {
                                         if (isSelected) {
                                           // Bỏ chọn ghế đơn
-                                          setSeatSelected(prevSeats => prevSeats.filter(selected => selected !== seat));
-                                          dispatch(addSeat({ _id: ghe._id, seat: [], gia: 0 }));
+                                          setSeatSelected((prevSeats) =>
+                                            prevSeats.filter(
+                                              (selected) => selected !== seat
+                                            )
+                                          );
+                                          dispatch(
+                                            addSeat({
+                                              _id: ghe._id,
+                                              seat: [],
+                                              gia: 0,
+                                            })
+                                          );
                                           // Cập nhật tổng giá
-                                          setGiaghe(prevTotal => prevTotal - gia);
+                                          setGiaghe(
+                                            (prevTotal) => prevTotal - gia
+                                          );
                                         } else {
                                           // Chọn ghế đơn
-                                          setSeatSelected(prevSeats => [...prevSeats, seat]);
-                                          dispatch(addSeat({ _id: ghe._id, seat: [seat], gia }));
+                                          setSeatSelected((prevSeats) => [
+                                            ...prevSeats,
+                                            seat,
+                                          ]);
+                                          dispatch(
+                                            addSeat({
+                                              _id: ghe._id,
+                                              seat: [seat],
+                                              gia,
+                                            })
+                                          );
                                           // Cập nhật tổng giá
-                                          setGiaghe(prevTotal => prevTotal + gia);
+                                          setGiaghe(
+                                            (prevTotal) => prevTotal + gia
+                                          );
                                         }
                                       }
                                     }}
@@ -427,16 +546,30 @@ export default function filmdetail({ params }) {
                     Ghế đã chọn:
                     <span>
                       {seatSelected.length > MAX_SEATS_TO_SHOW
-                        ? `${seatSelected.slice(0, MAX_SEATS_TO_SHOW).join(", ")} ...`
+                        ? `${seatSelected
+                            .slice(0, MAX_SEATS_TO_SHOW)
+                            .join(", ")} ...`
                         : seatSelected.join(", ")}
                     </span>
                   </p>
                   <p className="seat-total-price">
-                    Tổng tiền: <span>{giaghe.toLocaleString()} VND</span> {/* Hiển thị số tiền với định dạng VND */}
+                    Tổng tiền: <span>{giaghe.toLocaleString()} VND</span>{" "}
+                    {/* Hiển thị số tiền với định dạng VND */}
                   </p>
                 </div>
                 <div className="seat-btn">
-                  <button className="back-btn" onClick={() => { setShow(false); setTimeLeft(10 * 60); setFoodShow(false); setSeatSelected([]); dispatch(clearMovieInfo()) }}>Quay lại</button>
+                  <button
+                    className="back-btn"
+                    onClick={() => {
+                      setShow(false);
+                      setTimeLeft(10 * 60);
+                      setFoodShow(false);
+                      setSeatSelected([]);
+                      dispatch(clearMovieInfo());
+                    }}
+                  >
+                    Quay lại
+                  </button>
                   <button
                     className="continue-btn"
                     onClick={() => setFoodShow(true)}
