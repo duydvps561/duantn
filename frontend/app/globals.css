@@ -34,6 +34,7 @@ body {
   font-size: 20px;
   color: #ffffff;
 }
+
 .container .row .card {
   background: #050b17; /* Background color of the card */
   border-radius: 8px; /* Rounded corners */
@@ -47,6 +48,7 @@ body {
 
 .container .row .card .img-top img {
   width: 100%; /* Full width image */
+  max-height: 290px;
   border-top-left-radius: 8px; /* Rounded corners on the top */
   border-top-right-radius: 8px; /* Rounded corners on the top */
 }
@@ -61,13 +63,16 @@ body {
   margin-bottom: 20px; /* Space below the links */
 }
 .card-body .day-time a {
-  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+  font-size: 11px;
   text-decoration: none;
-  color: #b7b7b7b7;
+  color: #b7b7b7;
 }
 .title-card h1 {
-  color: #b7b7b7b7;
-  font-size: 18px; /* Title font size */
+  font-weight: bold;
+  color: #b7b7b7;
+  font-size: 16px; /* Title font size */
   margin: 0; /* Remove default margin */
 }
 
@@ -199,7 +204,7 @@ header .nav-list {
 
 /* Footer styling */
 footer {
-  background-color: #343a40; /* Màu nền tối hơn */
+  background-color: #020203; /* Màu nền tối hơn */
   padding: 20px 0; /* Khoảng cách dọc */
   width: 100%;
 }
@@ -212,6 +217,7 @@ footer {
 
 .footer li {
   margin: 0 15px; /* Khoảng cách giữa các item trong footer */
+  list-style: none;
 }
 
 .footer .nav-link {
@@ -221,7 +227,7 @@ footer {
   transition: color 0.3s ease; /* Hiệu ứng khi hover */
 }
 
-.footer .nav-link:hover {
+.footer .nav-link ul li a:hover {
   color: #ff254a; /* Đổi màu khi hover */
 }
 
