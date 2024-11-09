@@ -4,6 +4,7 @@ import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
 import styles from './QuanLyPhong.module.css';
 import '../../globals.css';
+import Link from 'next/link';
 
 const QuanLyPhongPage = () => {
   const [rooms, setRooms] = useState([]);
@@ -128,6 +129,11 @@ const QuanLyPhongPage = () => {
     <Layout>
       <h1>Quản Lý Phòng Phim</h1>
       <p>Đây là trang quản lý phòng phim.</p>
+      <div className="d-flex justify-content-end align-items-center mb-3">
+                    <Link href="/admin/phong-phim/them-ghe" className="btn btn-primary">
+                        Thêm Ghế
+                    </Link>
+      </div>
       <div className={styles.formContainer}>
         <input
           type="text"
@@ -178,7 +184,11 @@ const QuanLyPhongPage = () => {
               {rooms.map((room, index) => (
                 <tr key={room._id}>
                   <td>{index + 1}</td>
-                  <td>{room.tenphong}</td>
+                  <td>
+                  <Link href={`/admin/phong-phim/chitietphongphim?id=${room._id}`} className="btn me-2 sua">
+                                {room.tenphong}
+                  </Link>
+                  </td>
                   <td>{room.trangthai === '1' ? 'Đang Hoạt Động' : 'Ngừng Hoạt Động'}</td>
                   <td>{room.loaiphong}</td>
                   <td>

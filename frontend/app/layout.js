@@ -1,7 +1,7 @@
 "use client";
 import "./globals.css";
 import "../public/bootstrap-5.3.3-dist/css/bootstrap.min.css";
-// import "../public/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js";
+import "../public/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import { usePathname } from "next/navigation";

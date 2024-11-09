@@ -36,7 +36,10 @@ export default function Home() {
             <div className="text-product mt-2">
               <div className="">
                 <p className="text-light">{movie.thoiluong} Phút</p>
-                <p>ngày:{movie.ngayhieuluc}</p>
+                <p className="text-light">
+                  ngày: {new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}
+                </p>
+
               </div>
               <p className="mt-2 text-sm text-xl fw-bold text-light">{movie.tenphim}</p>
             </div>
@@ -77,9 +80,9 @@ export default function Home() {
                 <Link href="#" className="text-decoration-none text-white" style={{ fontSize: "15px" }}>xem tất cả</Link>
               </p>
             </div>
-            <div  className="box bg-secondary">
+            <div className="box bg-secondary">
               <div className="">
-              đây là phần sự kiện 
+                đây là phần sự kiện
               </div>
             </div>
           </div>

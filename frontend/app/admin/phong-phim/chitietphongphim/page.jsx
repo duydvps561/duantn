@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 
 const ChiTietPhongPhimPage = () => {
   const [phongChieuDetail, setPhongChieuDetail] = useState(null);
+  const [loaiphongList, setLoaiphongList] = useState([]);
   const [selectedGhes, setSelectedGhes] = useState([]);
   const [loaigheList, setLoaigheList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,24 +28,26 @@ const ChiTietPhongPhimPage = () => {
   });
 
   useEffect(() => {
-    const fetchPhongChieuDetail = async () => {
+    const fetchData = async () => {
       try {
-        const [phongchieuRes, loaigheRes] = await Promise.all([
+        const [phongchieuRes, loaigheRes, loaiphongRes] = await Promise.all([
           axios.get(`http://localhost:3000/phongchieu/ghe/${phongChieuId}`),
-          axios.get('http://localhost:3000/loaighe')
+          axios.get('http://localhost:3000/loaighe'),
+          axios.get('http://localhost:3000/loaiphong')
         ]);
         setPhongChieuDetail(phongchieuRes.data);
         setLoaigheList(loaigheRes.data);
+        setLoaiphongList(loaiphongRes.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching phong chieu or loaighe data:', error);
+        console.error('Error fetching data:', error);
         setError('Lỗi khi tải dữ liệu');
         setLoading(false);
       }
     };
 
     if (phongChieuId) {
-      fetchPhongChieuDetail();
+      fetchData();
     }
   }, [phongChieuId]);
 
@@ -59,6 +62,20 @@ const ChiTietPhongPhimPage = () => {
         ...prev,
         [ghe._id]: { hang: ghe.hang, cot: ghe.cot }
       }));
+    }
+  };
+
+  const handleSelectAllSeats = () => {
+    if (selectedGhes.length === phongChieuDetail.ghe.length) {
+      setSelectedGhes([]);
+      setNewGheInfo({});
+    } else {
+      setSelectedGhes(phongChieuDetail.ghe);
+      const allNewGheInfo = phongChieuDetail.ghe.reduce((acc, ghe) => {
+        acc[ghe._id] = { hang: ghe.hang, cot: ghe.cot };
+        return acc;
+      }, {});
+      setNewGheInfo(allNewGheInfo);
     }
   };
 
@@ -110,7 +127,7 @@ const ChiTietPhongPhimPage = () => {
       Swal.fire('Cập nhật thành công!', '', 'success').then(() => {
         setTimeout(() => {
           window.location.reload();
-        }, 2000); // Chờ 5 giây trước khi làm mới trang
+        }, 2000);
       });
     } else {
       Swal.fire('Vui lòng kiểm tra lại thông tin ghế', '', 'error');
@@ -148,6 +165,9 @@ const ChiTietPhongPhimPage = () => {
         <div className='row'>
           <div className='col-md-9'>
             <h3>Danh sách ghế</h3>
+            <button className="btn btn-primary mb-3" onClick={handleSelectAllSeats}>
+              {selectedGhes.length === phongChieuDetail.ghe.length ? "Bỏ chọn tất cả" : "Chọn tất cả"}
+            </button>
             <table className={`table ${styles.table}`}>
               <thead>
                 <tr>
@@ -183,34 +203,31 @@ const ChiTietPhongPhimPage = () => {
                 <option key={loaighe._id} value={loaighe._id}>{loaighe.loaighe}</option>
               ))}
             </select>
-
+              <div className='mt-3 mb-3'>
+              <button onClick={handleUpdateGhe} className="btn btn-primary me-4">Cập nhật ghế</button>
+              <button onClick={handleDeleteGhes} className="btn btn-danger me-2">Xóa ghế</button>
+              </div>
             <h4>Thay đổi hàng và cột:</h4>
             {selectedGhes.map(ghe => (
               <div key={ghe._id} className="mb-3">
-                <label>{`Ghế: ${ghe.hang}-${ghe.cot}`}</label>
                 <input 
                   type="text" 
-                  className="form-control mb-2"
                   value={newGheInfo[ghe._id]?.hang || ''} 
-                  placeholder="Hàng mới"
                   onChange={(e) => handleInputChange(ghe._id, 'hang', e.target.value)} 
+                  className={`form-control ${errors[ghe._id]?.hang ? 'is-invalid' : ''}`} 
+                  placeholder="Hàng" 
                 />
-                {errors[ghe._id]?.hang && <p style={{ color: 'red' }}>{errors[ghe._id].hang}</p>}
                 <input 
                   type="text" 
-                  className="form-control"
                   value={newGheInfo[ghe._id]?.cot || ''} 
-                  placeholder="Cột mới"
                   onChange={(e) => handleInputChange(ghe._id, 'cot', e.target.value)} 
+                  className={`form-control ${errors[ghe._id]?.cot ? 'is-invalid' : ''}`} 
+                  placeholder="Cột" 
                 />
-                {errors[ghe._id]?.cot && <p style={{ color: 'red' }}>{errors[ghe._id].cot}</p>}
+                {errors[ghe._id]?.hang && <div className="invalid-feedback">{errors[ghe._id].hang}</div>}
+                {errors[ghe._id]?.cot && <div className="invalid-feedback">{errors[ghe._id].cot}</div>}
               </div>
             ))}
-
-            <button className="btn btn-danger w-100 mt-3" onClick={handleDeleteGhes} disabled={selectedGhes.length === 0}>Xóa ghế đã chọn</button>
-            <button className="btn btn-success w-100 mt-3" onClick={handleUpdateGhe}>
-              Cập nhật ghế đã chọn
-            </button>
           </div>
         </div>
       </div>
