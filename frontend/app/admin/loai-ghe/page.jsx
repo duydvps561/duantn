@@ -88,109 +88,128 @@ const QuanLyLoaiGhePage = () => {
 
   return (
     <Layout>
-      <h1>Quản Lý Loại Ghế</h1>
-      <p>Đây là trang quản lý các loại ghế.</p>
+      <h1 style={{
+  display: 'flex', 
+  justifyContent: 'center', 
+  alignItems: 'center', 
+}}>Quản Lý Loại Ghế</h1>
 
       <div style={{
   display: 'flex',
-  flexDirection: 'column',
-  gap: '10px',
-  padding: '20px',
-  backgroundColor: '#f9f9f9',
-  borderRadius: '8px',
-  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+  justifyContent: 'space-between',
+  gap: '2rem'
 }}>
-  <p style={{
-    margin: '0',
-    fontSize: '16px',
-    fontWeight: 'bold'
-  }}>Tên loại ghế.</p>
-    
-  <input
-    type="text"
-    value={seatTypeName}
-    onChange={(e) => setSeatTypeName(e.target.value)}
-    placeholder="Nhập loại ghế"
-    style={{
-      padding: '10px',
-      border: '1px solid #ccc',
-      borderRadius: '4px',
+  {/* Phần bên trái */}
+  <div style={{
+    flex: 4,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    padding: '20px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '8px',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+  }}>
+    <p style={{
+      margin: '0',
       fontSize: '16px',
-      outline: 'none',
-      transition: 'border-color 0.3s'
-    }}
-    onFocus={(e) => e.target.style.borderColor = '#007bff'}
-    onBlur={(e) => e.target.style.borderColor = '#ccc'}
-  />
-  
-  <p style={{
-    margin: '0',
-    fontSize: '16px',
-    fontWeight: 'bold'
-  }}>Màu ghế.</p>
+      fontWeight: 'bold'
+    }}>Tên loại ghế.</p>
 
-<SketchPicker
-            color={seatTypeColor}
-            onChangeComplete={(color) => setSeatTypeColor(color.hex)} // Cập nhật màu khi chọn
-          />
-  
-  <button
-    style={{
-      padding: '10px 15px',
-      backgroundColor: '#007bff',
-      color: 'white',
-      border: 'none',
-      borderRadius: '4px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s'
-    }}
-    onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
-    onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
-    onClick={isEditing ? () => updateSeatType(editId) : addSeatType}
-  >
-    {isEditing ? "Cập Nhật" : "Thêm Loại Ghế"}
-  </button>
+    <input
+      type="text"
+      value={seatTypeName}
+      onChange={(e) => setSeatTypeName(e.target.value)}
+      placeholder="Nhập loại ghế"
+      style={{
+        padding: '10px',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        fontSize: '16px',
+        outline: 'none',
+        transition: 'border-color 0.3s'
+      }}
+      onFocus={(e) => e.target.style.borderColor = '#007bff'}
+      onBlur={(e) => e.target.style.borderColor = '#ccc'}
+    />
+
+    <p style={{
+      margin: '0',
+      fontSize: '16px',
+      fontWeight: 'bold'
+    }}>Màu ghế.</p>
+
+    <SketchPicker
+      color={seatTypeColor}
+      onChangeComplete={(color) => setSeatTypeColor(color.hex)} // Cập nhật màu khi chọn
+    />
+
+    <button
+      style={{
+        padding: '10px 15px',
+        backgroundColor: '#007bff',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s'
+      }}
+      onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
+      onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+      onClick={isEditing ? () => updateSeatType(editId) : addSeatType}
+    >
+      {isEditing ? "Cập Nhật" : "Thêm Loại Ghế"}
+    </button>
+  </div>
+
+  {/* Phần bên phải */}
+  <div className={styles.tablesContainer} style={{ flex: 6 }}>
+    <div className={styles.tableSection}>
+      <h2 className={styles.tableTitle}>Danh Sách Loại Ghế</h2>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Loại Ghế</th>
+            <th>Màu</th> {/* Add color column */}
+            <th>Thao Tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          {seatTypes.map((seatType, index) => (
+            <tr key={seatType._id}>
+              <td>{index + 1}</td>
+              <td>{seatType.loaighe}</td>
+              <td>
+                <div style={{
+                  backgroundColor: seatType.mau,
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%'
+                }} />
+              </td> {/* Display color as a colored circle */}
+              <td>
+                <button
+                  className={styles.editButton}
+                  onClick={() => handleEdit(seatType._id, seatType.loaighe, seatType.mau)}
+                >
+                  Sửa
+                </button>
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => deleteSeatType(seatType._id)}
+                >
+                  Xóa
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-      <div className={styles.tablesContainer}>
-        <div className={styles.tableSection}>
-          <h2 className={styles.tableTitle}>Danh Sách Loại Ghế</h2>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>STT</th>
-                <th>Loại Ghế</th>
-                <th>Màu</th> {/* Add color column */}
-                <th>Thao Tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              {seatTypes.map((seatType, index) => (
-                <tr key={seatType._id}>
-                  <td>{index + 1}</td>
-                  <td>{seatType.loaighe}</td>
-                  <td>
-                    <div style={{ backgroundColor: seatType.mau, width: '20px', height: '20px', borderRadius: '50%' }} />
-                  </td> {/* Display color as a colored circle */}
-                  <td>
-                    <button
-                      className={styles.editButton}
-                      onClick={() => handleEdit(seatType._id, seatType.loaighe, seatType.mau)}
-                    >
-                      Sửa
-                    </button>
-                    <button
-                      className={styles.deleteButton}
-                      onClick={() => deleteSeatType(seatType._id)}
-                    >
-                      Xóa
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+
     </Layout>
   );
 };

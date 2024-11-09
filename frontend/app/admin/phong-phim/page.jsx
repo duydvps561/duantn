@@ -75,11 +75,32 @@ const deleteRoom = async (id) => {
 
   return (
     <Layout>
-      <h1>Quản Lý Phòng Phim</h1>
-      <p>Đây là trang quản lý phòng phim.</p>
+   <h1 style={{
+  display: 'flex', 
+  justifyContent: 'center',
+
+  alignItems: 'center', 
+}}>
+        Quản Lý Phòng Phim</h1>
 
       {/* Form to Add or Edit Room */}
-      <div className={styles.formContainer}>
+      <div style={{
+  display: 'flex',
+  gap: '1rem', 
+  justifyContent: 'space-between'
+
+}}>
+   <div style={{
+  flex: 4,
+  
+}} className={styles.formContainer}>
+   <h1 style={{
+  display: 'flex', 
+  justifyContent: 'center',
+    marginBottom: '2rem',
+  alignItems: 'center', 
+}}>
+         </h1>
         <input
           type="text"
           value={roomName}
@@ -104,7 +125,10 @@ const deleteRoom = async (id) => {
       </div>
 
       {/* Tables Section */}
-      <div className={styles.tablesContainer}>
+      <div style={{
+  flex: 6,
+  
+}} className={styles.tablesContainer}>
         <div className={styles.tableSection}>
           <h2 className={styles.tableTitle}>Danh Sách Phòng</h2>
           <table className={styles.table}>
@@ -142,6 +166,7 @@ const deleteRoom = async (id) => {
           </table>
         </div>
       </div>
+   </div>
     </Layout>
   );
 };
