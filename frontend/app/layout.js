@@ -15,9 +15,13 @@ export default function RootLayout({ children }) {
       <body style={{ backgroundColor: "#050B17" }}>
         <Providers>
           <AuthProvider>
-          <Header />
-          {children}
-          {!isThanhCong && <Footer />}
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            />
+            <Header />
+            {children}
+            {!isThanhCong && <Footer />}
           </AuthProvider>
         </Providers>
         <script
