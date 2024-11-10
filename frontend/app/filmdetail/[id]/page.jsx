@@ -20,6 +20,7 @@ export default function filmdetail({ params }) {
   const id = params.id;
   const [show, setShow] = useState(false);
   const [phimChitiet, setPhimChitiet] = useState([]);
+  const [ngayHieuLuc, setNgayHieuLuc] = useState("");
 
   const [cachieu, setCaChieu] = useState([]);
   const [gheData, setGheData] = useState([]);
@@ -67,6 +68,11 @@ export default function filmdetail({ params }) {
       const data = await response.json();
       setPhimChitiet(data);
       dispatch(updateTenPhim(data.tenphim));
+
+      const ngayHieuLuc = new Date(data.ngayhieuluc).toLocaleDateString(
+        "vi-VN"
+      );
+      setNgayHieuLuc(ngayHieuLuc);
     } catch (error) {
       console.error("Error fetching film details:", error);
     }
@@ -183,7 +189,7 @@ export default function filmdetail({ params }) {
           <img
             src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
             alt=""
-            style={{ width: "250", height: "350px" }}
+            style={{ width: "250", height: "450px" }}
           />
           <div className="card-img-overlay d-lg-flex justify-content-center">
             <div className="img-overlay">
@@ -195,7 +201,16 @@ export default function filmdetail({ params }) {
             </div>
             <div className="title-overlay ms-3">
               <h1 className="card-title" style={{ color: "#ffffff" }}>
-                {phimChitiet.tenphim}
+                {phimChitiet &&
+                phimChitiet.tenphim &&
+                phimChitiet.tenphim.includes("-")
+                  ? phimChitiet.tenphim.slice(
+                      0,
+                      phimChitiet.tenphim.lastIndexOf("-")
+                    )
+                  : phimChitiet
+                  ? phimChitiet.tenphim
+                  : "Loading..."}
               </h1>
               <ul>
                 <li>
@@ -209,12 +224,18 @@ export default function filmdetail({ params }) {
                 {phimChitiet.dienvien}
               </p>
               <p className="card-text" style={{ color: "#ffffff" }}>
-                Khởi chiếu: {phimChitiet.ngayhieuluc}
+                Khởi chiếu: {ngayHieuLuc}
               </p>
               <p className="card-text">
-                <small>{phimChitiet.noidung}</small>
+                <small>
+                  {phimChitiet && phimChitiet.noidung
+                    ? phimChitiet.noidung.length > 100
+                      ? `${phimChitiet.noidung.slice(0, 100)}...`
+                      : phimChitiet.noidung
+                    : "Loading..."}{" "}
+                </small>
               </p>
-              <p className="card-text text-danger">
+              <p className="card-node text-danger">
                 Kiểm duyệt: T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi
                 trở lên (18+)
               </p>
@@ -243,7 +264,9 @@ export default function filmdetail({ params }) {
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">Trailer: THE CROW</h5>
+                  <h5 className="modal-title">
+                    Trailer: {phimChitiet.tenphim}
+                  </h5>
                   <button
                     type="button"
                     className="btn-close"
@@ -252,16 +275,20 @@ export default function filmdetail({ params }) {
                 </div>
                 <div className="modal-body">
                   <div className="embed-responsive embed-responsive-16by9">
-                    <iframe
-                      className="embed-responsive-item"
-                      width="100%"
-                      height="400px"
-                      src="https://youtu.be/djSKp_pwmOA?si=t2Tg7PcbZBzjzVNq&t=25"
-                      title="The Crow Trailer"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
+                    {phimChitiet.trailer ? (
+                      <iframe
+                        className="embed-responsive-item"
+                        width="100%"
+                        height="400px"
+                        src={phimChitiet.trailer}
+                        title={`${phimChitiet.tenphim} Trailer`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    ) : (
+                      <p className="text-light">Trailer không có sẵn</p>
+                    )}
                   </div>
                 </div>
               </div>

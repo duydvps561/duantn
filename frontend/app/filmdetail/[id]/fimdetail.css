@@ -1,457 +1,453 @@
 /*film detail styling */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .card-img {
-    object-fit: cover;
-    width: 100%;
-    height: 500px;
+  object-fit: cover;
+  width: 100%;
+  height: 500px;
 }
 
 @media screen and (max-width: 1960px) {
-    .card-img {
-        width: 100%;
-    }
+  .card-img {
+    width: 100%;
+  }
 
-    .card {
-        width: 100%;
-    }
+  .card {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 991px) {
-    .card-img {
-        height: 800px;
-    }
+  .card-img {
+    height: 800px;
+  }
 }
 
 @media screen and (max-width: 756px) {
-    .title-overlay {
-        font-size: small;
-    }
+  .title-overlay {
+    font-size: small;
+  }
 }
 
 .film-detail {
-    width: 215vh;
+  width: 215vh;
 }
 
 .card-img-overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    flex-wrap: wrap;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  flex-wrap: wrap;
 }
-
+.img-overlay {
+  margin-bottom: 30px;
+}
 .img-overlay img {
-    width: 250px;
-    height: 350px;
-    object-fit: cover;
+  width: 250px;
+  height: 350px;
+  object-fit: cover;
 }
 
 .title-overlay {
-    margin-left: 20px;
-    max-width: 600px;
+  margin-left: 20px;
+  max-width: 600px;
 }
 
 .title-overlay h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 15px;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 .title-overlay ul {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 .title-overlay ul li a {
-    color: #ffcc00;
-    text-decoration: none;
-    margin-right: 10px;
+  color: #ffcc00;
+  text-decoration: none;
+  margin-right: 10px;
 }
 
 .title-overlay ul li a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-.card-text {
-    margin-bottom: 10px;
-    font-size: 1rem;
+.title-overlay .card-text {
+  margin-bottom: 10px;
+  font-size: 1rem;
 }
 
-.card-text small {
-    font-size: 0.9rem;
-    color: #ccc;
+.title-overlay .card-text small {
+  font-size: 0.9rem;
+  color: #ccc;
 }
 
 .view-detail {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .view-detail .btn {
-    background-color: #343a40;
-    /* Màu nền tối */
-    color: #ffc107;
-    /* Màu chữ vàng */
-    border: 1px solid #ffc107;
-    /* Viền vàng */
-    padding: 10px 20px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    /* Hiệu ứng chuyển đổi */
+  background-color: #343a40;
+  /* Màu nền tối */
+  color: #ffc107;
+  /* Màu chữ vàng */
+  border: 1px solid #ffc107;
+  /* Viền vàng */
+  padding: 10px 20px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Hiệu ứng chuyển đổi */
 }
 
 .view-detail .btn:hover {
-    background-color: #ffc107;
-    /* Màu nền khi hover */
-    color: #343a40;
-    /* Màu chữ khi hover */
-    border: 1px solid #343a40;
-    /* Viền màu tối khi hover */
+  background-color: #ffc107;
+  /* Màu nền khi hover */
+  color: #343a40;
+  /* Màu chữ khi hover */
+  border: 1px solid #343a40;
+  /* Viền màu tối khi hover */
 }
 
 /* date*/
 .note {
-    text-align: center;
-    color: rgb(211, 88, 0);
-    font-size: 20px;
+  text-align: center;
+  color: rgb(211, 88, 0);
+  font-size: 20px;
 }
 
 .date {
-    background: rgba(34, 34, 34, 0.5);
-    /* Tạo hiệu ứng overlay mờ */
+  background: rgba(34, 34, 34, 0.5);
+  /* Tạo hiệu ứng overlay mờ */
 
-    justify-content: center;
-    clear: both;
-    display: flex;
-    /* flex-direction: column; */
-    align-items: center;
-    /* Căn giữa theo chiều ngang */
+  justify-content: center;
+  clear: both;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  /* Căn giữa theo chiều ngang */
 }
 
 .date .text {
-    padding: 10px 20px;
-    text-align: center;
-    /* Căn giữa nội dung bên trong */
-    cursor: pointer;
+  padding: 10px 20px;
+  text-align: center;
+  /* Căn giữa nội dung bên trong */
+  cursor: pointer;
 }
 
 .date .text:hover {
-    background-color: #ff254a;
+  background-color: #ff254a;
 }
 
 /* siting**************************************** */
 .sit-header {
-    color: #ffffff;
-    font-size: 23px;
-    font-weight: 500;
+  color: #ffffff;
+  font-size: 23px;
+  font-weight: 500;
 }
 
 .sit-header .s-p-2 {
-    border: 1px solid #FF0101;
-    border-radius: 30px;
-    padding: 5px;
+  border: 1px solid #ff0101;
+  border-radius: 30px;
+  padding: 5px;
 }
 
 .seat-content .seat-title {
-    font-size: 28px;
-    font-weight: 400;
-    color: #ffffff;
-    margin: 13px 0 0 0;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
+  font-size: 28px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 13px 0 0 0;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
 }
 
 .siting-order {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .siting-table tbody tr {
-    color: #ffffff;
-    text-align: center;
-    display: flex;
-    padding: 2px;
+  color: #ffffff;
+  text-align: center;
+  display: flex;
+  padding: 2px;
 }
 
 .siting-table tbody tr td {
-    width: 40px;
-    height: 40px;
-    background-color: #FF0101;
-    border-radius: 5px;
-    padding: 5px;
-    background-color: #252A31;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background-color: #ff0101;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #252a31;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .note p {
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: 500;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .note .box-color-1 {
-    color: #ffffff;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #252A31;
-
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #252a31;
 }
 
 .note .box-color-2 {
-    color: #ffffff;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #005AD8;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #005ad8;
 }
 
 .note .box-color-3 {
-    color: #ffffff;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #252A31;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #252a31;
 }
 
 .note .box-color-4 {
-    color: #ffffff;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #FF8413;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #ff8413;
 }
 
 .note .box-color-5 {
-    color: #ffffff;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #FF3741;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #ff3741;
 }
-.seat-bill{
-    position: relative;
+.seat-bill {
+  position: relative;
 }
 .seat-bill p {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffffff;
-    padding: 0;
-
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 0;
 }
 .seat-selected {
-    max-width: 100%; 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 auto; 
-    gap: 10px; 
-    padding: 10px;
-
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 10px;
+  padding: 10px;
 }
 
 .seat-btn .back-btn {
-    background-color: #050B17;
-    width: 130px;
-    height: 44px;
-    color: #ffffff;
-    border: 1px solid #2b4151;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+  background-color: #050b17;
+  width: 130px;
+  height: 44px;
+  color: #ffffff;
+  border: 1px solid #2b4151;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .seat-btn .back-btn:hover {
-    background-color: #272c2c;
+  background-color: #272c2c;
 }
 
 .continue-btn {
-    background-color: #ffffff;
-    color: #000000;
-    width: 130px;
-    height: 44px;
-    border: 1px solid #2b4151;
-    padding: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-left: 40px;
+  background-color: #ffffff;
+  color: #000000;
+  width: 130px;
+  height: 44px;
+  border: 1px solid #2b4151;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 40px;
 }
 .continue-btn:disabled {
-    background-color: #6c757d; /* Màu tối khi nút bị vô hiệu hóa */
-    color: #cccccc; /* Màu chữ mờ hơn cho trạng thái disabled */
-    cursor: not-allowed; /* Đổi con trỏ khi nút bị vô hiệu hóa */
-    opacity: 0.7; /* Làm nhạt nút một chút */
+  background-color: #6c757d; /* Màu tối khi nút bị vô hiệu hóa */
+  color: #cccccc; /* Màu chữ mờ hơn cho trạng thái disabled */
+  cursor: not-allowed; /* Đổi con trỏ khi nút bị vô hiệu hóa */
+  opacity: 0.7; /* Làm nhạt nút một chút */
 }
 
 /* food */
-.food-banner img{
-    width: 100%;
-    height: auto;
+.food-banner img {
+  width: 100%;
+  height: auto;
 }
 .food-cb-title {
-    font-size: 34px;
-    font-weight: 700;
-    color: #FC8A06;
+  font-size: 34px;
+  font-weight: 700;
+  color: #fc8a06;
 }
 
 .food-title {
-    font-size: 34px;
-    font-weight: 700;
-    color: #FC8A06;
+  font-size: 34px;
+  font-weight: 700;
+  color: #fc8a06;
 }
 
 .best-seller {
-    padding: 10px;
-    border-radius: 8px;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .food-title {
-    text-align: center;
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #FC8A06;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #fc8a06;
 }
 
 .food-bestsell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
 }
 
 .food-box {
-    width: 250px;
-    height: 377px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s;
+  width: 250px;
+  height: 377px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s;
 }
 .food-box:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 .food-box img {
-    width: 100%;
-    height: 250px;
-    border-bottom: 1px solid #ddd;
+  width: 100%;
+  height: 250px;
+  border-bottom: 1px solid #ddd;
 }
 
 .food-content {
-    padding: 10px;
+  padding: 10px;
 }
 .food-content h2 {
-    font-size: 18px;
-    color: #333;
+  font-size: 18px;
+  color: #333;
 }
 .food-content span {
-    color: #777;
-    font-size: 16px;
+  color: #777;
+  font-size: 16px;
 }
 .food-btn-addCart {
-    width: 100%;
-    height: 55px;
-    padding: 10px;
-    font-size: 16px;
-    color: #555555;
-    background-color: #F39421;
-    /* Màu cam sáng */
-    border: none;
-    border-radius: 0 0 8px 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  width: 100%;
+  height: 55px;
+  padding: 10px;
+  font-size: 16px;
+  color: #555555;
+  background-color: #f39421;
+  /* Màu cam sáng */
+  border: none;
+  border-radius: 0 0 8px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
-.btn-pre{
-    color: #ffffff;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.btn-pre {
+  color: #ffffff;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.btn-next{
-    color: #ffffff;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+.btn-next {
+  color: #ffffff;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.btn-pre i:hover{
-    cursor: pointer;
-    color: rgb(42, 49, 64);
+.btn-pre i:hover {
+  cursor: pointer;
+  color: rgb(42, 49, 64);
 }
-.btn-next i:hover{
-    cursor: pointer;
-    color: rgb(42, 49, 64);
+.btn-next i:hover {
+  cursor: pointer;
+  color: rgb(42, 49, 64);
 }
 .food-btn-addCart:hover {
-    background-color: #1bc92d;
-    /* Màu cam đậm khi hover */
+  background-color: #1bc92d;
+  /* Màu cam đậm khi hover */
 }
-.btn-cart{
-    margin: 20px 230px 20px 0;
+.btn-cart {
+  margin: 20px 230px 20px 0;
 }
-.btn-checkout{
-    width: 270px;
-    height: 55px;
-    color: #ffffff;
-    background-color: #E61F1F;
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 30px;
+.btn-checkout {
+  width: 270px;
+  height: 55px;
+  color: #ffffff;
+  background-color: #e61f1f;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 30px;
 }
-.btn-checkout:hover{
-    background-color: #964f4f;
-    color: #ffffff;
+.btn-checkout:hover {
+  background-color: #964f4f;
+  color: #ffffff;
 }
 /* Thoigian */
 .thoigian_chieu {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 60%;
-    margin: 0 auto;
-    overflow-x: auto; 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 60%;
+  margin: 0 auto;
+  overflow-x: auto;
 }
 
 .chonthoigian {
-    color: #ffffff;
-    height: 40px;
-    background-color: rgba(5, 11, 23, 0.7);
-    border: 1px solid #2b4151;
-    border-radius: 20px;
-    transition: background-color 0.2s ease;
-    flex: 0 0 calc(20% - 10px);
-    margin: 0 0 20px 0;
-    font-size: 15px;
-
+  color: #ffffff;
+  height: 40px;
+  background-color: rgba(5, 11, 23, 0.7);
+  border: 1px solid #2b4151;
+  border-radius: 20px;
+  transition: background-color 0.2s ease;
+  flex: 0 0 calc(20% - 10px);
+  margin: 0 0 20px 0;
+  font-size: 15px;
 }
 
-
 .chonthoigian:hover {
-    cursor: pointer;
-    background-color: #2b4151;
+  cursor: pointer;
+  background-color: #2b4151;
 }
