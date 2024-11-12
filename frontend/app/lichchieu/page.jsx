@@ -45,15 +45,15 @@ export default function LichChieu() {
   }
 
   return (
-    <section className="container">
-      <h2 className="text-light fw-bold">Phim đang chiếu</h2>
-      <div className="list-day">
+    <section className="film-container">
+      <h2 className="film-title text-light fw-bold">Phim đang chiếu</h2>
+      <div className="date-list">
         {uniqueDates.map((dateString, index) => {
           const date = new Date(dateString);
           const formattedDate = date.toLocaleDateString("vi-VN");
           return (
             <button
-              className="day"
+              className="date-button"
               key={index}
               onClick={() => handleDateClick(dateString)}
             >
@@ -62,14 +62,13 @@ export default function LichChieu() {
           );
         })}
       </div>
-      <p className="node fw-bold">
+      <p className="age-warning fw-bold">
         Lưu ý: Khán giả dưới 13 tuổi chỉ chọn suất chiếu kết thúc trước 22h và
         Khán giả dưới 16 tuổi chỉ chọn suất chiếu kết thúc trước 23h.
       </p>
 
-      <div className="main d-flex col-12">
+      <div className="film-list d-flex col-12">
         {filteredPhim.map((phim) => {
-          // Format the dates
           const ngayHieuLuc = new Date(phim.ngayhieuluc).toLocaleDateString(
             "vi-VN"
           );
@@ -79,19 +78,19 @@ export default function LichChieu() {
 
           return (
             <div
-              className="card mb-3 bg-dark"
+              className="film-card mb-3 bg-dark"
               style={{ minWidth: "550px", height: "300px" }}
               key={phim._id}
             >
               <Link
                 href={`/filmdetail/${phim._id}`}
-                className="text-decoration-none text-muted"
+                className="card-link text-decoration-none text-muted"
               >
                 <div className="row g-0">
                   <div className="col-md-5">
                     <img
                       src={`http://localhost:3000/img/phims/${phim.img}`}
-                      className="img-fluid rounded-start"
+                      className="film-image img-fluid rounded-start"
                       style={{ minWidth: "230px", height: "300px" }}
                       alt={
                         phim.tenphim.includes("-")
@@ -101,19 +100,19 @@ export default function LichChieu() {
                     />
                   </div>
                   <div className="col-md-7">
-                    <div className="card-body text-start">
-                      <div className="timeline d-flex text-light">
-                        <p className="infor">{ngayHieuLuc}</p>
-                        <p className="infor-time">{phim.thoiluong} phút</p>
+                    <div className="film-card-body text-start">
+                      <div className="film-timeline d-flex text-light">
+                        <p className="release-date">{ngayHieuLuc}</p>
+                        <p className="duration-info">{phim.thoiluong} phút</p>
                       </div>
-                      <h5 className="card-title text-light">
+                      <h5 className="film-title text-light">
                         {phim.tenphim.includes("-")
                           ? phim.tenphim.slice(0, phim.tenphim.lastIndexOf("-"))
                           : phim.tenphim}
                       </h5>
                       <p>Xuất xứ: {phim.xuatXu}</p>
                       <p>Khởi chiếu: {ngayHieuLucDen}</p>
-                      <p className="card-text-node">
+                      <p className="film-description">
                         {phim.noidung.length > 90
                           ? `${phim.noidung.slice(0, 90)}...`
                           : phim.noidung}

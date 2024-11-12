@@ -1,119 +1,95 @@
 /* Container */
-.container {
+.film-container {
   margin-top: 30px;
-}
 
-/* Căn giữa tiêu đề */
-.container h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 20px;
-}
-.node {
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 50px;
-  color: #ff4000;
-}
+  /* Title */
+  .film-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 20px;
+  }
 
-/* List days */
-.container .list-day {
-  list-style-type: none;
-  padding-left: 0;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
+  .age-warning {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 50px;
+    color: #ff4000;
+  }
 
-.container .list-day .day {
-  text-decoration: none;
-  color: #ffffff;
-  margin-top: 40px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  margin-right: 20px;
-  background-color: #343a40;
-  font-size: 20px;
-  width: 200px;
-  height: 50px;
-}
+  /* List of Dates */
+  .date-list {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 
-.container .list-day .day:hover {
-  background-color: #495057;
-}
+    .date-button {
+      text-decoration: none;
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      border-radius: 20px;
+      margin-right: 20px;
+      background-color: #343a40;
+      font-size: 20px;
+      width: 200px;
+      height: 50px;
 
-/* Main Card Section */
-.main {
-  margin-top: 10px;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-}
+      &:hover {
+        background-color: #495057;
+      }
+    }
+  }
 
-/* Cards */
-.container .card {
-  border: none;
-  background-color: #212529;
-  margin: 10px;
-}
+  /* Film List Section */
+  .film-list {
+    margin-top: 10px;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
 
-.container .card .card-body {
-  padding: 20px;
-  color: #fff;
-  font-size: 14px;
-}
+    /* Film Cards */
+    .film-card {
+      border: none;
+      background-color: #212529;
+      margin: 10px;
 
-.card-title {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+      .film-card-body {
+        padding: 20px;
+        color: #fff;
+        font-size: 14px;
 
-.card-text-node {
-  color: #ffffff;
-  width: 250px;
-}
+        .film-title {
+          font-size: 14px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
 
-.timeline {
-  display: flex;
-  margin-bottom: 10px;
-}
-.infor {
-  font-size: 14px;
-}
-.infor-time {
-  margin-left: 30px;
-  font-size: 14px;
-}
+        .film-description {
+          color: #ffffff;
+          width: 250px;
+        }
+      }
+    }
 
-.giochieu .time {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Chia thành 4 cột */
-  gap: 10px; /* Khoảng cách giữa các phần tử */
-}
+    .film-timeline {
+      display: flex;
+      margin-bottom: 10px;
 
-.time {
-  list-style-type: none;
-  padding-left: 0;
-  display: flex;
-  gap: 10px;
-}
+      .release-date {
+        font-size: 14px;
+      }
 
-.timechieu {
-  padding: 5px 10px;
-  border-radius: 5px;
-  text-decoration: none;
-  border: 1px solid #fff;
-  background-color: #343a40;
-  cursor: pointer;
-}
+      .duration-info {
+        margin-left: 30px;
+        font-size: 14px;
+      }
+    }
+  }
 
-.timechieu:hover {
-  background-color: #495057;
-}
-
-/* Image inside cards */
-.card img {
-  object-fit: cover;
-  height: 100%;
+  /* Image inside cards */
+  .film-image {
+    height: 100%;
+  }
 }
