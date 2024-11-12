@@ -220,15 +220,15 @@ const QuanLyGiaGhePage = () => {
             <td>{seatPrice.trangthai === 1 ? "Hoạt động" : "Không hoạt động"}</td>
                   <td>
                   <td>
-  <button className={`${styles.actionButton} ${styles.editButton}`} onClick={() => handleEdit(seatPrice._id, seatPrice)}>Chỉnh sửa</button>
-  <button className={`${styles.actionButton} ${styles.deleteButton}`} onClick={() => deleteSeatPrice(seatPrice._id)}>Xóa</button>
-</td>
+           <button className={`${styles.actionButton} ${styles.editButton}`} onClick={() => handleEdit(seatPrice._id, seatPrice)}>Chỉnh sửa</button>
+           <button className={`${styles.actionButton} ${styles.deleteButton}`} onClick={() => deleteSeatPrice(seatPrice._id)}>Xóa</button>
+        </td>
 
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table>    
         </div>
       </div>
     </Layout>
