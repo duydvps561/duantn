@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import Layout from "@/app/components/admin/Layout"; // Có thể thay đổi theo cấu trúc thư mục của bạn
 import './lienhe.css'; // Import CSS custom nếu cần
-import '../../globals.css'; // Import global styles
+import '../../globals.css';
+import '../../admin_header.css'; // Import global styles
 
 const ContactUs = () => {
   

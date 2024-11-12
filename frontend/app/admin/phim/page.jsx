@@ -4,6 +4,7 @@ import Layout from "@/app/components/admin/Layout";
 import Link from 'next/link'; // Import Link from next/link
 import styles from './QuanLyPhim.module.css';
 import '../../globals.css';
+import '../../admin_header.css';
 const QuanLyPhimPage = () => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
@@ -71,7 +72,8 @@ const QuanLyPhimPage = () => {
                 <tr key={movie._id}>
                   <td>{index + 1}</td>
                   <td>
-                    <img src={`http://localhost:3000/img/phims/${movie.img}`} alt={movie.tenphim} className={styles.movieImage} />
+                  {movie.img && <img src={`http://localhost:3000/img/phims/${movie.img}`} alt={movie.tenphim} className={styles.movieImage} />}
+
                   </td>
                   <td>{movie.tenphim}</td>
                   <td>{movie.noidung}</td>
@@ -85,7 +87,7 @@ const QuanLyPhimPage = () => {
                   <td>{movie.ngayhieulucden}</td>
                   <td>{movie.trangthai === '0' ? 'Hoạt Động' : 'Không Hoạt Động'}</td>
                   <td>
-                  <Link href={`/admin/phim/edit/${movie._id}`}>sửa</Link>
+                  <Link href={`/admin/phim/edit?id=${movie._id}`}>sửa</Link>
                     <button className={styles.deleteButton} onClick={() => deleteMovie(movie._id)}>Xóa</button>
                   </td>
                 </tr>

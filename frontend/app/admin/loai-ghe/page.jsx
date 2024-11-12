@@ -4,6 +4,7 @@ import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
 import styles from './QuanLyPhim.module.css';
 import '../../globals.css';
+import '../../admin_header.css';
 import { SketchPicker } from 'react-color';
 
 const QuanLyLoaiGhePage = () => {

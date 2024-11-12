@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Layout from "@/app/components/admin/Layout";
 import './OrderManagement.css'; // Để dùng CSS custom nếu cần
-import '../../globals.css'; // Import global styles
+import '../../globals.css';
+import '../../admin_header.css'; // Import global styles
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([

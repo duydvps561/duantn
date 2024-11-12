@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
-import styles from './QuanLyPhong.module.css'; // CSS module for styling
-import '../../globals.css'; // Import global styles
+import styles from '../QuanLyPhong.module.css'; // CSS module for styling
+import '../../../globals.css'; // Import global styles
 
 const QuanLyPhongPage = () => {
   const [rooms, setRooms] = useState([]); // State for room list
@@ -19,8 +19,8 @@ const QuanLyPhongPage = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/phongchieu');
-      setRooms(response.data);
+      const response = await axios.get('http://localhost:3000/loaiphong');
+      setLoaiphongList(response.data);
     } catch (error) {
       console.error('Error fetching rooms:', error);
     }
@@ -28,9 +28,11 @@ const QuanLyPhongPage = () => {
 
   const addRoom = async () => {
     try {
-      await axios.post('http://localhost:3000/phongchieu/add', { tenphong: roomName, trangthai: status, loaiphong: roomType });
-      fetchRooms(); 
-      resetForm(); // Reset form fields after adding
+      await axios.post('http://localhost:3000/loaiphong/add', { loaiphong, trangthai });
+      fetchLoaiphongs(); // Refresh the list
+      setLoaiphong(''); // Clear the input
+      setTrangthai('1'); // Reset status to default
+      console.log({ loaiphong, trangthai })
     } catch (error) {
       console.error('Error adding room:', error);
     }
@@ -38,9 +40,12 @@ const QuanLyPhongPage = () => {
 
   const updateRoom = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/phongchieu/update/${id}`, { tenphong: roomName, trangthai: status, loaiphong_id: roomType });
-      fetchRooms(); 
-      resetForm(); // Reset form fields after updating
+      await axios.put(`http://localhost:3000/loaiphong/update/${id}`, { loaiphong, trangthai });
+      fetchLoaiphongs(); // Refresh the list
+      setLoaiphong(''); // Clear the input
+      setTrangthai('1'); // Reset status to default
+      setIsEditing(false);
+      setEditId(null);
     } catch (error) {
       console.error('Error updating room:', error);
     }
@@ -56,8 +61,8 @@ const QuanLyPhongPage = () => {
 
   const deleteRoom = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/phongchieu/delete/${id}`);
-      fetchRooms(); // Refresh the list
+      await axios.delete(`http://localhost:3000/loaiphong/delete/${id}`);
+      fetchLoaiphongs(); // Refresh the list
     } catch (error) {
       console.error('Error deleting room:', error);
     }

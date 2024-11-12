@@ -106,15 +106,34 @@ router.post('/add', upload.single('img'), async (req, res) => {
   }
 });
 //update phim
- router.put('/:id', async (req, res) => {
+//update phim
+router.put('/:id', upload.single('img'), async (req, res) => {
   try {
-    const phim = await Phim.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const { tenphim, noidung, thoiluong, daodien, dienvien, trailler, ngayhieuluc, ngayhieulucden, trangthai } = req.body;
+
+    const updatedData = {
+      tenphim,
+      noidung,
+      thoiluong,
+      daodien,
+      dienvien,
+      trailler,
+      ngayhieuluc,
+      ngayhieulucden,
+      trangthai,
+      img: req.file ? req.file.originalname : undefined, // Update img if a new file is uploaded
+    };
+
+    const phim = await Phim.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+    console.log(req.body); // Kiểm tra dữ liệu được gửi đến API
     if (!phim) return res.status(404).send('The phim with the given ID was not found.');
     res.send(phim);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
+
+
 
 //lấy phim theo id
  router.get('/:id', async (req, res) => {

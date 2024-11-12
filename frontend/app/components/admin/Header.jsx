@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header style={headerStyle}>
       <div style={titleContainerStyle}>
-        <h4 style={leftTitleStyle}>ACE ADMIM</h4>
+        <h4 style={leftTitleStyle}>ACE ADMIN</h4>
       </div>
     </header>
   );

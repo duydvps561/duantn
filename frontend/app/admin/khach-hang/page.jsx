@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "./CustomerManagement.css";
 import Layout from "@/app/components/admin/Layout";
+import './CustomerManagement.css'; // Import CSS custom nếu cần
+import '../../globals.css';
+import '../../admin_header.css'; // Import global styles
 
 const CustomerManagement = () => {
   const [customers, setCustomers] = useState([]);

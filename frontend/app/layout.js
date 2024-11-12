@@ -6,10 +6,14 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import { usePathname } from "next/navigation";
 import Providers from "@/redux/Provider";
-import AuthProvider from "./components/AuthProvider";
+import AuthProvider from "./components/AuthProvider"; 
+
 export default function RootLayout({ children }) {
+
   const pathname = usePathname();
   const isThanhCong = pathname.includes("thanhtoan/thanhcong");
+  const isAdminRoute = pathname.includes('admin');
+
   return (
     <html lang="en">
       <body style={{ backgroundColor: "#050B17" }}>
@@ -21,7 +25,8 @@ export default function RootLayout({ children }) {
             />
             <Header />
             {children}
-            {!isThanhCong && <Footer />}
+           
+            {!isThanhCong && !isAdminRoute && <Footer />}
           </AuthProvider>
         </Providers>
         <script
