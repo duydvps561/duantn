@@ -67,7 +67,7 @@ export default function ThanhToan() {
         {/* Thông tin phim */}
         <div className="item">
           <div className="title-item">
-            <h2>Thông tin phim</h2>
+            <h2 className="text-light">Thông tin phim</h2>
             <button onClick={() => dispatch(clearCart())}>Xóa giỏ hàng</button>
           </div>
           <div className="item-body">
@@ -96,7 +96,7 @@ export default function ThanhToan() {
         {/* Thông tin thanh toán */}
         <div className="item">
           <div className="title-item">
-            <h2>Thông tin thanh toán</h2>
+            <h2 className="text-light">Thông tin thanh toán</h2>
           </div>
           <table>
             <thead>
@@ -130,7 +130,7 @@ export default function ThanhToan() {
         {/* Phương thức thanh toán */}
         <div className="item">
           <div className="title-item">
-            <h2>Phương thức thanh toán</h2>
+            <h2 className="text-light">Phương thức thanh toán</h2>
           </div>
           <div className="paymoment">
             {['VietQR', 'VNPay', 'Viettel Money', 'Payoo'].map((method) => (
@@ -141,6 +141,7 @@ export default function ThanhToan() {
                   name="payment"
                   value={method.toLowerCase().replace(' ', '')}
                   aria-label={`Select ${method} as payment method`}
+                  checked={paymentMethod === method.toLowerCase().replace(' ', '')} 
                   onChange={() => setPaymentMethod(method.toLowerCase().replace(" ", ""))}
                 />
                 <label htmlFor={method}>
@@ -155,23 +156,23 @@ export default function ThanhToan() {
           </div>
           <div className="payment">
             <div className="infor-payment">
-              <div className="title-item">
+              <div className="title-item text-light">
                 <h3>Chi phí</h3>
               </div>
-              <div className="thanhtoan">
+              <div className="thanhtoan text-light">
                 <h4>Thanh toán</h4>
                 <p>{totalAmount.toLocaleString()}đ</p>
               </div>
-              <div className="thanhtoan">
+              <div className="thanhtoan text-light">
                 <h4>Phí</h4>
                 <p>0đ</p>
               </div>
-              <div className="thanhtoan">
+              <div className="thanhtoan text-light">
                 <h4>Tổng cộng</h4>
                 <p>{totalAmount.toLocaleString()}đ</p>
               </div>
               <Link href={`/thanhtoan/option?${qrUrllink}`} style={{textDecoration:'none'}}>
-                <button>Thanh toán</button>
+              <button disabled={cart.length === 0 || !paymentMethod}>Thanh toán</button>
               </Link>
               <p className="luuy">
                 Lưu ý: Không mua vé cho trẻ em dưới 13 tuổi đối với các suất chiếu phim kết thúc sau 22h00 và không mua vé cho trẻ em dưới 16 tuổi đối với các suất chiếu phim kết thúc sau 23h00.

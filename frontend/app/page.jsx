@@ -1,10 +1,9 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Slide from "./components/slide";
-import Danhmuc from "./components/danhmuc";
+// import Danhmuc from "./components/danhmuc";
 
 export default function Home() {
   const [moviesNowPlaying, setMoviesNowPlaying] = useState([]);
@@ -26,81 +25,56 @@ export default function Home() {
     fetchMovies();
   }, []);
 
-  const renderMovieCards = (movies) => (
+  const renderMovieCards = (movies) =>
     movies.map((movie) => (
-      <div className="col-md-3 mt-3" key={movie._id}>
-        <div className="custom-shadow cursor-pointer">
-          <Link href={`/filmdetail/${movie._id}`} className="text-decoration-none text-muted">
-            <div className="box-product">
-              <img src={`http://localhost:3000/img/phims/${movie.img}`} alt="" />
+      <div className="card" key={movie._id}>
+        <Link
+          href={`/filmdetail/${movie._id}`}
+          className="text-decoration-none text-muted"
+        >
+          <div className="img-top">
+            <img
+              src={`http://localhost:3000/img/phims/${movie.img}`}
+              alt={movie.tenphim}
+            />
+          </div>
+          <div className="card-body">
+            <div className="day-time">
+              <a href="">{movie.thoiluong} Phút</a>
+              <a href="">
+                {new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}
+              </a>
             </div>
-            <div className="text-product">
-              <div className="d-flex flex-wrap gap-xl-5 text-muted text-sm mt-3">
-                <p>{movie.thoiluong}</p>
-                <p>{movie.ngayhieuluc}</p>
-              </div>
-              <p className="mt-2 text-sm text-xl fw-bold text-light">{movie.tenphim}</p>
+            <div className="title-card">
+              <h1>{movie.tenphim}</h1>
             </div>
-          </Link>
-        </div>
+          </div>
+        </Link>
       </div>
-    ))
-  );
-
-  const renderSection = (title, movies) => (
-    <div className="col-md-9">
-      <div className="d-flex justify-content-between align-items-center">
-        <div className="text d-flex align-items-center gap-2">
-          <p className="rounded-5 bg-danger" style={{ width: "20px", height: "20px" }}></p>
-          <p className="text-uppercase text-white" style={{ fontSize: "20px" }}>{title}</p>
-        </div>
-        <p className="text">
-          <Link href="#" className="text-decoration-none text-white" style={{ fontSize: "15px" }}>xem tất cả</Link>
-        </p>
-      </div>
-      <div className="box row justify-content-between">
-        {renderMovieCards(movies)}
-      </div>
-    </div>
-  );
+    ));
 
   return (
     <>
       <Slide />
-      <Danhmuc />
-      <div className="main-content container">
-        <div className="row">
-          {renderSection("phim đang chiếu", moviesNowPlaying)}
-          <div className="col-md-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <p className="text-uppercase text-white" style={{ fontSize: "20px" }}>khuyến mãi</p>
-              <p className="text">
-                <Link href="#" className="text-decoration-none text-white" style={{ fontSize: "15px" }}>xem tất cả</Link>
-              </p>
-            </div>
-            {[...Array(3)].map((_, index) => (
-              <div className="mt-3" key={index}>
-                <img style={{ width: "260px", height: "130px" }} src="/img/image_30.png" alt="khuyến mãi" />
-              </div>
-            ))}
-          </div>
+
+      <div className="container">
+        <div className="main-title">
+          <i
+            className="fa fa-circle"
+            style={{ fontSize: "25px", color: "red" }}
+          ></i>
+          <h1>Phim Đang Chiếu</h1>
         </div>
-        <div className="row mt-5">
-          {renderSection("phim sắp chiếu", moviesComingSoon)}
-          <div className="col-md-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <p className="text-uppercase text-white" style={{ fontSize: "20px" }}>Sự Kiện</p>
-              <p className="text">
-                <Link href="#" className="text-decoration-none text-white" style={{ fontSize: "15px" }}>xem tất cả</Link>
-              </p>
-            </div>
-            {[...Array(3)].map((_, index) => (
-              <div className="mt-3" key={index}>
-                <img style={{ width: "260px", height: "130px" }} src="/img/image_30.png" alt="sự kiện" />
-              </div>
-            ))}
-          </div>
+        <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
+
+        <div className="main-title mt-5">
+          <i
+            className="fa fa-circle"
+            style={{ fontSize: "25px", color: "red" }}
+          ></i>
+          <h1>Phim Sắp Chiếu</h1>
         </div>
+        <div className="row">{renderMovieCards(moviesComingSoon)}</div>
       </div>
     </>
   );

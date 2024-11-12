@@ -133,3 +133,33 @@ div > div {
 .btn-icon i {
     margin-right: 8px; /* Khoảng cách giữa biểu tượng và văn bản */
 }
+table {
+    width: 100%;
+    border-collapse: collapse; /* Xóa khoảng cách giữa các ô */
+    margin-top: 20px; /* Khoảng cách giữa bảng và các phần tử khác */
+}
+
+th, td {
+    padding: 12px; /* Khoảng cách trong ô */
+    border: 1px solid #cccccc; /* Đường viền của ô */
+    text-align: left; /* Canh lề trái */
+}
+
+th {
+    background-color: #4d6950; /* Màu nền cho tiêu đề bảng */
+    color: #ffffff; /* Màu chữ cho tiêu đề bảng */
+    font-weight: bold; /* In đậm chữ tiêu đề */
+}
+
+td {
+    color: #000000; /* Màu chữ cho các ô dữ liệu */
+}
+
+/* Tùy chọn cho bảng */
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Màu nền cho các hàng chẵn */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Màu nền khi hover vào hàng */
+}

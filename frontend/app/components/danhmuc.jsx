@@ -23,19 +23,17 @@ export default function Danhmuc() {
         };
         fetchData();
     }, []);
-
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
-
     return (
-        <div className="w-full flex justify-center mt-5">
+        <div className="w-full flex justify-center mt-5 ">
             <div className="container">
                 <h2 className="text-light">Danh mục phim</h2>
                 <div className="d-flex flex w-full justify-center">
                     <div className="container">
-                        <ul className="row">
+                        <ul className="row gap-1">
                             {listPhim.map((phim) => (
-                                <a href={`/phim/${phim.id}`} key={phim.id} className="col-md-2 my-3 text-decoration-none">
+                                <a href={`/phim/${phim.id}`} key={phim.id} className="col-md-2 my-3 text-decoration-none border border-2">
                                     <li className="text-light list-unstyled text-center">{phim.tentheloai}</li>
                                 </a>
                             ))}
