@@ -116,29 +116,25 @@ export default function ThemCaChieu() {
                     return;
                 }
 
-                // Lưu ca chiếu với định dạng ngày
+                // Lưu ca chiếu tạm thời vào mảng
                 setCaChieus((prevCaChieus) => [
                     ...prevCaChieus, 
                     { ...values, ngaychieu: formatDate(values.ngaychieu) }
                 ]);
+
+                // Lưu ca chiếu vào cơ sở dữ liệu
+                try {
+                    await axios.post('http://localhost:3000/xuatchieu/add', values);
+                    Swal.fire('Ca chiếu đã được thêm thành công!');
+                } catch (error) {
+                    console.error('Lỗi khi thêm CaChieu:', error);
+                    Swal.fire('Đã xảy ra lỗi khi thêm ca chiếu.');
+                }
+
                 resetForm();
             }
         }
     });
-
-    const luuCaChieu = async () => {
-        for (const caChieu of caChieus) {
-            try {
-                await axios.post('http://localhost:3000/xuatchieu/add', caChieu);
-            } catch (error) {
-                console.error('Lỗi khi thêm CaChieu:', error);
-                Swal.fire('Đã xảy ra lỗi khi thêm ca chiếu.');
-                return;
-            }
-        }
-        Swal.fire('Tất cả các ca chiếu đã được thêm thành công!');
-        setCaChieus([]);
-    };
 
     useEffect(() => {
         if (formik.values.giobatdau) {
@@ -207,8 +203,8 @@ export default function ThemCaChieu() {
                                 className={formik.touched.giobatdau && formik.errors.giobatdau ? "error" : ""}
                             >
                                 <option value="">Chọn giờ bắt đầu</option>
-                                {gioBatDauOptions.map((option, index) => (
-                                    <option key={index} value={option}>{option}</option>
+                                {gioBatDauOptions.map((gio) => (
+                                    <option key={gio} value={gio}>{gio}</option>
                                 ))}
                             </select>
                         </div>
@@ -218,37 +214,41 @@ export default function ThemCaChieu() {
                                 type="text"
                                 name="gioketthuc"
                                 value={formik.values.gioketthuc}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={formik.touched.gioketthuc && formik.errors.gioketthuc ? "error" : ""}
                                 readOnly
                             />
                         </div>
                     </div>
-                    <button type="submit">Thêm Ca Chiếu</button>
+                    <button type="submit" className="btn btn-primary">Thêm Ca Chiếu</button>
                 </form>
-                <button onClick={luuCaChieu} className="btn-luu">Lưu Tất Cả</button>
 
-                <h2>Danh Sách Ca Chiếu</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Phòng Chiếu</th>
-                            <th>Phim</th>
-                            <th>Ngày Chiếu</th>
-                            <th>Giờ Bắt Đầu</th>
-                            <th>Giờ Kết Thúc</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {caChieus.map((caChieu, index) => (
-                            <tr key={index}>
-                                <td>{phongChieus.find(p => p._id === caChieu.phongchieu_id)?.tenphong}</td>
-                                <td>{phims.find(p => p._id === caChieu.phim_id)?.tenphim}</td>
-                                <td>{caChieu.ngaychieu}</td>
-                                <td>{caChieu.giobatdau}</td>
-                                <td>{caChieu.gioketthuc}</td>
+                <div className="mt-5">
+                    <h3>Danh Sách Ca Chiếu</h3>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Phòng Chiếu</th>
+                                <th>Phim</th>
+                                <th>Ngày Chiếu</th>
+                                <th>Giờ Bắt Đầu</th>
+                                <th>Giờ Kết Thúc</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {caChieus.map((caChieu, index) => (
+                                <tr key={index}>
+                                    <td>{phongChieus.find(p => p._id === caChieu.phongchieu_id)?.tenphong}</td>
+                                    <td>{phims.find(p => p._id === caChieu.phim_id)?.tenphim}</td>
+                                    <td>{caChieu.ngaychieu}</td>
+                                    <td>{caChieu.giobatdau}</td>
+                                    <td>{caChieu.gioketthuc}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </Layout>
     );

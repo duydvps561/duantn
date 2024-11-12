@@ -5,12 +5,11 @@ import Layout from "@/app/components/admin/Layout";
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
-import styles from './SuaDoAn.module.css';
+import './SuaDoAn.module.css';
 
-
+// Xác thực dữ liệu không bao gồm trường soluong
 const validationSchema = Yup.object().shape({
   tenfood: Yup.string().required('Tên món ăn không được để trống'),
-  soluong: Yup.number().required('Số lượng không được để trống').positive().integer(),
   gia: Yup.number().required('Giá không được để trống').positive(),
   loai: Yup.string().required('Loại không được để trống'),
   trangthai: Yup.string().required('Trạng thái không được để trống'),
@@ -19,7 +18,6 @@ const validationSchema = Yup.object().shape({
 const SuaDoAnPage = () => {
   const [foodData, setFoodData] = useState({
     tenfood: '',
-    soluong: '',
     gia: '',
     loai: '',
     trangthai: '',
@@ -65,13 +63,11 @@ const SuaDoAnPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra dữ liệu với Yup
     try {
       await validationSchema.validate(foodData, { abortEarly: false });
 
       const formData = new FormData();
       formData.append('tenfood', foodData.tenfood);
-      formData.append('soluong', foodData.soluong);
       formData.append('gia', foodData.gia);
       formData.append('loai', foodData.loai);
       formData.append('trangthai', foodData.trangthai);
@@ -102,14 +98,12 @@ const SuaDoAnPage = () => {
       }
     } catch (error) {
       if (error.name === 'ValidationError') {
-        // Hiển thị lỗi xác thực từ Yup
         Swal.fire({
           icon: 'error',
           title: 'Dữ liệu không hợp lệ!',
           text: error.errors.join(', '),
         });
       } else {
-        // Lỗi khi cập nhật món ăn
         Swal.fire({
           icon: 'error',
           title: 'Lỗi khi cập nhật món ăn!',
@@ -122,8 +116,8 @@ const SuaDoAnPage = () => {
   return (
     <Layout>
       <h1>Sửa Món Ăn</h1>
-      <form onSubmit={handleSubmit} className={styles.editForm}>
-        <div className={styles.formGroup}>
+      <form onSubmit={handleSubmit} className='editForm'>
+        <div className='formGroup'>
           <label htmlFor="tenfood">Tên Món Ăn</label>
           <input
             type="text"
@@ -135,19 +129,7 @@ const SuaDoAnPage = () => {
           />
         </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="soluong">Số Lượng</label>
-          <input
-            type="number"
-            id="soluong"
-            name="soluong"
-            value={foodData.soluong}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className={styles.formGroup}>
+        <div className='formGroup'>
           <label htmlFor="gia">Giá (VND)</label>
           <input
             type="number"
@@ -159,7 +141,7 @@ const SuaDoAnPage = () => {
           />
         </div>
 
-        <div className={styles.formGroup}>
+        <div className='formGroup'>
           <label htmlFor="loai">Loại</label>
           <select
             id="loai"
@@ -175,7 +157,7 @@ const SuaDoAnPage = () => {
           </select>
         </div>
 
-        <div className={styles.formGroup}>
+        <div className='formGroup'>
           <label htmlFor="trangthai">Trạng Thái</label>
           <select
             id="trangthai"
@@ -189,31 +171,31 @@ const SuaDoAnPage = () => {
           </select>
         </div>
 
-        <div className={styles.formGroup}>
+        <div className='formGroup'>
           <label>Hình Ảnh Hiện Tại</label>
-          <div className={styles.imageContainer}>
+          <div className={imageContainer}>
             {foodData.img && (
               <img
                 src={`http://localhost:3000/img/food/${foodData.img}`}
                 alt={foodData.tenfood}
-                className={styles.currentImage}
+                className={currentImage}
               />
             )}
           </div>
         </div>
 
-        <div className={styles.formGroup}>
+        <div className='formGroup'>
           <label htmlFor="img">Thay Đổi Hình Ảnh</label>
           <input type="file" id="img" name="img" accept="image/*" onChange={handleImageChange} />
           {imagePreview && (
-            <div className={styles.imagePreviewContainer}>
+            <div className={imagePreviewContainer}>
               <p>Hình ảnh mới:</p>
-              <img src={imagePreview} alt="Image Preview" className={styles.imagePreview} />
+              <img src={imagePreview} alt="Image Preview" className={imagePreview} />
             </div>
           )}
         </div>
 
-        <button type="submit" className={styles.submitButton}>
+        <button type="submit" className={submitButton}>
           Cập Nhật Món Ăn
         </button>
       </form>
