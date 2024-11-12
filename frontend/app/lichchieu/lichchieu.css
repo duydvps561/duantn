@@ -4,7 +4,7 @@
 }
 
 /* Căn giữa tiêu đề */
-h2 {
+.container h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 20px;
@@ -17,7 +17,7 @@ h2 {
 }
 
 /* List days */
-.list-day {
+.container .list-day {
   list-style-type: none;
   padding-left: 0;
   display: flex;
@@ -25,7 +25,7 @@ h2 {
   margin-bottom: 20px;
 }
 
-.day {
+.container .list-day .day {
   text-decoration: none;
   color: #ffffff;
   margin-top: 40px;
@@ -38,7 +38,7 @@ h2 {
   height: 50px;
 }
 
-.day:hover {
+.container .list-day .day:hover {
   background-color: #495057;
 }
 
@@ -51,13 +51,13 @@ h2 {
 }
 
 /* Cards */
-.card {
+.container .card {
   border: none;
   background-color: #212529;
   margin: 10px;
 }
 
-.card-body {
+.container .card .card-body {
   padding: 20px;
   color: #fff;
   font-size: 14px;
