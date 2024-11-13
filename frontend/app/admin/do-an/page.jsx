@@ -12,15 +12,20 @@ const FoodList = () => {
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
     const fetchFoods = async () => {
       try {
         const response = await axios.get('http://localhost:3000/food'); 
-        setFoods(response.data);
-        setFilteredFoods(response.data);
+        const sortedFoods = response.data.sort((a, b) => {
+          // Sorting by 'createdAt' (if it exists) or by '_id' (MongoDB IDs are generated in a time-order sequence)
+          return new Date(b.createdAt || b._id) - new Date(a.createdAt || a._id);
+        });
+        
+        setFoods(sortedFoods);
+        setFilteredFoods(sortedFoods);
         setNoResults(false);
       } catch (error) {
         console.error('Error fetching food items:', error);
@@ -54,6 +59,7 @@ const FoodList = () => {
   };
 
   const paginate = (pageNumber) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
     setCurrentPage(pageNumber);
   };
 
@@ -90,32 +96,38 @@ const FoodList = () => {
               </tr>
             </thead>
             <tbody>
-              {currentFoods.map((food, index) => (
-                <tr key={food._id}>
-                  <td>{indexOfFirstFood + index + 1}</td>
-                  <td>{food.tenfood}</td>
-                  <td>
-                    <img 
-                      src={`http://localhost:3000/img/food/${food.img}`} 
-                      alt={food.tenfood} 
-                      className={styles.foodImage} 
-                    />
-                  </td>
-                  <td>{food.gia} VND</td>
-                  <td>{food.loai}</td>
-                  <td>{food.trangthai === 1 ? 'Còn hàng' : 'Hết hàng'}</td>
-                  <td>
-                    <Link href={`/admin/do-an/sua?id=${food._id}`}>
-                      <button className={styles.editButton}>Sửa</button>
-                    </Link>
-                    <button 
-                      className={styles.deleteButton} 
-                      onClick={() => handleDelete(food._id)}>
-                      Xóa
-                    </button>
-                  </td>
+              {currentFoods.length > 0 ? (
+                currentFoods.map((food, index) => (
+                  <tr key={food._id}>
+                    <td>{indexOfFirstFood + index + 1}</td>
+                    <td>{food.tenfood}</td>
+                    <td>
+                      <img 
+                        src={`http://localhost:3000/img/food/${food.img}`} 
+                        alt={food.tenfood} 
+                        className={styles.foodImage} 
+                      />
+                    </td>
+                    <td>{food.gia} VND</td>
+                    <td>{food.loai}</td>
+                    <td>{food.trangthai === 1 ? 'Còn hàng' : 'Hết hàng'}</td>
+                    <td>
+                      <Link href={`/admin/do-an/sua?id=${food._id}`}>
+                        <button className={styles.editButton}>Sửa</button>
+                      </Link>
+                      <button 
+                        className={styles.deleteButton} 
+                        onClick={() => handleDelete(food._id)}>
+                        Xóa
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className={styles.noData}>Không có món ăn nào.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
