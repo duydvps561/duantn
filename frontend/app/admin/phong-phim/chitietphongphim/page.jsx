@@ -414,10 +414,10 @@ const ChiTietPhongPhimPage = () => {
 
   return (
     <Layout>
-      <div className="container">
+      <div className="container-fluid border border-black p-5">
         <h2>Chi tiết phòng chiếu: {phongChieuDetail.phongchieu.tenphong}</h2>
         <div className="row ">
-          <div className="col-md-9 ">
+          <div className="col-md-8">
             <h3>Sơ đồ ghế</h3>
             <button className="btn btn-primary mb-3" onClick={handleSelectAllSeats}>
               {selectedGhes.length === phongChieuDetail.ghe.length ? "Bỏ chọn tất cả" : "Chọn tất cả"}
@@ -453,10 +453,10 @@ const ChiTietPhongPhimPage = () => {
                 </option>
               ))}
             </select>
-            <button className="btn btn-success mt-3" onClick={handleUpdateGhe}>
+            <button className="btn btn-success mt-3 " onClick={handleUpdateGhe}>
               Cập nhật ghế
             </button>
-            <button className="btn btn-danger mt-3" onClick={handleDeleteGhes}>
+            <button className="btn btn-danger mt-3 ms-2" onClick={handleDeleteGhes}>
               Xóa ghế đã chọn
             </button>
           </div>
