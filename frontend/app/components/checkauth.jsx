@@ -7,9 +7,9 @@ export const checkAuth = (dispatch) => {
     if (token) {
         try {
             const decodedToken = jwtDecode(token);
-            console.log('Decoded Token:', decodedToken);
+            // console.log('Decoded Token:', decodedToken);
             const user = decodedToken || {}; 
-            console.log('User:', user);
+            // console.log('User:', user);
             dispatch(login({token,user}));
         } catch (e) {
             console.error('Invalid token or failed to decode', e);
