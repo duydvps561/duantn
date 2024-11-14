@@ -30,15 +30,12 @@ export const cartSlice = createSlice({
                 } else {
                     state.cart.push({ ...item, quantity: 1, loai: 'Đồ ăn' });
                 }
-                // Lưu vào localStorage
                 localStorage.setItem('cart', JSON.stringify(state.cart));
             }
         },
-        // Thêm ghế vào cart
         addSeat: (state, action) => {
             const { _id, seat,gia } = action.payload;
 
-            // Nếu seat là mảng rỗng, nghĩa là bỏ chọn ghế, thì xóa khỏi cart
             if (seat.length === 0) {
                 state.cart = state.cart.filter(cartItem => cartItem._id !== _id);
             } else {
@@ -48,20 +45,17 @@ export const cartSlice = createSlice({
                     existingItem.quantity = seat.length;
                     existingItem.gia = gia;
                 } else {
-                    state.cart.push({ _id, seat, quantity: seat.length, gia}); // Thêm mới với số lượng ghế
+                    state.cart.push({ _id, seat, quantity: seat.length, gia}); 
                 }
             }
-            // Lưu vào localStorage
             localStorage.setItem('cart', JSON.stringify(state.cart));
         },
         removeItem: (state, action) => {
             state.cart = state.cart.filter(item => item._id !== action.payload);
-            // Lưu vào localStorage
             localStorage.setItem('cart', JSON.stringify(state.cart));
         },
         clearCart: (state) => {
             state.cart = [];
-            // Xóa thông tin trong localStorage
             localStorage.removeItem('cart');
         },
     },
