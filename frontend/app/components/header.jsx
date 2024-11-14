@@ -8,6 +8,28 @@ import { logout } from "@/redux/slice/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faUser } from '@fortawesome/free-solid-svg-icons';
 export default function Header() {
+  const link =[
+    {
+    name: "Trang chủ",
+    path: "/"
+    },
+    {
+      name: "Lịch chiếu",
+      path: "/lichchieu"
+    },
+    {
+      name: "Tin tức",
+      path: "/tintuc"
+    },
+    {
+      name: "Liên hệ",
+      path: "/lienhe"
+    },
+    {
+      name: "Giá vé",
+      path: "/ticket"
+    }
+]
   const dispatch = useDispatch();
   const isAuthen = useSelector((state) => state.auth.authenticated);
   const user = useSelector((state) => state.auth.user);
@@ -26,51 +48,15 @@ export default function Header() {
       </Link>
       <nav>
         <ul className="nav-list">
-          <li>
-            <Link href="/" className={pathname === "/" ? "active" : ""}>
-              Trang chủ
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/lichchieu"
-              className={pathname === "/lichchieu" ? "active" : ""}
-            >
-              Lịch chiếu
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/tintuc"
-              className={pathname === "/tintuc" ? "active" : ""}
-            >
-              Tin tức
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/khuyenmai"
-              className={pathname === "/khuyenmai" ? "active" : ""}
-            >
-              Khuyến mãi
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/ticket"
-              className={pathname === "/ticket" ? "active" : ""}
-            >
-              Giá vé
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#"
-              className={pathname === "/some-path" ? "active" : ""}
-            >
-              Giới thiệu
-            </Link>
-          </li>
+          {
+            link.map((item, index) => (
+              <li key={index}>
+                <Link href={item.path} className={pathname === item.path? "active" : ""}>
+                  {item.name}
+                </Link>
+              </li>
+            ))
+          }
         </ul>
       </nav>
       {isAuthen && user ? (

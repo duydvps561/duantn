@@ -19,21 +19,12 @@ const layoutStyle = {
 };
 
 const mainContentStyle = {
-<<<<<<< HEAD
-  marginLeft: "200px", // Adjust this to match the width of Sidebar
-  width: "100%",
-  minHeight: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  backgroundColor: "white",
-=======
   marginLeft: '200px', 
   width: '100%',
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: 'white'
->>>>>>> 6ec57281bf21d212e89b96ef2d086f68ee3a2bb1
 };
 
 const mainStyle = {
