@@ -8,6 +8,8 @@ const cors = require("cors");
 const database = require("./config/db");
 
 const indexRouter = require("./routes/index");
+//payos
+var PayosRouter = require('./routes/payos')
 var ContactRouter = require("./routes/Contacts");
 //account
 
@@ -49,6 +51,8 @@ database.connect();
 // truy cập lần đầu
 app.use("/", indexRouter);
 /////////////////
+//payos
+app.use('/payos',PayosRouter);
 //account
 app.use("/taikhoan", TaikhoanRouter);
 app.use("/register", RegisterRouter);
