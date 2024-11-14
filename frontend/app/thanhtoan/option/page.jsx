@@ -1,8 +1,11 @@
 'use client';
+import { clearCart } from "@/redux/slice/cartSlice";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ThanhtoanQR() {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
     const [totalAmount, setTotalAmount] = useState(0);
     const qrState = useSelector((state) => state.qr);
     const {cart }= useSelector((state) => state.cart);
@@ -46,8 +49,9 @@ export default function ThanhtoanQR() {
         "tongtien": totalAmount,
         "giolap": giolap, // Giờ hiện tại
         "ngaylap": ngaylap, // Ngày hiện tại
-        "taikhoan_id": "671ba17131448681a2fcfcde"
+        "taikhoan_id": user.id
     };
+
     useEffect(
         () => {
             if (timeleft > 0) {
@@ -72,12 +76,12 @@ export default function ThanhtoanQR() {
         if (checkBill) {
             try {
                 const response = await postInvoice(invoiceData);
-
                 if (response) {
+                    console.log("Gửi hóa đơn thành công");
+                    dispatch(clearCart());
                     setTimeout(() => {
                         setIsLoading(false);
                         setIsComplete(true);
-
                         setTimeout(() => {
                             window.location.href = '/thanhtoan/thanhcong';
                         }, 1000);
