@@ -49,6 +49,7 @@ export default function ThanhToan() {
     } else if (paymentMethod === 'payos') {
       
       try {
+        const Orcode = Math.floor(Math.random() *1000000);
         const response = await fetch('http://localhost:3000/payos/create-payment-link', {
           method: 'POST',
           headers: {
@@ -56,8 +57,8 @@ export default function ThanhToan() {
           },
           body: JSON.stringify({
             amount: totalAmount,
-            description: film.tenphim,
-            orderCode: Math.floor(Math.random() *1000000),
+            description: Orcode ,
+            orderCode: Orcode ,
             returnUrl: "http://localhost:3001?success=true",
           }),
         });

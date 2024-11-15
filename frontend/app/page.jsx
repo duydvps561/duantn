@@ -5,10 +5,12 @@ import Link from "next/link";
 import Slide from "./components/slide";
 import { useRouter } from "next/navigation";
 import Notification from "./components/notification";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "@/redux/slice/cartSlice";
+import { addHoadon, postHoadon } from "@/redux/slice/hoadonSlice";
 
 export default function Home() {
+  const userId = useSelector((state) => state.auth.user?.id);
   const dispatch = useDispatch();
   const router = useRouter();
   const [moviesNowPlaying, setMoviesNowPlaying] = useState([]);
@@ -16,30 +18,66 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [showNotification, setShowNotification] = useState(false);
   const [typeNoti, setTypeNoti] = useState('');
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
   useEffect(() => {
-    // Kiểm tra trạng thái đơn hàng
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]'); // Parse JSON và xử lý trường hợp null
+    const amount = cart.reduce((acc, item) => acc + (item.gia * (item.quantity || 1)), 0);
+    setTotalAmount(amount); // Cập nhật tổng tiền
+  }, []); 
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  const giolap = `${hours}:${minute}`;
+  const ngaylap = now.toISOString()
+  useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-
-    if (query.get("success")) {
-      dispatch(clearCart());
-      setTypeNoti('success');
-      setMessage("Thanh toán thành công. Cảm ơn bạn đã sử dụng payOS!");
-      setShowNotification(true); // Hiển thị thông báo
-      setTimeout(() => {
-        router.push("/");
-      }, 2000);
+    // const { orderCode } = query.get('orderCode');
+    const isHoadonProcessed = localStorage.getItem("hoadonProcessed");
+    if (query.get("success") && !isProcessing && !isHoadonProcessed) {
+      const hoadondata = {
+        tongtien: totalAmount,
+        giolap: giolap,
+        ngaylap: ngaylap,
+        taikhoan_id: userId,
+      };
+      setIsProcessing(true);
+      localStorage.setItem("hoadonProcessed", "true");
+      dispatch(postHoadon(hoadondata))
+        .unwrap()
+        .then((response) => {
+          dispatch(clearCart());
+          console.log("Thanh toán thành công:", response);
+          setTypeNoti("success");
+          setMessage("Thanh toán thành công. Cảm ơn bạn đã sử dụng payOS!");
+          setShowNotification(true);
+          setTimeout(() => {
+            localStorage.setItem('hoadonProcessed', 'false');
+            router.replace("/");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Error posting hoadon:", error);
+          setTypeNoti("error");
+          setMessage("Thanh toán thất bại. Vui lòng thử lại!");
+          setShowNotification(true);
+          localStorage.removeItem("hoadonProcessed");
+        })
+        .finally(() => {
+          setIsProcessing(false);
+        });
     }
 
     if (query.get("canceled")) {
       setTypeNoti('canceled');
       setMessage("Thanh toán thất bại. Đang chuyển về trang thanh toán");
-      setShowNotification(true); // Hiển thị thông báo
+      setShowNotification(true);
       setTimeout(() => {
-        router.push("/thanhtoan");
+        router.replace("/thanhtoan");
       }, 2000);
     }
 
-  }, [router]);
+  }, [router, totalAmount, giolap, ngaylap, dispatch, isProcessing]);
 
   useEffect(() => {
     const fetchMovies = async () => {
