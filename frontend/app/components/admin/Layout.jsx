@@ -19,7 +19,6 @@ const layoutStyle = {
 };
 
 const mainContentStyle = {
-
   marginLeft: '200px', 
   width: '100%',
   minHeight: '100vh',
