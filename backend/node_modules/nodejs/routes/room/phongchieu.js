@@ -32,19 +32,19 @@ router.get('/:id', async (req, res) => {
 // Thêm phòng chiếu mới
 router.post('/add', async (req, res) => {
   try {
-    const { loaiphong_id, tenphong } = req.body;
+    const { tenphong, trangthai, loaiphong_id } = req.body;
 
-    const loaiphong = await Loaiphong.findById(loaiphong_id);
-    if (!loaiphong) {
-      return res.status(404).send({ error: 'Loại phòng không tồn tại' });
+    // Kiểm tra dữ liệu đầu vào
+    if (!tenphong || !trangthai || !loaiphong_id) {
+      return res.status(400).json({ error: 'Vui lòng cung cấp đầy đủ thông tin.' });
     }
 
-    const phongchieu = new Phongchieu({ loaiphong_id, tenphong });
-    const result = await phongchieu.save();
-    
-    res.status(201).send(result);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
+    const newPhongchieu = new Phongchieu({ tenphong, trangthai, loaiphong_id });
+    await newPhongchieu.save();
+    res.status(201).json(newPhongchieu);
+  } catch (error) {
+    console.error('Error adding room:', error);
+    res.status(500).json({ error: 'Lỗi khi thêm phòng. Vui lòng thử lại.' });
   }
 });
 

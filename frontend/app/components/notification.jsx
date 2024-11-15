@@ -19,7 +19,9 @@ export default function Notification({ message, isVisible, onClose, type }) {
             case 'success':
                 return { color: "green" }; // Màu xanh lá cho thành công
             case 'canceled':
-                return { color: "#dc3545" }; // Màu đỏ cho thất bại
+                return { color: "#dc3545" };
+            case 'warning':
+                return { color: "blue" };
             default:
                 return { color: "#000", }; // Màu mặc định
         }
@@ -54,7 +56,7 @@ export default function Notification({ message, isVisible, onClose, type }) {
                 }}
             >
                 {/* Nút "X" để đóng thông báo */}
-                <h3 style={{ color: getNotificationStyle().color,fontSize:'16px' }}>{message}</h3>
+                <h3 style={{ color: getNotificationStyle().color, fontSize: '16px' }}>{message}</h3>
                 <button
                     onClick={onClose}
                     style={{
