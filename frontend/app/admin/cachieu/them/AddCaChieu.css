@@ -91,26 +91,6 @@ input[type="text"]:focus {
     outline: none;
 }
 
-div {
-    margin-bottom: 16px;
-}
-
-select option {
-    color: #4d6950;
-}
-
-div > div {
-    color: #d9534f;
-    font-size: 14px;
-    margin-top: -12px;
-    margin-bottom: 12px;
-}
-
-/* Thêm một số quy tắc CSS bổ sung */
-.error {
-    color: #d9534f; /* Màu đỏ cho thông báo lỗi */
-    font-size: 14px;
-}
 
 .success {
     color: #5cb85c; /* Màu xanh cho thông báo thành công */

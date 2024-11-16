@@ -38,13 +38,13 @@
 
 .table th,
 .table td {
-    border: 1px solid #dddddd46;
+
     padding: 15px 20px;
     text-align: center;
 }
 
 .table th {
-    background-color: #4d6950;
+    background-color: #218838;
     color: white;
     padding: 15px 20px;
 }
@@ -82,14 +82,18 @@
     background-color: #c82333;
 }
 .sua{
-    background-color: #4d6950;
+    background-color: #218838;
     color: aliceblue;
     font-weight: bold;
 }
 .sua:hover {
-    background-color: #218838;
+    background-color: #0cbb1ad8;
 }
 
 .xoa{
     border: 1px solid #4d6950;
+}
+.xoa:hover{
+    border: 1px solid #4d6950;
+    background-color: #c82333;
 }

@@ -9,7 +9,7 @@ const ContactUs = () => {
 
   return (
     <Layout>
-        <div class="contact-us">
+        <div class="container">
         <h2>Quản Lý Liên Hệ</h2>
         <p>Đây là trang quản lý liên hệ.</p>
         </div>
