@@ -107,7 +107,7 @@ export default function CaChieuPage() {
                                     <tr key={caChieu._id}>
                                         <td>{caChieu.tenphong}</td>
                                         <td>{caChieu.tenphim}</td>
-                                        <td>{new Date(caChieu.ngaychieu).toLocaleDateString()}</td>
+                                        <td>{new Date(caChieu.ngaychieu).toLocaleDateString('vi')}</td>
                                         <td>{caChieu.giobatdau}</td>
                                         <td>{caChieu.gioketthuc}</td>
                                         <td>

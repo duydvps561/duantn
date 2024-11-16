@@ -1,35 +1,75 @@
 .editForm {
-    max-width: 600px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formGroup {
-    margin-bottom: 20px;
-  }
-  
-  .imageContainer, .imagePreviewContainer {
-    margin-top: 10px;
-  }
-  
-  .currentImage, .imagePreview {
-    max-width: 200px;
-    height: auto;
-    border: 1px solid #ddd;
-    padding: 5px;
-    margin-top: 10px;
-  }
-  
-  .submitButton {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .submitButton:hover {
-    background-color: #45a049;
-  }
-  
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Thêm lớp cục bộ cho các input và select */
+.editForm input[type="text"],
+.editForm input[type="number"],
+.editForm select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.editForm input[type="file"] {
+  padding: 5px;
+}
+
+.imageContainer {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currentImage {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 4px;
+}
+
+.imagePreviewContainer {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.imagePreview {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.submitButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #218838;
+}
+
+

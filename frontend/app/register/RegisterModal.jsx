@@ -74,116 +74,121 @@ export default function LoginModal({ show, handleClose }) {
     },
   });
   return (
-    <div className="modal-overlay">
-      <div className="modal-register bg-dark rounded">
-        <button onClick={handleClose} className="close-modal">
-          &times;
-        </button>
-        <h2>Đăng Ký</h2>
-        <form onSubmit={formik.handleSubmit}>
-          <div>
-            <label>Tên tài khoản</label>
-            <input
-              type="text"
-              name="tentaikhoan"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.tentaikhoan}
-            />
-            {formik.touched.tentaikhoan && formik.errors.tentaikhoan ? (
-              <div>{formik.errors.tentaikhoan}</div>
-            ) : null}
-          </div>
-          <div>
-            <label>Giới tính</label>
-            <select
-              name="gioitinh"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.gioitinh}
-            >
-              <option value="">Chọn giới tính</option>
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
-              <option value="Khác">Khác</option>
-            </select>
-            {formik.touched.gioitinh && formik.errors.gioitinh ? (
-              <div>{formik.errors.gioitinh}</div>
-            ) : null}
-          </div>
-
-          <div>
-            <label>Số điện thoại</label>
-            <input
-              type="text"
-              name="sdt"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.sdt}
-            />
-            {formik.touched.sdt && formik.errors.sdt ? (
-              <div>{formik.errors.sdt}</div>
-            ) : null}
-          </div>
-
-          <div>
-            <label>Ngày sinh</label>
-            <input
-              type="date"
-              name="ngaysinh"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.ngaysinh}
-            />
-            {formik.touched.ngaysinh && formik.errors.ngaysinh ? (
-              <div>{formik.errors.ngaysinh}</div>
-            ) : null}
-          </div>
-
-          <div>
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email ? (
-              <div>{formik.errors.email}</div>
-            ) : null}
-          </div>
-
-          <div>
-            <label>Mật khẩu</label>
-            <input
-              type="password"
-              name="matkhau"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.matkhau}
-            />
-            {formik.touched.matkhau && formik.errors.matkhau ? (
-              <div>{formik.errors.matkhau}</div>
-            ) : null}
-          </div>
-
-          <div>
-            <label>Xác nhận mật khẩu</label>
-            <input
-              type="password"
-              name="rematkhau"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.rematkhau}
-            />
-            {formik.touched.rematkhau && formik.errors.rematkhau ? (
-              <div>{formik.errors.rematkhau}</div>
-            ) : null}
-          </div>
-          <button type="submit">Đăng Ký</button>
-        </form>
+  <div className="modal-overlay">
+  <div className="modal-register bg-dark rounded">
+    <button onClick={handleClose} className="close-modal">
+      &times;
+    </button>
+    <h2>Đăng Ký</h2>
+    <form onSubmit={formik.handleSubmit}>
+      <div>
+        <label>Tên tài khoản</label>
+        <input
+          type="text"
+          name="tentaikhoan"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.tentaikhoan}
+        />
+        {formik.touched.tentaikhoan && formik.errors.tentaikhoan ? (
+          <div>{formik.errors.tentaikhoan}</div>
+        ) : null}
       </div>
-    </div>
+
+      <div>
+        <label>Số điện thoại</label>
+        <input
+          type="text"
+          name="sdt"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.sdt}
+        />
+        {formik.touched.sdt && formik.errors.sdt ? (
+          <div>{formik.errors.sdt}</div>
+        ) : null}
+      </div>
+      <div className="gender-birthdate">
+        <div className="gender">
+          <label>Giới tính</label>
+          <select
+            name="gioitinh"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.gioitinh}
+          >
+            <option value="">Chọn giới tính</option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+          </select>
+          {formik.touched.gioitinh && formik.errors.gioitinh ? (
+            <div>{formik.errors.gioitinh}</div>
+          ) : null}
+        </div>
+
+        <div className="birthdate">
+          <label>Ngày sinh</label>
+          <input
+            type="date"
+            name="ngaysinh"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.ngaysinh}
+          />
+          {formik.touched.ngaysinh && formik.errors.ngaysinh ? (
+            <div>{formik.errors.ngaysinh}</div>
+          ) : null}
+        </div>
+      </div>
+
+      <div>
+        <label>Email</label>
+        <input
+          type="email"
+          name="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <div>{formik.errors.email}</div>
+        ) : null}
+      </div>
+
+      {/* Nhóm Mật khẩu và Xác nhận mật khẩu */}
+      <div className="password-group">
+        <div>
+          <label>Mật khẩu</label>
+          <input
+            type="password"
+            name="matkhau"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.matkhau}
+          />
+          {formik.touched.matkhau && formik.errors.matkhau ? (
+            <div>{formik.errors.matkhau}</div>
+          ) : null}
+        </div>
+
+        <div>
+          <label>Xác nhận mật khẩu</label>
+          <input
+            type="password"
+            name="rematkhau"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.rematkhau}
+          />
+          {formik.touched.rematkhau && formik.errors.rematkhau ? (
+            <div>{formik.errors.rematkhau}</div>
+          ) : null}
+        </div>
+      </div>
+      <button type="submit">Đăng Ký</button>
+    </form>
+  </div>
+</div>
   );
 }

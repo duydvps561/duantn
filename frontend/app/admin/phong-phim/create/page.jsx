@@ -1,32 +1,32 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
-import './LoaiphongCRUD.css'; // Assuming you create a CSS file for styling
+import styles from '../QuanLyPhong.module.css'; // CSS module for styling
+import '../../../globals.css'; // Import global styles
 
-const LoaiphongCRUD = () => {
-  const [loaiphongList, setLoaiphongList] = useState([]);
-  const [loaiphong, setLoaiphong] = useState('');
-  const [trangthai, setTrangthai] = useState('1'); // Default status is "1"
+const QuanLyPhongPage = () => {
+  const [rooms, setRooms] = useState([]); // State for room list
+  const [roomName, setRoomName] = useState(''); // State for room name input
+  const [status, setStatus] = useState('1'); // Default status is "1"
+  const [roomType, setRoomType] = useState('Standard'); // State for room type input, with a default value
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  // Fetch loaiphong list
   useEffect(() => {
-    fetchLoaiphongs();
+    fetchRooms();
   }, []);
 
-  const fetchLoaiphongs = async () => {
+  const fetchRooms = async () => {
     try {
       const response = await axios.get('http://localhost:3000/loaiphong');
       setLoaiphongList(response.data);
     } catch (error) {
-      console.error('Error fetching loaiphongs:', error);
+      console.error('Error fetching rooms:', error);
     }
   };
 
-  // Add new loaiphong
-  const addLoaiphong = async () => {
+  const addRoom = async () => {
     try {
       await axios.post('http://localhost:3000/loaiphong/add', { loaiphong, trangthai });
       fetchLoaiphongs(); // Refresh the list
@@ -34,12 +34,11 @@ const LoaiphongCRUD = () => {
       setTrangthai('1'); // Reset status to default
       console.log({ loaiphong, trangthai })
     } catch (error) {
-      console.error('Error adding loaiphong:', error);
+      console.error('Error adding room:', error);
     }
   };
 
-  // Update loaiphong
-  const updateLoaiphong = async (id) => {
+  const updateRoom = async (id) => {
     try {
       await axios.put(`http://localhost:3000/loaiphong/update/${id}`, { loaiphong, trangthai });
       fetchLoaiphongs(); // Refresh the list
@@ -48,93 +47,117 @@ const LoaiphongCRUD = () => {
       setIsEditing(false);
       setEditId(null);
     } catch (error) {
-      console.error('Error updating loaiphong:', error);
+      console.error('Error updating room:', error);
     }
   };
 
-  // Edit handler
-  const handleEdit = (id, currentLoaiphong, currentTrangthai) => {
-    setLoaiphong(currentLoaiphong);
-    setTrangthai(currentTrangthai);
+  const handleEdit = (room) => {
+    setRoomName(room.tenphong);
+    setStatus(room.trangthai);
+    setRoomType(room.loaiphong_id); // Ensure this matches your data structure
     setIsEditing(true);
-    setEditId(id);
+    setEditId(room._id);
   };
 
-  // Delete loaiphong
-  const deleteLoaiphong = async (id) => {
+  const deleteRoom = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/loaiphong/delete/${id}`);
       fetchLoaiphongs(); // Refresh the list
     } catch (error) {
-      console.error('Error deleting loaiphong:', error);
+      console.error('Error deleting room:', error);
     }
+  };
+
+  const resetForm = () => {
+    setRoomName('');
+    setStatus('1');
+    setRoomType('Standard');
+    setIsEditing(false);
+    setEditId(null);
   };
 
   return (
     <Layout>
-      <div className="container">
-        <h1 className="title">Loại Phòng</h1>
-        
-        <div className="form-container">
-          <input
-            type="text"
-            value={loaiphong}
-            onChange={(e) => setLoaiphong(e.target.value)}
-            placeholder="Nhập loại phòng"
-            className="input-field"
-          />
-          <select
-            value={trangthai}
-            onChange={(e) => setTrangthai(e.target.value)}
-            className="select-field"
-          >
-            <option value="1">Hoạt động</option>
-            <option value="0">Không hoạt động</option>
-          </select>
-          <button 
-            onClick={isEditing ? () => updateLoaiphong(editId) : addLoaiphong} 
-            className="submit-button"
-          >
-            {isEditing ? 'Cập Nhật' : 'Thêm Loại Phòng'}
-          </button>
-        </div>
+      <h1>Quản Lý Phòng Phim</h1>
+      <p>Đây là trang quản lý phòng phim.</p>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Loại Phòng</th>
-              <th>Trạng Thái</th>
-              <th>Thao Tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loaiphongList.map((item, index) => (
-              <tr key={item._id}>
-                <td>{index + 1}</td>
-                <td>{item.loaiphong}</td>
-                <td>{item.trangthai === '1' ? 'Hoạt động' : 'Không hoạt động'}</td>
-                <td>
-                  <button 
-                    className="edit-button" 
-                    onClick={() => handleEdit(item._id, item.loaiphong, item.trangthai)}
-                  >
-                    Sửa
-                  </button>
-                  <button 
-                    className="delete-button" 
-                    onClick={() => deleteLoaiphong(item._id)}
-                  >
-                    Xóa
-                  </button>
-                </td>
+      {/* Form to Add or Edit Room */}
+      <div className={styles.formContainer}>
+        <input
+          type="text"
+          value={roomName}
+          onChange={(e) => setRoomName(e.target.value)}
+          placeholder="Nhập tên phòng"
+          className={styles.inputField}
+        />
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className={styles.selectField}
+        >
+          <option value="1">Đang Hoạt Động</option>
+          <option value="0">Ngừng Hoạt Động</option>
+        </select>
+        <select
+          value={roomType}
+          onChange={(e) => setRoomType(e.target.value)}
+          className={styles.selectField}
+        >
+          <option value="Standard">Tiêu Chuẩn</option>
+          <option value="VIP">VIP</option>
+          <option value="Deluxe">Deluxe</option>
+        </select>
+        <button 
+          onClick={isEditing ? () => updateRoom(editId) : addRoom} 
+          className={styles.submitButton}
+        >
+          {isEditing ? 'Cập Nhật' : 'Thêm Phòng'}
+        </button>
+      </div>
+
+      {/* Tables Section */}
+      <div className={styles.tablesContainer}>
+        <div className={styles.tableSection}>
+          <h2 className={styles.tableTitle}>Danh Sách Phòng</h2>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tên Phòng</th>
+                <th>Trạng Thái</th>
+                <th>Loại Phòng</th>
+                <th>Thao Tác</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rooms.map((room, index) => (
+                <tr key={room._id}>
+                  <td>{index + 1}</td>
+                  <td>{room.tenphong}</td>
+                  <td>{room.trangthai === '1' ? 'Đang Hoạt Động' : 'Ngừng Hoạt Động'}</td>
+                  <td>{room.loaiphong_id}</td>
+                  <td>
+                    <button 
+                      className={styles.editButton} 
+                      onClick={() => handleEdit(room)}
+                    >
+                      Sửa
+                    </button>
+                    <button 
+                      className={styles.deleteButton} 
+                      onClick={() => deleteRoom(room._id)}
+                    >
+                      Xóa
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Layout>
   );
 };
 
-export default LoaiphongCRUD;
+export default QuanLyPhongPage;

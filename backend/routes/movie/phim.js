@@ -54,7 +54,6 @@ router.get('/', async function(req, res, next) {
 
 // upload phim 
 router.post('/add', upload.single('img'), async (req, res) => {
-  
   try {
       const {
           tenphim,
@@ -67,14 +66,15 @@ router.post('/add', upload.single('img'), async (req, res) => {
           ngayhieulucden,
           trangthai,
       } = req.body;
-
-      const requiredFields = [tenphim, noidung, thoiluong, daodien, dienvien, trailler, ngayhieuluc, ngayhieulucden, trangthai];
+      const ngayhieulucDATA=ngayhieuluc.split("T")[0];
+      const ngayhieulucdenDATA=ngayhieulucden.split("T")[0];
+      const requiredFields = [tenphim, noidung, thoiluong, daodien, dienvien, trailler, ngayhieulucDATA, ngayhieulucdenDATA, trangthai];
       for (const field of requiredFields) {
           if (!field) {
               return res.status(400).send({ message: 'All fields are required.' });
           }
       }
-      const img = req.file ? req.file.originalname : null; // Get the uploaded image name
+      const img = req.file ? req.file.originalname : null;
       const newphim = {
           tenphim,
           noidung,
@@ -82,8 +82,8 @@ router.post('/add', upload.single('img'), async (req, res) => {
           daodien,
           dienvien,
           trailler, // Make sure to use the correct spelling
-          ngayhieuluc,
-          ngayhieulucden,
+          ngayhieuluc:ngayhieulucDATA,
+          ngayhieulucden:ngayhieulucdenDATA,
           trangthai,
           img,
       };

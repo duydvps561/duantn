@@ -82,6 +82,7 @@ const menuItems = [
   { href: '/admin/phim', text: 'Phim', icon: faFilm },
   { href: '/admin/cachieu', text: 'Ca Chiếu Phim', icon: faFilm },
   { href: '/admin/phong-phim', text: 'Phòng Phim', icon: faHome },
+  { href: '/admin/loai-phong', text: 'Loại Phòng', icon: faHome },
   { href: '/admin/loai-ghe', text: 'Loại ghế', icon: faHome },
   { href: '/admin/gia-ghe', text: 'Giá ghế', icon: faHome },
   { href: '/admin/do-an', text: 'Đồ Ăn', icon: faHamburger },
