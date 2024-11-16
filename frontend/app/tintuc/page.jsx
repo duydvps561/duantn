@@ -34,9 +34,9 @@ export default function Tintuc() {
                 <div className="box hover:no-underline">
                   <div className="box_top">
                     <img
-                      src="../../img/0017855.webp"
+                    src={`http://localhost:3000/img/tintuc/${item.image}`}
                       alt="Tin tức"
-                      className="img-thumbnail w-100"
+                      className="img-thumbnail w-100 max--height "
                     />
                   </div>
                   <div className="box_botom text-light mt-1">
