@@ -23,7 +23,7 @@ router.post('/create-payment-link', async (req, res) => {
 
     const order = {
         amount: amount, 
-        description: description, 
+        description: orderCode, 
         orderCode: orderCode, 
         returnUrl: `${YOUR_DOMAIN}?success=true`,
         cancelUrl: `${YOUR_DOMAIN}?canceled=true`,
