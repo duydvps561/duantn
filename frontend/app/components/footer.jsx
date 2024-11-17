@@ -1,7 +1,7 @@
 import style from './footer.module.css';
 export default function Footer() {
   return (
-    <footer className={`${style.color} footer  py-3`}>
+    <footer className={`${style.color} footer py-3`}>
       <div className="d-flex justify-content-center align-items-center">
         <ul className="menu-bot d-flex ">
           <li className="nav-item">

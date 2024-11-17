@@ -15,7 +15,7 @@ export default function Slide() {
                       alt="Ảnh slider 3"
                       width={879}
                       height={420}
-                      className="d-block w-100"
+                      className="d-block w-100 rounded"
                     />
                   </div>
                   <div class="carousel-item">
@@ -24,7 +24,7 @@ export default function Slide() {
                       alt="Ảnh slider 3"
                       width={879}
                       height={420}
-                      className="d-block w-100"
+                      className="d-block w-100 rounded"
                     />
                   </div>
                   <div class="carousel-item">
@@ -33,7 +33,7 @@ export default function Slide() {
                       alt="Ảnh slider 3"
                       width={879}
                       height={420}
-                      className="d-block w-100"
+                      className="d-block w-100 rounded"
                     />
                   </div>
                 </div>

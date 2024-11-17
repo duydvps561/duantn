@@ -14,13 +14,13 @@ body {
 }
 /* main content */
 .container {
-  max-width: 1400px; /* Set a max width for the container */
-  margin: 0 auto; /* Center the container */
-  padding: 20px; /* Add some padding */
+  max-width: 1400px; 
+  margin: 0 auto; 
+  padding: 20px; 
 }
 
 .container .row {
-  display: flex; /* Use flexbox for the row */
+  display: flex; 
   flex-wrap: wrap;
   justify-content: start;
 }
