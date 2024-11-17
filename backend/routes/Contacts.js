@@ -23,7 +23,7 @@ router.post('/add', async (req, res) => {
       service: 'gmail',
       auth: {
         user: 'acecinema.movies@gmail.com',
-        pass: 'kgrv xnqt iveq lwyy' 
+        pass: 'rimy nniy xgcv zkxe' 
       }
     });
 
@@ -36,7 +36,7 @@ router.post('/add', async (req, res) => {
             <body>
               <h1>Thông báo từ ACE Cinema</h1>
               <p>Chúng tôi đã nhận được góp ý của quý khách. Xin chân thành cảm ơn!</p>
-              <p>Để biết thêm thông tin, vui lòng liên hệ với chúng tôi qua email: <a href="mailto:canalisclup@gmail.com">canalisclup@gmail.com</a>.</p>
+              <p>Để biết thêm thông tin, vui lòng liên hệ với chúng tôi qua email: <a href="mailto:acecinema.movies@gmail.com">acecinema.movies@gmail.com</a>.</p>
               <p>Trân trọng,</p>
               <p><strong>ACE Cinema Team</strong></p>
             </body>

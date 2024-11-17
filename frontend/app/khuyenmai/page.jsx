@@ -107,7 +107,7 @@ export default function KhuyenMai() {
                   </Link>
                   <div className="card-body">
                     <span className="card-text-date">{new Date(promotion.createdAt).toLocaleDateString()}</span>
-                    <Link href={`/khuyenmaict/${promotion._id}`}>
+                    <Link className='title-card' href={`/khuyenmaict/${promotion._id}`}>
                       <h5 className="card-title">{promotion.title}</h5>
                     </Link>
                     <p className="card-text">{promotion.description}</p>
@@ -122,7 +122,7 @@ export default function KhuyenMai() {
           <h3 className="text-light mb-3">Lượt Xem Nhiều Nhất</h3>
           {mostViewedEvents.slice(0, 3).map((promotion) => (
             <div className="card mb-3 bg-dark text-light" key={promotion._id}>
-              <Link href={`/promotion/${promotion._id}`}>
+              <Link href={`/khuyenmaict/${promotion._id}`}>
                 <img
                   src={`http://localhost:3000/img/tintuc/${promotion.image}`}
                   className="card-img-top"
@@ -131,7 +131,7 @@ export default function KhuyenMai() {
               </Link>
               <div className="card-body">
                 <span className="card-text-date">{new Date(promotion.createdAt).toLocaleDateString()}</span>
-                <Link href={`/promotion/${promotion._id}`}>
+                <Link href={`/khuyenmaict/${promotion._id}`}>
                   <h5 className="card-title">{promotion.title}</h5>
                 </Link>
                 <p className="card-text">Lượt xem: {promotion.view}</p>

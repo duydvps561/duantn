@@ -5,14 +5,12 @@
     padding: 20px;
   }
   
-/* Card container */
 .card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%; /* Full width */
-  height: 300px; /* Fixed height for all cards */
-  background-color: #333;
+  width: 100%; 
+  height: 300px; 
   color: #fff;
   border-radius: 8px;
   overflow: hidden;
@@ -22,8 +20,8 @@
 /* Card image */
 .card-img-top-1 {
   width: 100%;
-  height: 300px; /* Fixed height for the image section */
-  object-fit: cover; /* Ensures image covers the area without stretching */
+  height: 300px; 
+  object-fit: cover; 
   object-position: center;
 }
 .card-img-top {
@@ -50,14 +48,17 @@
   margin-top: auto;
 }
 
-/* Event title */
+.title-card{
+  
+}
 .card-title {
   font-size: 1em;
   font-weight: bold;
   margin-bottom: 0.5em;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* Truncates long titles */
+  white-space: nowrap;
+  
 }
 
 /* Event description */

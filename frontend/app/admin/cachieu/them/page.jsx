@@ -124,10 +124,21 @@ export default function ThemCaChieu() {
                 // Lưu ca chiếu vào cơ sở dữ liệu
                 try {
                     await axios.post('http://localhost:3000/xuatchieu/add', values);
-                    Swal.fire('Ca chiếu đã được thêm thành công!');
+                    Swal.fire({
+                        title: 'Thành công!',
+                        text: 'Ca chiếu đã được thêm thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                    reset();
                 } catch (error) {
                     console.error('Lỗi khi thêm CaChieu:', error);
-                    Swal.fire('Đã xảy ra lỗi khi thêm ca chiếu.');
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        text: 'Đã xảy ra lỗi khi thêm ca chiếu.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
 
                 resetForm();

@@ -36,12 +36,14 @@ select {
     width: 100%;
     transition: border-color 0.3s;
     background-color: #ffffff !important;
+    color: #000000 !important;
 }
 
 input[type="date"]:focus,
 select:focus {
     border-color: #4d6950;
     outline: none;
+    color: #000000 !important;
 }
 
 button[type="submit"] {
@@ -68,10 +70,11 @@ button[type="submit"]:hover {
 
 .col-6, .col-3 {
     flex: 1; 
-    margin: 0 10px; /* Thêm khoảng cách giữa các cột */
+    margin: 0 10px; 
+    color: #000000;
 }
 .col-3 {
-    flex-basis: 30%; /* Cột 3 chiếm 30% chiều rộng */
+    flex-basis: 30%; 
 }
 
 input[type="text"] {
@@ -88,48 +91,4 @@ input[type="text"] {
 input[type="text"]:focus {
     border-color: #4d6950;
     outline: none;
-}
-
-div {
-    margin-bottom: 16px;
-}
-
-select option {
-    color: #4d6950;
-}
-
-div > div {
-    color: #d9534f;
-    font-size: 14px;
-    margin-top: -12px;
-    margin-bottom: 12px;
-}
-
-/* Thêm một số quy tắc CSS bổ sung */
-.error {
-    color: #d9534f; /* Màu đỏ cho thông báo lỗi */
-    font-size: 14px;
-}
-
-.success {
-    color: #5cb85c; /* Màu xanh cho thông báo thành công */
-    font-size: 14px;
-}
-
-.button-secondary {
-    background-color: #f0ad4e; /* Màu vàng cho nút phụ */
-    color: #ffffff;
-}
-
-.button-secondary:hover {
-    background-color: #ec971f; /* Màu vàng đậm khi hover */
-}
-
-.btn-icon {
-    display: inline-flex;
-    align-items: center;
-}
-
-.btn-icon i {
-    margin-right: 8px; /* Khoảng cách giữa biểu tượng và văn bản */
 }
