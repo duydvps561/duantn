@@ -13,7 +13,7 @@
 }
 
 .addFoodButton:hover {
-    background-color: #218838;
+    background-color: #4d6950;
 }
 
 .tablesContainer {
@@ -44,7 +44,7 @@
 }
 
 .table th {
-    background-color: #218838;
+    background-color: #4d6950;
     color: white;
     padding: 15px 20px;
 }
@@ -82,7 +82,7 @@
     background-color: #c82333;
 }
 .sua{
-    background-color: #218838;
+    background-color: #4d6950;
     color: aliceblue;
     font-weight: bold;
 }

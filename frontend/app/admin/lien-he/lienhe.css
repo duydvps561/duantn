@@ -1,0 +1,26 @@
+.table {
+    width: 100%;
+    background: white;
+    border-radius: .5rem;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #dddddd46;
+    padding: 15px 20px; 
+    text-align: center;
+  }
+  
+  .table th {
+    background-color: #4d6950;
+    color: white;
+    
+    padding: 15px 20px; 
+  }
+  .traloi{
+    border: #4d6950 1px solid;
+    height: 250px;
+  }
+  .traloi>h3{
+    text-align: center;
+  }
