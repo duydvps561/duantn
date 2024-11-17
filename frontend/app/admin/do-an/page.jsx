@@ -4,6 +4,7 @@ import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
 import styles from './QuanLyDoAn.module.css'; 
 import '../../globals.css';
+import '../../admin_header.css';
 import Link from 'next/link';
 import Swal from 'sweetalert2';
 

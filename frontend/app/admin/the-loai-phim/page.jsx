@@ -1,48 +1,103 @@
 "use client";
-import React, { useState } from "react";
-import Layout from "@/app/components/admin/Layout"; // Thay đổi đường dẫn theo cấu trúc dự án của bạn
-import './MovieCategoryManagement.css'; // Import CSS custom nếu cần
+import React, { useState, useEffect } from "react";
+import Layout from "@/app/components/admin/Layout"; // Adjust path as per project structure
+import './MovieCategoryManagement.css'; // Import CSS custom if needed
 import '../../globals.css'; // Import global styles
 
 const MovieCategoryManagement = () => {
-  // Dữ liệu mẫu cho các thể loại phim
-  const [categories, setCategories] = useState([
-    { id: 1, name: 'Hành Động', movieCount: 20 },
-    { id: 2, name: 'Kinh Dị', movieCount: 20 },
-    { id: 3, name: 'Hài', movieCount: 20 },
-    { id: 4, name: 'Ngôn Tình', movieCount: 20 },
-    { id: 5, name: 'Lịch Sử', movieCount: 20 },
-    { id: 6, name: 'Viễn Tưởng', movieCount: 20 },
-    { id: 7, name: 'Tâm Lý', movieCount: 20 },
-    { id: 8, name: 'Tài Liệu', movieCount: 20 },
-    { id: 9, name: 'Chiến Tranh', movieCount: 20 },
-    { id: 10, name: 'Phiêu Lưu', movieCount: 20 },
-    { id: 11, name: 'Gia Đình', movieCount: 20 },
-    { id: 12, name: 'Tội Phạm', movieCount: 20 },
-  ]);
+  const [categories, setCategories] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryQuantity, setCategoryQuantity] = useState(0);
+  const [currentCategoryId, setCurrentCategoryId] = useState(null); // For tracking edit
+  const [showCategoryForm, setShowCategoryForm] = useState(false); // Toggle for form visibility
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-  // Biến phân trang
-  const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
-  const [itemsPerPage] = useState(10);  // Số mục trên mỗi trang
+  // Fetch categories from API on component mount
+  useEffect(() => {
+    fetch("http://localhost:3000/theloai")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const categoriesWithQuantity = data.map(category => ({
+          ...category,
+          quantity: category.quantity ?? 0,
+        }));
+        setCategories(categoriesWithQuantity);
+      })
+      .catch(error => console.error("Error fetching categories:", error));
+  }, []);
 
-  // Tính toán chỉ số mục đầu và cuối dựa trên trang hiện tại
+  // Handle pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = categories.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Tính toán số trang
   const totalPages = Math.ceil(categories.length / itemsPerPage);
 
-  // Hàm thay đổi trang
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleEdit = (id) => {
-    console.log(`Edit category with id: ${id}`);
+  // Toggle add/edit category form visibility and set form for adding or editing
+  const openCategoryForm = (category = null) => {
+    if (category) {
+      // Editing existing category
+      setCategoryName(category.tentheloai);
+      setCategoryQuantity(category.quantity);
+      setCurrentCategoryId(category._id);
+    } else {
+      // Adding a new category
+      setCategoryName("");
+      setCategoryQuantity(0);
+      setCurrentCategoryId(null);
+    }
+    setShowCategoryForm(true);
   };
 
+  const closeCategoryForm = () => {
+    setShowCategoryForm(false);
+  };
+
+  // Submit new or edited category
+  const handleCategorySubmit = () => {
+    const url = currentCategoryId 
+      ? `http://localhost:3000/theloai/edit/${currentCategoryId}` 
+      : "http://localhost:3000/theloai/add";
+    const method = currentCategoryId ? "PUT" : "POST";
+    const body = JSON.stringify({
+      tentheloai: categoryName,
+      quantity: categoryQuantity,
+      trangthai: '1'
+    });
+
+    fetch(url, { method, headers: { "Content-Type": "application/json" }, body })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to submit category: " + response.statusText);
+        }
+        return response.json();
+      })
+      .then(updatedCategory => {
+        if (currentCategoryId) {
+          setCategories(categories.map(cat => cat._id === currentCategoryId ? updatedCategory : cat));
+        } else {
+          setCategories([...categories, updatedCategory]);
+        }
+        closeCategoryForm(); // Hide form after submission
+      })
+      .catch(error => console.error("Error submitting category:", error));
+  };
+
+  // Delete category
   const handleDelete = (id) => {
-    setCategories(categories.filter(category => category.id !== id));
-    console.log(`Deleted category with id: ${id}`);
+    fetch(`http://localhost:3000/theloai/delete/${id}`, { method: "DELETE" })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to delete category: " + response.statusText);
+        }
+        setCategories(categories.filter(category => category._id !== id));
+      })
+      .catch(error => console.error("Error deleting category:", error));
   };
 
   return (
@@ -50,9 +105,39 @@ const MovieCategoryManagement = () => {
       <div className="category-management">
         <h2>Quản Lý Thể Loại Phim</h2>
         <p>Đây là trang quản lý thể loại phim.</p>
+
         <div className="add-category-btn-container">
-          <button className="add-category-btn">Thêm Loại</button>
+          <button className="add-category-btn" onClick={() => openCategoryForm()}>
+            Thêm Thể Loại
+          </button>
         </div>
+
+        {showCategoryForm && (
+  <div className="overlay">
+    <div className="category-form">
+      <h3>{currentCategoryId ? "Chỉnh sửa thể loại" : "Thêm thể loại mới"}</h3>
+      <input 
+        type="text" 
+        value={categoryName} 
+        onChange={(e) => setCategoryName(e.target.value)} 
+        placeholder="Tên thể loại" 
+      />
+      <input
+        type="number"
+        value={categoryQuantity}
+        onChange={(e) => setCategoryQuantity(parseInt(e.target.value, 10))}
+        placeholder="Số lượng phim"
+      />
+      <div className="button-container">
+        <button className="submit-category-btn" onClick={handleCategorySubmit}>
+          {currentCategoryId ? "Cập nhật" : "Thêm"}
+        </button>
+        <button className="cancel-btn" onClick={closeCategoryForm}>Hủy</button>
+      </div>
+    </div>
+  </div>
+)}
+
 
         <div className="tablesContainer">
           <div className="tableSection">
@@ -68,25 +153,24 @@ const MovieCategoryManagement = () => {
               </thead>
               <tbody>
                 {currentItems.map((category, index) => (
-                  <tr key={category.id}>
-                    <td>{indexOfFirstItem + index + 1}</td> {/* Số thứ tự chính xác trên mỗi trang */}
-                    <td>{category.name}</td>
-                    <td>{category.movieCount}</td>
+                  <tr key={category._id}>
+                    <td>{indexOfFirstItem + index + 1}</td>
+                    <td>{category.tentheloai}</td>
+                    <td>{category.quantity}</td>
                     <td>
-                      <button className="editButton" onClick={() => handleEdit(category.id)}>Sửa</button>
-                      <button className="deleteButton" onClick={() => handleDelete(category.id)}>Xóa</button>
+                      <button className="editButton" onClick={() => openCategoryForm(category)}>Sửa</button>
+                      <button className="deleteButton" onClick={() => handleDelete(category._id)}>Xóa</button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            {/* Phân trang */}
-            <nav className='pagination-container'>
+            <nav className="pagination-container">
               <ul className="pagination">
                 <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                   <button onClick={() => paginate(currentPage - 1)} className="page-link">
-                  <span aria-hidden="true">&laquo;</span>
+                    <span aria-hidden="true">&laquo;</span>
                   </button>
                 </li>
                 {[...Array(totalPages)].map((_, index) => (
@@ -98,7 +182,7 @@ const MovieCategoryManagement = () => {
                 ))}
                 <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                   <button onClick={() => paginate(currentPage + 1)} className="page-link">
-                  <span aria-hidden="true">&raquo;</span>
+                    <span aria-hidden="true">&raquo;</span>
                   </button>
                 </li>
               </ul>

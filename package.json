@@ -6,6 +6,7 @@
     "@reduxjs/toolkit": "^2.3.0",
     "axios": "^1.7.7",
     "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
     "react-color": "^2.19.3",
     "react-redux": "^9.1.2",
     "yup": "^1.4.0"

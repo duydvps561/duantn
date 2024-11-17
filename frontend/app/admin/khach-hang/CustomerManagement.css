@@ -1,158 +1,358 @@
-/* Nút Thêm Khách Hàng */
-.add-customer-btn-container {
+.add-account-container{
   text-align: right;
   margin-bottom: 20px;
 }
 
-.add-customer-btn {
+.customer-management {
+  padding: 20px;
+}
+
+.customer-management h2 {
+  margin-bottom: 20px;
+}
+
+.add-button {
   padding: 10px 20px;
   background-color: #4d6950;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
-.add-customer-btn:hover {
+
+.add-button:hover{
   background-color: #218838;
-  transition: all 0.5s;
+  transition: all 1s;
 }
 
-/* Overlay nền đen mờ khi hiển thị form */
+.customer-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.customer-form input {
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.customer-form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.customer-form button:hover {
+  background-color: #45a049;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  background-color: white;
+}
+
+table th {
+  background-color: #4d6950;
+  color: white;
+  text-align: center;
+}
+
+
+
+
+/* CSS */
+.status-button {
+  background-color: #c91c1c;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.status-button:hover,
+.status-button:focus {
+  background-color: #9e0000;
+}
+
+
+.role-button {
+  background-color: #56b65f;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.role-button:hover,
+.role-button:focus {
+  background-color: #45884b;
+}
+.edit-button{
+  border: none;
+  background-color: white;
+}
+/* From Uiverse.io by andrew-demchenk0 */ 
+.button1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 2px;
+  height: 40px;
+  width: 60px;
+  border: none;
+  background: #a549da3d;
+  border-radius: 20px;
+  cursor: pointer;
+  
+}
+
+.lable {
+  line-height: 22px;
+
+  color: #A649DA;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+}
+
+.button1:hover {
+  background: #a549da62;
+}
+
+.button1:hover .svg-icon {
+  animation: lr 1s linear infinite;
+}
+
+@keyframes lr {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-1px);
+  }
+
+  75% {
+    transform: translateX(1px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Khoảng cách giữa các nút */
+}
+
+.edit-button, .delete-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.button1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 2px;
+  height: 40px;
+  background: #a549da3d;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.label {
+  line-height: 22px;
+  color: #A649DA;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+}
+
+.delete-icon svg {
+  fill: #FF6347;
+  width: 24px;
+  height: 24px;
+}
+
+.delete-icon:hover svg {
+  fill: #e53935;
+  transform: scale(1.1);
+}
+
+
 .modal-overlay {
-  display: none; /* Ẩn mặc định */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3); /* Nền đen mờ nhẹ */
-  backdrop-filter: blur(8px); /* Hiệu ứng nền blur */
-  z-index: 999; /* Đè lên các nội dung khác */
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Hiển thị khi modal được bật */
-.modal-overlay.active {
-  display: flex; /* Hiển thị dạng flex để căn giữa */
+.modal-register {
+  background-color: #ffffff;
+  padding: 2rem;
+  width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* text-align: center; */
+}
+.close-modal{
+  color: black;
+}
+.modal-register h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
 }
 
-/* Form Thêm/Sửa Khách Hàng */
-.customer-form {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%; /* Để form tự chiếm chiều rộng */
-  max-width: 600px; /* Đặt giới hạn chiều rộng tối đa */
-  z-index: 1000;
+.modal-register form {
+  display: flex;
+  flex-direction: column;
 }
 
-.customer-form h3 {
-  text-align: center;
-  color: #4d6950;
+.modal-register label {
+  font-size: 0.875rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+  text-align: left;
 }
 
-/* Thêm hiệu ứng viền khi nhấn vào các ô nhập liệu */
-.customer-form input:focus,
-.customer-form select:focus {
-  outline: none; /* Loại bỏ viền mặc định */
-  border-color: #4d6950; /* Thay đổi viền thành màu #4d6950 */
-  box-shadow: 0 0 5px rgba(77, 105, 80, 0.8); /* Hiệu ứng bóng cho viền */
-  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Hiệu ứng mượt mà */
+.modal-register input[type="text"]::placeholder,
+.modal-register input[type="email"]::placeholder,
+.modal-register input[type="password"]::placeholder,
+.modal-register input[type="date"]::placeholder,
+.modal-register select::placeholder {
+  color: #333; /* Màu chữ khi chưa có dữ liệu (placeholder) */
 }
 
-.customer-form input, 
-.customer-form select {
+.modal-register input[type="text"],
+.modal-register input[type="email"],
+.modal-register input[type="password"],
+.modal-register input[type="date"],
+.modal-register select {
+  background-color: #ffffff; /* Màu nền */
+  color: #000; /* Màu chữ khi có dữ liệu (value) */
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.875rem;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
   box-sizing: border-box;
 }
 
-/* Gộp ô SĐT và Role thành một hàng */
-.phone-role-container {
-  display: flex;
-  gap: 15px; /* Khoảng cách giữa các ô */
-}
-
-.phone-role-container input,
-.phone-role-container select {
-  width: 100%;
-  flex: 1; /* Để cả 2 ô chiếm đều diện tích */
-}
-
-.customer-form button {
-  padding: 10px 20px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.modal-register button[type="submit1"] {
   background-color: #4d6950;
-  color: white;
-}
-
-.customer-form button:hover {
-  background-color: #218838;
-  transition: all 0.5s;
-}
-
-.customer-form .cancel-btn {
-  background-color: #7c0000;
-}
-
-.customer-form .cancel-btn:hover {
-  background-color: #f44336;
-}
-
-/* Định dạng cho các nút "Sửa" và "Xóa" */
-.editButton{
-  background-color: #4d6950;
-  color: white;
-  
-}
-.deleteButton{
-  background-color: white;
-}
-.editButton, .deleteButton {
-  padding: 5px 10px;
-  /* background-color: #4CAF50; */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 5px;
-  cursor: pointer;
-}
-
-.editButton:hover {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.deleteButton:hover {
-  background-color: #f44336;
-  color: white;
-}
-
-/* Căn chỉnh bảng */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th, .table td {
-  padding: 10px;
-  border: 0.5px solid #ffffff;
-  text-align: center;
-}
-
-.table th {
-  background-color: #4d6950;
-  /* background-color: #f2f2f2; */
   color: #ffffff;
-  font-weight: bold;
-  text-align: center;
-  padding: 15px 0px;
-  
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
 }
+
+.modal-register button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.modal-register .close-modal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+}
+
+.modal-register .checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-register .checkbox-container input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.modal-register .checkbox-container label {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.modal-register .error {
+  color: red;
+  font-size: 0.75rem;
+  text-align: left;
+  margin-bottom: 0.5rem;
+}
+form{
+  color: black;
+}
+form input  {
+  color: black;
+}
+

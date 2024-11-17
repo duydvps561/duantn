@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
-import styles from './QuanLyPhong.module.css';
-import '../../globals.css';
 import Link from 'next/link';
+import styles from './QuanLyPhong.module.css'; // CSS module for styling
+import '../../globals.css';
+import '../../admin_header.css'; // Import global styles
 
 const QuanLyPhongPage = () => {
   const [rooms, setRooms] = useState([]);

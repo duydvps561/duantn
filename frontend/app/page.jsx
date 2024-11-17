@@ -3,11 +3,81 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Slide from "./components/slide";
-import Danhmuc from "./components/danhmuc";
+import { useRouter } from "next/navigation";
+import Notification from "./components/notification";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "@/redux/slice/cartSlice";
+import { addHoadon, postHoadon } from "@/redux/slice/hoadonSlice";
 
 export default function Home() {
+  const userId = useSelector((state) => state.auth.user?.id);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [moviesNowPlaying, setMoviesNowPlaying] = useState([]);
   const [moviesComingSoon, setMoviesComingSoon] = useState([]);
+  const [message, setMessage] = useState("");
+  const [showNotification, setShowNotification] = useState(false);
+  const [typeNoti, setTypeNoti] = useState('');
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]'); // Parse JSON và xử lý trường hợp null
+    const amount = cart.reduce((acc, item) => acc + (item.gia * (item.quantity || 1)), 0);
+    setTotalAmount(amount); // Cập nhật tổng tiền
+  }, []); 
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  const giolap = `${hours}:${minute}`;
+  const ngaylap = now.toISOString()
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    // const { orderCode } = query.get('orderCode');
+    const isHoadonProcessed = localStorage.getItem("hoadonProcessed");
+    if (query.get("success") && !isProcessing && !isHoadonProcessed) {
+      const hoadondata = {
+        tongtien: totalAmount,
+        giolap: giolap,
+        ngaylap: ngaylap,
+        taikhoan_id: userId,
+      };
+      setIsProcessing(true);
+      localStorage.setItem("hoadonProcessed", "true");
+      dispatch(postHoadon(hoadondata))
+        .unwrap()
+        .then((response) => {
+          dispatch(clearCart());
+          console.log("Thanh toán thành công:", response);
+          setTypeNoti("success");
+          setMessage("Thanh toán thành công. Cảm ơn bạn đã sử dụng payOS!");
+          setShowNotification(true);
+          setTimeout(() => {
+            localStorage.setItem('hoadonProcessed', 'false');
+            router.replace("/");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Error posting hoadon:", error);
+          setTypeNoti("error");
+          setMessage("Thanh toán thất bại. Vui lòng thử lại!");
+          setShowNotification(true);
+          localStorage.removeItem("hoadonProcessed");
+        })
+        .finally(() => {
+          setIsProcessing(false);
+        });
+    }
+
+    if (query.get("canceled")) {
+      setTypeNoti('canceled');
+      setMessage("Thanh toán thất bại. Đang chuyển về trang thanh toán");
+      setShowNotification(true);
+      setTimeout(() => {
+        router.replace("/thanhtoan");
+      }, 2000);
+    }
+
+  }, [router, totalAmount, giolap, ngaylap, dispatch, isProcessing]);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -25,84 +95,54 @@ export default function Home() {
     fetchMovies();
   }, []);
 
-  const renderMovieCards = (movies) => (
+  const renderMovieCards = (movies) =>
     movies.map((movie) => (
-      <div className="col-md-3 mt-3" key={movie._id}>
-        <div className="custom-shadow cursor-pointer">
-          <Link href={`/filmdetail/${movie._id}`} className="text-decoration-none text-muted">
-            <div className="box-product">
-              <img src={`http://localhost:3000/img/phims/${movie.img}`} alt="" />
+      <div className="card" key={movie._id}>
+        <Link
+          href={`/filmdetail/${movie._id}`}
+          className="text-decoration-none text-muted"
+        >
+          <div className="img-top">
+            <img
+              src={`http://localhost:3000/img/phims/${movie.img}`}
+              alt={movie.tenphim}
+            />
+          </div>
+          <div className="card-body">
+            <div className="day-time">
+              <a href="">{movie.thoiluong} Phút</a>
+              <a href="">{new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}</a>
             </div>
-            <div className="text-product mt-2">
-              <div className="">
-                <p className="text-light">{movie.thoiluong} Phút</p>
-                <p className="text-light">
-                  ngày: {new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}
-                </p>
-
-              </div>
-              <p className="mt-2 text-sm text-xl fw-bold text-light">{movie.tenphim}</p>
+            <div className="title-card">
+              <h1>{movie.tenphim}</h1>
             </div>
-          </Link>
-        </div>
+          </div>
+        </Link>
       </div>
-    ))
-  );
-  const renderSection = (title, movies) => (
-    <div className="col-md-9">
-      <div className="d-flex justify-content-between align-items-center">
-        <div className="text d-flex align-items-center gap-2">
-          <p className="rounded-5 bg-danger" style={{ width: "20px", height: "20px" }}></p>
-          <p className="text-uppercase text-white" style={{ fontSize: "20px" }}>{title}</p>
-        </div>
-        <p className="text">
-          <Link href="#" className="text-decoration-none text-white" style={{ fontSize: "15px" }}>xem tất cả</Link>
-        </p>
-      </div>
-      <div className="box row justify-content-between">
-        {renderMovieCards(movies)}
-      </div>
-    </div>
-  );
+    ));
 
   return (
     <>
-      <Slide />
-      <Danhmuc />
+      <Notification
+        message={message}
+        isVisible={showNotification}
+        onClose={() => setShowNotification(false)}
+        type={typeNoti}
+      />
 
-      <div className="main-content container">
-        <div className="row">
-          {renderSection("phim đang chiếu", moviesNowPlaying)}
-          <div className="col-md-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <p className="text-uppercase text-white" style={{ fontSize: "20px" }}>khuyến mãi</p>
-              <p className="text">
-                <Link href="#" className="text-decoration-none text-white" style={{ fontSize: "15px" }}>xem tất cả</Link>
-              </p>
-            </div>
-            <div className="box bg-secondary">
-              <div className="">
-                đây là phần sự kiện
-              </div>
-            </div>
-          </div>
+      <Slide />
+      <div className="container">
+        <div className="main-title">
+          <i className="fa fa-circle" style={{ fontSize: "25px", color: "red" }}></i>
+          <h1>Phim Đang Chiếu</h1>
         </div>
-        <div className="row mt-5">
-          {renderSection("phim sắp chiếu", moviesComingSoon)}
-          <div className="col-md-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <p className="text-uppercase text-white" style={{ fontSize: "20px" }}>Sự Kiện</p>
-              <p className="text">
-                <Link href="#" className="text-decoration-none text-white" style={{ fontSize: "15px" }}>xem tất cả</Link>
-              </p>
-            </div>
-            {[...Array(3)].map((_, index) => (
-              <div className="mt-3" key={index}>
-                <img style={{ width: "260px", height: "130px" }} src="/img/image_30.png" alt="sự kiện" />
-              </div>
-            ))}
-          </div>
+        <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
+
+        <div className="main-title mt-5">
+          <i className="fa fa-circle" style={{ fontSize: "25px", color: "red" }}></i>
+          <h1>Phim Sắp Chiếu</h1>
         </div>
+        <div className="row">{renderMovieCards(moviesComingSoon)}</div>
       </div>
     </>
   );

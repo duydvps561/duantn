@@ -74,7 +74,7 @@
   padding: 8px 15px; /* Increased button padding */
   background-color: white;
   color: black;
-
+  text-decoration: none;
   border: 1px solid #4d6950;
   border-radius: 5px;
   cursor: pointer;
@@ -82,4 +82,12 @@
 
 .deleteButton:hover {
   background-color: #c82333;
+}
+.sua{
+  background-color: #4d6950;
+  color: aliceblue;
+  font-weight: bold;
+}
+.sua:hover {
+  background-color: #218838;
 }
