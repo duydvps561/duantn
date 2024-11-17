@@ -1,16 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Tạo async thunk để post hóa đơn
-export const postHoadon = createAsyncThunk(
-    'hoadon/postHoadon',
-    async (hoadon, { rejectWithValue }) => {
+export const postTicket = createAsyncThunk(
+    've/add',
+    async (ticketdata, { rejectWithValue }) => {
         try {
-            const response = await fetch('http://localhost:3000/hoadon/add', {
+            const response = await fetch('http://localhost:3000/ve/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(hoadon),
+                body: JSON.stringify(ticketdata),
             });
 
             if (!response.ok) {
@@ -20,40 +19,36 @@ export const postHoadon = createAsyncThunk(
             const data = await response.json();
             return data;
         } catch (error) {
-            console.error('Error posting invoice:', error);
+            console.error('Error posting ticket:', error);
             return rejectWithValue(error.message);
         }
     }
 );
 
-const hoadonSlice = createSlice({
-    name: 'hoadon',
+const ticketSlice = createSlice({
+    name: 've',
     initialState: {
         list: [],
         loading: false,
         error: null,
     },
     reducers: {
-        addHoadon: (state, action) => {
-            state.list.push(action.payload);
-        },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(postHoadon.pending, (state) => {
+            .addCase(postTicket.pending, (state) => {
                 state.loading = true;
-                state.error = null; 
+                state.error = null;
             })
-            .addCase(postHoadon.fulfilled, (state, action) => {
+            .addCase(postTicket.fulfilled, (state, action) => {
                 state.loading = false;
-                state.list.push(action.payload); 
+                state.list.push(action.payload);
             })
-            .addCase(postHoadon.rejected, (state, action) => {
+            .addCase(postTicket.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
-    },
+    }
 });
 
-export const { addHoadon } = hoadonSlice.actions;
-export default hoadonSlice.reducer;
+export default ticketSlice.reducer;

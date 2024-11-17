@@ -8,6 +8,8 @@ const cors = require("cors");
 const database = require("./config/db");
 
 const indexRouter = require("./routes/index");
+//sendemail
+  var SendEmailRouter = require('./routes/Sendmail');
 //payos
 var PayosRouter = require('./routes/payos')
 var ContactRouter = require("./routes/Contacts");
@@ -51,6 +53,8 @@ database.connect();
 // truy cập lần đầu
 app.use("/", indexRouter);
 /////////////////
+//sendemail
+app.use('/email',SendEmailRouter);
 //payos
 app.use('/payos',PayosRouter);
 //account

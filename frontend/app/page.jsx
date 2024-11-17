@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import Notification from "./components/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "@/redux/slice/cartSlice";
-import { addHoadon, postHoadon } from "@/redux/slice/hoadonSlice";
+import { postHoadon } from "@/redux/slice/hoadonSlice";
+import { postTicket } from "@/redux/slice/ticket";
 
 export default function Home() {
   const userId = useSelector((state) => state.auth.user?.id);
@@ -21,10 +22,10 @@ export default function Home() {
   const [totalAmount, setTotalAmount] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
   useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]'); // Parse JSON và xử lý trường hợp null
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const amount = cart.reduce((acc, item) => acc + (item.gia * (item.quantity || 1)), 0);
-    setTotalAmount(amount); // Cập nhật tổng tiền
-  }, []); 
+    setTotalAmount(amount);
+  }, []);
   const now = new Date();
   const hours = String(now.getHours()).padStart(2, '0');
   const minute = String(now.getMinutes()).padStart(2, '0');
@@ -77,8 +78,8 @@ export default function Home() {
       }, 2000);
     }
 
-  }, [router, totalAmount, giolap, ngaylap, dispatch, isProcessing]);
-
+  }, [router, totalAmount, giolap, ngaylap, dispatch, isProcessing]); 
+  
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -110,8 +111,8 @@ export default function Home() {
           </div>
           <div className="card-body">
             <div className="day-time">
-              <a href="">{movie.thoiluong} Phút</a>
-              <a href="">{new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}</a>
+              <p style={{color:'#fff'}}>{movie.thoiluong} Phút</p>
+              <p style={{color:'#fff'}}>{new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}</p>
             </div>
             <div className="title-card">
               <h1>{movie.tenphim}</h1>
