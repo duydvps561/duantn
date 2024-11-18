@@ -114,13 +114,12 @@ export default function Home() {
               <a href="">{new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}</a>
             </div>
             <div className="title-card">
-              <h1>{movie.tenphim}</h1>
+              <h1 className="text-uppercase">{movie.tenphim}</h1>
             </div>
           </div>
         </Link>
       </div>
     ));
-
   return (
     <>
       <Notification

@@ -119,7 +119,7 @@ export default function ThanhToan() {
             <tbody>
               {isLoaded && cart.length > 0 ? (
                 cart.map((item) => {
-                  const seats = item.seat && item.seat.length > 0 ? item.seat.join(', ') : 'Không có dữ liệu';
+                  const seats = Array.isArray(item.seat) && item.seat.length > 0 ? item.seat.join(', ') : 'Không có dữ liệu';
                   return (
                     <tr key={item._id}>
                       <td>{item.tenfood ? item.tenfood : seats}</td>
