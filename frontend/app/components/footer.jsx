@@ -42,16 +42,12 @@ export default function Footer() {
       <div className="contact-bottom">
         <div className="text-light">
           <p>Cơ quan chủ quản: BỘ VĂN HÓA, THỂ THAO VÀ DU LỊCH</p>
-          <p>Bản quyền thuộc Trung tâm Chiếu phim Quốc gia.</p>
+          <p> Trung tâm Chiếu phim ACE Cinema.</p>
           <p>
-            Giấy phép số: 224/GP- TTĐT ngày 31/8/2010 - Chịu trách nhiệm: Vũ Đức
-            Tùng – Giám đốc.
+            Địa chỉ: Quận 12, Tp. Hồ Chí Minh - Điện thoại:
+            038.8293.743
           </p>
-          <p>
-            Địa chỉ: 87 Láng Hạ, Quận Ba Đình, Tp. Hà Nội - Điện thoại:
-            0339.445.887
-          </p>
-          <p>Copyright 2023. NCC All Rights Reservered. Dev by Anvui.vn</p>
+          <p>Copyright 2024. NCC All Rights Reservered. Dev by me</p>
         </div>
       </div>
     </footer>
