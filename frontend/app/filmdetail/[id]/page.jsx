@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSeat } from "@/redux/slice/cartSlice";
 import {
   clearMovieInfo,
+  updateCaChieuID,
   updateGioChieu,
-  updateMovieInfo,
   updateNgayChieu,
   updatePhongChieu,
   updateTenPhim,
@@ -16,12 +16,10 @@ import {
 export default function filmdetail({ params }) {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
-
   const id = params.id;
   const [show, setShow] = useState(false);
   const [phimChitiet, setPhimChitiet] = useState([]);
   const [ngayHieuLuc, setNgayHieuLuc] = useState("");
-
   const [cachieu, setCaChieu] = useState([]);
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
@@ -148,7 +146,7 @@ export default function filmdetail({ params }) {
   }, [id]);
   useEffect(() => {
     if (id && cachieu && Array.isArray(cachieu)) {
-      const foundPhim = cachieu.filter((item) => item.phim_id === id);
+      const foundPhim = cachieu.filter((item) => item.phim_id === id); 
       setPhimCachieu(foundPhim || null);
     } else {
       setPhimCachieu(null);
@@ -166,19 +164,17 @@ export default function filmdetail({ params }) {
   useEffect(() => {
     console.log("gio hang cap nhap", cart);
   }, [cart]);
-  // Nhóm ghế theo hàng
   const seatsByRow = gheData.reduce((acc, ghe) => {
-    const row = ghe.hang; // Lấy hàng từ ghế
+    const row = ghe.hang; 
     if (!acc[row]) {
-      acc[row] = []; // Nếu chưa có hàng này, khởi tạo một mảng mới
+      acc[row] = []; 
     }
-    acc[row].push(ghe); // Thêm ghế vào hàng tương ứng
+    acc[row].push(ghe); 
     return acc;
   }, {});
 
-  // Sắp xếp ghế theo cột trong mỗi hàng
   Object.keys(seatsByRow).forEach((row) => {
-    seatsByRow[row].sort((a, b) => a.cot - b.cot); // Sắp xếp theo cột
+    seatsByRow[row].sort((a, b) => a.cot - b.cot);
   });
   const MAX_SEATS_TO_SHOW = 5;
 
@@ -323,7 +319,6 @@ export default function filmdetail({ params }) {
                     ][new Date(item.ngaychieu).getDay()]
                   }
                 </p>{" "}
-                {/* Lấy thứ (0-6) */}
               </div>
             ))
           ) : (
@@ -349,6 +344,7 @@ export default function filmdetail({ params }) {
                       type="button"
                       onClick={() => {
                         setShow(true);
+                        dispatch(updateCaChieuID(item._id))
                         setgiochieu(item.giobatdau);
                         setPhongChieuData(phongchieudt);
                         dispatch(updateGioChieu(item.giobatdau));
