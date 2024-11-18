@@ -1,148 +1,156 @@
-
-.container {
-  width: 1000px;
-  margin: 0 auto;
+.contact-container {
+  max-width: 1200px; /* Limiting the width of the container */
+  margin: 0 auto; /* Centering the container */
   padding: 20px;
 }
-.trending-title {
-  text-align: center;
-  color: #ffffff;
+.contact-banner {
+  width: 100%;
+  height: 250px;
+  margin: 20px 0;
+}
+.banner-top .card-img-overlay {
+  position: absolute;
+  top: 70px;
+  left: 500px;
+  color: #fff;
+  font-weight: bold;
   font-size: 20px;
-  margin-bottom: 40px;
 }
-.trending-title h1{
-  color: #ffffff;
+.contact-banner-bottom .banner-bottom img {
+  height: 250px;
+  object-fit: fill;
 }
-.film-list {
-  display: flex;
-  flex-wrap: wrap; /* Cho phép các item tự động xuống dòng */
-  gap: 20px; /* Khoảng cách giữa các item */
-  margin-bottom: 20px;
+
+.contact-banner-bottom {
+  width: 100%;
+  height: 250px;
+  margin: 20px 0;
 }
-.film-item {
-  background-color: #000a1f;
-  border-radius: 10px;
-  flex: 1 1 calc(33% - 20px); /* Sử dụng flex để chia thành 3 cột */
-  box-sizing: border-box; /* Đảm bảo padding không làm vượt quá chiều rộng */
-  text-align: center; /* Căn giữa nội dung */
+.banner-bottom .card-img-overlay {
+  position: absolute;
+  top: 80px;
+  left: 500px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
 }
-.film-list .film-item:nth-child(1) {
-  transform: translateY(30px);
+.contact-banner .banner-top img {
+  height: 250px;
+  object-fit: fill;
 }
-.film-list .film-item:nth-child(2) {
-  z-index: 1;
+
+.getInTouch {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between columns */
 }
-.film-list .film-item:nth-child(3) {
-  transform: translateY(30px);
+
+.from-getIntouch {
+  flex: 1; /* Allow this column to grow */
+  margin-right: 20px; /* Space between columns */
+  background-color: #494949;
+  padding: 20px; /* Padding for the form area */
+  border-radius: 8px; /* Rounded corners */
+  color: white; /* Text color */
 }
-.film-img {
-  width: 100%; /* Chiếm toàn bộ chiều rộng */
-  height: auto; /* Đảm bảo tỷ lệ khung hình */
-  border-radius: 10px;
-  margin-bottom: 10px; /* Khoảng cách giữa hình ảnh và tiêu đề */
+.title-from {
+  margin-left: 24px;
+  color: #fff;
 }
-.film-info {
-  text-align: start;
-  margin-left: 10px;
-  max-width: 70%;
-}
-.film-title {
+.title-from h3 {
   font-size: 24px;
-  margin: 0;
-  color: #ffffff;
-}
-.film-rating {
-  font-size: 18px;
-  color: #ffd700; /* Màu vàng cho xếp hạng */
-}
-.comment-film {
-  margin-top: 60px;
-}
-.comment-film h2{
-  color: #ffffff;
-  font-size: 20px;
-}
-.comments {
-  margin-top: 40px;
-  display: flex; /* Sử dụng flexbox */
-  flex-wrap: wrap; /* Cho phép các bình luận tự động xuống dòng */
-  gap: 20px; /* Khoảng cách giữa các bình luận */
-}
-.comments p{
-  color: #ffffff;
-}
-.comment {
-  background-color: #2c2c2c;
-  border-radius: 5px;
-  padding: 10px;
-  flex: 1 1 calc(25% - 20px); /* Sử dụng flex để chia thành 4 cột */
-  box-sizing: border-box; /* Đảm bảo padding không làm vượt quá chiều rộng */
-}
-.comment-user {
-  color: #ffffff;
   font-weight: bold;
 }
-.from-comment {
-  width: 99%;
-  margin-top: 30px;
+.title-from h1 {
+  font-size: 32px;
 }
-.from-comment {
-  margin-top: 40px;
-  margin-bottom: 40px;
-  display: flex; /* Sử dụng flexbox để căn chỉnh */
-  gap: 10px; /* Khoảng cách giữa input và button */
-}
-
-.from-comment input {
-  flex: 1; /* Để input chiếm toàn bộ chiều rộng còn lại */
-  padding: 10px; /* Đệm bên trong */
-  border: 2px solid #ffd700; /* Viền màu vàng */
-  border-radius: 5px; /* Bo góc */
-  background-color: #2c2c2c; /* Màu nền */
-  color: #ffffff; /* Màu chữ */
-  font-size: 16px; /* Kích thước chữ */
-  height: 50px;
+.from-getIntouch form {
+  display: flex; /* Use flexbox for the form */
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Align items to the start */
+  margin: 0;
 }
 
-.from-comment input::placeholder {
-  color: #aaaaaa; /* Màu placeholder */
+label {
+  align-self: flex-start; /* Align each label to the start */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 24px;
+  font-size: 16px;
 }
 
-.from-comment button {
-  padding: 10px 20px; /* Đệm bên trong cho nút */
-  background-color: #ffd700; /* Màu nền nút */
-  border: none; /* Không có viền */
-  border-radius: 5px; /* Bo góc */
-  color: #000000; /* Màu chữ trên nút */
-  font-size: 20px; /* Kích thước chữ */
-  cursor: pointer; /* Con trỏ khi hover */
-  transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 90%; /* Width of inputs */
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #494949;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.from-comment button:hover {
-  background-color: #8f7e39; /* Màu nền khi hover */
+textarea {
+  height: 150px;
+  margin-bottom: 30px;
+  color: #fff;
+  background-color: #494949;
 }
 
-.contact-bot-content {
-  display: flex; /* Sử dụng flexbox để căn giữa */
-  justify-content: center; /* Căn giữa nội dung */
-  margin-top: 50px; /* Khoảng cách trên */
+button {
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  background-color: #494949;
+  width: 90%;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition */
 }
 
-.contact-map-col-12 {
-  width: 100%; /* Chiều rộng của phần tử */
-  max-width: 1400px; /* Giới hạn chiều rộng tối đa */
-  border-radius: 10px; /* Bo góc cho phần tử */
-  overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài */
+button:hover {
+  background-color: #141618; /* Darker shade on hover */
 }
 
-.contact-map {
-  width: 100%; /* Chiếm toàn bộ chiều rộng */
-  height: 300px; /* Chiều cao của iframe */
+.contact-infor {
+  flex: 1; /* Allow this column to grow */
+  background-color: #1a1a1a34; /* White background for contrast */
+  padding: 20px; /* Padding for the info area */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+.contact-infor .text {
+  color: #fff;
+}
+.icon-infor {
+  display: grid; /* Enable grid layout */
+  grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
+  gap: 10px; /* Space between grid items */
 }
 
-iframe {
-  width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử chứa */
-  height: 100%; /* Chiều cao tự động */
-  border: none; /* Bỏ viền iframe */
+.icon {
+  font-weight: bold; /* Optional: make text bold */
+  text-align: center;
+  color: #fff;
+  height: 100px;
+}
+
+.map {
+  margin-top: 20px; /* Space above map */
+}
+.contact-banner-bottom {
+  background-color: #494949;
+  width: 100%;
+  height: 250px;
+  margin-top: 20px;
+}
+@media (max-width: 768px) {
+  .getInTouch {
+    flex-direction: column; /* Stack columns on smaller screens */
+  }
+
+  .from-getIntouch {
+    margin-right: 0; /* Remove margin on smaller screens */
+    margin-bottom: 20px; /* Space below form */
+  }
 }

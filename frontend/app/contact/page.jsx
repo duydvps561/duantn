@@ -1,102 +1,111 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocation } from "@fortawesome/free-solid-svg-icons"; // Nhập biểu tượng vị trí
+import {
+  faPhoneAlt,
+  faEnvelope,
+  faMobileAlt,
+  faMapMarkerAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import "./contact.css";
 
 const ContactPage = () => {
   return (
-    <div class="container">
-      <div class="trending-title">
-        <h1>Bảng Xếp Hạng Phim</h1>
-      </div>
-      <div class="film-list">
-        <div class="film-item">
-          <img class="film-img" src="./img/0017840_0 1-1.png" alt="Phim 1" />
-          <div class="film-info">
-            <h2 class="film-title">Phim 1</h2>
-            <p class="film-rating">⭐ 4.5/5</p>
-          </div>
-        </div>
-        <div class="film-item">
-          <img class="film-img" src="./img/0017840_0 1-2.png" alt="Phim 2" />
-          <div class="film-info">
-            <h2 class="film-title">Phim 2</h2>
-            <p class="film-rating">⭐ 4.0/5</p>
-          </div>
-        </div>
-        <div class="film-item">
-          <img class="film-img" src="./img/0017840_0 1-3.png" alt="Phim 3" />
-          <div class="film-info">
-            <h2 class="film-title">Phim 3</h2>
-            <p class="film-rating">⭐ 4.8/5</p>
+    <div class="contact-container">
+      <div class="contact-banner">
+        <div class="card banner-top">
+          <img
+            src="./img/banner-contact.jpg"
+            class="card-img"
+            alt="Contact Banner"
+          />
+          <div class="card-img-overlay">
+            <h3 class="card-title">Liên Hệ</h3>
           </div>
         </div>
       </div>
-      <div class="comment-film">
-        <h2>Bình Luận của Khách Hàng</h2>
-        <div class="comments">
-          <div class="comment">
-            <p class="comment-user">Người Dùng 1:</p>
-            <p>Tôi rất thích Phim 1! Cốt truyện thật sự hấp dẫn.</p>
+
+      <div class="getInTouch">
+        <div class="from-getIntouch">
+          <div class="title-from">
+            <h3>Liên hệ</h3>
+            <h1>Liên lạc với chúng tôi</h1>
           </div>
-          <div class="comment">
-            <p class="comment-user">Người Dùng 2:</p>
-            <p>Phim 2 có những diễn viên xuất sắc, nhưng cốt truyện hơi yếu.</p>
-          </div>
-          <div class="comment">
-            <p class="comment-user">Người Dùng 3:</p>
-            <p>
-              Phim 3 là một trải nghiệm tuyệt vời! Tôi khuyên mọi người nên xem.
-            </p>
-          </div>
-          <div class="comment">
-            <p class="comment-user">Người Dùng 4:</p>
-            <p>
-              Phim 4 là một trải nghiệm tuyệt vời! Tôi khuyên mọi người nên xem.
-            </p>
-          </div>
-          <div class="comment">
-            <p class="comment-user">Người Dùng 4:</p>
-            <p>
-              Phim 4 là một trải nghiệm tuyệt vời! Tôi khuyên mọi người nên xem.
-            </p>
-          </div>
-          <div class="comment">
-            <p class="comment-user">Người Dùng 4:</p>
-            <p>
-              Phim 4 là một trải nghiệm tuyệt vời! Tôi khuyên mọi người nên xem.
-            </p>
-          </div>
-          <div class="comment">
-            <p class="comment-user">Người Dùng 4:</p>
-            <p>
-              Phim 4 là một trải nghiệm tuyệt vời! Tôi khuyên mọi người nên xem.
-            </p>
-          </div>
-          <div class="comment">
-            <p class="comment-user">Người Dùng 4:</p>
-            <p>
-              Phim 4 là một trải nghiệm tuyệt vời! Tôi khuyên mọi người nên xem.
-            </p>
-          </div>
+          <form action="" class="from">
+            <label for="username">Name</label>
+            <input type="text" id="username" placeholder="Your Name" required />
+
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="example@gmail.com"
+              required
+            />
+
+            <label for="message">Messenger</label>
+            <textarea
+              name="comment"
+              id="message"
+              placeholder="Type Here..."
+              required
+            ></textarea>
+
+            <button type="submit">Gửi</button>
+          </form>
         </div>
-      </div>
-      <div class="from-comment">
-        <input type="text" placeholder="Đóng góp ý kiến của bạn" />
-        <button>Gửi</button>
-      </div>
-      <div className="contact-bot-content">
-        <div className="contact-map-col-12">
-          <div className="contact-map">
+        <div class="contact-infor">
+          <div class="text">
+            <p>
+              ĐỀ NGHỊ QUÝ KHÁN GIẢ LƯU Ý KHI MUA VÉ XEM PHIM (ĐẶC BIỆT KHI MUA
+              VÉ ONLINE). TTCPQG KHÔNG CHẤP NHẬN HOÀN TIỀN HOẶC ĐỔI VÉ ĐÃ THANH
+              TOÁN THÀNH CÔNG KHI MUA VÉ ONLINE VÀ VÉ MUA SAI QUY ĐỊNH TẠI QUẦY
+              VÉ.
+            </p>
+          </div>
+          <div className="icon-infor">
+            <div className="icon">
+              <FontAwesomeIcon style={{ fontSize: "20px" }} icon={faPhoneAlt} />
+              <p>Số điện thoại bàn</p>
+              <p>(+84) 388293743</p>
+            </div>
+            <div className="icon">
+              <FontAwesomeIcon style={{ fontSize: "20px" }} icon={faEnvelope} />
+              <p>Email</p>
+              <p>dovanduy2309004@gmail.com</p>
+            </div>
+            <div className="icon">
+              <FontAwesomeIcon style={{ fontSize: "20px" }} icon={faMobileAlt} />
+              <p>Số điện thoại di động</p>
+              <p>(+84) 388293743</p>
+            </div>
+            <div className="icon">
+              <FontAwesomeIcon style={{ fontSize: "20px" }} icon={faMapMarkerAlt} />
+              <p>Địa chỉ</p>
+              <p>208/14 AB, phường 6, quận 9, Hồ Chí Minh</p>
+            </div>
+          </div>
+          <div class="map">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12498.679263964908!2d106.68228527684877!3d10.761607947164666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f19e63f0a05%3A0xd4c41b784ebcc3e8!2sCinestar%20Cinema%20Qu%E1%BB%91c%20Thanh!5e0!3m2!1svi!2s!4v1730452044126!5m2!1svi!2s"
-              width="100%"
-              height="600"
-              style={{ border: 0 }}
-              allowFullScreen
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d501726.5419237417!2d106.36488460913512!3d10.754617415148584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529292e8d3dd1%3A0xf15f5aad773c112b!2sHo%20Chi%20Minh%20City%2C%20Vietnam!5e0!3m2!1sen!2s!4v1731908275556!5m2!1sen!2s"
+              width="600"
+              height="250"
+              style={{ border: "0" }}
+              allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="contact-banner-bottom">
+        <div class="card banner-bottom text-bg-dark">
+          <img
+            src="./img/banner-contect1.jpg"
+            class="card-img"
+            alt="Bottom Banner"
+          />
+          <div class="card-img-overlay">
+            <h2 class="card-title">Get in Touch</h2>
           </div>
         </div>
       </div>
