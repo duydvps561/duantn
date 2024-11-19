@@ -6,30 +6,30 @@ import RegisterModal from "../register/RegisterModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/slice/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faUser } from "@fortawesome/free-solid-svg-icons";
 export default function Header() {
-  const link =[
+  const link = [
     {
-    name: "Trang chủ",
-    path: "/"
+      name: "Trang chủ",
+      path: "/",
     },
     {
       name: "Lịch chiếu",
-      path: "/lichchieu"
+      path: "/lichchieu",
     },
     {
       name: "Tin tức",
-      path: "/tintuc"
+      path: "/tintuc",
     },
     {
       name: "Liên hệ",
-      path: "/lienhe"
+      path: "/contact",
     },
     {
       name: "Giá vé",
-      path: "/ticket"
-    }
-]
+      path: "/ticket",
+    },
+  ];
   const dispatch = useDispatch();
   const isAuthen = useSelector((state) => state.auth.authenticated);
   const user = useSelector((state) => state.auth.user);
@@ -48,20 +48,20 @@ export default function Header() {
       </Link>
       <nav>
         <ul className="nav-list">
-          {
-            link.map((item, index) => (
-              <li key={index}>
-                <Link href={item.path} className={pathname === item.path? "active" : ""}>
-                  {item.name}
-                </Link>
-              </li>
-            ))
-          }
+          {link.map((item, index) => (
+            <li key={index}>
+              <Link
+                href={item.path}
+                className={pathname === item.path ? "active" : ""}
+              >
+                {item.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
       {isAuthen && user ? (
         <>
-
           {
             <div className="dropdown">
               <div
@@ -69,22 +69,73 @@ export default function Header() {
                 id="dropdownMenuButton"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                style={{ textDecoration: "none" ,cursor: "pointer"}}
+                style={{ textDecoration: "none", cursor: "pointer" }}
               >
-                <div style={{backgroundColor:"#202d32",width:'30px',height:'30px',borderRadius:"50%"}} className="d-flex align-items-center justify-content-center">
-                <FontAwesomeIcon icon={faUser} style={{ color: "#ffffff",fontSize:"14px"}} />
+                <div
+                  style={{
+                    backgroundColor: "#202d32",
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                  }}
+                  className="d-flex align-items-center justify-content-center"
+                >
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    style={{ color: "#ffffff", fontSize: "14px" }}
+                  />
                 </div>
-                <span className="text-light" style={{ fontSize: "17px" }} onClick={() => setShowOp(true)}>{user.username}</span>
-                <FontAwesomeIcon icon={faChevronDown} style={{ color: "#ffffff",fontSize:'17px' }} />
+                <span
+                  className="text-light"
+                  style={{ fontSize: "17px" }}
+                  onClick={() => setShowOp(true)}
+                >
+                  {user.username}
+                </span>
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  style={{ color: "#ffffff", fontSize: "17px" }}
+                />
               </div>
-              <ul className="dropdown-menu mt-2" style={{backgroundColor:"#10141b"}}  aria-labelledby="dropdownMenuButton">
-                <li><a className="dropdown-item " href="#" style={{fontSize:'17px' }}>Thông tin cá nhân</a></li>
-                <li><a className="dropdown-item " href="#"style={{fontSize:'17px' }}><i className="fa-solid fa-arrow-right-from-bracket"></i> Lịch sử mua vé</a></li>
-                <li><a className="dropdown-item " href="#"style={{fontSize:'17px' }} onClick={() => { setShowOp(false), dispatch(logout()) }}><i className="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a></li>
-
+              <ul
+                className="dropdown-menu mt-2"
+                style={{ backgroundColor: "#10141b" }}
+                aria-labelledby="dropdownMenuButton"
+              >
+                <li>
+                  <a
+                    className="dropdown-item "
+                    href="#"
+                    style={{ fontSize: "17px" }}
+                  >
+                    Thông tin cá nhân
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="dropdown-item "
+                    href="#"
+                    style={{ fontSize: "17px" }}
+                  >
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i>{" "}
+                    Lịch sử mua vé
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="dropdown-item "
+                    href="#"
+                    style={{ fontSize: "17px" }}
+                    onClick={() => {
+                      setShowOp(false), dispatch(logout());
+                    }}
+                  >
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i>{" "}
+                    Đăng xuất
+                  </a>
+                </li>
               </ul>
             </div>
-            
           }
         </>
       ) : (
@@ -98,12 +149,8 @@ export default function Header() {
         </div>
       )}
 
-
       <RegisterModal show={showRegister} handleClose={handleCloseRegister} />
-      <LoginModal
-        show={showLogin}
-        handleClose={handleCloseLogin}
-      />
+      <LoginModal show={showLogin} handleClose={handleCloseLogin} />
     </header>
   );
 }

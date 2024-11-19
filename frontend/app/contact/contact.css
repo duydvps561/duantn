@@ -15,6 +15,8 @@
   color: #fff;
   font-weight: bold;
   font-size: 20px;
+  border: none;
+  
 }
 .contact-banner-bottom .banner-bottom img {
   height: 250px;
@@ -37,6 +39,7 @@
 .contact-banner .banner-top img {
   height: 250px;
   object-fit: fill;
+  border: none;
 }
 
 .getInTouch {
@@ -80,11 +83,12 @@ label {
 
 input[type="text"],
 input[type="email"],
+input[type="tel"],
 textarea {
   width: 90%; /* Width of inputs */
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #494949;
+  background-color: #3a3a3a;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -93,10 +97,10 @@ textarea {
   height: 150px;
   margin-bottom: 30px;
   color: #fff;
-  background-color: #494949;
+  background-color: #3a3a3a;
 }
 
-button {
+.from-getIntouch .from button {
   padding: 10px 20px;
   border: 2px solid #fff;
   border-radius: 20px;
@@ -108,7 +112,7 @@ button {
   transition: background-color 0.3s; /* Smooth transition */
 }
 
-button:hover {
+.from-getIntouch .from button:hover {
   background-color: #141618; /* Darker shade on hover */
 }
 
