@@ -14,13 +14,13 @@ body {
 }
 /* main content */
 .container {
-  max-width: 1400px; /* Set a max width for the container */
-  margin: 0 auto; /* Center the container */
-  padding: 20px; /* Add some padding */
+  max-width: 1400px; 
+  margin: 0 auto; 
+  padding: 20px; 
 }
 
 .container .row {
-  display: flex; /* Use flexbox for the row */
+  display: flex; 
   flex-wrap: wrap;
   justify-content: start;
 }
@@ -104,6 +104,7 @@ header {
   align-items: center;
   gap: 20px;
   transition: background-color 0.3s ease;
+  /* thêm border-bôttom */
 }
 
 /* Logo styling */
@@ -123,13 +124,13 @@ header .nav-list {
   text-decoration: none;
   font-size: 17px;
   font-weight: 400;
-
   color: rgb(255, 255, 255);
   transition: color 0.3s ease;
 }
 
 .nav-list li a:hover {
   color: #e91c25;
+  
 }
 .nav-list li a.active {
   color: rgb(255, 37, 74); /* Màu sắc cho liên kết hiện tại */
@@ -162,13 +163,14 @@ header .nav-list {
   height: 40px;
   width: 132px;
   text-align: center;
-  border: none;
+  border: 1px solid #fff;
   border-radius: 20px;
-  transition: transform 0.2s ease;
+  /* transition: transform 0.2s ease; */
 }
 
 .login-btn:hover {
-  transform: scale(1.1);
+  background-color: rgba(233, 28, 37, 0.9);
+
 }
 .welcome-message {
   cursor: pointer;
@@ -292,3 +294,4 @@ footer img {
     font-size: 0.8rem; /* Giảm kích thước chữ trên màn hình nhỏ */
   }
 }
+

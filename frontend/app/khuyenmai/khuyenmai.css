@@ -1,61 +1,77 @@
-.container {
-  display: flex !important;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  text-align: center;
 
-  .title-khuyenmai {
-    font-weight: bold;
-    font-size: 24px;
-    margin: 10px;
-    color: rgb(255, 255, 255);
+.containers {
+    max-width: 1600px !important;
+    margin: auto;
+    padding: 20px;
   }
-
-  .col-3 {
-    flex: 1 1 calc(25% - 1rem);
-    color: white;
-    margin: 1rem auto;
-
-    .card {
-      width: 100%;
-
-      .card-title {
-        font-size: 20px;
-        font-weight: bold;
-      }
-
-      .card-text {
-        font-size: 15px;
-        font-weight: 300;
-      }
-
-      .card-img-top {
-        object-fit: cover;
-        height: 200px;
-      }
-
-      .card-body {
-        text-align: left;
-      }
-    }
-  }
+  
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%; 
+  height: 300px; 
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px; /* Optional spacing between cards */
 }
 
-@media (max-width: 1200px) {
-  .container .col-3 {
-    flex: 1 1 calc(33.33% - 1rem);
-  }
+/* Card image */
+.card-img-top-1 {
+  width: 100%;
+  height: 300px; 
+  object-fit: cover; 
+  object-position: center;
+}
+.card-img-top {
+  width: 100%;
+  height: 150px; /* Fixed height for the image section */
+  object-fit: cover; /* Ensures image covers the area without stretching */
+  object-position: center;
 }
 
-@media (max-width: 768px) {
-  .container .col-3 {
-    flex: 1 1 calc(50% - 1rem);
-  }
+/* Card body */
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  text-align: center; /* Centers text content */
 }
 
-@media (max-width: 576px) {
-  .container .col-3 {
-    flex: 1 1 calc(100% - 1rem);
-  }
+/* Event date */
+.card-text-date {
+  font-size: 0.9em;
+  color: #ddd;
+  margin-top: auto;
+}
+
+.title-card{
+  
+}
+.card-title {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+}
+
+/* Event description */
+.card-text {
+  font-size: 0.9em;
+  color: #ccc;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Truncates long descriptions */
+}
+/* Grid layout for card containers */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive layout */
+  gap: 20px; /* Spacing between cards */
 }

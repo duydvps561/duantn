@@ -105,7 +105,7 @@ export default function LichChieu() {
                         <p className="release-date">{ngayHieuLuc}</p>
                         <p className="duration-info">{phim.thoiluong} phút</p>
                       </div>
-                      <h5 className="film-title text-light">
+                      <h5 className="film-title text-light text-uppercase">
                         {phim.tenphim.includes("-")
                           ? phim.tenphim.slice(0, phim.tenphim.lastIndexOf("-"))
                           : phim.tenphim}

@@ -7,59 +7,59 @@ export default function Slide() {
         <div className="container">
           <div className="row">
             <div className="col-md-8 p-0">
-              <div id="carouselExample" class="carousel slide">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
+              <div id="carouselExample" className="carousel slide">
+                <div className="carousel-inner">
+                  <div className="carousel-item active">
                     <Image
                       src="/img/image 47.png"
                       alt="Ảnh slider 3"
                       width={879}
                       height={420}
-                      className="d-block w-100"
+                      className="d-block w-100 rounded"
                     />
                   </div>
-                  <div class="carousel-item">
+                  <div className="carousel-item">
                     <Image
                       src="/img/image 47.png"
                       alt="Ảnh slider 3"
                       width={879}
                       height={420}
-                      className="d-block w-100"
+                      className="d-block w-100 rounded"
                     />
                   </div>
-                  <div class="carousel-item">
+                  <div className="carousel-item">
                     <Image
                       src="/img/image 47.png"
                       alt="Ảnh slider 3"
                       width={879}
                       height={420}
-                      className="d-block w-100"
+                      className="d-block w-100 rounded"
                     />
                   </div>
                 </div>
                 <button
-                  class="carousel-control-prev"
+                  className="carousel-control-prev"
                   type="button"
                   data-bs-target="#carouselExample"
                   data-bs-slide="prev"
                 >
                   <span
-                    class="carousel-control-prev-icon"
+                    className="carousel-control-prev-icon"
                     aria-hidden="true"
                   ></span>
-                  <span class="visually-hidden">Previous</span>
+                  <span className="visually-hidden">Previous</span>
                 </button>
                 <button
-                  class="carousel-control-next"
+                  className="carousel-control-next"
                   type="button"
                   data-bs-target="#carouselExample"
                   data-bs-slide="next"
                 >
                   <span
-                    class="carousel-control-next-icon"
+                    className="carousel-control-next-icon"
                     aria-hidden="true"
                   ></span>
-                  <span class="visually-hidden">Next</span>
+                  <span className="visually-hidden">Next</span>
                 </button>
               </div>
             </div>

@@ -5,44 +5,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "@/redux/slice/cartSlice";
 import Link from "next/link";
 import { setQrUrl } from "@/redux/slice/qrSlice";
+import { useRouter } from "next/navigation";
+import { clearMovieInfo } from "@/redux/slice/filmSlice";
 export default function ThanhToan() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const [ghe, setghe] = useState([]);
   const [film, setFilm] = useState({});
-  const [isLoaded, setIsLoaded] = useState(false); // Trạng thái để kiểm tra xem đã tải xong hay chưa
+  const [isLoaded, setIsLoaded] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("vietqr");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [qrUrllink, setQrUrllink] = useState("");
   useEffect(() => {
-    let url = "";
-    const  description = encodeURIComponent(
-        `Thanh toán ${film.tenphim || "phim"}`
-    );
-    const accountName = encodeURIComponent('PHAN MINH TUONG');
-    switch (paymentMethod) {
-      case "vietqr":
-          url = `https://img.vietqr.io/image/MB-1911010104-compact.png?amount=${totalAmount}&addInfo=${description}&accountName=${accountName}`;
-          break;
-      case "vnpay":
-          url = `https://pay.vnpay.vn/payment?amount=${totalAmount}&addInfo=${description}`;
-          break;
-      case "viettelmoney":
-          url = `https://viettelmoney.vn/pay?amount=${totalAmount}&addInfo=${description}`;
-          break;
-      case "payoo":
-          url = `https://payoo.vn/pay?amount=${totalAmount}&addInfo=${description}`;
-          break;
-      default:
-          url = ""; 
-  }
-  
-
-    if (url) {
-        setQrUrllink(url); // Cập nhật state cục bộ
-        dispatch(setQrUrl(url))
+    if (paymentMethod === "vietqr") {
+      const description = encodeURIComponent(`Thanh toán ${film.tenphim || "phim"}`);
+      const accountName = encodeURIComponent("PHAN MINH TUONG");
+      const url = `https://img.vietqr.io/image/MB-1911010104-compact.png?amount=${totalAmount}&addInfo=${description}&accountName=${accountName}`;
+      setQrUrllink(url);
+      dispatch(setQrUrl(url));
     }
-}, [paymentMethod, totalAmount, film.tenphim, dispatch]);
+  }, [paymentMethod, totalAmount, film.tenphim, dispatch]);
 
   useEffect(() => {
     const filmData = localStorage.getItem('filmInfo');
@@ -61,14 +44,42 @@ export default function ThanhToan() {
     const amount = cart.reduce((acc, item) => acc + (item.gia * (item.quantity || 1)), 0);
     setTotalAmount(amount);
   }, [cart]);
+  const handlePayment = async () => {
+    if (paymentMethod === 'vietqr') {
+      router.push(`/thanhtoan/option?${qrUrllink}`);
+    } else if (paymentMethod === 'payos') {
+      
+      try {
+        const Orcode = Math.floor(Math.random() *1000000);
+        const response = await fetch('http://localhost:3000/payos/create-payment-link', {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: totalAmount,
+            description: Orcode ,
+            orderCode: Orcode ,
+            returnUrl: "http://localhost:3001?success=true",
+          }),
+        });
+        const data = await response.json();
+        if (data.checkoutUrl) {
+          window.location.href = data.checkoutUrl;
+          dispatch(setQrUrl(data.checkoutUrl));
+        }
+      } catch (error) {
+        console.error("Payment error:", error);
+      }
+    }
+  }
   return (
     <div className="container">
       <div className="layout">
-        {/* Thông tin phim */}
         <div className="item">
           <div className="title-item">
             <h2 className="text-light">Thông tin phim</h2>
-            <button onClick={() => dispatch(clearCart())}>Xóa giỏ hàng</button>
+            <button onClick={() => {dispatch(clearCart());dispatch(clearMovieInfo())}}>Xóa giỏ hàng</button>
           </div>
           <div className="item-body">
             <div className="filmdetail">
@@ -109,7 +120,7 @@ export default function ThanhToan() {
             <tbody>
               {isLoaded && cart.length > 0 ? (
                 cart.map((item) => {
-                  const seats = item.seat && item.seat.length > 0 ? item.seat.join(', ') : 'Không có dữ liệu';
+                  const seats = Array.isArray(item.seat) && item.seat.length > 0 ? item.seat.join(', ') : 'Không có dữ liệu';
                   return (
                     <tr key={item._id}>
                       <td>{item.tenfood ? item.tenfood : seats}</td>
@@ -133,7 +144,7 @@ export default function ThanhToan() {
             <h2 className="text-light">Phương thức thanh toán</h2>
           </div>
           <div className="paymoment">
-            {['VietQR', 'VNPay', 'Viettel Money', 'Payoo'].map((method) => (
+            {['VietQR', 'PayOS'].map((method) => (
               <div className="pay-account" key={method}>
                 <input
                   type="radio"
@@ -141,7 +152,7 @@ export default function ThanhToan() {
                   name="payment"
                   value={method.toLowerCase().replace(' ', '')}
                   aria-label={`Select ${method} as payment method`}
-                  checked={paymentMethod === method.toLowerCase().replace(' ', '')} 
+                  checked={paymentMethod === method.toLowerCase().replace(' ', '')}
                   onChange={() => setPaymentMethod(method.toLowerCase().replace(" ", ""))}
                 />
                 <label htmlFor={method}>
@@ -171,9 +182,7 @@ export default function ThanhToan() {
                 <h4>Tổng cộng</h4>
                 <p>{totalAmount.toLocaleString()}đ</p>
               </div>
-              <Link href={`/thanhtoan/option?${qrUrllink}`} style={{textDecoration:'none'}}>
-              <button disabled={cart.length === 0 || !paymentMethod}>Thanh toán</button>
-              </Link>
+              <button onClick={handlePayment} disabled={cart.length === 0 || !paymentMethod}>Thanh toán</button>
               <p className="luuy">
                 Lưu ý: Không mua vé cho trẻ em dưới 13 tuổi đối với các suất chiếu phim kết thúc sau 22h00 và không mua vé cho trẻ em dưới 16 tuổi đối với các suất chiếu phim kết thúc sau 23h00.
               </p>

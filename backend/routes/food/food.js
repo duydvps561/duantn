@@ -53,15 +53,14 @@ router.get('/:id', async (req, res) => {
 // Add new food item
 router.post('/add', upload.single('img'), async (req, res) => {
   try {
-    const { tenfood, soluong, loai, gia, trangthai } = req.body;
+    const { tenfood, loai, gia, trangthai } = req.body;
     const img = req.file ? req.file.originalname : null;
 
     const newFood = new Food({
       tenfood,
-      soluong,
       gia,
       loai,
-      trangthai: soluong == 0 ? 0 : trangthai,
+      trangthai: trangthai || 1, // Default to "Còn hàng" if not provided
       img
     });
 
@@ -76,7 +75,7 @@ router.post('/add', upload.single('img'), async (req, res) => {
 // Update food item
 router.put('/update/:id', upload.single('img'), async (req, res) => {
   try {
-    const { tenfood, soluong, loai, gia, trangthai } = req.body;
+    const { tenfood, loai, gia, trangthai } = req.body;
     const img = req.file ? req.file.originalname : null;
 
     const food = await Food.findById(req.params.id);
@@ -86,10 +85,9 @@ router.put('/update/:id', upload.single('img'), async (req, res) => {
     }
 
     food.tenfood = tenfood;
-    food.soluong = soluong;
     food.gia = gia;
     food.loai = loai;
-    food.trangthai = soluong == 0 ? 0 : trangthai;
+    food.trangthai = trangthai || 1; 
     if (img) food.img = img;
 
     await food.save();
@@ -100,7 +98,7 @@ router.put('/update/:id', upload.single('img'), async (req, res) => {
   }
 });
 
-
+// Delete food item
 router.delete('/delete/:id', async (req, res) => {
   try {
     const food = await Food.findById(req.params.id);
@@ -116,6 +114,5 @@ router.delete('/delete/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 module.exports = router;

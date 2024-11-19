@@ -1,36 +1,32 @@
+import style from './footer.module.css';
 export default function Footer() {
   return (
-    <footer className="footer bg-dark py-3">
+    <footer className={`${style.color} footer py-3`}>
       <div className="d-flex justify-content-center align-items-center">
         <ul className="menu-bot d-flex ">
           <li className="nav-item">
             <a href="#" className="nav-link text-light">
-              Chinh Sach
+              chính sách 
             </a>
           </li>
           <li className="nav-item">
             <a href="#" className="nav-link text-light">
-              Lich Chieu
+              Lịch Chiếu
             </a>
           </li>
           <li className="nav-item">
             <a href="#" className="nav-link text-light">
-              Tin Tuc
+              Tin Tức
             </a>
           </li>
           <li className="nav-item">
             <a href="#" className="nav-link text-light">
-              Gia Ve
+             Giá Vé 
             </a>
           </li>
           <li className="nav-item">
             <a href="#" className="nav-link text-light">
-              Hoi Dap
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="/contact" className="nav-link text-light">
-              Lien He
+              Liên Hệ
             </a>
           </li>
         </ul>

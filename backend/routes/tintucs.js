@@ -3,6 +3,17 @@ var router = express.Router();
 const multer = require('multer');
 const tintuc = require('../models/tintuc');
 
+function createSlug(title) {
+  return title
+    .toLowerCase() // Chuyển thành chữ thường
+    .normalize("NFD") // Chuẩn hóa Unicode để loại bỏ dấu
+    .replace(/[\u0300-\u036f]/g, "") // Loại bỏ các ký tự dấu tiếng Việt
+    .replace(/[^a-z0-9\s-]/g, "") // Loại bỏ ký tự đặc biệt, giữ lại khoảng trắng và dấu '-'
+    .replace(/\s+/g, "-") // Thay khoảng trắng bằng dấu '-'
+    .replace(/-+/g, "-") // Loại bỏ dấu '-' lặp lại
+    .replace(/^-|-$/g, ""); // Loại bỏ dấu '-' ở đầu và cuối
+}
+
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -36,15 +47,38 @@ router.get('/', async (req, res, next) => {
 router.post('/add', upload.single('image'), async (req, res) => {
   try {
     const { title, describe, content, view, loai, trangthai } = req.body;
-    const image = req.file ? req.file.originalname : null; // Nếu có image thì lấy, không thì để null
-    const newTintuc = { title, describe, content, image, view, loai, trangthai };
-    
+    const image = req.file ? req.file.originalname : null;
+
+    // Tạo slug từ tiêu đề
+    const baseSlug = createSlug(title);
+    let uniqueSlug = baseSlug;
+
+    // Kiểm tra trùng lặp `_id`
+    let count = 0;
+    while (await tintuc.findById(uniqueSlug)) {
+      count++;
+      uniqueSlug = `${baseSlug}-${count}`;
+    }
+
+    const newTintuc = {
+      _id: uniqueSlug,
+      title,
+      describe,
+      content,
+      image,
+      view,
+      loai,
+      trangthai,
+    };
+
     const result = await tintuc.create(newTintuc);
     res.status(201).send(result);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
+
+
 
 // Update tintuc by ID
 router.put('/update/:id', upload.single('image'), async (req, res) => {
@@ -120,5 +154,20 @@ router.delete('/deletetintuc/:id', async (req, res) => {
   }
 });
 
-
+router.put('/view/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedTintuc = await tintuc.findByIdAndUpdate(
+      id,
+      { $inc: { view: 1 } },
+      { new: true }
+    );
+    if (!updatedTintuc) {
+      return res.status(404).send({ error: 'Bài viết không tồn tại' });
+    }
+    res.status(200).send(updatedTintuc);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
 module.exports = router;

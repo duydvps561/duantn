@@ -2,15 +2,17 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
+import { useRouter } from 'next/navigation';  // Next.js 13 navigation import
+import Swal from 'sweetalert2';
 import './them.css';
 
 const ThemDoAnPage = () => {
   const [tenfood, setTenfood] = useState('');
-  const [soluong, setSoluong] = useState('');
   const [gia, setGia] = useState('');
   const [loai, setLoai] = useState('');
   const [trangthai, setTrangthai] = useState(1);
   const [image, setImage] = useState(null);
+  const router = useRouter();
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -18,29 +20,39 @@ const ThemDoAnPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!tenfood || !gia || !loai || !image) {
+      Swal.fire('Thông báo', 'Vui lòng điền đầy đủ thông tin.', 'warning');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('tenfood', tenfood);
-    formData.append('soluong', soluong);
     formData.append('gia', gia);
     formData.append('loai', loai);
     formData.append('trangthai', trangthai);
     formData.append('img', image);
 
     try {
-      await axios.post('http://localhost:3000/food/add', formData, {
+      const response = await axios.post('http://localhost:3000/food/add', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      alert('Thêm món ăn thành công!');
-      router.push('/admin/do-an');
-      setTenfood('');
-      setSoluong('');
-      setGia('');
-      setLoai('');
-      setTrangthai(1);
-      setImage(null);
+      
+      if (response.status === 201) {
+        Swal.fire({
+          title: 'Thành công',
+          text: 'Thêm món ăn thành công!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          router.push('/admin/do-an');
+        });
+      } else {
+        Swal.fire('Lỗi', 'Có lỗi xảy ra khi thêm món ăn!', 'error');
+      }
     } catch (error) {
       console.error('Error adding food item:', error);
-      alert('Có lỗi xảy ra khi thêm món ăn!');
+      Swal.fire('Lỗi', 'Có lỗi xảy ra khi thêm món ăn!', 'error');
     }
   };
 
@@ -48,7 +60,8 @@ const ThemDoAnPage = () => {
     <Layout>
       <h1>Thêm Đồ Ăn</h1>
       <form onSubmit={handleSubmit} className="editForm">
-        <div className="formGroup">
+        <div className='row'>
+        <div className="formGroup col-6">
           <label>Tên món ăn:</label>
           <input
             type="text"
@@ -57,16 +70,7 @@ const ThemDoAnPage = () => {
             required
           />
         </div>
-        <div className="formGroup">
-          <label>Số lượng:</label>
-          <input
-            type="number"
-            value={soluong}
-            onChange={(e) => setSoluong(e.target.value)}
-            required
-          />
-        </div>
-        <div className="formGroup">
+        <div className="formGroup col-6">
           <label>Giá:</label>
           <input
             type="number"
@@ -75,7 +79,7 @@ const ThemDoAnPage = () => {
             required
           />
         </div>
-        <div className="formGroup">
+        <div className="formGroup col-6">
           <label>Loại:</label>
           <select
             value={loai}
@@ -89,12 +93,13 @@ const ThemDoAnPage = () => {
             <option value="Quà Tặng">Quà Tặng</option>
           </select>
         </div>
-        <div className="formGroup">
+        <div className="formGroup col-6">
           <label>Trạng thái:</label>
           <select value={trangthai} onChange={(e) => setTrangthai(Number(e.target.value))}>
             <option value={1}>Còn hàng</option>
             <option value={0}>Hết hàng</option>
           </select>
+        </div>
         </div>
         <div className="formGroup">
           <label>Ảnh:</label>

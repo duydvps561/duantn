@@ -74,7 +74,7 @@ const TinTucPage = () => {
                   </td>
                     <td>{tin.describe}</td>
                     <td>{new Date(tin.createdAt).toLocaleDateString()}</td>
-                    <td>{tin.trangthai === 1 ? 'Đã đăng' : 'Chưa đăng'}</td>
+                    <td>{tin.trangthai}</td>
                     <td>
                       <Link href={`/admin/tin-tuc/sua?id=${tin._id}`}>
                         <button className={styles.editButton}>Sửa</button>

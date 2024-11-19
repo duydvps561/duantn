@@ -82,11 +82,22 @@ export default function UpdateCaChieu() {
                 values.gioketthuc = tinhGioKetThuc(values.giobatdau, phimDurations[values.phim_id]);
                 
                 await axios.put(`http://localhost:3000/xuatchieu/update/${caChieuId}`, values);
-                Swal.fire('Cập nhật ca chiếu thành công!');
+                Swal.fire({
+                    title: 'Thành công!',
+                    text: 'Cập nhật ca chiếu thành công!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+                reset();
                 router.push('/admin/cachieu');
             } catch (error) {
                 console.error("Error updating ca chieu:", error);
-                Swal.fire("Có lỗi xảy ra khi cập nhật ca chiếu.");
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: 'Có lỗi xảy ra khi cập nhật ca chiếu.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
         }
     });

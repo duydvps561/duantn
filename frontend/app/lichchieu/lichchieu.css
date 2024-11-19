@@ -5,14 +5,12 @@
   /* Title */
   .film-title {
     text-align: center;
-    margin-bottom: 30px;
     font-size: 20px;
   }
 
   .age-warning {
     text-align: center;
     font-size: 20px;
-    margin-bottom: 50px;
     color: #ff4000;
   }
 
@@ -25,20 +23,28 @@
     margin-bottom: 20px;
 
     .date-button {
-      text-decoration: none;
-      color: #ffffff;
+      border: 1px solid #fff; 
+      text-decoration: none; 
+      color: #ffffff; 
       margin-top: 40px;
       margin-bottom: 10px;
-      border-radius: 20px;
       margin-right: 20px;
-      background-color: #343a40;
-      font-size: 20px;
-      width: 200px;
-      height: 50px;
-
-      &:hover {
-        background-color: #495057;
-      }
+      border-radius: 20px; 
+      font-size: 20px; 
+      width: 200px; 
+      height: 50px; 
+      display: inline-block; 
+      line-height: 50px;
+      text-align: center;
+      transition: background-size 0.8s ease;
+      background-size: 100%  0%; 
+      background-repeat: no-repeat;
+      background-color:rgba(53,53,53,0.1);
+    background-image: linear-gradient(to top , rgba(53,53,53,0.3) 0%, rgba(53,53,53,1) 100%); /* Gradient từ màu xám tối đến trắng */
+    }
+    .date-button:hover {
+    background-image: linear-gradient(to top , rgba(53,53,53,0.3) 0%, rgba(53,53,53,1) 100%); /* Gradient từ màu xám tối đến trắng */
+    background-size: 100% 100%;
     }
   }
 
@@ -51,6 +57,7 @@
 
     /* Film Cards */
     .film-card {
+      border-radius:10px;
       border: none;
       background-color: #212529;
       margin: 10px;
