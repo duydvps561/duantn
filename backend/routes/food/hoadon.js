@@ -44,17 +44,17 @@ router.get('/:id/details', async (req, res) => {
 }); 
 // xóa hóa đơn
 
-// router.delete('/all', async (req, res) => {
-//   try {
-//     const result = await Hoadon.deleteMany();
-//     if (result.deletedCount === 0) {
-//       return res.status(404).send({ message: 'Không có hóa đơn nào để xóa' });
-//     }
-//     res.status(200).send({ message: 'Đã xóa tất cả hóa đơn thành công' });
-//   } catch (err) {
-//     res.status(500).send({ error: err.message });
-//   }
-// });
+router.delete('/all', async (req, res) => {
+  try {
+    const result = await Hoadon.deleteMany();
+    if (result.deletedCount === 0) {
+      return res.status(404).send({ message: 'Không có hóa đơn nào để xóa' });
+    }
+    res.status(200).send({ message: 'Đã xóa tất cả hóa đơn thành công' });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 router.delete('/:id', async (req, res) => {
   try {
     const hoadon = await Hoadon.findByIdAndDelete(req.params.id);
