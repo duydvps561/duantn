@@ -30,7 +30,7 @@ export default function Tintuc() {
         <div className="row">
           {tintuc.map((item, index) => (
             <div className="col-md-4" key={index}>
-              <Link className="text-decoration-none" href={`/tintuc/${item._id}`}>
+              <Link className="text-decoration-none" href={`/tintucchitiet/${item._id}`}>
                 <div className="box hover:no-underline">
                   <div className="box_top">
                     <img

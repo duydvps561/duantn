@@ -11,7 +11,6 @@
   align-items: center;
   z-index: 1000;
 }
-
 .modal-register {
   background-color: #343a40; /* Màu nền tối */
   color: white;
@@ -106,13 +105,6 @@ select:focus {
   outline: none;
   background-color: #6c757d; /* Màu nền khi focus */
 }
-
-/* Thông báo lỗi */
-div {
-  color: #ff6b6b; /* Màu đỏ cho thông báo lỗi */
-  font-size: 14px; /* Kích thước chữ cho thông báo lỗi */
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .modal-register {
