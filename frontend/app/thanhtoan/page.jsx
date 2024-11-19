@@ -6,6 +6,7 @@ import { clearCart } from "@/redux/slice/cartSlice";
 import Link from "next/link";
 import { setQrUrl } from "@/redux/slice/qrSlice";
 import { useRouter } from "next/navigation";
+import { clearMovieInfo } from "@/redux/slice/filmSlice";
 export default function ThanhToan() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -78,7 +79,7 @@ export default function ThanhToan() {
         <div className="item">
           <div className="title-item">
             <h2 className="text-light">Thông tin phim</h2>
-            <button onClick={() => dispatch(clearCart())}>Xóa giỏ hàng</button>
+            <button onClick={() => {dispatch(clearCart());dispatch(clearMovieInfo())}}>Xóa giỏ hàng</button>
           </div>
           <div className="item-body">
             <div className="filmdetail">

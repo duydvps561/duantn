@@ -21,8 +21,16 @@ export default function Home() {
   const [typeNoti, setTypeNoti] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [gheID, setGheID] = useState('');
+  const [cachieuID, setCachieuID] = useState('');
+  
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const filmInfo = JSON.parse(localStorage.getItem('filmInfo') || '[]');
+    setCachieuID(filmInfo.cachieuID)
+    const idghe = cart.filter(item => item.hasOwnProperty('seat'))
+    .map(item => item._id);
+    setGheID(idghe);
     const amount = cart.reduce((acc, item) => acc + (item.gia * (item.quantity || 1)), 0);
     setTotalAmount(amount);
   }, []);
@@ -31,14 +39,10 @@ export default function Home() {
   const minute = String(now.getMinutes()).padStart(2, '0');
   const giolap = `${hours}:${minute}`;
   const ngaylap = now.toISOString()
-  const cachieuID = '64b5f93e49e7b6e31c5f7190';
-  const hoadonID = '64b5f93e49e7b6e31c5f7191';
-  const gheID = '672b7e6ae6ff062499489b6e';
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-    // const { orderCode } = query.get('orderCode');
     const isHoadonProcessed = localStorage.getItem("hoadonProcessed");
-
+  
     if (query.get("success") === "true" && !isProcessing && !isHoadonProcessed) {
       setTypeNoti("success");
       setMessage("Đang xử lý thanh toán...");
@@ -47,73 +51,71 @@ export default function Home() {
         console.error("Thiếu dữ liệu cần thiết cho hóa đơn hoặc vé!");
         return;
       }
+      
+      // Dữ liệu hóa đơn
       const hoadondata = {
         tongtien: totalAmount,
         giolap: giolap,
         ngaylap: ngaylap,
         taikhoan_id: userId,
       };
-      const ticketdata = {
-        cachieu_id: "64b5f93e49e7b6e31c5f7191",
-        hoadon_id: "6737a0d3e78ce0a5476d286b",
-        ghe_id: '672b7e6ae6ff062499489b6e',
-        giave: totalAmount
-      }
+  
       setIsProcessing(true);
       localStorage.setItem("hoadonProcessed", "true");
-
-      Promise.allSettled([
-        dispatch(postHoadon(hoadondata)).unwrap(),
-        dispatch(postTicket(ticketdata)).unwrap(),
-      ])
-        .then((results) => {
-          const [hoadonResult, ticketResult] = results;
-          if (hoadonResult.status === 'fulfilled' && ticketResult.status === 'fulfilled') {
-            dispatch(clearCart());
-            setTypeNoti("success");
-            setMessage("Thanh toán thành công. Cảm ơn bạn đã mua vé tại ACE Cinema");
-            setShowNotification(true);
-            setTimeout(() => {
-              localStorage.removeItem("hoadonProcessed");
-              router.replace("/");
-            }, 2000);
-          } else {
-            if (hoadonResult.status === 'rejected') {
-              console.error("Lỗi khi tạo hóa đơn:", hoadonResult.reason);
-              setTypeNoti("error");
-              setMessage("Lỗi khi tạo hóa đơn");
-              setShowNotification(true);
-            }
-            if (ticketResult.status === "rejected") {
-              console.error("Lỗi khi tạo vé:", ticketResult.reason);
-              setTypeNoti("error");
-              setMessage("Lỗi khi tạo vé. Vui lòng thử lại!");
-              setShowNotification(true);
-            }
-          }
-        })
-        .catch((error) => {
-          console.error("Error posting hoadon:", error);
+  
+      // Hàm xử lý tạo hóa đơn và vé
+      const createInvoiceAndTicket = async () => {
+        try {
+          // Tạo hóa đơn
+          const hoadonResult = await dispatch(postHoadon(hoadondata)).unwrap();
+          const hoadonId = hoadonResult._id;
+          console.log("Hóa đơn đã được tạo:", hoadonId);
+  
+          // Tạo vé sau khi hóa đơn được tạo thành công
+          const ticketdata = {
+            cachieu_id: cachieuID,
+            hoadon_id: hoadonId, // Sử dụng hoadonId để tạo vé
+            ghe_id: gheID,
+            giave: totalAmount,
+          };
+          
+          const ticketResult = await dispatch(postTicket(ticketdata)).unwrap();
+          console.log("Vé đã được tạo:", ticketResult);
+          
+          // Xử lý sau khi tạo vé thành công
+          dispatch(clearCart());
+          setTypeNoti("success");
+          setMessage("Thanh toán thành công. Cảm ơn bạn đã mua vé tại ACE Cinema");
+          setShowNotification(true);
+          
+          setTimeout(() => {
+            localStorage.removeItem("hoadonProcessed");
+            router.replace("/"); // Chuyển hướng về trang chủ
+          }, 2000);
+        } catch (error) {
+          console.error("Lỗi khi tạo hóa đơn hoặc vé:", error);
           setTypeNoti("error");
           setMessage("Thanh toán thất bại. Vui lòng thử lại!");
           setShowNotification(true);
-          localStorage.removeItem("hoadonProcessed");
-        })
-        .finally(() => {
+        } finally {
           setIsProcessing(false);
-        });
+        }
+      };
+  
+      // Gọi hàm tạo hóa đơn và vé
+      createInvoiceAndTicket();
     }
-
+  
     if (query.get("canceled")) {
-      setTypeNoti('canceled');
+      setTypeNoti("canceled");
       setMessage("Thanh toán thất bại. Đang chuyển về trang thanh toán");
       setShowNotification(true);
       setTimeout(() => {
         router.replace("/thanhtoan");
       }, 2000);
     }
-
-  }, [router, totalAmount, giolap, ngaylap, dispatch, isProcessing]);
+  }, [router, totalAmount, giolap, ngaylap, userId, cachieuID, gheID, isProcessing, dispatch]);
+  
 
   useEffect(() => {
     const fetchMovies = async () => {
