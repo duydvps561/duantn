@@ -4,6 +4,25 @@ import "./news.css";
 import { useEffect, useState } from "react";
 
 export default function Tintuc() {
+  const boxes = document.querySelectorAll('.box');
+
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: .1
+  };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, options);
+
+  boxes.forEach(box => {
+    observer.observe(box);
+  });
   const [tintuc, setTintuc] = useState([]);
 
   useEffect(() => {
