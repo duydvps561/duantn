@@ -5,7 +5,7 @@ export const Sendemail = createAsyncThunk(
     'email/sendemail',
     async (emaildata, { rejectWithValue }) => {
         try {
-            const response = await fetch('http://localhost:3000/email/sendemail', {
+            const response = await fetch('http://localhost:3000/email/sendmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

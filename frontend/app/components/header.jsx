@@ -23,7 +23,8 @@ export default function Header() {
     },
     {
       name: "Liên hệ",
-      path: "/contact"
+
+      path: "/contact",
     },
     {
       name: "Giá vé",
