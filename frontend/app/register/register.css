@@ -82,6 +82,7 @@ label {
 .modal-register form label {
   font-size: 20px; /* Kích thước chữ cho label nhỏ hơn */
   margin-bottom: 5px;
+  margin-left:10px;
 }
 
 .modal-register form input,
@@ -94,6 +95,7 @@ form select {
   box-sizing: border-box;
   background-color: #495057; /* Màu nền cho input */
   color: white;
+  position: relative;
 }
 
 .modal-register input::placeholder,
@@ -109,8 +111,12 @@ select:focus {
 
 /* Thông báo lỗi */
 .error {
-  color: #ff6b6b; /* Màu đỏ cho thông báo lỗi */
-  font-size: 14px; /* Kích thước chữ cho thông báo lỗi */
+  color: #ff6b6b; 
+  font-size: 14px; 
+  position: absolute;
+  right: 20px;
+
+  
 }
 
 /* Responsive */
