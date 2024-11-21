@@ -74,17 +74,17 @@ label {
   cursor: pointer;
 }
 
-form {
+.modal-register form {
   display: flex;
   flex-direction: column;
 }
 
-form label {
+.modal-register form label {
   font-size: 20px; /* Kích thước chữ cho label nhỏ hơn */
   margin-bottom: 5px;
 }
 
-form input,
+.modal-register form input,
 form select {
   padding: 12px; /* Tăng padding cho input và select */
   margin-bottom: 20px; /* Khoảng cách dưới các trường nhập */
@@ -96,19 +96,19 @@ form select {
   color: white;
 }
 
-input::placeholder,
+.modal-register input::placeholder,
 select {
   color: #ced4da; /* Màu placeholder */
 }
 
-input:focus,
+.modal-register input:focus,
 select:focus {
   outline: none;
   background-color: #6c757d; /* Màu nền khi focus */
 }
 
 /* Thông báo lỗi */
-div {
+.error {
   color: #ff6b6b; /* Màu đỏ cho thông báo lỗi */
   font-size: 14px; /* Kích thước chữ cho thông báo lỗi */
 }
