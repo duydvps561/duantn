@@ -23,6 +23,7 @@ export default function Header() {
     },
     {
       name: "Liên hệ",
+
       path: "/contact",
     },
     {
