@@ -59,8 +59,8 @@ const ReservationForm = () => {
                                 type="email" 
                                 placeholder="Email" 
                                 {...register('email', { required: true })}
-                            /> 
-                            {errors.email && <span>Email is required</span>} <br />
+                            />
+{errors.email && <span>Email is required</span>} <br />
                             <input 
                                 type="tel" 
                                 placeholder="Phone" 
