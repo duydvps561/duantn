@@ -12,7 +12,17 @@ router.get('/', async function(req, res, next) {
     next(err);
   }
 });
-
+router.get('/:id', async (req, res) => {
+  try {
+    const ghe = await Ghe.findById(req.params.id);
+    if (!ghe) {
+      return res.status(404).send({ message: 'Không tìm thấy ghế' });
+    }
+    res.json(ghe);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 // Thêm nhiều ghế cho một phòng chiếu
 router.post('/them-ghe', async (req, res) => {
   try {
