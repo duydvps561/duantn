@@ -1,271 +1,160 @@
 .contact-container {
-  width: 1400px !important;
-  margin: 20px auto !important;
-}
-
-.contact-row {
-  width: 100% !important;
-  margin: 0 auto !important;
-  text-align: center;
-}
-.contact-row h1 {
-  color: white;
-  margin: 30px auto;
-}
-.contact-top-content {
-  display: flex !important;
-  flex-direction: row !important;
-  width: 100%;
-  height: 450px;
-}
-
-.contact-form-col-8 {
-  width: 70%;
-  height: 100%;
-  border-radius: 20px;
-  padding: 0 10px;
-  margin: 0 10px;
-}
-
-.contact-form {
-  background-color: rgba(253, 253, 253, 0.1);
-  display: flex;
-  flex-direction: column; /* Xếp theo chiều dọc */
-  gap: 15px; /* Khoảng cách giữa các phần tử */
-  padding: 20px; /* Khoảng đệm bên trong */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
-  border-radius: 20px;
-}
-
-.contact-information {
-  display: flex; /* Xếp theo hàng */
-  gap: 15px; /* Khoảng cách giữa các input */
-}
-
-.contact-input {
-  background-color: #818181;
-  padding: 20px; /* Khoảng đệm bên trong */
-  border: 1px solid #ccc; /* Viền xám */
-  border-radius: 20px; /* Bo góc cho input */
-  font-size: 16px; /* Kích thước chữ */
-  width: 100%; /* Chiếm toàn bộ chiều rộng */
-  box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
-}
-
-.contact-input:focus {
-  border-color: #222222; /* Màu viền khi focus */
-  outline: none; /* Bỏ outline mặc định */
-}
-
-.contact-input::placeholder {
-  color: #000000; /* Màu chữ placeholder */
-}
-
-.contact-textarea {
-  width: 100%;
-  height: 200px;
-  padding: 12px 20px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  background-color: #818181;
-  font-size: 16px;
-  resize: none;
-}
-
-.contact-send-btn {
-  background-image: linear-gradient(to right, red , yellow);  color: white; /* Màu chữ trắng */
-  padding: 10px 15px; /* Khoảng đệm bên trong */
-  border: none; /* Bỏ viền mặc định */
-  border-radius: 20px; /* Bo góc cho nút */
-  font-size: 16px; /* Kích thước chữ */
-  cursor: pointer; /* Hiển thị con trỏ tay khi hover */
-  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
-  width: 200px; /* Đặt chiều rộng tự động để nút ngắn lại */
-  margin-left: 0; /* Đặt lề bên trái bằng 0 */
-}
-
-.contact-send-btn:hover {
-  background-image: linear-gradient(to right , yellow, red);  color: white; /* Màu chữ trắng */
-}
-
-.contact-send-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(161, 162, 163, 0.5);
-}
-
-/* Đặt nút bên trái */
-
-.contact-info-col-4 {
-  background-image: url("../../public/img/bg1.jpg"); /* Đặt hình ảnh nền */
-  background-size: cover; /* Đảm bảo hình ảnh phủ kín toàn bộ phần tử */
-  background-position: center; /* Căn giữa hình ảnh */
-  background-repeat: no-repeat; /* Không lặp lại hình ảnh */
-  width: 30%; /* Chiều rộng của phần tử */
-  min-height: 450px;
-  border-radius: 20px; /* Bo góc cho phần tử */
-  margin: 0 10px; /* Lề bên ngoài */
-  color: white; /* Màu chữ mặc định, có thể điều chỉnh */
-  display: flex; /* Sử dụng flexbox để căn chỉnh nội dung */
-  flex-direction: column; /* Xếp theo chiều dọc */
-  justify-content: flex-start; /* Căn nội dung ở trên cùng */
-}
-
-.contact-info {
-  width: 100%;
-  background-color: rgba(253, 253, 253, 0.3);
+  max-width: 1200px; /* Limiting the width of the container */
+  margin: 0 auto; /* Centering the container */
   padding: 20px;
-  border-radius: 20px;
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
 }
-
-.contact-info h1 {
-  color: white;
-  font-size: 24px;
-  margin-top: 15px;
-  font-weight: bold;
-}
-
-.contact-info p {
-  font-weight: bold;
-  font-size: 16px;
-  width: 90%;
-  margin-top: 30px;
-}
-
-.contact-send-email {
-  margin-top: 100px;
-}
-
-.contact-send-email .contact-email-btn {
-  margin-top: 15px;
-  background-image: linear-gradient(to right, red , yellow);  color: white; /* Màu chữ trắng */
-  padding: 10px 15px; /* Khoảng đệm bên trong */
-  border: none; /* Bỏ viền mặc định */
-  border-radius: 20px; /* Bo góc cho nút */
-  font-size: 16px; /* Kích thước chữ */
-  cursor: pointer; /* Hiển thị con trỏ tay khi hover */
-  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
-  width: 100%; /* Đặt chiều rộng tự động để nút ngắn lại */
-  margin-left: 0; /* Đặt lề bên trái bằng 0 */
-}
-
-.contact-send-email .contact-email-btn:hover {
-  background-image: linear-gradient(to right , yellow, red);  color: white; /* Màu chữ trắng */
-}
-
-.contact-send-email .contact-email-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(161, 162, 163, 0.5);
-}
-
-.contact-send-email input[type="email"] {
-  background-color: #818181;
-  padding: 20px; /* Khoảng đệm bên trong */
-  border: 1px solid #ccc; /* Viền xám */
-  border-radius: 20px; /* Bo góc cho input */
-  font-size: 16px; /* Kích thước chữ */
-  width: 100%; /* Chiếm toàn bộ chiều rộng */
-  box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
-}
-
-.contact-send-email input[type="email"]:focus {
-  border-color: #222222; /* Màu viền khi focus */
-  outline: none; /* Bỏ outline mặc định */
-}
-
-.contact-send-email input[type="email"]::placeholder {
-  color: #000000; /* Màu chữ placeholder */
-}
-
-.contact-middle-content {
+.contact-banner {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 25px;
-  justify-content: center;
-  margin-top: 80px;
-  clear: both;
+  height: 250px;
+  margin: 20px 0;
+}
+.banner-top .card-img-overlay {
+  position: absolute;
+  top: 70px;
+  left: 500px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  border: none;
+  
+}
+.contact-banner-bottom .banner-bottom img {
+  height: 250px;
+  object-fit: fill;
 }
 
-#contact-box-phone {
-  background-color: #222222;
+.contact-banner-bottom {
+  width: 100%;
+  height: 250px;
+  margin: 20px 0;
+}
+.banner-bottom .card-img-overlay {
+  position: absolute;
+  top: 80px;
+  left: 500px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+}
+.contact-banner .banner-top img {
+  height: 250px;
+  object-fit: fill;
+  border: none;
 }
 
-#contact-box-mail {
-  background-color: #3b3b3b;
+.getInTouch {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between columns */
 }
 
-#contact-box-location {
-  background-color: #4b4c4d;
+.from-getIntouch {
+  flex: 1; /* Allow this column to grow */
+  margin-right: 20px; /* Space between columns */
+  background-color: #494949;
+  padding: 20px; /* Padding for the form area */
+  border-radius: 8px; /* Rounded corners */
+  color: white; /* Text color */
+}
+.title-from {
+  margin-left: 24px;
+  color: #fff;
+}
+.title-from h3 {
+  font-size: 24px;
+  font-weight: bold;
+}
+.title-from h1 {
+  font-size: 32px;
+}
+.from-getIntouch form {
+  display: flex; /* Use flexbox for the form */
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Align items to the start */
+  margin: 0;
 }
 
-.contact-box {
-  width: 30%; /* Chiều rộng của phần tử */
-  height: 250px; /* Chiều cao của phần tử */
-  border-radius: 20px; /* Bo góc cho phần tử */
-  padding: 20px; /* Khoảng đệm bên trong */
-  color: white; /* Màu chữ */
-  display: flex; /* Sử dụng flexbox để căn chỉnh nội dung */
-  flex-direction: column; /* Xếp theo chiều dọc */
-  justify-content: flex-start; /* Căn nội dung ở trên cùng */
+label {
+  align-self: flex-start; /* Align each label to the start */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 24px;
+  font-size: 16px;
 }
 
-.contact-title {
-  display: flex;
-  align-items: center; /* Căn giữa các biểu tượng và văn bản */
-  justify-content: center; /* Căn giữa nội dung */
-  margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  width: 90%; /* Width of inputs */
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #3a3a3a;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.contact-card {
-  margin: auto;
+textarea {
+  height: 150px;
+  margin-bottom: 30px;
+  color: #fff;
+  background-color: #3a3a3a;
 }
 
-.contact-title i {
-  color: #ffffff; /* Màu sắc của biểu tượng */
-  font-size: 36px; /* Kích thước biểu tượng */
-  margin-right: 8px; /* Khoảng cách giữa biểu tượng và văn bản */
-  vertical-align: middle;
-}
-.contact-title .material-symbols-outlined {
-  color: #ffffff; /* Màu sắc của biểu tượng */
-  font-size: 16px; /* Kích thước biểu tượng */
-  margin-right: 8px; /* Khoảng cách giữa biểu tượng và văn bản */
-  vertical-align: middle; /* Căn giữa biểu tượng với văn bản */
-}
-
-.location-name {
-  font-size: 36px;
+.from-getIntouch .from button {
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  background-color: #494949;
+  width: 90%;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition */
 }
 
-p {
+.from-getIntouch .from button:hover {
+  background-color: #141618; /* Darker shade on hover */
+}
+
+.contact-infor {
+  flex: 1; /* Allow this column to grow */
+  background-color: #1a1a1a34; /* White background for contrast */
+  padding: 20px; /* Padding for the info area */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+.contact-infor .text {
+  color: #fff;
+}
+.icon-infor {
+  display: grid; /* Enable grid layout */
+  grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
+  gap: 10px; /* Space between grid items */
+}
+
+.icon {
+  font-weight: bold; /* Optional: make text bold */
   text-align: center;
-  margin: 0; /* Bỏ khoảng cách mặc định */
-  color: #ffffff; /* Màu chữ */
+  color: #fff;
+  height: 100px;
 }
 
-.contact-bot-content {
-  display: flex; /* Sử dụng flexbox để căn giữa */
-  justify-content: center; /* Căn giữa nội dung */
-  margin-top: 30px; /* Khoảng cách trên */
+.map {
+  margin-top: 20px; /* Space above map */
 }
-
-.contact-map-col-12 {
-  width: 100%; /* Chiều rộng của phần tử */
-  max-width: 1400px; /* Giới hạn chiều rộng tối đa */
-  border-radius: 10px; /* Bo góc cho phần tử */
-  overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài */
+.contact-banner-bottom {
+  background-color: #494949;
+  width: 100%;
+  height: 250px;
+  margin-top: 20px;
 }
+@media (max-width: 768px) {
+  .getInTouch {
+    flex-direction: column; /* Stack columns on smaller screens */
+  }
 
-.contact-map {
-  width: 100%; /* Chiếm toàn bộ chiều rộng */
-  height: 300px; /* Chiều cao của iframe */
-}
-
-iframe {
-  width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử chứa */
-  height: 100%; /* Chiều cao tự động */
-  border: none; /* Bỏ viền iframe */
+  .from-getIntouch {
+    margin-right: 0; /* Remove margin on smaller screens */
+    margin-bottom: 20px; /* Space below form */
+  }
 }
