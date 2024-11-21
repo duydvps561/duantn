@@ -22,6 +22,18 @@ router.delete('/all', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+router.get('/:id', async (req, res) => {
+  try {
+    const ve = await Ve.findById(req.params.id);
+    if (!ve) {
+      return res.status(404).send({ message: 'Không tìm thấy vé' });
+    }
+    res.json(ve);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
 router.post('/add', async (req, res) => {
   try {
     const ve = new Ve(req.body);

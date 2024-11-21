@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import "./thanhtoan.css";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "@/redux/slice/cartSlice";
-import Link from "next/link";
 import { setQrUrl } from "@/redux/slice/qrSlice";
 import { useRouter } from "next/navigation";
 import { clearMovieInfo } from "@/redux/slice/filmSlice";

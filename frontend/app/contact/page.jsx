@@ -7,7 +7,8 @@ import {
   faMobileAlt,
   faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios"; 
+import axios from "axios";
+import Swal from "sweetalert2"; // Import SweetAlert2
 import "./contact.css";
 
 const ContactPage = () => {
@@ -17,23 +18,39 @@ const ContactPage = () => {
     phone: "",
     contact: "",
   });
-  const [notification, setNotification] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const reset = () => {
+    setFormData({ name: "", email: "", phone: "", contact: "" });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/lienhe/add", formData);
-      if (response.status === 200) {
-        setNotification("Gửi thành công!");
-        setFormData({ name: "", email: "", phone: "", contact: "" }); // Reset form
+      const response = await axios.post(
+        "http://localhost:3000/lienhe/add",
+        formData
+      );
+      if (response.status === 201) {
+        Swal.fire({
+          title: "Thành công!",
+          text: "Chúng tôi đã nhận được góp ý của quý khách.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        reset();
       }
     } catch (error) {
-      setNotification("Có lỗi xảy ra, vui lòng thử lại.");
+      Swal.fire({
+        title: "Lỗi!",
+        text: "Có lỗi xảy ra, vui lòng thử lại.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -58,7 +75,6 @@ const ContactPage = () => {
             <h3>Liên hệ</h3>
             <h1>Liên lạc với chúng tôi</h1>
           </div>
-          {notification && <div className="notification">{notification}</div>}
           <form onSubmit={handleSubmit} className="from">
             <label htmlFor="name">Name</label>
             <input
@@ -81,7 +97,7 @@ const ContactPage = () => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="phone">Số điệ thoại</label>
+            <label htmlFor="phone">Số điện thoại</label>
             <input
               type="tel"
               id="phone"
@@ -106,14 +122,6 @@ const ContactPage = () => {
           </form>
         </div>
         <div className="contact-infor">
-          <div className="text">
-            <p>
-              ĐỀ NGHỊ QUÝ KHÁN GIẢ LƯU Ý KHI MUA VÉ XEM PHIM (ĐẶC BIỆT KHI MUA
-              VÉ ONLINE). TTCPQG KHÔNG CHẤP NHẬN HOÀN TIỀN HOẶC ĐỔI VÉ ĐÃ THANH
-              TOÁN THÀNH CÔNG KHI MUA VÉ ONLINE VÀ VÉ MUA SAI QUY ĐỊNH TẠI QUẦY
-              VÉ.
-            </p>
-          </div>
           <div className="icon-infor">
             <div className="icon">
               <FontAwesomeIcon style={{ fontSize: "20px" }} icon={faPhoneAlt} />
@@ -126,12 +134,18 @@ const ContactPage = () => {
               <p>dovanduy2309004@gmail.com</p>
             </div>
             <div className="icon">
-              <FontAwesomeIcon style={{ fontSize: "20px" }} icon={faMobileAlt} />
+              <FontAwesomeIcon
+                style={{ fontSize: "20px" }}
+                icon={faMobileAlt}
+              />
               <p>Số điện thoại di động</p>
               <p>(+84) 388293743</p>
             </div>
             <div className="icon">
-              <FontAwesomeIcon style={{ fontSize: "20px" }} icon={faMapMarkerAlt} />
+              <FontAwesomeIcon
+                style={{ fontSize: "20px" }}
+                icon={faMapMarkerAlt}
+              />
               <p>Địa chỉ</p>
               <p>208/14 AB, phường 6, quận 9, Hồ Chí Minh</p>
             </div>
