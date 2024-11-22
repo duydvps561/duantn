@@ -74,7 +74,7 @@
   background-color: white;
   color: black;
 
-  border: 1px solid #4d6950;
+  border: 1px solid black !important;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -168,25 +168,4 @@
   margin: 0 4px;
   transition: background-color 0.3s, transform 0.2s;
 }
-
-/* CSS cho nút "Chỉnh sửa" */
-.editButton {
-  background-color: #4CAF50; /* Màu xanh lá */
-  color: white;
-}
-
-.editButton:hover {
-  background-color: #45A049; /* Màu xanh lá nhạt hơn */
-  transform: scale(1.05);
-}
-
-/* CSS cho nút "Xóa" */
-.deleteButton {
-  background-color: #f44336; /* Màu đỏ */
-  color: white;
-}
-
-.deleteButton:hover {
-  background-color: #d32f2f; /* Màu đỏ nhạt hơn */
-  transform: scale(1.05);
-}
+ 
