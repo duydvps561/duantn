@@ -169,30 +169,9 @@
     padding: 10px; /* Thêm padding trong ô */
     text-align: left; /* Canh trái chữ trong ô */
   }
+ 
+ 
+   
   
-  .editButton, .deleteButton {
-    padding: 5px 10px; /* Thêm padding bên trong nút */
-    border: none; /* Không có đường viền */
-    border-radius: 4px; /* Bo tròn các góc */
-    cursor: pointer; /* Con trỏ khi hover */
-  }
-  
-  .editButton {
-    background-color: #28a745; /* Màu nền xanh lá cho nút sửa */
-    color: white; /* Màu chữ trắng */
-  }
-  
-  .editButton:hover {
-    background-color: #218838; /* Màu nền khi hover */
-  }
-  
-  .deleteButton {
-    background-color: #dc3545; /* Màu nền đỏ cho nút xóa */
-    color: white; /* Màu chữ trắng */
-    margin-left: 10px; /* Khoảng cách giữa hai nút */
-  }
-  
-  .deleteButton:hover {
-    background-color: #c82333; /* Màu nền khi hover */
-  }
+   
   

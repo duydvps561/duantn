@@ -128,7 +128,6 @@ const QuanLyPhongPage = () => {
 
   return (
     <Layout>
-<<<<<<< HEAD
    <h1 style={{
   display: 'flex', 
   justifyContent: 'center',
@@ -155,16 +154,6 @@ const QuanLyPhongPage = () => {
   alignItems: 'center', 
 }}>
          </h1>
-=======
-      <h1>Quản Lý Phòng Phim</h1>
-      <p>Đây là trang quản lý phòng phim.</p>
-      <div className="d-flex justify-content-end align-items-center mb-3">
-                    <Link href="/admin/phong-phim/them-ghe" className="btn btn-primary">
-                        Thêm Ghế
-                    </Link>
-      </div>
-      <div className={styles.formContainer}>
->>>>>>> 516d32125c19b354b51fd556efb1e1560f2aa00a
         <input
           type="text"
           value={roomName}
@@ -197,16 +186,12 @@ const QuanLyPhongPage = () => {
           {isEditing ? 'Cập Nhật' : 'Thêm Phòng'}
         </button>
       </div>
-<<<<<<< HEAD
 
       {/* Tables Section */}
       <div style={{
   flex: 6,
   
 }} className={styles.tablesContainer}>
-=======
-      <div className={styles.tablesContainer}>
->>>>>>> 516d32125c19b354b51fd556efb1e1560f2aa00a
         <div className={styles.tableSection}>
           <h2 className={styles.tableTitle}>Danh Sách Phòng</h2>
           <table className={styles.table}>
