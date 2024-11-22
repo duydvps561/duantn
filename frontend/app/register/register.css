@@ -109,7 +109,7 @@ select:focus {
 
 /* Thông báo lỗi */
 div {
-  color: #ff6b6b; /* Màu đỏ cho thông báo lỗi */
+  color: black; /* Màu đỏ cho thông báo lỗi */
   font-size: 14px; /* Kích thước chữ cho thông báo lỗi */
 }
 
