@@ -47,9 +47,10 @@ export default function LoginModal({ show, handleClose }) {
       }
     },
   });
-
   return (
-    <div className="modal-overlay">
+   <>
+   <div className="module_modal" onClick={handleClose}>
+   <div className="modal-overlay" onClick={(event) => event.stopPropagation()}>
       <div className="modal-login bg-dark rounded">
         <button onClick={handleClose} className="close-modal">
           &times;
@@ -108,5 +109,7 @@ export default function LoginModal({ show, handleClose }) {
         )}
       </div>
     </div>
+   </div>
+   </>
   );
 }
