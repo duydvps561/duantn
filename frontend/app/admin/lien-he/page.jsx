@@ -80,14 +80,13 @@ const ContactUs = () => {
       <div className="container-fluid">
         <h2>Quản Lý Liên Hệ</h2>
         <div className="row">
-          <div className="col-md-9">
+          <div className="col-md-8">
             <table className="table">
               <thead>
                 <tr>
                   <th>Tên</th>
                   <th>Email</th>
                   <th>Điện thoại</th>
-                  <th>Nội dung</th>
                   <th>Trạng thái</th>
                   <th>Thao tác</th>
                 </tr>
@@ -98,7 +97,6 @@ const ContactUs = () => {
                     <td>{contact.Name}</td>
                     <td>{contact.email}</td>
                     <td>{contact.phone}</td>
-                    <td>{contact.contact}</td>
                     <td>
                       {contact.trangthai === 1 ? (
                         <span className="text-warning">Chờ trả lời</span>
@@ -110,7 +108,7 @@ const ContactUs = () => {
                       {contact.trangthai === 1 && (
                         <button
                           className="btn btn-primary"
-                          onClick={() => setSelectedContact(contact._id)}
+                          onClick={() => setSelectedContact(contact)}
                         >
                           Trả lời
                         </button>
@@ -143,17 +141,22 @@ const ContactUs = () => {
               </ul>
             </nav>
           </div>
-          <div className="col-md-3 traloi">
+          <div className="col-md-4 traloi">
             <h3>Trả lời liên hệ</h3>
             {selectedContact && (
               <div className="reply-section">
+                <p>
+                  <strong>Nội dung liên hệ:</strong>
+                  <br />
+                  {selectedContact.contact}
+                </p>
                 <textarea
                   className="form-control"
                   value={replyMessage}
                   onChange={(e) => setReplyMessage(e.target.value)}
                   placeholder="Nhập nội dung phản hồi"
                 />
-                <button className="btn btn-success mt-2" onClick={() => handleReply(selectedContact)}>
+                <button className="btn btn-success mt-2" onClick={() => handleReply(selectedContact._id)}>
                   Gửi phản hồi
                 </button>
               </div>
