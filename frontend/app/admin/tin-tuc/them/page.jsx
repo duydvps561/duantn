@@ -4,8 +4,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
 import Layout from '@/app/components/admin/Layout';
-import styles from './ThemTinTuc.module.css'; // CSS file
-
+import './ThemTinTuc.css'
 const ThemTinTuc = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -57,79 +56,84 @@ const ThemTinTuc = () => {
 
   return (
     <Layout>
-      <div className={styles.container}>
-        <h1 className={styles.title}>Thêm Tin Tức</h1>
-        <form onSubmit={handleSubmit} className={styles.form} encType="multipart/form-data">
-          {/** Form Group for Title */}
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Tiêu đề</label>
+      <div className="container-fluid">
+        <h1 className="title">Thêm Tin Tức</h1>
+        <form onSubmit={handleSubmit} className="row newpayper" encType="multipart/form-data">
+          <div className="form-group col-6">
+            <label className="label">Tiêu đề</label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleInputChange}
               required
-              className={styles.input}
+              className="input new-tap"
             />
           </div>
 
-          {/** Form Group for Description */}
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Mô tả</label>
+          <div className="form-group col-6">
+            <label className="label">Mô tả</label>
             <input
               type="text"
               name="describe"
               value={formData.describe}
               onChange={handleInputChange}
               required
-              className={styles.input}
+              className="input new-tap"
             />
           </div>
 
-          {/** Form Group for Content */}
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Nội dung</label>
+          <div className="form-group col-12">
+            <label className="label">Nội dung</label>
             <Editor
               apiKey="sxuecqw6ie1p3ksawpdq4piz7jvlucsub11a6z83r8atnksh"
               onInit={(evt, editor) => { editorVnRef.current = editor; }}
               value={formData.content}
               init={{
-                height: 300,
-                menubar: false,
+                height: 400,
+                menubar: true,
                 plugins: [
                   'advlist autolink lists link image charmap print preview anchor',
                   'searchreplace visualblocks code fullscreen',
-                  'insertdatetime media table paste code help wordcount'
+                  'insertdatetime media table paste code help wordcount',
+                  'emoticons textcolor colorpicker hr visualchars'
                 ],
                 toolbar:
-                  'undo redo | formatselect | bold italic backcolor | ' +
-                  'alignleft aligncenter alignright alignjustify | ' +
-                  'bullist numlist outdent indent | removeformat | help'
+                  'undo redo | formatselect | fontsizeselect | fontselect | bold italic underline strikethrough | ' +
+                  'forecolor backcolor | alignleft aligncenter alignright alignjustify | ' +
+                  'bullist numlist outdent indent | blockquote hr | emoticons removeformat | fullscreen preview',
+                font_formats:
+                  'Arial=arial,helvetica,sans-serif;' +
+                  'Comic Sans MS=comic sans ms,sans-serif;' +
+                  'Courier New=courier new,courier;' +
+                  'Georgia=georgia,palatino;' +
+                  'Tahoma=tahoma,arial,helvetica,sans-serif;' +
+                  'Verdana=verdana,geneva;' +
+                  'Times New Roman=times new roman,times;',
+                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt 48pt',
               }}
               onEditorChange={handleEditorChange}
             />
           </div>
 
-          {/** Form Group for Image Upload */}
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Hình ảnh</label>
+          <div className="form-group col-4">
+            <label className="label">Hình ảnh</label>
             <input
               type="file"
               name="image"
               onChange={handleImageChange}
               required
-              className={styles.input}
+              className="input new-tap"
             />
           </div>
 
-          {/** Form Group for Type Selection */}
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Loại</label>
+          <div className="form-group col-4">
+            <label className="label">Loại</label>
             <select
               name="loai"
               value={formData.loai}
               onChange={handleInputChange}
-              className={styles.select}
+              className="select new-tap"
             >
               <option value="Tin tức">Tin tức</option>
               <option value="Sự kiện">Sự kiện</option>
@@ -137,22 +141,20 @@ const ThemTinTuc = () => {
             </select>
           </div>
 
-          {/** Form Group for Status Selection */}
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Trạng thái</label>
+          <div className="form-group col-4">
+            <label className="label">Trạng thái</label>
             <select
               name="trangthai"
               value={formData.trangthai}
               onChange={handleInputChange}
-              className={styles.select}
+              className="select new-tap"
             >
               <option value="Ẩn">Ẩn</option>
               <option value="Hiện">Hiện</option>
             </select>
           </div>
 
-          {/** Submit Button */}
-          <button type="submit" className={styles.submitButton}>Thêm</button>
+          <button type="submit" className="btn submit-button">Thêm</button>
         </form>
       </div>
     </Layout>
