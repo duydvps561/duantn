@@ -69,7 +69,7 @@ export default function Slide() {
                 <Image
                   src="/img/food-banner-1.jpg" // Đường dẫn tới hình ảnh
                   alt="ảnh slider"
-                  width={350} // Chiều rộng hình ảnh
+                  width={380} // Chiều rộng hình ảnh
                   height={202} // Chiều cao hình ảnh
                   // Tùy chọn để tải hình ảnh ưu tiên
                 />
@@ -78,7 +78,7 @@ export default function Slide() {
                 <Image
                   src="/img/food-banner-1.jpg" // Đường dẫn tới hình ảnh
                   alt="ảnh slider"
-                  width={350} // Chiều rộng hình ảnh
+                  width={380} // Chiều rộng hình ảnh
                   height={202} // Chiều cao hình ảnh
                   // Tùy chọn để tải hình ảnh ưu tiên
                 />

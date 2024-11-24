@@ -13,6 +13,26 @@ import { Sendemail } from "@/redux/slice/email";
 import QRCode from "qrcode";
 
 export default function Home() {
+  const boxes = document.querySelectorAll(".box");
+
+  const options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.5,
+  };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, options);
+
+  boxes.forEach((box) => {
+    observer.observe(box);
+  });
+
   const userId = useSelector((state) => state.auth.user?.id);
   const userEmail = useSelector((state) => state.auth.user?.email);
   const dispatch = useDispatch();
@@ -70,6 +90,7 @@ export default function Home() {
         console.error("Thiếu dữ liệu cần thiết cho hóa đơn hoặc vé!");
         return;
       }
+
       const hoadondata = {
         tongtien: totalAmount,
         giolap: giolap,
@@ -79,17 +100,20 @@ export default function Home() {
 
       setIsProcessing(true);
       localStorage.setItem("hoadonProcessed", "true");
+
       const createInvoiceAndTicket = async () => {
         try {
           const hoadonResult = await dispatch(postHoadon(hoadondata)).unwrap();
           const hoadonId = hoadonResult._id;
           console.log("Hóa đơn đã được tạo:", hoadonId);
+
           const ticketdata = {
             cachieu_id: cachieuID,
             hoadon_id: hoadonId,
             ghe_id: gheID,
             giave: totalAmount,
           };
+
           const ticketResult = await dispatch(postTicket(ticketdata)).unwrap();
           console.log("Vé đã được tạo:", ticketResult);
           const ticketId = ticketResult._id;
@@ -226,6 +250,7 @@ export default function Home() {
             "Thanh toán thành công. Cảm ơn bạn đã mua vé tại ACE Cinema"
           );
           setShowNotification(true);
+
           setTimeout(() => {
             localStorage.removeItem("hoadonProcessed");
             router.replace("/");
@@ -281,31 +306,32 @@ export default function Home() {
   const renderMovieCards = (movies) =>
     movies.map((movie) => (
       <div className="card" key={movie._id}>
-        <Link
-          href={`/filmdetail/${movie._id}`}
-          className="text-decoration-none text-muted"
-        >
-          <div className="img-top">
-            <img
-              src={`http://localhost:3000/img/phims/${movie.img}`}
-              alt={movie.tenphim}
-            />
-          </div>
-          <div className="card-body">
-            <div className="day-time">
-              <p style={{ color: "#fff" }}>{movie.thoiluong} Phút</p>
-              <p style={{ color: "#fff" }}>
-                {new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}
-              </p>
+        <div className="box">
+          <Link
+            href={`/filmdetail/${movie._id}`}
+            className="text-decoration-none text-muted"
+          >
+            <div className="img-top">
+              <img
+                src={`http://localhost:3000/img/phims/${movie.img}`}
+                alt={movie.tenphim}
+              />
             </div>
-            <div className="title-card">
-              <h1>{movie.tenphim}</h1>
+            <div className="card-body">
+              <div className="day-time">
+                <p style={{ color: "#fff" }}>{movie.thoiluong} Phút</p>
+                <p style={{ color: "#fff" }}>
+                  {new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}
+                </p>
+              </div>
+              <div className="title-card">
+                <h1 className="text-uppercase">{movie.tenphim}</h1>
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+        </div>
       </div>
     ));
-
   return (
     <>
       <Notification
@@ -323,6 +349,7 @@ export default function Home() {
           ></i>
           <h1>Phim Đang Chiếu</h1>
         </div>
+
         <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
 
         <div className="main-title mt-5">
@@ -332,6 +359,7 @@ export default function Home() {
           ></i>
           <h1>Phim Sắp Chiếu</h1>
         </div>
+
         <div className="row">{renderMovieCards(moviesComingSoon)}</div>
       </div>
     </>

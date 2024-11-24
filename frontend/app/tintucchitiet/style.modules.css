@@ -1,0 +1,15 @@
+/* styles.css */
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.5s forwards; /* Thời gian hiệu ứng là 0.5 giây */
+}

@@ -294,4 +294,13 @@ footer img {
     font-size: 0.8rem; /* Giảm kích thước chữ trên màn hình nhỏ */
   }
 }
+.box {
+  opacity: 0;
+  transform: translateY(100px);
+  transition: opacity 0.5s ease, transform 1.5s ease;
+}
 
+.box.visible {
+  opacity: 1;
+  transform: translateX(0px);
+}

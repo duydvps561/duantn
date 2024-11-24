@@ -1,4 +1,3 @@
-
 import './ticket.css'
 export default function Ticket() {
     return (
