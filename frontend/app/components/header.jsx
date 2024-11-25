@@ -114,7 +114,7 @@ export default function Header() {
                 <li>
                   <a
                     className="dropdown-item "
-                    href="#"
+                    href="/yourticket"
                     style={{ fontSize: "17px" }}
                   >
                     <i className="fa-solid fa-arrow-right-from-bracket"></i>{" "}

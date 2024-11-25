@@ -20,7 +20,6 @@ router.post('/add', async (req, res) => {
   }
 });
 // lấy hóa đơn theo id 
-
 router.get('/:id', async (req, res) => {
   try {
     const hoadon = await Hoadon.findById(req.params.id);
@@ -29,6 +28,7 @@ router.get('/:id', async (req, res) => {
     res.status(404).send({ message: 'Hóa đơn không tồn tại' });
   }
 });
+
 // chi tiết hóa đơn
 
 router.get('/:id/details', async (req, res) => {
