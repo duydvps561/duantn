@@ -23,8 +23,12 @@ router.post('/add', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+<<<<<<< HEAD
+// lấy hóa đơn theo id 
+=======
 
 // Get invoice by ID
+>>>>>>> 63bd6bc6e83a5fca532c2951c0cd9ae44312b512
 router.get('/:id', async (req, res) => {
   try {
     const hoadon = await Hoadon.findById(req.params.id).populate('taikhoan_id', 'tentaikhoan');
@@ -36,6 +40,11 @@ router.get('/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+<<<<<<< HEAD
+
+// chi tiết hóa đơn
+=======
+>>>>>>> 63bd6bc6e83a5fca532c2951c0cd9ae44312b512
 
 // Get invoice details
 router.get('/:id/details', async (req, res) => {

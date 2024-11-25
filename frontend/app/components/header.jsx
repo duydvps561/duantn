@@ -25,6 +25,7 @@ export default function Header() {
   const [showRegister, setRegister] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
+  const [showOp, setShowOp] = useState(false);
 
   const handleOpenRegister = () => setRegister(true);
   const handleCloseRegister = () => setRegister(false);
@@ -55,76 +56,83 @@ export default function Header() {
         </ul>
       </nav>
       {isAuthen && user ? (
-        <div className="dropdown">
-          <div
-            className="d-flex align-items-center gap-3"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style={{ textDecoration: "none", cursor: "pointer" }}
-          >
-            <div
-              style={{
-                backgroundColor: "#202d32",
-                width: "30px",
-                height: "30px",
-                borderRadius: "50%",
-              }}
-              className="d-flex align-items-center justify-content-center"
-            >
-              <FontAwesomeIcon
-                icon={faUser}
-                style={{ color: "#ffffff", fontSize: "14px" }}
-              />
+        <>
+          {
+            <div className="dropdown">
+              <div
+                className="d-flex align-items-center gap-3"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style={{ textDecoration: "none", cursor: "pointer" }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#202d32",
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                  }}
+                  className="d-flex align-items-center justify-content-center"
+                >
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    style={{ color: "#ffffff", fontSize: "14px" }}
+                  />
+                </div>
+                <span
+                  className="text-light"
+                  style={{ fontSize: "17px" }}
+                  onClick={() => setShowOp(true)}
+                >
+                  {user.username}
+                </span>
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  style={{ color: "#ffffff", fontSize: "17px" }}
+                />
+              </div>
+              <ul
+                className="dropdown-menu mt-2"
+                style={{ backgroundColor: "#10141b" }}
+                aria-labelledby="dropdownMenuButton"
+              >
+                <li>
+                  <a
+                    className="dropdown-item "
+                    href="#"
+                    style={{ fontSize: "17px" }}
+                  >
+                    Thông tin cá nhân
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="dropdown-item "
+                    href="/yourticket"
+                    style={{ fontSize: "17px" }}
+                  >
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i>{" "}
+                    Lịch sử mua vé
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="dropdown-item "
+                    href="#"
+                    style={{ fontSize: "17px" }}
+                    onClick={() => {
+                      setShowOp(false), dispatch(logout());
+                    }}
+                  >
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i>{" "}
+                    Đăng xuất
+                  </a>
+                </li>
+              </ul>
             </div>
-            <span className="text-light" style={{ fontSize: "17px" }}>
-              {user.username}
-            </span>
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              style={{ color: "#ffffff", fontSize: "17px" }}
-            />
-          </div>
-          <ul
-            className="dropdown-menu mt-2"
-            style={{ backgroundColor: "#10141b" }}
-            aria-labelledby="dropdownMenuButton"
-          >
-            <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                style={{ fontSize: "17px" }}
-                onClick={toggleUserInfo}
-              >
-                Thông tin cá nhân
-              </a>
-            </li>
-            <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                style={{ fontSize: "17px" }}
-              >
-                <i className="fa-solid fa-arrow-right-from-bracket"></i> Lịch sử
-                mua vé
-              </a>
-            </li>
-            <li>
-              <a
-                className="dropdown-item"
-                href="#"
-                style={{ fontSize: "17px" }}
-                onClick={() => {
-                  dispatch(logout());
-                }}
-              >
-                <i className="fa-solid fa-arrow-right-from-bracket"></i> Đăng
-                xuất
-              </a>
-            </li>
-          </ul>
-        </div>
+          }
+        </>
       ) : (
         <div className="d-flex gap-3">
           <button className="regist-btn" onClick={handleOpenRegister}>

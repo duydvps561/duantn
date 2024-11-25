@@ -163,7 +163,7 @@ export default function Home() {
           const ngayThangNam = `${ngay}/${thang}/${nam}`;
 
           // qr
-          const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:3001/checkTicket/${ticketId}&size=100x100`;
+          const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${ticketId}&size=100x100`;
           const emailHTML = `
           <html>
             <style>
