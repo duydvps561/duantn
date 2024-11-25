@@ -19,10 +19,14 @@ const CustomerManagement = () => {
   useEffect(() => {
     axios
       .get("http://localhost:3000/taikhoan")
-      .then((response) => setCustomers(response.data))
+      .then((response) => {
+        const sortedCustomers = response.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt) // Sort by registration time
+        );
+        setCustomers(sortedCustomers);
+      })
       .catch((error) => console.error("Error fetching customers:", error));
   }, []);
-
   // Toggle add/edit form visibility
   const toggleForm = (customer = null) => {
     setShowForm(!showForm);
@@ -334,23 +338,12 @@ const CustomerManagement = () => {
                   </button>
                 </td>
                 <td>
-     <div className="action-buttons">
+  <div className="action-buttons">
     <button className="edit-button" onClick={() => toggleForm(customer)}>
-      <span className="button1">
-        <svg className="svg-icon" fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#a649da" strokeLinecap="round" strokeWidth="2">
-            <path d="m20 20h-16"></path>
-            <path clipRule="evenodd" d="m14.5858 4.41422c.781-.78105 2.0474-.78105 2.8284 0 .7811.78105.7811 2.04738 0 2.82843l-8.28322 8.28325-3.03046.202.20203-3.0304z" fillRule="evenodd"></path>
-          </g>
-        </svg>
-        <span className="label">Edit</span>
-      </span>
+      Sửa
     </button>
     <button className="delete-icon" onClick={() => deleteCustomer(customer._id)}>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 6H5H21" stroke="#FF6347" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="#FF6347" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
+      Xóa
     </button>
   </div>
 </td>
