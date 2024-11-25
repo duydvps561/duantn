@@ -16,20 +16,22 @@ const MovieCategoryManagement = () => {
   // Fetch categories from API on component mount
   useEffect(() => {
     fetch("http://localhost:3000/theloai")
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok " + response.statusText);
         }
         return response.json();
       })
-      .then(data => {
-        const categoriesWithQuantity = data.map(category => ({
-          ...category,
-          quantity: category.quantity ?? 0,
-        }));
-        setCategories(categoriesWithQuantity);
+      .then((data) => {
+        const sortedCategories = data
+          .map((category) => ({
+            ...category,
+            quantity: category.quantity ?? 0,
+          }))
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by creation date
+        setCategories(sortedCategories);
       })
-      .catch(error => console.error("Error fetching categories:", error));
+      .catch((error) => console.error("Error fetching categories:", error));
   }, []);
 
   // Handle pagination
@@ -147,7 +149,7 @@ const MovieCategoryManagement = () => {
                 <tr>
                   <th>STT</th>
                   <th>Thể Loại</th>
-                  <th>Số Bộ Phim</th>
+                  {/* <th>Số Bộ Phim</th> */}
                   <th>Thao Tác</th>
                 </tr>
               </thead>
@@ -156,7 +158,7 @@ const MovieCategoryManagement = () => {
                   <tr key={category._id}>
                     <td>{indexOfFirstItem + index + 1}</td>
                     <td>{category.tentheloai}</td>
-                    <td>{category.quantity}</td>
+                    {/* <td>{category.quantity}</td> */}
                     <td>
                       <button className="editButton" onClick={() => openCategoryForm(category)}>Sửa</button>
                       <button className="deleteButton" onClick={() => handleDelete(category._id)}>Xóa</button>

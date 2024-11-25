@@ -10,27 +10,26 @@ import { clearCart } from "@/redux/slice/cartSlice";
 import { postHoadon } from "@/redux/slice/hoadonSlice";
 import { postTicket } from "@/redux/slice/ticket";
 import { Sendemail } from "@/redux/slice/email";
-const QRCode = require('qrcode');
+import QRCode from "qrcode";
 
 export default function Home() {
-
-  const boxes = document.querySelectorAll('.box');
+  const boxes = document.querySelectorAll(".box");
 
   const options = {
     root: null,
-    rootMargin: '0px',
-    threshold: .5
+    rootMargin: "0px",
+    threshold: 0.5,
   };
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        entry.target.classList.add("visible");
         observer.unobserve(entry.target);
       }
     });
   }, options);
 
-  boxes.forEach(box => {
+  boxes.forEach((box) => {
     observer.observe(box);
   });
 
@@ -42,25 +41,29 @@ export default function Home() {
   const [moviesComingSoon, setMoviesComingSoon] = useState([]);
   const [message, setMessage] = useState("");
   const [showNotification, setShowNotification] = useState(false);
-  const [typeNoti, setTypeNoti] = useState('');
+  const [typeNoti, setTypeNoti] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [gheID, setGheID] = useState('');
-  const [cachieuID, setCachieuID] = useState('');
+  const [gheID, setGheID] = useState("");
+  const [cachieuID, setCachieuID] = useState("");
   const [ticket, setTicket] = useState([]);
   useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const filmInfo = JSON.parse(localStorage.getItem('filmInfo') || '[]');
-    setCachieuID(filmInfo.cachieuID)
-    const idghe = cart.filter(item => item.hasOwnProperty('seat'))
-      .map(item => item._id);
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const filmInfo = JSON.parse(localStorage.getItem("filmInfo") || "[]");
+    setCachieuID(filmInfo.cachieuID);
+    const idghe = cart
+      .filter((item) => item.hasOwnProperty("seat"))
+      .map((item) => item._id);
     setGheID(idghe);
-    const amount = cart.reduce((acc, item) => acc + (item.gia * (item.quantity || 1)), 0);
+    const amount = cart.reduce(
+      (acc, item) => acc + item.gia * (item.quantity || 1),
+      0
+    );
     setTotalAmount(amount);
   }, []);
   const now = new Date();
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minute = String(now.getMinutes()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minute = String(now.getMinutes()).padStart(2, "0");
   const giolap = `${hours}:${minute}`;
   const ngaylap = now.toISOString();
 
@@ -68,11 +71,22 @@ export default function Home() {
     const query = new URLSearchParams(window.location.search);
     const isHoadonProcessed = localStorage.getItem("hoadonProcessed");
 
-    if (query.get("success") === "true" && !isProcessing && !isHoadonProcessed) {
+    if (
+      query.get("success") === "true" &&
+      !isProcessing &&
+      !isHoadonProcessed
+    ) {
       setTypeNoti("success");
       setMessage("Đang xử lý thanh toán...");
       setShowNotification(true);
-      if (!totalAmount || !giolap || !ngaylap || !userId || !cachieuID || !gheID) {
+      if (
+        !totalAmount ||
+        !giolap ||
+        !ngaylap ||
+        !userId ||
+        !cachieuID ||
+        !gheID
+      ) {
         console.error("Thiếu dữ liệu cần thiết cho hóa đơn hoặc vé!");
         return;
       }
@@ -86,7 +100,6 @@ export default function Home() {
 
       setIsProcessing(true);
       localStorage.setItem("hoadonProcessed", "true");
-
 
       const createInvoiceAndTicket = async () => {
         try {
@@ -104,32 +117,43 @@ export default function Home() {
           const ticketResult = await dispatch(postTicket(ticketdata)).unwrap();
           console.log("Vé đã được tạo:", ticketResult);
           const ticketId = ticketResult._id;
-          const ticketDetails = await fetch(`http://localhost:3000/ve/${ticketId}`).then((res) => res.json());
+          const ticketDetails = await fetch(
+            `http://localhost:3000/ve/${ticketId}`
+          ).then((res) => res.json());
           if (!ticketDetails) throw new Error("Không tìm thấy chi tiết vé!");
 
-          const cachieu = await fetch(`http://localhost:3000/xuatchieu/${ticketDetails.cachieu_id}`).then((res) => res.json());
+          const cachieu = await fetch(
+            `http://localhost:3000/xuatchieu/${ticketDetails.cachieu_id}`
+          ).then((res) => res.json());
           if (!cachieu) throw new Error("Không tìm thấy suất chiếu!");
 
           const gheList = [];
           try {
             const ghePromises = ticketDetails.ghe_id.map(async (gheid) => {
-              const response = await fetch(`http://localhost:3000/ghe/${gheid}`);
-              if (!response.ok) throw new Error(`Không tìm thấy ghế với ID ${gheid}`);
+              const response = await fetch(
+                `http://localhost:3000/ghe/${gheid}`
+              );
+              if (!response.ok)
+                throw new Error(`Không tìm thấy ghế với ID ${gheid}`);
               const ghe = await response.json();
               return ghe;
             });
             const gheResults = await Promise.all(ghePromises);
             gheList.push(...gheResults);
           } catch (error) {
-            console.error('Lỗi khi lấy thông tin ghế:', error);
+            console.error("Lỗi khi lấy thông tin ghế:", error);
           }
-          
+
           console.log(gheList);
-          
-          const phongchieu = await fetch(`http://localhost:3000/phongchieu/${cachieu.phongchieu_id}`).then((res) => res.json());
+
+          const phongchieu = await fetch(
+            `http://localhost:3000/phongchieu/${cachieu.phongchieu_id}`
+          ).then((res) => res.json());
           if (!phongchieu) throw new Error("Không tìm thấy phòng chiếu!");
 
-          const phim = await fetch(`http://localhost:3000/phim/${cachieu.phim_id}`).then((res) => res.json());
+          const phim = await fetch(
+            `http://localhost:3000/phim/${cachieu.phim_id}`
+          ).then((res) => res.json());
           if (!phim) throw new Error("Không tìm thấy thông tin phim!");
 
           const ngaychieu = new Date(cachieu.ngaychieu);
@@ -180,10 +204,14 @@ export default function Home() {
                     <p>Bạn đã đặt vé thành công. Dưới đây là thông tin chi tiết:</p>
                     <div class="ticket-details">
                     <p><strong>Phim:</strong> ${phim.tenphim}</p>
-                    <p><strong>Suất chiếu:</strong> ${cachieu.giobatdau}, ${ngayThangNam}</p>
+                    <p><strong>Suất chiếu:</strong> ${
+                      cachieu.giobatdau
+                    }, ${ngayThangNam}</p>
                     <p><strong>Rạp:</strong> CGV Hoàng Văn Thụ</p>
                     <p><strong>Phòng chiếu:</strong> ${phongchieu.tenphong}</p>
-                    <p><strong>Ghế: ${gheList.map((ghe) => `${ghe.hang}${ghe.cot}`).join(', ')}
+                    <p><strong>Ghế: ${gheList
+                      .map((ghe) => `${ghe.hang}${ghe.cot}`)
+                      .join(", ")}
                     </strong>
                     </p>
                     <p><strong>Mã vé:</strong> ${ticketId}</p>
@@ -213,12 +241,14 @@ export default function Home() {
             subject: "Xác nhận đặt vé thành công",
             text: "Cảm ơn bạn đã mua vé tại ACE Cinema!",
             html: emailHTML,
-          };          
+          };
           dispatch(Sendemail(emaildata));
           // localStorage.removeItem('qrCodeUrl');
           dispatch(clearCart());
           setTypeNoti("success");
-          setMessage("Thanh toán thành công. Cảm ơn bạn đã mua vé tại ACE Cinema");
+          setMessage(
+            "Thanh toán thành công. Cảm ơn bạn đã mua vé tại ACE Cinema"
+          );
           setShowNotification(true);
 
           setTimeout(() => {
@@ -245,7 +275,18 @@ export default function Home() {
         router.replace("/thanhtoan");
       }, 2000);
     }
-  }, [router, totalAmount, giolap, ngaylap, userId, cachieuID, gheID, isProcessing, dispatch]);
+  }, [
+    router,
+    totalAmount,
+    giolap,
+    ngaylap,
+    userId,
+    cachieuID,
+    gheID,
+    isProcessing,
+    dispatch,
+  ]);
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -265,28 +306,30 @@ export default function Home() {
   const renderMovieCards = (movies) =>
     movies.map((movie) => (
       <div className="card" key={movie._id}>
-       <div className="box">
-       <Link
-          href={`/filmdetail/${movie._id}`}
-          className="text-decoration-none text-muted"
-        >
-          <div className="img-top">
-            <img
-              src={`http://localhost:3000/img/phims/${movie.img}`}
-              alt={movie.tenphim}
-            />
-          </div>
-          <div className="card-body">
-            <div className="day-time">
-              <p style={{ color: '#fff' }}>{movie.thoiluong} Phút</p>
-              <p style={{ color: '#fff' }}>{new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}</p>
+        <div className="box">
+          <Link
+            href={`/filmdetail/${movie._id}`}
+            className="text-decoration-none text-muted"
+          >
+            <div className="img-top">
+              <img
+                src={`http://localhost:3000/img/phims/${movie.img}`}
+                alt={movie.tenphim}
+              />
             </div>
-            <div className="title-card">
-              <h1 className="text-uppercase">{movie.tenphim}</h1>
+            <div className="card-body">
+              <div className="day-time">
+                <p style={{ color: "#fff" }}>{movie.thoiluong} Phút</p>
+                <p style={{ color: "#fff" }}>
+                  {new Date(movie.ngayhieuluc).toLocaleDateString("vi-VN")}
+                </p>
+              </div>
+              <div className="title-card">
+                <h1 className="text-uppercase">{movie.tenphim}</h1>
+              </div>
             </div>
-          </div>
-        </Link>
-       </div>
+          </Link>
+        </div>
       </div>
     ));
   return (
@@ -300,19 +343,24 @@ export default function Home() {
       <Slide />
       <div className="container">
         <div className="main-title">
-          <i className="fa fa-circle" style={{ fontSize: "25px", color: "red" }}></i>
+          <i
+            className="fa fa-circle"
+            style={{ fontSize: "25px", color: "red" }}
+          ></i>
           <h1>Phim Đang Chiếu</h1>
         </div>
-        
-          <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
-       
+
+        <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
 
         <div className="main-title mt-5">
-          <i className="fa fa-circle" style={{ fontSize: "25px", color: "red" }}></i>
+          <i
+            className="fa fa-circle"
+            style={{ fontSize: "25px", color: "red" }}
+          ></i>
           <h1>Phim Sắp Chiếu</h1>
         </div>
-       
-          <div className="row">{renderMovieCards(moviesComingSoon)}</div>
+
+        <div className="row">{renderMovieCards(moviesComingSoon)}</div>
       </div>
     </>
   );

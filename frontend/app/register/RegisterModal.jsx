@@ -74,7 +74,8 @@ export default function LoginModal({ show, handleClose }) {
     },
   });
   return (
-  <div className="modal-overlay">
+    <div className="module_modal" onClick={handleClose}>
+   <div className="modal-overlay" onClick={(event) => event.stopPropagation()}>
   <div className="modal-register bg-dark rounded">
     <button onClick={handleClose} className="close-modal">
       &times;
@@ -189,6 +190,7 @@ export default function LoginModal({ show, handleClose }) {
       <button type="submit">Đăng Ký</button>
     </form>
   </div>
+</div>
 </div>
   );
 }

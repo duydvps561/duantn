@@ -1,10 +1,20 @@
-/* Modal Overlay */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
+.module_modal{
   width: 100%;
   height: 100vh;
+  background-color:rgba(5, 11, 23, 0.7);
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:9999;
+}
+.modal-overlay {
+  position: fixed;
+  top: 345px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.7); /* Tăng độ mờ cho nền */
   display: flex;
   justify-content: center;
@@ -17,7 +27,7 @@
   padding: 30px; /* Tăng padding cho không gian thoáng hơn */
   border-radius: 15px; /* Đường viền mềm mại hơn */
   width: 90%;
-  max-width: 600px; /* Giới hạn chiều rộng cho thiết bị nhỏ */
+  max-width: 480px; /* Giới hạn chiều rộng cho thiết bị nhỏ */
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Thêm bóng cho modal */
 }
@@ -31,11 +41,9 @@
 label {
   color: #ffffff;
   font-size: 20px; /* Kích thước chữ cho label */
-  margin-bottom: 5px; /* Khoảng cách dưới label */
 }
 .modal-register h2 {
-  font-size: 28px; /* Kích thước tiêu đề nhỏ hơn cho cân đối */
-  margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+  font-size: 28px; 
   text-align: center; /* Căn giữa tiêu đề */
 }
 
@@ -43,7 +51,7 @@ label {
   background: linear-gradient(to right, #fea2a2, #fd4242 35%);
   color: white;
   border: none;
-  border-radius: 25px; /* Đường viền tròn hơn */
+  border-radius: 5px; /* Đường viền tròn hơn */
   display: block;
   margin: 20px auto 0 auto;
   cursor: pointer;
@@ -80,16 +88,13 @@ label {
 
 .modal-register form label {
   font-size: 20px; /* Kích thước chữ cho label nhỏ hơn */
-  margin-bottom: 5px;
-  margin-left:10px;
 }
 
 .modal-register form input,
 form select {
-  padding: 12px; /* Tăng padding cho input và select */
-  margin-bottom: 20px; /* Khoảng cách dưới các trường nhập */
+  padding: 8px; /* Tăng padding cho input và select */
   border: none;
-  border-radius: 20px;
+  border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
   background-color: #495057; /* Màu nền cho input */

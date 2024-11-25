@@ -2,14 +2,18 @@ var express = require('express');
 var router = express.Router();
 const Hoadon = require('../../models/food/hoadon');
 
+// Get all invoices
 router.get('/', async function(req, res, next) {
   try {
-    const hoadon = await Hoadon.find(); 
+    // Populate `tentaikhoan` in the response
+    const hoadon = await Hoadon.find().populate('taikhoan_id', 'tentaikhoan');
     res.json(hoadon);
   } catch (err) {
     next(err);
   }
 });
+
+// Add a new invoice
 router.post('/add', async (req, res) => {
   try {
     const hoadon = new Hoadon(req.body);
@@ -19,18 +23,30 @@ router.post('/add', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+<<<<<<< HEAD
 // lấy hóa đơn theo id 
+=======
+
+// Get invoice by ID
+>>>>>>> 63bd6bc6e83a5fca532c2951c0cd9ae44312b512
 router.get('/:id', async (req, res) => {
   try {
-    const hoadon = await Hoadon.findById(req.params.id);
+    const hoadon = await Hoadon.findById(req.params.id).populate('taikhoan_id', 'tentaikhoan');
+    if (!hoadon) {
+      return res.status(404).send({ message: 'Hóa đơn không tồn tại' });
+    }
     res.json(hoadon);
   } catch (err) {
-    res.status(404).send({ message: 'Hóa đơn không tồn tại' });
+    res.status(500).send({ error: err.message });
   }
 });
+<<<<<<< HEAD
 
 // chi tiết hóa đơn
+=======
+>>>>>>> 63bd6bc6e83a5fca532c2951c0cd9ae44312b512
 
+// Get invoice details
 router.get('/:id/details', async (req, res) => {
   try {
     const hoadon = await Hoadon.findById(req.params.id);
@@ -41,20 +57,9 @@ router.get('/:id/details', async (req, res) => {
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
-}); 
-// xóa hóa đơn
-
-router.delete('/all', async (req, res) => {
-  try {
-    const result = await Hoadon.deleteMany();
-    if (result.deletedCount === 0) {
-      return res.status(404).send({ message: 'Không có hóa đơn nào để xóa' });
-    }
-    res.status(200).send({ message: 'Đã xóa tất cả hóa đơn thành công' });
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
 });
+
+// Delete invoice
 router.delete('/:id', async (req, res) => {
   try {
     const hoadon = await Hoadon.findByIdAndDelete(req.params.id);
@@ -67,7 +72,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// cập nhật hóa đơn
+// Update invoice
 router.put('/:id', async (req, res) => {
   try {
     const hoadon = await Hoadon.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -79,4 +84,5 @@ router.put('/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+
 module.exports = router;

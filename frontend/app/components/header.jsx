@@ -3,44 +3,39 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LoginModal from "../login/LoginModal";
 import RegisterModal from "../register/RegisterModal";
+import UserInfo from "../userinfor/page.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/slice/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faUser } from "@fortawesome/free-solid-svg-icons";
+
 export default function Header() {
   const link = [
-    {
-      name: "Trang chủ",
-      path: "/",
-    },
-    {
-      name: "Lịch chiếu",
-      path: "/lichchieu",
-    },
-    {
-      name: "Tin tức",
-      path: "/tintuc",
-    },
-    {
-      name: "Liên hệ",
-      path: "/contact",
-    },
-    {
-      name: "Giá vé",
-      path: "/ticket",
-    },
+    { name: "Trang chủ", path: "/" },
+    { name: "Lịch chiếu", path: "/lichchieu" },
+    { name: "Tin tức", path: "/tintuc" },
+    { name: "Liên hệ", path: "/contact" },
+    { name: "Giá vé", path: "/ticket" },
   ];
+
   const dispatch = useDispatch();
   const isAuthen = useSelector((state) => state.auth.authenticated);
   const user = useSelector((state) => state.auth.user);
   const pathname = usePathname();
   const [showRegister, setRegister] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showUserInfo, setShowUserInfo] = useState(false);
+  const [showOp, setShowOp] = useState(false);
+
   const handleOpenRegister = () => setRegister(true);
   const handleCloseRegister = () => setRegister(false);
-  const [showLogin, setShowLogin] = useState(false);
   const handleOpenLogin = () => setShowLogin(true);
   const handleCloseLogin = () => setShowLogin(false);
-  const [showOp, setShowOp] = useState(false);
+
+  const toggleUserInfo = () => {
+    setShowUserInfo((prev) => !prev);
+  };
+
   return (
     <header>
       <Link href="/">
@@ -148,9 +143,11 @@ export default function Header() {
           </button>
         </div>
       )}
-
       <RegisterModal show={showRegister} handleClose={handleCloseRegister} />
       <LoginModal show={showLogin} handleClose={handleCloseLogin} />
+      {showUserInfo && user && (
+        <UserInfo userId={user.id} onClose={toggleUserInfo} />
+      )}{" "}
     </header>
   );
 }
