@@ -44,4 +44,20 @@ router.post('/add', async (req, res) => {
   }
 });
 
+router.put('/update/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    const ve = await Ve.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
+    if (!ve) {
+      return res.status(404).send({ message: 'Không tìm thấy vé để cập nhật' });
+    }
+
+    res.status(200).send({ message: 'Cập nhật vé thành công', data: ve });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
 module.exports = router;
