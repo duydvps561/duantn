@@ -1,0 +1,149 @@
+.thongKePage {
+  padding: 20px;
+  background-color: #f9f9f9; /* Màu nền sáng cho trang */
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.statCard {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-5px); /* Thêm hiệu ứng hover để làm nổi bật */
+}
+
+.statCard h3 {
+  margin-bottom: 10px;
+  font-size: 1.3em;
+  color: #4d6950;
+  font-weight: 600; /* In đậm tiêu đề */
+}
+
+.statCard p {
+  font-size: 1.6em;
+  color: #4d6950;
+  font-weight: 700; /* In đậm số liệu */
+}
+.statCard a {
+  font-size: 1.2em;
+  color: #4d6950;
+  font-weight: 700; /* In đậm số liệu */
+}
+.chartContainer {
+  margin-bottom: 40px;
+}
+
+.chartContainer h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333; /* Đảm bảo tiêu đề màu tối */
+}
+
+.latestTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.latestTable th, .latestTable td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.latestTable th {
+  background-color: #4d6950;
+  color: white;
+  font-weight: bold;
+}
+
+.latestTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.latestTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+.tablesContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.tableSection {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #fff; /* Nền trắng cho bảng */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ */
+}
+
+.table th {
+  background-color: #4d6950; /* Màu xanh đậm cho tiêu đề bảng */
+  color: white;
+  font-weight: bold;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.table td {
+  color: #555;
+  border-bottom: 1px solid #eee; /* Đường viền nhẹ cho các dòng */
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Tạo nền sáng cho các dòng chẵn */
+}
+
+.table tr:hover {
+  background-color: #f1f1f1; /* Hiệu ứng hover cho các dòng */
+}
+
+.tableTitle {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: bold;
+}
+
+.userImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd; /* Đường viền cho hình ảnh */
+  transition: all 0.3s ease;
+}
+
+.userImage:hover {
+  border-color: #4d6950; /* Đổi màu viền khi hover */
+}
+.chartContainer h3{
+  margin-bottom: 10px;
+  font-size: 1.3em;
+  color: #4d6950;
+  font-weight: 600;
+}

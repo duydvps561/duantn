@@ -102,6 +102,7 @@ export default function Header() {
                     className="dropdown-item "
                     href="#"
                     style={{ fontSize: "17px" }}
+                    onClick={toggleUserInfo}
                   >
                     Thông tin cá nhân
                   </a>

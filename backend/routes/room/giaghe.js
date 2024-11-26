@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Giaghe = require('../../models/room/giaghe');
 const Loaighe = require('../../models/room/loaighe'); // Import model Loaighe để lấy tên loại ghế
-
+const Ghe = require('../../models/room/ghe');
 // Get all Gia Ghe
 router.get('/', async (req, res) => {
   try {

@@ -37,6 +37,7 @@ var CachieuRouter = require("./routes/ticket/cachieu");
 var VeRouter = require("./routes/ticket/ve");
 //
 var TintucRouter = require("./routes/tintucs");
+var ThongkeRouter = require("./routes/thongke");
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -79,6 +80,7 @@ app.use("/phongchieu", PhongchieuRouter);
 app.use("/xuatchieu", CachieuRouter);
 app.use("/ve", VeRouter);
 ///
+app.use("/thongke", ThongkeRouter);
 app.use("/lienhe", ContactRouter);
 app.use("/tintuc", TintucRouter);
 app.use(function (req, res, next) {
