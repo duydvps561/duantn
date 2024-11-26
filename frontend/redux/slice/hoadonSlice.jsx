@@ -26,29 +26,59 @@ export const postHoadon = createAsyncThunk(
     }
 );
 
+export const getHoadon = createAsyncThunk(
+    'hoadon/getHoadon',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await fetch('http://localhost:3000/hoadon');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching invoices:', error);
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 const hoadonSlice = createSlice({
     name: 'hoadon',
     initialState: {
-        list: [],
+        hoadonlist: [],
         loading: false,
         error: null,
     },
     reducers: {
         addHoadon: (state, action) => {
-            state.list.push(action.payload);
+            state.hoadonlist.push(action.payload);
         },
     },
     extraReducers: (builder) => {
         builder
             .addCase(postHoadon.pending, (state) => {
                 state.loading = true;
-                state.error = null; 
+                state.error = null;
             })
             .addCase(postHoadon.fulfilled, (state, action) => {
                 state.loading = false;
-                state.list.push(action.payload); 
+                state.hoadonlist.push(action.payload);
             })
             .addCase(postHoadon.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            // Xử lý getHoadon
+            .addCase(getHoadon.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getHoadon.fulfilled, (state, action) => {
+                state.loading = false;
+                state.hoadonlist = action.payload; 
+            })
+            .addCase(getHoadon.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

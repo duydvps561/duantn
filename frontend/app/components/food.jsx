@@ -81,6 +81,7 @@ export default function Food() {
                 </div>
             </div>
             <div className="btn-cart d-flex justify-content-end">
+                
                 <button onClick={handleTo} className="btn-checkout">Thanh toán</button>
             </div>
         </section>
