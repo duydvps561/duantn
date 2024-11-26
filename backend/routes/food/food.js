@@ -60,7 +60,7 @@ router.post('/add', upload.single('img'), async (req, res) => {
       tenfood,
       gia,
       loai,
-      trangthai: trangthai || 1, // Default to "Còn hàng" if not provided
+      trangthai: trangthai || 1, 
       img
     });
 

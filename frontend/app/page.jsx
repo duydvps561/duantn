@@ -10,7 +10,7 @@ import { clearCart } from "@/redux/slice/cartSlice";
 import { postHoadon } from "@/redux/slice/hoadonSlice";
 import { postTicket } from "@/redux/slice/ticket";
 import { Sendemail } from "@/redux/slice/email";
-import QRCode from "qrcode";
+import { postFoodOrder } from "@/redux/slice/foodorderSlice";
 
 export default function Home() {
   const boxes = document.querySelectorAll(".box");
@@ -37,8 +37,10 @@ export default function Home() {
   const userEmail = useSelector((state) => state.auth.user?.email);
   const dispatch = useDispatch();
   const router = useRouter();
+
   const [moviesNowPlaying, setMoviesNowPlaying] = useState([]);
   const [moviesComingSoon, setMoviesComingSoon] = useState([]);
+
   const [message, setMessage] = useState("");
   const [showNotification, setShowNotification] = useState(false);
   const [typeNoti, setTypeNoti] = useState("");
@@ -46,7 +48,7 @@ export default function Home() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [gheID, setGheID] = useState("");
   const [cachieuID, setCachieuID] = useState("");
-  const [ticket, setTicket] = useState([]);
+  const [food, setFood] = useState([]);
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const filmInfo = JSON.parse(localStorage.getItem("filmInfo") || "[]");
@@ -55,6 +57,14 @@ export default function Home() {
       .filter((item) => item.hasOwnProperty("seat"))
       .map((item) => item._id);
     setGheID(idghe);
+    const foodDetails = cart
+    .filter((item) => item.hasOwnProperty("tenfood"))
+    .map((item) => ({
+        id: item._id,
+        quantity: item.quantity,
+        gia: item.gia,
+    }));
+    setFood(foodDetails);
     const amount = cart.reduce(
       (acc, item) => acc + item.gia * (item.quantity || 1),
       0
@@ -66,7 +76,7 @@ export default function Home() {
   const minute = String(now.getMinutes()).padStart(2, "0");
   const giolap = `${hours}:${minute}`;
   const ngaylap = now.toISOString();
-
+  console.log(food);
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const isHoadonProcessed = localStorage.getItem("hoadonProcessed");
@@ -107,13 +117,26 @@ export default function Home() {
           const hoadonId = hoadonResult._id;
           console.log("Hóa đơn đã được tạo:", hoadonId);
 
+          const foodorderDataList = food.map((item) => ({
+            hoadon_id: hoadonId,
+            food_id: item.id,
+            soluong: item.quantity,
+            tongtien: item.gia*item.quantity,
+          }));
+      
+          foodorderDataList.forEach((foodorderData) => {
+            dispatch(postFoodOrder(foodorderData));
+          });
+
           const ticketdata = {
             cachieu_id: cachieuID,
             hoadon_id: hoadonId,
             ghe_id: gheID,
             giave: totalAmount,
           };
-
+          food.forEach((fod) => {
+            dispatch(postFoodOrder(fod));
+        });
           const ticketResult = await dispatch(postTicket(ticketdata)).unwrap();
           console.log("Vé đã được tạo:", ticketResult);
           const ticketId = ticketResult._id;
@@ -143,9 +166,6 @@ export default function Home() {
           } catch (error) {
             console.error("Lỗi khi lấy thông tin ghế:", error);
           }
-
-          console.log(gheList);
-
           const phongchieu = await fetch(
             `http://localhost:3000/phongchieu/${cachieu.phongchieu_id}`
           ).then((res) => res.json());
@@ -204,14 +224,13 @@ export default function Home() {
                     <p>Bạn đã đặt vé thành công. Dưới đây là thông tin chi tiết:</p>
                     <div class="ticket-details">
                     <p><strong>Phim:</strong> ${phim.tenphim}</p>
-                    <p><strong>Suất chiếu:</strong> ${
-                      cachieu.giobatdau
-                    }, ${ngayThangNam}</p>
+                    <p><strong>Suất chiếu:</strong> ${cachieu.giobatdau
+            }, ${ngayThangNam}</p>
                     <p><strong>Rạp:</strong> CGV Hoàng Văn Thụ</p>
                     <p><strong>Phòng chiếu:</strong> ${phongchieu.tenphong}</p>
                     <p><strong>Ghế: ${gheList
-                      .map((ghe) => `${ghe.hang}${ghe.cot}`)
-                      .join(", ")}
+              .map((ghe) => `${ghe.hang}${ghe.cot}`)
+              .join(", ")}
                     </strong>
                     </p>
                     <p><strong>Mã vé:</strong> ${ticketId}</p>
@@ -243,11 +262,10 @@ export default function Home() {
             html: emailHTML,
           };
           dispatch(Sendemail(emaildata));
-          // localStorage.removeItem('qrCodeUrl');
           dispatch(clearCart());
           setTypeNoti("success");
           setMessage(
-            "Thanh toán thành công. Cảm ơn bạn đã mua vé tại ACE Cinema"
+            "Thanh toán thành công. Cảm ơn bạn đã mua vé tại ACE Cinema. Hãy kiểm tra email để xem thông tin về vé!"
           );
           setShowNotification(true);
 
@@ -268,11 +286,12 @@ export default function Home() {
     }
 
     if (query.get("canceled")) {
+      dispatch(clearCart());
       setTypeNoti("canceled");
-      setMessage("Thanh toán thất bại. Đang chuyển về trang thanh toán");
+      setMessage("Thanh toán thất bại");
       setShowNotification(true);
       setTimeout(() => {
-        router.replace("/thanhtoan");
+        router.replace("/");
       }, 2000);
     }
   }, [
