@@ -79,4 +79,35 @@ router.put('/:id', async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
+router.put('/qrcheckin/:id', async (req, res) => {
+  try {
+    const hoadon = await Hoadon.findById(req.params.id);
+
+    if (!hoadon) {
+      return res.status(404).send({ message: 'QR không hợp lệ hoặc hóa đơn không tồn tại' });
+    }
+
+    // Chuyển trangthai sang kiểu number để đảm bảo việc so sánh đúng
+    const trangthai = Number(hoadon.trangthai); // Chuyển trangthai thành kiểu số
+
+    console.log('Trạng thái hóa đơn hiện tại:', trangthai);
+
+    if (trangthai === 2) {
+      return res.status(400).send({ message: 'QR không hợp lệ (trạng thái hóa đơn đã là 2)' });
+    }
+
+    if (trangthai === 1) {
+      hoadon.trangthai = 2; // Cập nhật trạng thái lên 2 (Check-in thành công)
+      await hoadon.save();
+      return res.status(200).send({ message: 'Check-in thành công', hoadon });
+    }
+
+    return res.status(400).send({ message: 'QR không hợp lệ (hóa đơn không ở trạng thái 1)' });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+
+
 module.exports = router;

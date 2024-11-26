@@ -13,4 +13,4 @@ const taikhoanSchema = new Schema({
     vaitro: { type: String, default: '' } // Đặt giá trị mặc định là chuỗi rỗng
 }, { timestamps: true });
 
-module.exports = mongoose.model('taikhoan', taikhoanSchema); // Đổi tên model thành 'Food' để tuân theo quy tắc PascalCase
+module.exports = mongoose.model('taikhoan', taikhoanSchema); 

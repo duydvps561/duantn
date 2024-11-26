@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Loaighe = require('../../models/room/loaighe');
-
+const Ghe = require('../../models/room/ghe');
 // Get all Loai Ghe
 router.get('/', async (req, res, next) => {
   try {
@@ -74,11 +74,21 @@ router.put('/update/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Tìm và xóa loại ghế
     const loaighe = await Loaighe.findByIdAndDelete(id);
     if (!loaighe) {
       return res.status(404).send({ error: 'Loại ghế không tồn tại' });
     }
-    res.status(200).send({ message: 'Loại ghế đã được xóa' });
+
+    // Tìm và xóa tất cả ghế liên quan đến loại ghế này
+    const deleteResult = await Ghe.deleteMany({ loaighe_id: id });
+
+    res.status(200).send({ 
+      message: 'Loại ghế và các ghế liên quan đã được xóa', 
+      deletedLoaiGhe: loaighe, 
+      deletedGheCount: deleteResult.deletedCount 
+    });
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
