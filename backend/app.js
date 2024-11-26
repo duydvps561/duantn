@@ -63,7 +63,7 @@ app.use("/register", RegisterRouter);
 app.use("/login", LoginRouter);
 //food
 app.use("/food", FoodRouter);
-app.use("/foododer", FoodOderRouter);
+app.use("/foodorder", FoodOderRouter);
 app.use("/hoadon", HoadonRouter);
 //movie
 app.use("/phim", PhimRouter);
