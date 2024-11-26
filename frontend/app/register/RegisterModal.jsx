@@ -74,7 +74,8 @@ export default function LoginModal({ show, handleClose }) {
     },
   });
   return (
-  <div className="modal-overlay">
+    <div className="module_modal" onClick={handleClose}>
+   <div className="modal-overlay" onClick={(event) => event.stopPropagation()}>
   <div className="modal-register bg-dark rounded">
     <button onClick={handleClose} className="close-modal">
       &times;
@@ -91,7 +92,7 @@ export default function LoginModal({ show, handleClose }) {
           value={formik.values.tentaikhoan}
         />
         {formik.touched.tentaikhoan && formik.errors.tentaikhoan ? (
-          <div>{formik.errors.tentaikhoan}</div>
+          <div className="error">{formik.errors.tentaikhoan}</div>
         ) : null}
       </div>
 
@@ -105,7 +106,7 @@ export default function LoginModal({ show, handleClose }) {
           value={formik.values.sdt}
         />
         {formik.touched.sdt && formik.errors.sdt ? (
-          <div>{formik.errors.sdt}</div>
+          <div  className="error">{formik.errors.sdt}</div>
         ) : null}
       </div>
       <div className="gender-birthdate">
@@ -123,7 +124,7 @@ export default function LoginModal({ show, handleClose }) {
             <option value="Khác">Khác</option>
           </select>
           {formik.touched.gioitinh && formik.errors.gioitinh ? (
-            <div>{formik.errors.gioitinh}</div>
+            <div  className="error">{formik.errors.gioitinh}</div>
           ) : null}
         </div>
 
@@ -137,7 +138,7 @@ export default function LoginModal({ show, handleClose }) {
             value={formik.values.ngaysinh}
           />
           {formik.touched.ngaysinh && formik.errors.ngaysinh ? (
-            <div>{formik.errors.ngaysinh}</div>
+            <div  className="error">{formik.errors.ngaysinh}</div>
           ) : null}
         </div>
       </div>
@@ -152,7 +153,7 @@ export default function LoginModal({ show, handleClose }) {
           value={formik.values.email}
         />
         {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
+          <div  className="error">{formik.errors.email}</div>
         ) : null}
       </div>
 
@@ -168,7 +169,7 @@ export default function LoginModal({ show, handleClose }) {
             value={formik.values.matkhau}
           />
           {formik.touched.matkhau && formik.errors.matkhau ? (
-            <div>{formik.errors.matkhau}</div>
+            <div  className="error">{formik.errors.matkhau}</div>
           ) : null}
         </div>
 
@@ -182,13 +183,14 @@ export default function LoginModal({ show, handleClose }) {
             value={formik.values.rematkhau}
           />
           {formik.touched.rematkhau && formik.errors.rematkhau ? (
-            <div>{formik.errors.rematkhau}</div>
+            <div className="error">{formik.errors.rematkhau}</div>
           ) : null}
         </div>
       </div>
       <button type="submit">Đăng Ký</button>
     </form>
   </div>
+</div>
 </div>
   );
 }

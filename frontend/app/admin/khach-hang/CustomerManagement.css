@@ -75,39 +75,6 @@ table th {
 
 /* CSS */
 .status-button {
-  background-color: #c91c1c;
-  border-radius: 8px;
-  border-style: none;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  cursor: pointer;
-  display: inline-block;
-  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  height: 40px;
-  line-height: 20px;
-  list-style: none;
-  margin: 0;
-  outline: none;
-  padding: 10px 16px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  transition: color 100ms;
-  vertical-align: baseline;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-.status-button:hover,
-.status-button:focus {
-  background-color: #9e0000;
-}
-
-
-.role-button {
   background-color: #56b65f;
   border-radius: 8px;
   border-style: none;
@@ -134,29 +101,78 @@ table th {
   touch-action: manipulation;
 }
 
-.role-button:hover,
+/* .status-button:hover,
+.status-button:focus {
+  background-color: #005721;
+} */
+
+
+.role-button {
+  background-color: #c20000;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* .role-button:hover,
 .role-button:focus {
-  background-color: #45884b;
-}
-.edit-button{
-  border: none;
-  background-color: white;
-}
-/* From Uiverse.io by andrew-demchenk0 */ 
-.button1 {
+  background-color: #850000;
+} */
+.action-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px 12px;
-  gap: 2px;
-  height: 40px;
-  width: 60px;
-  border: none;
-  background: #a549da3d;
-  border-radius: 20px;
-  cursor: pointer;
-  
+  gap: 10px; /* Khoảng cách giữa các nút */
 }
+
+.edit-button {
+  padding: 8px 16px;
+  background-color: #4d6950; /* Màu nền xanh rêu */
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px; /* Bo góc */
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #3d5940; /* Màu đậm hơn khi hover */
+}
+
+.delete-icon {
+  padding: 8px 16px;
+  background-color: white; /* Nền trắng */
+  color: #4d6950; /* Màu chữ xanh rêu */
+  border: 1px solid #4d6950; /* Viền xanh rêu */
+  border-radius: 5px; /* Bo góc */
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
 
 .lable {
   line-height: 22px;
@@ -192,33 +208,6 @@ table th {
   }
 }
 
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px; /* Khoảng cách giữa các nút */
-}
-
-.edit-button, .delete-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.button1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 12px;
-  gap: 2px;
-  height: 40px;
-  background: #a549da3d;
-  border-radius: 20px;
-  cursor: pointer;
-}
 
 .label {
   line-height: 22px;
@@ -227,16 +216,6 @@ table th {
   letter-spacing: 1px;
 }
 
-.delete-icon svg {
-  fill: #FF6347;
-  width: 24px;
-  height: 24px;
-}
-
-.delete-icon:hover svg {
-  fill: #e53935;
-  transform: scale(1.1);
-}
 
 
 .modal-overlay {
