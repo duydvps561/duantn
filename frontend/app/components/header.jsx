@@ -29,7 +29,6 @@ export default function Header() {
   const handleOpenLogin = () => setShowLogin(true);
   const handleCloseLogin = () => setShowLogin(false);
 
-  // Log userId to check
   useEffect(() => {
     if (user) {
       console.log("User ID:", user.id);
@@ -80,7 +79,11 @@ export default function Header() {
                 style={{ color: "#ffffff", fontSize: "14px" }}
               />
             </div>
-            <span className="text-light" style={{ fontSize: "17px" }}>
+            <span
+              className="text-light"
+              style={{ fontSize: "17px" }}
+              onClick={() => setShowOp(true)}
+            >
               {user.username}
             </span>
             <FontAwesomeIcon
@@ -103,23 +106,21 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <a
+              <Link
+                href="/yourticket"
                 className="dropdown-item"
-                href="#"
                 style={{ fontSize: "17px" }}
               >
                 <i className="fa-solid fa-arrow-right-from-bracket"></i> Lịch sử
                 mua vé
-              </a>
+              </Link>
             </li>
             <li>
               <a
                 className="dropdown-item"
                 href="#"
                 style={{ fontSize: "17px" }}
-                onClick={() => {
-                  dispatch(logout());
-                }}
+                onClick={() => dispatch(logout())}
               >
                 <i className="fa-solid fa-arrow-right-from-bracket"></i> Đăng
                 xuất

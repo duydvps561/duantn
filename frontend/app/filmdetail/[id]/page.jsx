@@ -4,7 +4,7 @@ import "./fimdetail.css";
 import { useRef } from "react";
 import Food from "@/app/components/food";
 import { useDispatch, useSelector } from "react-redux";
-import { addSeat } from "@/redux/slice/cartSlice";
+import { addSeat, clearCart } from "@/redux/slice/cartSlice";
 import {
   clearMovieInfo,
   updateCaChieuID,
@@ -15,6 +15,9 @@ import {
 } from "@/redux/slice/filmSlice";
 export default function filmdetail({ params }) {
   const dispatch = useDispatch();
+  useEffect(() =>{
+    dispatch(clearCart());
+  },[dispatch]);
   const { cart } = useSelector((state) => state.cart);
   const id = params.id;
   const [show, setShow] = useState(false);
@@ -403,11 +406,9 @@ export default function filmdetail({ params }) {
                                     item.loaighe_id._id === ghe.loaighe_id
                                 );
                                 let style = {};
-                                // Gán màu cho ghế
                                 if (loaigheItem) {
                                   style.backgroundColor = loaigheItem.mau;
                                 }
-                                // Thay đổi màu sắc khi ghế được chọn
                                 if (isSelected) {
                                   style.backgroundColor = "#005AD8";
                                   style.color = "white";
@@ -443,7 +444,6 @@ export default function filmdetail({ params }) {
                                           parseInt(ghe.cot) + 1
                                         }`;
                                         if (isSelected) {
-                                          // Bỏ chọn ghế đôi
                                           setSeatSelected((prevSeats) =>
                                             prevSeats.filter(
                                               (selected) =>
@@ -458,12 +458,10 @@ export default function filmdetail({ params }) {
                                               gia: 0,
                                             })
                                           );
-                                          // Cập nhật tổng giá
                                           setGiaghe(
                                             (prevTotal) => prevTotal - gia * 2
                                           );
                                         } else {
-                                          // Chọn ghế đôi
                                           if (
                                             gheData.some(
                                               (g) =>
@@ -483,7 +481,6 @@ export default function filmdetail({ params }) {
                                                 gia,
                                               })
                                             );
-                                            // Cập nhật tổng giá
                                             setGiaghe(
                                               (prevTotal) => prevTotal + gia * 2
                                             );
@@ -491,7 +488,6 @@ export default function filmdetail({ params }) {
                                         }
                                       } else {
                                         if (isSelected) {
-                                          // Bỏ chọn ghế đơn
                                           setSeatSelected((prevSeats) =>
                                             prevSeats.filter(
                                               (selected) => selected !== seat
@@ -504,12 +500,10 @@ export default function filmdetail({ params }) {
                                               gia: 0,
                                             })
                                           );
-                                          // Cập nhật tổng giá
                                           setGiaghe(
                                             (prevTotal) => prevTotal - gia
                                           );
                                         } else {
-                                          // Chọn ghế đơn
                                           setSeatSelected((prevSeats) => [
                                             ...prevSeats,
                                             seat,
@@ -521,7 +515,6 @@ export default function filmdetail({ params }) {
                                               gia,
                                             })
                                           );
-                                          // Cập nhật tổng giá
                                           setGiaghe(
                                             (prevTotal) => prevTotal + gia
                                           );
@@ -577,7 +570,6 @@ export default function filmdetail({ params }) {
                   </p>
                   <p className="seat-total-price">
                     Tổng tiền: <span>{giaghe.toLocaleString()} VND</span>{" "}
-                    {/* Hiển thị số tiền với định dạng VND */}
                   </p>
                 </div>
                 <div className="seat-btn">
@@ -588,6 +580,7 @@ export default function filmdetail({ params }) {
                       setTimeLeft(10 * 60);
                       setFoodShow(false);
                       setSeatSelected([]);
+                      dispatch(clearCart());
                       dispatch(clearMovieInfo());
                     }}
                   >

@@ -5,11 +5,13 @@ import * as Yup from "yup";
 import "./loginModal.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/redux/slice/authSlice";
+import { useRouter } from "next/navigation";
 
 export default function LoginModal({ show, handleClose }) {
   const dispatch = useDispatch();
   const isAuthen = useSelector((state) => state.auth.isAuthenticated); // Kiểm tra trạng thái xác thực
 
+  const router = useRouter;
   if (!show) return null;
 
   const formik = useFormik({
@@ -45,7 +47,9 @@ export default function LoginModal({ show, handleClose }) {
         // Dispatch action đăng nhập
         dispatch(login({ token, user }));
         alert("Đăng nhập thành công!");
-        handleClose(); // Đóng modal sau khi đăng nhập thành công
+
+        handleClose();
+        router.push("/");
       } catch (error) {
         setFieldError("general", error.message);
       } finally {

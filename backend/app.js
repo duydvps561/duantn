@@ -38,6 +38,7 @@ var VeRouter = require("./routes/ticket/ve");
 //
 var TintucRouter = require("./routes/tintucs");
 var ThongkeRouter = require("./routes/thongke");
+var BanerRouter = require("./routes/banner");
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -64,7 +65,7 @@ app.use("/register", RegisterRouter);
 app.use("/login", LoginRouter);
 //food
 app.use("/food", FoodRouter);
-app.use("/foododer", FoodOderRouter);
+app.use("/foodorder", FoodOderRouter);
 app.use("/hoadon", HoadonRouter);
 //movie
 app.use("/phim", PhimRouter);
@@ -83,6 +84,8 @@ app.use("/ve", VeRouter);
 app.use("/thongke", ThongkeRouter);
 app.use("/lienhe", ContactRouter);
 app.use("/tintuc", TintucRouter);
+app.use("/banner", BanerRouter);
+
 app.use(function (req, res, next) {
   next(createError(404));
 });
