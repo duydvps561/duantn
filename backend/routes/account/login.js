@@ -9,9 +9,11 @@ router.post("/login", async (req, res, next) => {
   try {
     await connect();
     const { email, matkhau } = req.body;
-    
+
     if (!email || !matkhau) {
-      return res.status(400).json({ message: "Email và mật khẩu là bắt buộc." });
+      return res
+        .status(400)
+        .json({ message: "Email và mật khẩu là bắt buộc." });
     }
 
     const user = await Taikhoan.findOne({ email });
@@ -25,19 +27,26 @@ router.post("/login", async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role, username: user.tentaikhoan },
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        username: user.tentaikhoan,
+      },
       process.env.JWT_SECRET || "default_secret",
       { expiresIn: "1h" }
     );
 
     return res.status(200).json({
-      message: 'Đăng nhập thành công',
+      message: "Đăng nhập thành công",
       token,
       user: {
         id: user._id,
         email: user.email,
         role: user.role,
         username: user.tentaikhoan,
+        phone: user.sdt,
+        birth: user.ngaysinh,
       },
     });
   } catch (error) {
@@ -46,14 +55,13 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-
-router.get('/protected', authenticateToken, (req, res) => {
-  res.json({ message: 'Xác thực thành công' });
+router.get("/protected", authenticateToken, (req, res) => {
+  res.json({ message: "Xác thực thành công" });
 });
 
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
   if (token == null) return res.sendStatus(401); // Không được phép
 
   jwt.verify(token, process.env.JWT_SECRET || "default_secret", (err, user) => {
