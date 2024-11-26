@@ -188,6 +188,8 @@ export default function EditMovie() {
         type="number"
         name="thoiluong"
         required
+        min={0}
+        defaultValue={0}
         className="form-control"
         value={movie.thoiluong}
         onChange={handleInputChange}
