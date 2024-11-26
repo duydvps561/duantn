@@ -5,9 +5,11 @@ import * as Yup from "yup";
 import "./loginModal.css";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/slice/authSlice";
+import { useRouter } from "next/navigation";
 
 export default function LoginModal({ show, handleClose }) {
   const dispatch = useDispatch();
+  const router = useRouter
   if (!show) return null;
 
   const formik = useFormik({
@@ -40,6 +42,8 @@ export default function LoginModal({ show, handleClose }) {
         const { token, user } = data;
         dispatch(login({ token, user }));
         alert("Đăng nhập thành công!");
+        handleClose();
+        router.push("/");
       } catch (error) {
         setFieldError("general", error.message);
       } finally {

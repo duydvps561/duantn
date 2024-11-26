@@ -120,7 +120,7 @@ export default function Header() {
                 <li>
                   <a
                     className="dropdown-item "
-                    href="#"
+                    href="/"
                     style={{ fontSize: "17px" }}
                     onClick={() => {
                       setShowOp(false), dispatch(logout());

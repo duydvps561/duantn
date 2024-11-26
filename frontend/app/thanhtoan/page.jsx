@@ -78,7 +78,6 @@ export default function ThanhToan() {
         <div className="item">
           <div className="title-item">
             <h2 className="text-light">Thông tin phim</h2>
-            <button onClick={() => {dispatch(clearCart());dispatch(clearMovieInfo())}}>Xóa giỏ hàng</button>
           </div>
           <div className="item-body">
             <div className="filmdetail">
@@ -143,7 +142,7 @@ export default function ThanhToan() {
             <h2 className="text-light">Phương thức thanh toán</h2>
           </div>
           <div className="paymoment">
-            {['VietQR', 'PayOS'].map((method) => (
+            {['PayOS'].map((method) => (
               <div className="pay-account" key={method}>
                 <input
                   type="radio"
