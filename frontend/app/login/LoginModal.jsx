@@ -9,11 +9,9 @@ import { useRouter } from "next/navigation";
 
 export default function LoginModal({ show, handleClose }) {
   const dispatch = useDispatch();
-  const isAuthen = useSelector((state) => state.auth.isAuthenticated); // Kiểm tra trạng thái xác thực
-
+  // const isAuthen = useSelector((state) => state.auth.isAuthenticated);
   const router = useRouter;
   if (!show) return null;
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -44,10 +42,8 @@ export default function LoginModal({ show, handleClose }) {
         const data = await res.json();
         const { token, user } = data;
 
-        // Dispatch action đăng nhập
         dispatch(login({ token, user }));
         alert("Đăng nhập thành công!");
-
         handleClose();
         router.push("/");
       } catch (error) {
@@ -58,27 +54,26 @@ export default function LoginModal({ show, handleClose }) {
     },
   });
 
-  // Hiển thị thông báo nếu người dùng chưa đăng nhập
-  if (isAuthen) {
-    return (
-      <div className="module_modal" onClick={handleClose}>
-        <div
-          className="modal-overlay"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <div className="modal-login bg-dark rounded">
-            <h2>Bạn đã đăng nhập thành công!</h2>
-            <button onClick={handleClose} className="close-modal">
-              &times;
-            </button>
-            <p>Người dùng hiện tại: {formik.values.email}</p>
-            <button onClick={handleClose}>Đóng</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // if (isAuthen) {
+  //   return (
+  //     <div className="module_modal" onClick={handleClose}>
+  //       <div
+  //         className="modal-overlay"
+  //         onClick={(event) => event.stopPropagation()}
+  //       >
+  //         <div className="modal-login bg-dark rounded">
+  //           <h2>Bạn đã đăng nhập thành công!</h2>
+  //           <button onClick={handleClose} className="close-modal">
+  //             &times;
+  //           </button>
+  //           <p>Người dùng hiện tại: {formik.values.email}</p>
+  //           <button onClick={handleClose}>Đóng</button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+ 
   return (
     <div className="module_modal" onClick={handleClose}>
       <div

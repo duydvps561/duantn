@@ -154,7 +154,6 @@ export default function Yourticket() {
             .replace(/[đĐ]/g, 'd');
     };
 
-    console.log(vetheoHoadon);
     const filteredTickets = vetheoHoadon.filter((ticket) => {
         const ticketDate = new Date(ticket.createdAt);
         const ticketDateString = ticketDate.toISOString().split('T')[0];
