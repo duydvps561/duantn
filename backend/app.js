@@ -18,6 +18,7 @@ var ContactRouter = require("./routes/Contacts");
 var TaikhoanRouter = require("./routes/account/taikhoan");
 var RegisterRouter = require("./routes/account/register");
 var LoginRouter = require("./routes/account/login");
+var ForgotPasswordRouter = require("./routes/account/forgotpassword");
 //food
 var FoodRouter = require("./routes/food/food");
 var FoodOderRouter = require("./routes/food/foododer");
@@ -63,6 +64,7 @@ app.use('/payos',PayosRouter);
 app.use("/taikhoan", TaikhoanRouter);
 app.use("/register", RegisterRouter);
 app.use("/login", LoginRouter);
+app.use("/forgotpassword", ForgotPasswordRouter);
 //food
 app.use("/food", FoodRouter);
 app.use("/foodorder", FoodOderRouter);

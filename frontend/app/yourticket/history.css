@@ -3,11 +3,15 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+.his-box-tool{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    margin: 10px;
+}
 .his-tool-day {
     position: relative;
-    width: 250px;
-    height: 40px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -16,7 +20,8 @@
 
 
 .his-tool-day input[type="date"] {
-    width: 100%;
+    margin: 0;
+    width: 250px;
     font-size: 16px;
     height: 40px;
     padding: 5px;
@@ -57,22 +62,21 @@
 
 
 .his-tool-search{
-    width: 250px;
-    height: 40px;
-    padding: 10px;
-    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
+    margin: 0;
 }
 .his-tool-search input{
-    width: 100%;
+    width: 250px;
+    margin: 0;
     padding: 10px;
     height: 40px;
     border-radius: 5px;
     font-size: 16px;
-    color: rgb(115, 110, 110);
+    color: rgb(221, 211, 211);
+    position: relative;
     background-color:none;
 }
 .his-tool-search .his-search-icon{
@@ -85,109 +89,237 @@
 .his-table-content{
     margin: 20px 0 0 0;
 }
-.his-table{
-    background-color: rgb(24, 30, 35);
+.his-table {
     width: 100%;
-    border-radius: 10px;
-    padding: 20px;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Tạo khoảng cách giữa các hàng */
+    margin: 20px 0;
+    font-size: 1rem;
+    text-align: left;
+    background-color: transparent;
+}
+
+.his-table thead {
+    color: #f1c40f; /* Vàng */
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.1rem;
     text-align: center;
-    box-shadow: rgba(171, 171, 195, 0.25) 0px 30px 60px -12px inset, rgba(15, 7, 74, 0.3) 0px 18px 36px -18px inset;
 }
-.his-table thead{
-    padding: 10px;
+
+.his-table thead tr th {
+    padding: 15px;
+    background: #2c3e50; /* Đen xám */
+    border-radius: 10px 10px 0 0; /* Góc bo tròn */
 }
-.his-table thead th{
-    height: 40px;
-    font-size: 20px;
+
+.his-table tbody tr {
+    background: #34495e; /* Xanh đen */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
-.his-table td{
-    font-size: 16px;
-    height: 40px;
+
+.his-table tbody tr:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+
+.his-table tbody td {
+    padding: 15px;
+    text-align: center;
+    color: #ecf0f1; /* Trắng nhạt */
+}
+
+.his-table tbody td:nth-child(2) {
+    color: #f1c40f; /* Vàng */
+    font-weight: bold;
+}
+
+.his-table tbody td:last-child span {
+    background: #e74c3c; /* Đỏ */
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.his-table tbody td:last-child span:hover {
+    background: #c0392b; /* Đỏ đậm hơn */
+}
+.status {
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.status.unused {
+    background-color: #27ae60; /* Màu xanh lá */
+}
+
+.status.used {
+    background-color: #c0392b; /* Màu đỏ */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .his-table {
+        font-size: 0.9rem;
+    }
+
+    .his-table thead tr th,
+    .his-table tbody td {
+        padding: 10px;
+    }
+}
+
 .ticket-modal-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Nền mờ tối */
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 1000;
+    justify-content: center;
+    z-index: 9999;
 }
 
 .ticket-modal-content {
-    background: #fff;
-    border-radius: 10px;
-    padding: 20px;
     width: 400px;
-    position: relative;
-    color: #000;
+    background: #2c3e50; /* Nền xanh đen */
+    color: #ecf0f1; /* Chữ trắng nhạt */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
 .ticket-header {
     text-align: center;
-    margin-bottom: 15px;
+    background: #6d9ccb; /* Màu vàng */
+    padding: 15px;
+    border-bottom: 2px solid #34495e;
 }
 
-.barcode {
-    display: flex;
-    gap: 2px;
-    justify-content: center;
-    align-items: flex-end;
-    height: 100px;
-    overflow: hidden;
+.ticket-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #2c3e50; /* Chữ đen đậm */
 }
 
-.barcode-line {
-    width: 4px;
-    background-color: black;
+.ticket-header h5 {
+    margin: 10px 0 0;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.qr img {
+    margin-top: 10px;
+    width: 200px;
+    height: 200px;
+    border: 2px solid #ecf0f1;
+    border-radius: 10px;
 }
 
 .ticket-body {
-    margin-top: 10px;
+    padding: 20px;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.ticket-body p {
+    margin: 10px 0;
+}
+
+.ticket-body strong {
+    color: #f1c40f; /* Chữ vàng nổi bật */
 }
 
 .ticket-footer {
     text-align: center;
-    margin-top: 20px;
+    padding: 15px;
+    border-top: 2px solid #34495e;
+    background: #2c3e50; /* Nền đồng bộ với thân */
 }
 
 .close-btn {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background: #e74c3c; /* Đỏ */
+    color: #ecf0f1; /* Chữ trắng */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-.close-btn:hover {
-    background-color: #0056b3;
-}
-.page-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-.pagination button {
-    margin: 0 5px;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    background-color: #272222;
-    color: white;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    transition: background 0.3s;
 }
 
-.pagination button.active {
-    background-color: #555;
+.close-btn:hover {
+    background: #c0392b; /* Đỏ đậm hơn khi hover */
 }
+
+/* Hiệu ứng mờ xuất hiện */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.page-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    background-color: #2c3e50; /* Nền xanh đen */
+    color: #ecf0f1; /* Chữ trắng */
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.pagination button:hover {
+    background-color: #f1c40f; /* Vàng nhạt */
+    color: #2c3e50; /* Chữ xanh đen */
+}
+
+.pagination button:disabled {
+    background-color: #7f8c8d; /* Xám nhạt */
+    color: #bdc3c7; /* Chữ xám */
+    cursor: not-allowed;
+}
+
+.pagination span {
+    color: #2c3e50;
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+.pagination .first,
+.pagination .last {
+    font-size: 12px;
+    padding: 5px 8px;
+}
+
 .his-tool-status {
     position: relative;
     width: 250px;

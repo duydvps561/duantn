@@ -11,6 +11,7 @@ import { postHoadon } from "@/redux/slice/hoadonSlice";
 import { postTicket } from "@/redux/slice/ticket";
 import { Sendemail } from "@/redux/slice/email";
 import { postFoodOrder } from "@/redux/slice/foodorderSlice";
+import Access from "./components/accessRole";
 
 export default function Home() {
   const boxes = document.querySelectorAll(".box");
@@ -76,7 +77,6 @@ export default function Home() {
   const minute = String(now.getMinutes()).padStart(2, "0");
   const giolap = `${hours}:${minute}`;
   const ngaylap = now.toISOString();
-  console.log(food);
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const isHoadonProcessed = localStorage.getItem("hoadonProcessed");

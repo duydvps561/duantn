@@ -3,15 +3,13 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./loginModal.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "@/redux/slice/authSlice";
 import { useRouter } from "next/navigation";
 
 export default function LoginModal({ show, handleClose }) {
   const dispatch = useDispatch();
-  const isAuthen = useSelector((state) => state.auth.isAuthenticated); // Kiểm tra trạng thái xác thực
-
-  const router = useRouter;
+  const router = useRouter
   if (!show) return null;
 
   const formik = useFormik({
@@ -40,14 +38,10 @@ export default function LoginModal({ show, handleClose }) {
           const errorData = await res.json();
           throw new Error(errorData.message || "Đăng nhập thất bại");
         }
-
         const data = await res.json();
         const { token, user } = data;
-
-        // Dispatch action đăng nhập
         dispatch(login({ token, user }));
         alert("Đăng nhập thành công!");
-
         handleClose();
         router.push("/");
       } catch (error) {
@@ -57,92 +51,69 @@ export default function LoginModal({ show, handleClose }) {
       }
     },
   });
-
-  // Hiển thị thông báo nếu người dùng chưa đăng nhập
-  if (isAuthen) {
-    return (
-      <div className="module_modal" onClick={handleClose}>
-        <div
-          className="modal-overlay"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <div className="modal-login bg-dark rounded">
-            <h2>Bạn đã đăng nhập thành công!</h2>
-            <button onClick={handleClose} className="close-modal">
-              &times;
-            </button>
-            <p>Người dùng hiện tại: {formik.values.email}</p>
-            <button onClick={handleClose}>Đóng</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="module_modal" onClick={handleClose}>
-      <div
-        className="modal-overlay"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="modal-login bg-dark rounded">
-          <button onClick={handleClose} className="close-modal">
-            &times;
+   <>
+   <div className="module_modal" onClick={handleClose}>
+   <div className="modal-overlay" onClick={(event) => event.stopPropagation()}>
+      <div className="modal-login bg-dark rounded">
+        <button onClick={handleClose} className="close-modal">
+          &times;
+        </button>
+        <h2>Đăng nhập</h2>
+        <form onSubmit={formik.handleSubmit}>
+          <label className="key" htmlFor="email">
+            Email:
+          </label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            required
+            placeholder="Email...."
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <div className="error">{formik.errors.email}</div>
+          ) : null}
+
+          <label className="key" htmlFor="matkhau">
+            Mật khẩu:
+          </label>
+          <input
+            type="password" // Đổi thành type="password" để ẩn mật khẩu
+            id="matkhau"
+            name="matkhau"
+            required
+            placeholder="Mật khẩu...."
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.matkhau}
+          />
+          {formik.touched.matkhau && formik.errors.matkhau ? (
+            <div className="error">{formik.errors.matkhau}</div>
+          ) : null}
+
+          <p className="upPW">
+            <a href="#">Quên mật khẩu</a>
+          </p>
+          <button type="submit" disabled={formik.isSubmitting}>
+            Đăng nhập
           </button>
-          <h2>Đăng nhập</h2>
-          <form onSubmit={formik.handleSubmit}>
-            <label className="key" htmlFor="email">
-              Email:
-            </label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              required
-              placeholder="Email...."
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <div className="error">{formik.errors.email}</div>
-            )}
-
-            <label className="key" htmlFor="matkhau">
-              Mật khẩu:
-            </label>
-            <input
-              type="password"
-              id="matkhau"
-              name="matkhau"
-              required
-              placeholder="Mật khẩu...."
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.matkhau}
-            />
-            {formik.touched.matkhau && formik.errors.matkhau && (
-              <div className="error">{formik.errors.matkhau}</div>
-            )}
-
-            <p className="upPW">
-              <a href="#">Quên mật khẩu?</a>
-            </p>
-            <button type="submit" disabled={formik.isSubmitting}>
-              Đăng nhập
-            </button>
-            <p className="ans text-light">
-              Bạn chưa có tài khoản?{" "}
-              <a className="register text-danger" href="/register">
-                Đăng ký
-              </a>
-            </p>
-          </form>
-          {formik.errors.general && (
-            <div className="error">{formik.errors.general}</div>
-          )}
-        </div>
+          <p className="ans text-light">
+            Bạn chưa có tài khoản?{" "}
+            <a className="register text-danger" href="/register">
+              Đăng ký
+            </a>
+          </p>
+        </form>
+        {formik.errors.general && (
+          <div className="error">{formik.errors.general}</div>
+        )}
       </div>
     </div>
+   </div>
+   </>
   );
 }

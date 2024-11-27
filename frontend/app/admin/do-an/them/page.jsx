@@ -4,6 +4,7 @@ import axios from 'axios';
 import Layout from "@/app/components/admin/Layout";
 import { useRouter } from 'next/navigation';  // Next.js 13 navigation import
 import Swal from 'sweetalert2';
+import * as Yup from 'yup'; 
 import './them.css';
 
 const ThemDoAnPage = () => {
@@ -14,6 +15,13 @@ const ThemDoAnPage = () => {
   const [image, setImage] = useState(null);
   const router = useRouter();
 
+  const validationSchema = Yup.object().shape({
+    tenfood: Yup.string().required('Tên món ăn không được để trống'),
+    gia: Yup.number().typeError('Giá phải là một số').positive('Giá phải lớn hơn 0').required('Giá không được để trống'),
+    loai: Yup.string().required('Vui lòng chọn loại món ăn'),
+    image: Yup.mixed().required('Vui lòng chọn ảnh'),
+  });
+
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
@@ -21,23 +29,22 @@ const ThemDoAnPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!tenfood || !gia || !loai || !image) {
-      Swal.fire('Thông báo', 'Vui lòng điền đầy đủ thông tin.', 'warning');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('tenfood', tenfood);
-    formData.append('gia', gia);
-    formData.append('loai', loai);
-    formData.append('trangthai', trangthai);
-    formData.append('img', image);
-
+    // Validate inputs
+    const formData = { tenfood, gia, loai, image };
     try {
-      const response = await axios.post('http://localhost:3000/food/add', formData, {
+      await validationSchema.validate(formData, { abortEarly: false });
+
+      const uploadData = new FormData();
+      uploadData.append('tenfood', tenfood);
+      uploadData.append('gia', gia);
+      uploadData.append('loai', loai);
+      uploadData.append('trangthai', trangthai);
+      uploadData.append('img', image);
+
+      const response = await axios.post('http://localhost:3000/food/add', uploadData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      
+
       if (response.status === 201) {
         Swal.fire({
           title: 'Thành công',
@@ -51,8 +58,12 @@ const ThemDoAnPage = () => {
         Swal.fire('Lỗi', 'Có lỗi xảy ra khi thêm món ăn!', 'error');
       }
     } catch (error) {
-      console.error('Error adding food item:', error);
-      Swal.fire('Lỗi', 'Có lỗi xảy ra khi thêm món ăn!', 'error');
+      if (error.name === 'ValidationError') {
+        Swal.fire('Thông báo', error.errors.join('\n'), 'warning');
+      } else {
+        console.error('Error adding food item:', error);
+        Swal.fire('Lỗi', 'Có lỗi xảy ra khi thêm món ăn!', 'error');
+      }
     }
   };
 
@@ -67,7 +78,6 @@ const ThemDoAnPage = () => {
             type="text"
             value={tenfood}
             onChange={(e) => setTenfood(e.target.value)}
-            required
           />
         </div>
         <div className="formGroup col-6">
@@ -76,7 +86,6 @@ const ThemDoAnPage = () => {
             type="number"
             value={gia}
             onChange={(e) => setGia(e.target.value)}
-            required
           />
         </div>
         <div className="formGroup col-6">
@@ -84,7 +93,6 @@ const ThemDoAnPage = () => {
           <select
             value={loai}
             onChange={(e) => setLoai(e.target.value)}
-            required
           >
             <option value="">Chọn loại</option>
             <option value="Đồ Ăn">Đồ Ăn</option>
@@ -107,7 +115,6 @@ const ThemDoAnPage = () => {
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            required
           />
         </div>
         <button type="submit" className="submitButton">Thêm Món Ăn</button>

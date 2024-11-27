@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import LoginModal from "../login/LoginModal";
 import RegisterModal from "../register/RegisterModal";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +18,7 @@ export default function Header() {
   ];
 
   const dispatch = useDispatch();
+  const router = useRouter();
   const isAuthen = useSelector((state) => state.auth.authenticated);
   const user = useSelector((state) => state.auth.user);
   const pathname = usePathname();
@@ -28,15 +29,10 @@ export default function Header() {
   const handleCloseRegister = () => setRegister(false);
   const handleOpenLogin = () => setShowLogin(true);
   const handleCloseLogin = () => setShowLogin(false);
-
-  useEffect(() => {
-    if (user) {
-      console.log("User ID:", user.id);
-    } else {
-      console.log("User is not authenticated");
-    }
-  }, [user]);
-
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push('/')
+  }
   return (
     <header>
       <Link href="/">
@@ -82,7 +78,6 @@ export default function Header() {
             <span
               className="text-light"
               style={{ fontSize: "17px" }}
-              onClick={() => setShowOp(true)}
             >
               {user.username}
             </span>
@@ -92,7 +87,7 @@ export default function Header() {
             />
           </div>
           <ul
-            className="dropdown-menu mt-2"
+            className="dropdown-menu mt-2 w-100"
             style={{ backgroundColor: "#10141b" }}
             aria-labelledby="dropdownMenuButton"
           >
@@ -120,7 +115,7 @@ export default function Header() {
                 className="dropdown-item"
                 href="#"
                 style={{ fontSize: "17px" }}
-                onClick={() => dispatch(logout())}
+                onClick={(handleLogout)}
               >
                 <i className="fa-solid fa-arrow-right-from-bracket"></i> Đăng
                 xuất

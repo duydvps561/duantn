@@ -30,7 +30,7 @@ router.post("/login", async (req, res, next) => {
       {
         id: user._id,
         email: user.email,
-
+        role: user.vaitro,
         username: user.tentaikhoan,
       },
       process.env.JWT_SECRET || "default_secret",
@@ -43,6 +43,7 @@ router.post("/login", async (req, res, next) => {
       user: {
         id: user._id,
         email: user.email,
+        role: user.vaitro,
         username: user.tentaikhoan,
         phone: user.sdt,
         birth: user.ngaysinh,
@@ -64,10 +65,10 @@ router.get("/protected", authenticateToken, (req, res) => {
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) return res.sendStatus(401); // Không được phép
+  if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.JWT_SECRET || "default_secret", (err, user) => {
-    if (err) return res.sendStatus(403); // Cấm truy cập
+    if (err) return res.sendStatus(403); 
     req.user = user;
     next();
   });

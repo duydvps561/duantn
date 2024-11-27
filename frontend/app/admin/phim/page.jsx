@@ -23,7 +23,9 @@ const QuanLyPhimPage = () => {
 
     fetchMovies();
   }, []);
-
+  const formatDate = (isoDate) => {
+    return new Date(isoDate).toLocaleDateString('vi-VN');
+  };
   const deleteMovie = async (id) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa phim này?')) {
       try {
@@ -80,7 +82,7 @@ const QuanLyPhimPage = () => {
                   {movie.img && <img src={`http://localhost:3000/img/phims/${movie.img}`} alt={movie.tenphim} className={styles.movieImage} />}
 
                   </td>
-                  <td>{movie.tenphim}</td>
+                  <td style={{'textTransform': "uppercase"}}>{movie.tenphim}</td>
                   {/* <td>{movie.noidung}</td>
                   <td>{movie.thoiluong}</td>
                   <td>{movie.daodien}</td>
@@ -88,8 +90,8 @@ const QuanLyPhimPage = () => {
                   {/* <td>
                     <a href={movie.trailler} target="_blank" rel="noopener noreferrer">Xem Trailler</a>
                   </td> */}
-                  <td>{movie.ngayhieuluc}</td>
-                  <td>{movie.ngayhieulucden}</td>
+                  <td>{formatDate(movie.ngayhieuluc)}</td>
+                  <td>{formatDate(movie.ngayhieulucden)}</td>
                   <td>{movie.trangthai === '0' ? 'Hoạt Động' : 'Không Hoạt Động'}</td>
                   <td style={{display: 'flex'}}>
                   <Link href={`/admin/phim/edit?id=${movie._id}`} style={{background: '#4d6950', color: 'white'}} className="btn me-2 sua">Sửa</Link>
