@@ -149,7 +149,39 @@ thead {
   background-color: #4d6950;
   color: #fff;
   cursor: pointer;
-}
+  }
+  
+  .deleteButton:hover {
+    background-color: #4d6950;
+    color: white;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  thead {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .edit-btn, .delete-btn {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: #f44336;
+    color: white;
+  } 
 
 .page-item.active .page-link {
   background-color: #4d6950;

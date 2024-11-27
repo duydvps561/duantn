@@ -73,21 +73,53 @@
   border-radius: 5px;
   cursor: pointer;
   margin-right: 5px;
-}
-
-.editButton:hover {
-  background-color: #0056b3;
-  transition: background-color 0.3s ease;
-}
-
-.deleteButton {
-  padding: 8px 15px;
+  }
+  
+  
+    .editButton:hover {
+    background-color: #4d6950;
+  }
+  
+  .deleteButton {
+  padding: 8px 15px; /* Increased button padding */
   background-color: white;
   color: black;
   border: 1px solid #4d6950;
   border-radius: 5px;
   cursor: pointer;
-}
+  }
+  
+  .deleteButton:hover {
+    background-color: #4d6950;
+    color: white;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  thead {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .edit-btn, .delete-btn {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: #f44336;
+    color: white;
+  } 
 
 .deleteButton:hover {
   background-color: #c82333;

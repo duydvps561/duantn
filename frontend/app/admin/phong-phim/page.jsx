@@ -128,14 +128,32 @@ const QuanLyPhongPage = () => {
 
   return (
     <Layout>
-      <h1>Quản Lý Phòng Phim</h1>
-      <p>Đây là trang quản lý phòng phim.</p>
-      <div className="d-flex justify-content-end align-items-center mb-3">
-                    <Link href="/admin/phong-phim/them-ghe" className="btn btn-primary">
-                        Thêm Ghế
-                    </Link>
-      </div>
-      <div className={styles.formContainer}>
+   <h1 style={{
+  display: 'flex', 
+  justifyContent: 'center',
+
+  alignItems: 'center', 
+}}>
+        Quản Lý Phòng Phim</h1>
+
+      {/* Form to Add or Edit Room */}
+      <div style={{
+  display: 'flex',
+  gap: '1rem', 
+  justifyContent: 'space-between'
+
+}}>
+   <div style={{
+  flex: 4,
+  
+}} className={styles.formContainer}>
+   <h1 style={{
+  display: 'flex', 
+  justifyContent: 'center',
+    marginBottom: '2rem',
+  alignItems: 'center', 
+}}>
+         </h1>
         <input
           type="text"
           value={roomName}
@@ -168,7 +186,12 @@ const QuanLyPhongPage = () => {
           {isEditing ? 'Cập Nhật' : 'Thêm Phòng'}
         </button>
       </div>
-      <div className={styles.tablesContainer}>
+</div>
+      {/* Tables Section */}
+      <div style={{
+  flex: 6,
+  
+}} className={styles.tablesContainer}>
         <div className={styles.tableSection}>
           <h2 className={styles.tableTitle}>Danh Sách Phòng</h2>
           <table className={styles.table}>

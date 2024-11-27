@@ -147,15 +147,15 @@ const QuanLyLoaiGhePage = () => {
     <button
       style={{
         padding: '10px 15px',
-        backgroundColor: '#007bff',
+        backgroundColor: '#4d6950',
         color: 'white',
         border: 'none',
         borderRadius: '4px',
         cursor: 'pointer',
         transition: 'background-color 0.3s'
       }}
-      onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
-      onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+      onMouseOver={(e) => e.target.style.backgroundColor = '#4d6950'}
+      onMouseOut={(e) => e.target.style.backgroundColor = '#314533'}
       onClick={isEditing ? () => updateSeatType(editId) : addSeatType}
     >
       {isEditing ? "Cập Nhật" : "Thêm Loại Ghế"}

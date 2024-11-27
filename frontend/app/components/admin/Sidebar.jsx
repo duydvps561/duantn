@@ -57,27 +57,13 @@ const DropdownMenu = ({ item, isActive }) => {
 
   return (
     <li className={`${styles.menuItem} ${isActive ? styles.active : ''}`}> {/* Thêm class 'active' nếu là mục đang mở */}
-      <div onClick={toggleDropdown} className={styles.link}>
+      <Link href={`${item.href}`} className={styles.link}>
         <FontAwesomeIcon icon={item.icon} className={`${styles.icon} ${styles.svgIcon}`} />
         <span className={styles.text}>{item.text}</span>
-        {/* <FontAwesomeIcon
-          icon={faChevronDown}
-          className={`${styles.icon} ${styles.svgIcon} ${isOpen ? styles.open : ''}`}
-        /> */}
-      </div>
-
-      {isOpen && (
-        <ul className={styles.dropdownMenu}>
-          <li>
-            <Link href={`${item.href}`} className={styles.subLink}>Danh Sách</Link>
-          </li>
-          <li>
-            <Link href={`${item.href}/create`} className={styles.subLink}>Tạo Mới</Link>
-          </li>
-        </ul>
-      )}
+      </Link>
     </li>
   );
+  
 };
   
 
