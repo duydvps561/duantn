@@ -49,28 +49,28 @@ const ReservationForm = () => {
                     <div className='col-md-6 get-in-touch'>
                         <h2>GET IN TOUCH</h2>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <input 
-                                type="text" 
-                                placeholder="Name" 
+                            <input
+                                type="text"
+                                placeholder="Name"
                                 {...register('name', { required: true })}
-                            /> 
+                            />
                             {errors.name && <span>Name is required</span>} <br />
-                            <input 
-                                type="email" 
-                                placeholder="Email" 
+                            <input
+                                type="email"
+                                placeholder="Email"
                                 {...register('email', { required: true })}
                             />
-{errors.email && <span>Email is required</span>} <br />
-                            <input 
-                                type="tel" 
-                                placeholder="Phone" 
+                            {errors.email && <span>Email is required</span>} <br />
+                            <input
+                                type="tel"
+                                placeholder="Phone"
                                 {...register('phone', { required: true })}
-                            /> 
+                            />
                             {errors.phone && <span>Phone number is required</span>} <br />
-                            <textarea 
-                                placeholder="Contact" 
+                            <textarea
+                                placeholder="Contact"
                                 {...register('contact', { required: true })}
-                            ></textarea> 
+                            ></textarea>
                             {errors.contact && <span>Contact message is required</span>} <br />
                             <button type="submit">SEND NOW</button>
                         </form>

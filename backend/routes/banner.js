@@ -56,7 +56,22 @@ router.post('/add', upload.single('image'), async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+// lấy banner theo id 
 
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const banner = await Banner.findById(id);
+        if (!banner) {
+            return res.status(404).send('Banner not found');
+        }
+        res.json(banner);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 // Update an existing banner
 router.patch('/update/:id', upload.single('image'), async (req, res) => {
     const { id } = req.params;
