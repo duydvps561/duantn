@@ -30,7 +30,7 @@ router.post("/login", async (req, res, next) => {
       {
         id: user._id,
         email: user.email,
-        role: user.role,
+
         username: user.tentaikhoan,
       },
       process.env.JWT_SECRET || "default_secret",
@@ -43,7 +43,7 @@ router.post("/login", async (req, res, next) => {
       user: {
         id: user._id,
         email: user.email,
-        role: user.role,
+
         username: user.tentaikhoan,
         phone: user.sdt,
         birth: user.ngaysinh,
