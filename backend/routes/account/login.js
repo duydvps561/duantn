@@ -43,10 +43,12 @@ router.post("/login", async (req, res, next) => {
       user: {
         id: user._id,
         email: user.email,
-
         username: user.tentaikhoan,
         phone: user.sdt,
         birth: user.ngaysinh,
+        gioitinh: user.gioitinh,
+        trangthai: user.trangthai,
+        img:user.img,
       },
     });
   } catch (error) {

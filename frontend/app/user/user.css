@@ -37,26 +37,15 @@
             width: 100%;
 
             .name__info {
-                padding: 16px;
-                min-height: 150px;
-                margin-bottom: 16px;
                 text-align: start;
+                padding: 16px;
+                margin-bottom: 16px;
+                min-height: 150px;
                 border: 1px solid #ddd;
                 border-radius: 8px;
-                background-color: #495057; /* Màu nền tối cho thông tin người dùng */
+                background-color: #495057; /* Màu nền tối cho thông tin */
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Box-shadow tối hơn */
                 width: 100%;
-                color: white; /* Màu chữ trắng */
-                font-size: 16px;
-            }
-
-            .name__info h3 {
-                margin: 0;
-                font-size: 16px;
-            }
-
-            .name__info p {
-                margin: 4px 0;
                 color: white; /* Màu chữ trắng */
                 font-size: 16px;
             }
