@@ -71,7 +71,7 @@
 }
   
   .editButton:hover {
-    background-color: #0056b3;
+    background-color: #4d6950;
   }
   
 .editButton {
@@ -96,7 +96,8 @@
 }
   
   .deleteButton:hover {
-    background-color: #c82333;
+    background-color: #4d6950;
+    color: white;
   }
   .formContainer {
     display: flex;
@@ -135,7 +136,7 @@
     padding: 10px 20px; /* Thêm padding bên trong nút */
     border: none; /* Không có đường viền */
     border-radius: 4px; /* Bo tròn các góc */
-    background-color: #007bff; /* Màu nền xanh */
+    background-color: #4d6950; /* Màu nền xanh */
     color: white; /* Màu chữ trắng */
     font-size: 16px; /* Kích thước chữ */
     cursor: pointer; /* Con trỏ khi hover */
@@ -143,7 +144,7 @@
   }
   
   .submitButton:hover {
-    background-color: #0056b3; /* Màu nền khi hover */
+    background-color: #334634; /* Màu nền khi hover */
   }
   
   .tablesContainer {

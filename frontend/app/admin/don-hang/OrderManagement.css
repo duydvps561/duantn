@@ -70,8 +70,8 @@
   }
   
   
-  .editButton:hover {
-    background-color: #0056b3;
+    .editButton:hover {
+    background-color: #4d6950;
   }
   
   .deleteButton {
@@ -85,7 +85,8 @@
   }
   
   .deleteButton:hover {
-    background-color: #c82333;
+    background-color: #4d6950;
+    color: white;
   }
   
   th, td {
