@@ -96,7 +96,7 @@ export default function LoginModal({ show, handleClose }) {
           ) : null}
 
           <p className="upPW">
-            <a href="#">Quên mật khẩu</a>
+            <a href="/forgotpassword">Quên mật khẩu</a>
           </p>
           <button type="submit" disabled={formik.isSubmitting}>
             Đăng nhập
