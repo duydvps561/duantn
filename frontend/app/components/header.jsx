@@ -87,7 +87,7 @@ export default function Header() {
             />
           </div>
           <ul
-            className="dropdown-menu mt-2"
+            className="dropdown-menu mt-2 w-100"
             style={{ backgroundColor: "#10141b" }}
             aria-labelledby="dropdownMenuButton"
           >
