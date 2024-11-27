@@ -48,7 +48,7 @@ export default function filmdetail({ params }) {
   const [phongchieudata, setPhongChieuData] = useState([]);
   const [ngaychieuSelected, setNgayChieuSelected] = useState("");
   const [giochieu, setgiochieu] = useState([]);
-  const [foodshow, setFoodShow] = useState(true);
+  const [foodshow, setFoodShow] = useState(false);
   const [seatSelected, setSeatSelected] = useState([]);
   const [giaghedata, setGiaghedata] = useState([]);
   const [giaghe, setGiaghe] = useState(0);
