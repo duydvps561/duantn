@@ -107,7 +107,7 @@ const AddMovie = () => {
               <option value="2">chưa chiếu </option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary my-3">Thêm Phim</button>
+          <button type="submit" style={{background: '#4d6950', color: 'white'}} className="btn   my-3">Thêm Phim</button>
         </form>
       </div>
     </Layout>
