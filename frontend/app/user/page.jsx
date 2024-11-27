@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import './user.css'; // Nhập file CSS
 
 const UserProfile = () => {
@@ -16,11 +18,36 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    tentaikhoan: "",
-    sdt: "",
-    ngaysinh: "",
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      tentaikhoan: "",
+      sdt: "",
+      ngaysinh: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email('Email không hợp lệ')
+        .matches(/^[a-zA-Z0-9._%+-]+@gmail\.com$/, "Email phải có định dạng @gmail.com")
+        .required('Email là bắt buộc'),
+      sdt: Yup.string()
+        .matches(/^(03|05|07|08|09)\d{8}$/, 'Số điện thoại không hợp lệ')
+        .required('Số điện thoại là bắt buộc'),
+    }),
+    onSubmit: async (values) => {
+      const id = user?.id;
+
+      try {
+        const response = await axios.put(`http://localhost:3000/taikhoan/${id}`, values);
+        setUserData(response.data);
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        setIsEditing(false);
+      } catch (error) {
+        console.error("Error updating user data:", error);
+        setError("Unable to update user data");
+      }
+    },
   });
 
   useEffect(() => {
@@ -32,7 +59,7 @@ const UserProfile = () => {
           const response = await axios.get(`http://localhost:3000/taikhoan/${id}`);
           setUserData(response.data);
           localStorage.setItem('userData', JSON.stringify(response.data));
-          setFormData({
+          formik.setValues({
             email: response.data.email,
             tentaikhoan: response.data.tentaikhoan,
             sdt: response.data.sdt,
@@ -57,55 +84,42 @@ const UserProfile = () => {
     }
   }, [user, userData]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const id = user?.id;
-
-    try {
-      const response = await axios.put(`http://localhost:3000/taikhoan/${id}`, formData);
-      setUserData(response.data);
-      localStorage.setItem('userData', JSON.stringify(response.data));
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating user data:", error);
-      setError("Unable to update user data");
-    }
-  };
-
   if (loading) return <p className="loading">Đang tải thông tin người dùng...</p>;
   if (error) return <p className="error">Lỗi: {error}</p>;
+
+  // Kiểm tra xem người dùng có đăng nhập không
+  if (!user) {
+    return <p className="error">Bạn chưa đăng nhập.</p>;
+  }
 
   return (
     <div className="user-container">
       <h1 className="user-profile__title">Thông tin cá nhân</h1>
       {isEditing ? (
-        <form onSubmit={handleSubmit} className="user-profile__form">
+        <form onSubmit={formik.handleSubmit} className="user-profile__form">
           <div className="form-group">
             <label className="form-group__label">Email:</label>
             <input
               type="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               required
               className="form-group__input"
             />
+            {formik.touched.email && formik.errors.email ? (
+              <div className="error-message">{formik.errors.email}</div>
+            ) : null}
           </div>
           <div className="form-group">
             <label className="form-group__label">Tên tài khoản:</label>
             <input
               type="text"
               name="tentaikhoan"
-              value={formData.tentaikhoan}
-              onChange={handleChange}
+              value={formik.values.tentaikhoan}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               required
               className="form-group__input"
             />
@@ -115,19 +129,24 @@ const UserProfile = () => {
             <input
               type="text"
               name="sdt"
-              value={formData.sdt}
-              onChange={handleChange}
+              value={formik.values.sdt}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               required
               className="form-group__input"
             />
+            {formik.touched.sdt && formik.errors.sdt ? (
+              <div className="error-message">{formik.errors.sdt}</div>
+            ) : null}
           </div>
           <div className="form-group">
             <label className="form-group__label">Ngày sinh:</label>
             <input
               type="date"
               name="ngaysinh"
-              value={formData.ngaysinh.split("T")[0]}
-              onChange={handleChange}
+              value={formik.values.ngaysinh.split("T")[0]}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               required
               className="form-group__input"
             />
