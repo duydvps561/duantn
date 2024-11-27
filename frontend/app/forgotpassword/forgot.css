@@ -1,0 +1,49 @@
+.forgotform{
+    width: 500px;
+    margin: 100px auto 100px auto;
+    background-color: #1d1d1d;
+    border: 1px solid #343a40;
+    border-radius: 10px;
+}
+.forgotform>h3{
+    color: white;
+    text-align: center;
+    margin: 5px auto 5px auto;
+    padding: 10px 0;
+}
+.forget-email>label{
+    margin-left: 10px;
+}
+.forget-email>input{
+    background-color: #343a40;
+    color: white;
+    align-items: center;
+    width: 100%;
+    margin: 5px auto 5px auto;
+}
+.forget-submit{
+    background-color: rgba(233, 28, 37, 0.9);
+    width: 450px;
+    color: white;
+    margin-left: 11px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.forget-submit:hover{
+    background-color: rgba(233, 28, 37, 1);
+    color: white;
+    cursor: pointer;
+}
+.next-trang{
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+}
+.next-trang span{
+    color: white;
+    margin-top: 10px;
+}
+.next-trang>span:hover{
+    color: rgba(233, 28, 37, 1);
+    cursor: pointer;
+}

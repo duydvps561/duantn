@@ -1,9 +1,11 @@
 import React from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import Access from "../accessRole";
 
 const Layout = ({ children }) => {
   return (
+    <>
     <div style={layoutStyle}>
       <Sidebar />
       <div style={mainContentStyle}>
@@ -11,6 +13,7 @@ const Layout = ({ children }) => {
         <main style={mainStyle}>{children}</main>
       </div>
     </div>
+  </>
   );
 };
 

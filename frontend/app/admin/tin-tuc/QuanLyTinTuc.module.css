@@ -71,7 +71,7 @@
 }
 
 .editButton:hover {
-  background-color: #0056b3;
+  background-color: #4d6950;
 }
 
 .deleteButton {
@@ -84,8 +84,9 @@
 }
 
 .deleteButton:hover {
-  background-color: #c82333;
-}
+    background-color: #4d6950;
+    color: white;
+  }
 
 .paginationContainer {
   margin-top: 20px;

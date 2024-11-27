@@ -15,17 +15,21 @@ import {
 } from "@/redux/slice/filmSlice";
 export default function filmdetail({ params }) {
   const dispatch = useDispatch();
-  useEffect(() =>{
+
+  useEffect(() => {
     dispatch(clearCart());
-  },[dispatch]);
+  }, [dispatch]);
+
   const { cart } = useSelector((state) => state.cart);
   const id = params.id;
   const [show, setShow] = useState(false);
+
   const [phimChitiet, setPhimChitiet] = useState([]);
   const [ngayHieuLuc, setNgayHieuLuc] = useState("");
   const [cachieu, setCaChieu] = useState([]);
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
+
   const [timeleft, setTimeLeft] = useState(10 * 60);
   useEffect(() => {
     if (timeleft > 0) {
@@ -48,6 +52,7 @@ export default function filmdetail({ params }) {
   const [seatSelected, setSeatSelected] = useState([]);
   const [giaghedata, setGiaghedata] = useState([]);
   const [giaghe, setGiaghe] = useState(0);
+  const [dataSelected, setDataSelected] = useState(false)
   const rollRef = useRef();
   if (show) {
     setTimeout(() => {
@@ -56,105 +61,80 @@ export default function filmdetail({ params }) {
   }
   const minutes = Math.floor(timeleft / 60);
   const seconds = timeleft % 60;
+
   const [showTrailer, setShowTrailer] = useState(false);
+
   const toggleTrailer = () => {
     setShowTrailer(!showTrailer);
   };
-  const fetchPhimChitiet = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/phim/${id}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setPhimChitiet(data);
-      dispatch(updateTenPhim(data.tenphim));
-
-      const ngayHieuLuc = new Date(data.ngayhieuluc).toLocaleDateString(
-        "vi-VN"
-      );
-      setNgayHieuLuc(ngayHieuLuc);
-    } catch (error) {
-      console.error("Error fetching film details:", error);
-    }
-  };
-
-  const fetchCaChieu = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/xuatchieu`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setCaChieu(data);
-    } catch (error) {
-      console.error("Error fetching film details:", error);
-    }
-  };
-  const fetchGiaghe = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/giaghe`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setGiaghedata(data);
-    } catch (error) {
-      console.error("Error fetching film details:", error);
-    }
-  };
-  const fetchPhongchieu = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/phongchieu`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setPhongChieu(data);
-    } catch (error) {
-      console.error("Error fetching film details:", error);
-    }
-  };
-  const fetchSeat = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/ghe`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setGheData(data);
-    } catch (error) {
-      console.error("Error fetching seat data:", error);
-    }
-  };
-  const fetchSeatModel = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/loaighe`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setloaiGhe(data);
-    } catch (error) {
-      console.error("Error fetching seat data:", error);
-    }
-  };
   useEffect(() => {
-    fetchPhimChitiet();
-    fetchCaChieu();
-    fetchPhongchieu();
-    fetchSeat();
-    fetchSeatModel();
-    fetchGiaghe();
+    const fetchData = async () => {
+      try {
+        const [
+          phimChitietRes,
+          caChieuRes,
+          phongchieuRes,
+          seatRes,
+          seatModelRes,
+          giagheRes,
+        ] = await Promise.all([
+          fetch(`http://localhost:3000/phim/${id}`),
+          fetch(`http://localhost:3000/xuatchieu`),
+          fetch(`http://localhost:3000/phongchieu`),
+          fetch(`http://localhost:3000/ghe`),
+          fetch(`http://localhost:3000/loaighe`),
+          fetch(`http://localhost:3000/giaghe`),
+        ]);
+
+        if (!phimChitietRes.ok || !caChieuRes.ok || !phongchieuRes.ok || !seatRes.ok || !seatModelRes.ok || !giagheRes.ok) {
+          throw new Error("Có lỗi xảy ra khi lấy dữ liệu");
+        }
+
+        const [
+          phimChitietData,
+          caChieuData,
+          phongchieuData,
+          seatData,
+          seatModelData,
+          giagheData,
+        ] = await Promise.all([
+          phimChitietRes.json(),
+          caChieuRes.json(),
+          phongchieuRes.json(),
+          seatRes.json(),
+          seatModelRes.json(),
+          giagheRes.json(),
+        ]);
+
+        setPhimChitiet(phimChitietData);
+        dispatch(updateTenPhim(phimChitietData.tenphim));
+
+        const ngayHieuLuc = new Date(phimChitietData.ngayhieuluc).toLocaleDateString("vi-VN");
+        setNgayHieuLuc(ngayHieuLuc);
+
+        setCaChieu(caChieuData);
+        setPhongChieu(phongchieuData);
+        setGheData(seatData);
+        setloaiGhe(seatModelData);
+        setGiaghedata(giagheData);
+
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu:", error);
+      }
+    };
+
+    fetchData();
   }, [id]);
+
   useEffect(() => {
     if (id && cachieu && Array.isArray(cachieu)) {
-      const foundPhim = cachieu.filter((item) => item.phim_id === id); 
+      const foundPhim = cachieu.filter((item) => item.phim_id === id);
       setPhimCachieu(foundPhim || null);
     } else {
       setPhimCachieu(null);
     }
   }, [id, cachieu]);
+
   useEffect(() => {
     const gheMap = {};
     gheData.forEach((ghe) => {
@@ -164,15 +144,17 @@ export default function filmdetail({ params }) {
       gheMap[phongchieuid].push(ghe);
     });
   }, [gheData]);
+
   useEffect(() => {
     console.log("gio hang cap nhap", cart);
   }, [cart]);
+
   const seatsByRow = gheData.reduce((acc, ghe) => {
-    const row = ghe.hang; 
+    const row = ghe.hang;
     if (!acc[row]) {
-      acc[row] = []; 
+      acc[row] = [];
     }
-    acc[row].push(ghe); 
+    acc[row].push(ghe);
     return acc;
   }, {});
 
@@ -201,15 +183,15 @@ export default function filmdetail({ params }) {
             <div className="title-overlay ms-3">
               <h1 className="card-title" style={{ color: "#ffffff" }}>
                 {phimChitiet &&
-                phimChitiet.tenphim &&
-                phimChitiet.tenphim.includes("-")
+                  phimChitiet.tenphim &&
+                  phimChitiet.tenphim.includes("-")
                   ? phimChitiet.tenphim.slice(
-                      0,
-                      phimChitiet.tenphim.lastIndexOf("-")
-                    )
+                    0,
+                    phimChitiet.tenphim.lastIndexOf("-")
+                  )
                   : phimChitiet
-                  ? phimChitiet.tenphim
-                  : "Loading..."}
+                    ? phimChitiet.tenphim
+                    : "Loading..."}
               </h1>
               <ul>
                 <li>
@@ -298,35 +280,39 @@ export default function filmdetail({ params }) {
       <div className="date-order">
         <div className="date text-light">
           {phimCachieu.length > 0 ? (
-            phimCachieu.map((item) => (
-              <div
-                className="text ms-3 mt-3 text-light"
-                key={item.id}
-                onClick={() => {
-                  setNgayChieuSelected(item.ngaychieu);
-                  dispatch(updateNgayChieu(item.ngaychieu));
-                }}
-              >
-                <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
-                <h2>{new Date(item.ngaychieu).getDate()}</h2>
-                <p>
-                  {
-                    [
-                      "Chủ Nhật",
-                      "Thứ Hai",
-                      "Thứ Ba",
-                      "Thứ Tư",
-                      "Thứ Năm",
-                      "Thứ Sáu",
-                      "Thứ Bảy",
-                    ][new Date(item.ngaychieu).getDay()]
-                  }
-                </p>{" "}
-              </div>
-            ))
+            phimCachieu
+              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))  // Sắp xếp theo ngày
+              .map((item) => (
+                <div
+                  className={`text ${dataSelected === item._id ? 'selected' : ''}`}
+                  key={item.id}
+                  onClick={() => {
+                    setDataSelected(item._id);
+                    setNgayChieuSelected(item.ngaychieu);
+                    dispatch(updateNgayChieu(item.ngaychieu));
+                  }}
+                >
+                  <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
+                  <h2>{new Date(item.ngaychieu).getDate()}</h2>
+                  <p>
+                    {
+                      [
+                        "Chủ Nhật",
+                        "Thứ Hai",
+                        "Thứ Ba",
+                        "Thứ Tư",
+                        "Thứ Năm",
+                        "Thứ Sáu",
+                        "Thứ Bảy",
+                      ][new Date(item.ngaychieu).getDay()]
+                    }
+                  </p>
+                </div>
+              ))
           ) : (
             <p>Không tìm thấy thông tin phim.</p>
           )}
+
         </div>
         <div className="note">
           <p>
@@ -390,148 +376,132 @@ export default function filmdetail({ params }) {
               <div className="siting-order">
                 <table className="siting-table">
                   <tbody>
-                    {Object.entries(seatsByRow).map(([row, seats]) => (
-                      <div key={row}>
-                        <table>
-                          <tbody>
-                            <tr>
-                              {seats.map((ghe) => {
-                                const seat = `${ghe.hang}${ghe.cot}`;
-                                const isSelected = seatSelected.includes(seat);
-                                const loaigheItem = loaighe.find(
-                                  (item) => item._id === ghe.loaighe_id
-                                );
-                                const giaLoaighe = giaghedata.find(
-                                  (item) =>
-                                    item.loaighe_id._id === ghe.loaighe_id
-                                );
-                                let style = {};
-                                if (loaigheItem) {
-                                  style.backgroundColor = loaigheItem.mau;
-                                }
-                                if (isSelected) {
-                                  style.backgroundColor = "#005AD8";
-                                  style.color = "white";
-                                }
-                                return (
-                                  <td
-                                    key={ghe._id}
-                                    style={{
-                                      ...style,
-                                      textAlign: "center",
-                                      fontSize: "16px",
-                                      padding: "5px",
-                                      cursor: "pointer",
-                                      border: "1px solid #ccc",
-                                      margin: "3px",
-                                    }}
-                                    onClick={() => {
-                                      console.log(ghe._id);
-                                      const gia = giaLoaighe
-                                        ? giaLoaighe.giaghe
-                                        : 0;
-                                      console.log(
-                                        loaigheItem
-                                          ? loaigheItem.loaighe
-                                          : "ko co loai ghe"
-                                      );
-                                      if (
-                                        loaigheItem &&
-                                        loaigheItem.loaighe === "Ghế Đôi"
-                                      ) {
-                                        const firstSeat = seat;
-                                        const secondSeat = `${ghe.hang}${
-                                          parseInt(ghe.cot) + 1
-                                        }`;
-                                        if (isSelected) {
-                                          setSeatSelected((prevSeats) =>
-                                            prevSeats.filter(
-                                              (selected) =>
-                                                selected !== firstSeat &&
-                                                selected !== secondSeat
-                                            )
-                                          );
-                                          dispatch(
-                                            addSeat({
-                                              _id: ghe._id,
-                                              seat: [],
-                                              gia: 0,
-                                            })
-                                          );
-                                          setGiaghe(
-                                            (prevTotal) => prevTotal - gia * 2
-                                          );
+                    {Object.entries(seatsByRow)
+                      .sort(([rowA], [rowB]) => rowA.localeCompare(rowB))
+                      .map(([row, seats]) => (
+                        <div key={row}>
+                          <table>
+                            <tbody>
+                              <tr>
+                                {seats.map((ghe) => {
+                                  const seat = `${ghe.hang}${ghe.cot}`;
+                                  const isSelected = seatSelected.includes(seat);
+                                  const loaigheItem = loaighe.find(
+                                    (item) => item._id === ghe.loaighe_id
+                                  );
+                                  const giaLoaighe = giaghedata.find(
+                                    (item) =>
+                                      item.loaighe_id._id === ghe.loaighe_id
+                                  );
+                                  let style = {};
+                                  if (loaigheItem) {
+                                    style.backgroundColor = loaigheItem.mau;
+                                  }
+                                  if (isSelected) {
+                                    style.backgroundColor = "#005AD8";
+                                    style.color = "white";
+                                  }
+                                  return (
+                                    <td
+                                      key={ghe._id}
+                                      style={{
+                                        ...style,
+                                        textAlign: "center",
+                                        fontSize: "16px",
+                                        padding: "5px",
+                                        cursor: "pointer",
+                                        border: "1px solid #ccc",
+                                        margin: "3px",
+                                      }}
+                                      onClick={() => {
+                                        console.log(ghe._id);
+                                        const gia = giaLoaighe ? giaLoaighe.giaghe : 0;
+                                        console.log(
+                                          loaigheItem ? loaigheItem.loaighe : "ko co loai ghe"
+                                        );
+                                        if (
+                                          loaigheItem &&
+                                          loaigheItem.loaighe === "Ghế Đôi"
+                                        ) {
+                                          const firstSeat = seat;
+                                          const secondSeat = `${ghe.hang}${parseInt(ghe.cot) + 1}`;
+                                          if (isSelected) {
+                                            setSeatSelected((prevSeats) =>
+                                              prevSeats.filter(
+                                                (selected) =>
+                                                  selected !== firstSeat && selected !== secondSeat
+                                              )
+                                            );
+                                            dispatch(
+                                              addSeat({
+                                                _id: ghe._id,
+                                                seat: [],
+                                                gia: 0,
+                                              })
+                                            );
+                                            setGiaghe((prevTotal) => prevTotal - gia * 2);
+                                          } else {
+                                            if (
+                                              gheData.some(
+                                                (g) => `${g.hang}${g.cot}` === secondSeat
+                                              )
+                                            ) {
+                                              setSeatSelected((prevSeats) => [
+                                                ...prevSeats,
+                                                firstSeat,
+                                                secondSeat,
+                                              ]);
+                                              dispatch(
+                                                addSeat({
+                                                  _id: ghe._id,
+                                                  seat: [firstSeat, secondSeat],
+                                                  gia,
+                                                })
+                                              );
+                                              setGiaghe((prevTotal) => prevTotal + gia * 2);
+                                            }
+                                          }
                                         } else {
-                                          if (
-                                            gheData.some(
-                                              (g) =>
-                                                `${g.hang}${g.cot}` ===
-                                                secondSeat
-                                            )
-                                          ) {
+                                          if (isSelected) {
+                                            setSeatSelected((prevSeats) =>
+                                              prevSeats.filter((selected) => selected !== seat)
+                                            );
+                                            dispatch(
+                                              addSeat({
+                                                _id: ghe._id,
+                                                seat: [],
+                                                gia: 0,
+                                              })
+                                            );
+                                            setGiaghe((prevTotal) => prevTotal - gia);
+                                          } else {
                                             setSeatSelected((prevSeats) => [
                                               ...prevSeats,
-                                              firstSeat,
-                                              secondSeat,
+                                              seat,
                                             ]);
                                             dispatch(
                                               addSeat({
                                                 _id: ghe._id,
-                                                seat: [firstSeat, secondSeat],
+                                                seat: [seat],
                                                 gia,
                                               })
                                             );
-                                            setGiaghe(
-                                              (prevTotal) => prevTotal + gia * 2
-                                            );
+                                            setGiaghe((prevTotal) => prevTotal + gia);
                                           }
                                         }
-                                      } else {
-                                        if (isSelected) {
-                                          setSeatSelected((prevSeats) =>
-                                            prevSeats.filter(
-                                              (selected) => selected !== seat
-                                            )
-                                          );
-                                          dispatch(
-                                            addSeat({
-                                              _id: ghe._id,
-                                              seat: [],
-                                              gia: 0,
-                                            })
-                                          );
-                                          setGiaghe(
-                                            (prevTotal) => prevTotal - gia
-                                          );
-                                        } else {
-                                          setSeatSelected((prevSeats) => [
-                                            ...prevSeats,
-                                            seat,
-                                          ]);
-                                          dispatch(
-                                            addSeat({
-                                              _id: ghe._id,
-                                              seat: [seat],
-                                              gia,
-                                            })
-                                          );
-                                          setGiaghe(
-                                            (prevTotal) => prevTotal + gia
-                                          );
-                                        }
-                                      }
-                                    }}
-                                  >
-                                    {seat}
-                                  </td>
-                                );
-                              })}
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    ))}
+                                      }}
+                                    >
+                                      {seat}
+                                    </td>
+                                  );
+                                })}
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      ))}
                   </tbody>
+
                 </table>
               </div>
               <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
@@ -563,8 +533,8 @@ export default function filmdetail({ params }) {
                     <span>
                       {seatSelected.length > MAX_SEATS_TO_SHOW
                         ? `${seatSelected
-                            .slice(0, MAX_SEATS_TO_SHOW)
-                            .join(", ")} ...`
+                          .slice(0, MAX_SEATS_TO_SHOW)
+                          .join(", ")} ...`
                         : seatSelected.join(", ")}
                     </span>
                   </p>
