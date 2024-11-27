@@ -1,12 +1,15 @@
 "use client";
-
 import Layout from '@/app/components/admin/Layout';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import styles from './edit.module.css';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 export default function EditMovie() {
+  const router = useRouter();
+
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const [loading, setLoading] = useState(true);
@@ -35,6 +38,7 @@ export default function EditMovie() {
           const movieData = response.data;
           movieData.img = `http://localhost:3000/img/phims/${movieData.img}`; // Thiết lập URL ảnh
           setMovie(movieData);
+
         } else {
           console.error('Failed to fetch movie:', response.statusText);
         }
@@ -88,6 +92,16 @@ export default function EditMovie() {
       if (response.status === 200) {
         console.log('Movie updated successfully:', response.data);
         // Show success notification or redirect
+        Swal.fire({
+          title: 'Cập nhật thành công!',
+          text: 'Phim đã được cập nhật thành công.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          // Chuyển hướng sang trang /admin/phim sau khi người dùng nhấn OK
+          router.push('/admin/phim');
+        });
+
       } else {
         console.error('Failed to update movie:', response.statusText);
       }
@@ -230,8 +244,8 @@ export default function EditMovie() {
         value={movie.trangthai}
         onChange={handleInputChange}
       >
-        <option value="1">Còn chiếu</option>
-        <option value="0">Ngừng chiếu</option>
+        <option value="1">Không hoạt động</option>
+        <option value="0">Hoạt động</option>
       </select>
     </div>
   </div>

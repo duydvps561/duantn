@@ -79,7 +79,7 @@ const QuanLyPhimPage = () => {
                 <tr key={movie._id}>
                   <td>{index + 1}</td>
                   <td>
-                  {movie.img && <img src={`http://localhost:3001/img/phims/${movie.img}`} alt={movie.tenphim} className={styles.movieImage} />}
+                  {movie.img && <img src={`http://localhost:3000/img/phims/${movie.img}`} alt={movie.tenphim} className={styles.movieImage} />}
 
                   </td>
                   <td style={{'textTransform': "uppercase"}}>{movie.tenphim}</td>
