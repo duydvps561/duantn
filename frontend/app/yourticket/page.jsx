@@ -3,21 +3,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './history.css'
 import { faCaretDown, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getHoadon } from '@/redux/slice/hoadonSlice'
+import { getVe, setHoadonnguoidung, setVetheoHoadon } from '@/redux/slice/ticket'
 
 export default function Yourticket() {
-    const router = useRouter();
+    const dispatch = useDispatch();
     const userID = useSelector((state) => state.auth.user?.id);
 
-    const [hoadondata, setHoadondata] = useState([]);
-    const [vedata, setVedata] = useState([]);
-    const [hoadonnguoidung, setHoadonnguoidung] = useState([]);
-    const [vetheoHoadon, setVetheoHoadon] = useState([]);
+    const { hoadonlist } = useSelector((state) => state.hoadon);
+    const { velist, hoadonnguoidung, vetheoHoadon } = useSelector((state) => state.ticket);
+
+    useEffect(() => {
+        dispatch(getHoadon());
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getVe());
+    }, [dispatch]);
+
     const [cachieudata, setCachieuData] = useState([]);
     const [phimdata, setPhimData] = useState([]);
     const [phongchieudata, setPhongchieudata] = useState([]);
-    const [ghedata, setGhedata] = useState([]);
 
     const [selectedStatus, setSelectedStatus] = useState('All');
     const [hisdropdown, setHisdropdown] = useState(false);
@@ -37,29 +44,23 @@ export default function Yourticket() {
         try {
             setLoading(true);
 
-            const [hoadonResponse, veResponse, cachieuResponse, phimResponse, phongchieuResponse, gheResponse] = await Promise.all([
-                fetch('http://localhost:3000/hoadon'),
-                fetch('http://localhost:3000/ve'),
+            const [cachieuResponse, phimResponse, phongchieuResponse] = await Promise.all([
                 fetch('http://localhost:3000/xuatchieu'),
                 fetch('http://localhost:3000/phim'),
                 fetch('http://localhost:3000/phongchieu'),
-                fetch('http://localhost:3000/ghe')
-
             ]);
 
-            const hoadonData = await hoadonResponse.json();
-            const veData = await veResponse.json();
+            if (!cachieuResponse.ok || !phimResponse.ok || !phongchieuResponse.ok) {
+                throw new Error('Một trong các API không thành công');
+            }
             const cachieuData = await cachieuResponse.json();
             const phongchieuData = await phongchieuResponse.json();
             const phimData = await phimResponse.json();
-            const gheData = await gheResponse.json();
 
-            setHoadondata(hoadonData);
-            setVedata(veData);
             setCachieuData(cachieuData);
             setPhimData(phimData);
             setPhongchieudata(phongchieuData);
-            setGhedata(gheData);
+
         } catch (error) {
             console.error('Lỗi khi fetch dữ liệu:', error);
         } finally {
@@ -67,23 +68,24 @@ export default function Yourticket() {
         }
     };
 
+
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [userID]);
 
     useEffect(() => {
-        if (hoadondata.length > 0 && vedata.length > 0) {
-            const hoadon = hoadondata.filter((item) => item.taikhoan_id === userID);
-
+        if (hoadonlist.length > 0 && velist.length > 0) {
+            const hoadon = hoadonlist.filter((item) => item.taikhoan_id._id === userID);
             if (hoadon.length > 0) {
                 const hoadonIDSet = new Set(hoadon.map(item => item._id));
-                const ve = vedata.filter((item) => hoadonIDSet.has(item.hoadon_id));
-
-                setHoadonnguoidung(hoadon);
-                setVetheoHoadon(ve);
+                const ve = velist.filter((item) => hoadonIDSet.has(item.hoadon_id));
+                dispatch(setHoadonnguoidung(hoadon));
+                dispatch(setVetheoHoadon(ve));
             }
         }
-    }, [hoadondata, vedata, userID]);
+
+    }, [hoadonlist, velist, userID, dispatch]);
+
 
     const handleModal = (ticket) => {
         setSelectedTicket(ticket);
@@ -148,11 +150,9 @@ export default function Yourticket() {
     const removeDiacritics = (str) => {
         return str
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")  // Loại bỏ dấu
-            .replace(/[đĐ]/g, 'd');  // Thay thế 'đ' và 'Đ' thành 'd'
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[đĐ]/g, 'd');
     };
-    
-
 
     const filteredTickets = vetheoHoadon.filter((ticket) => {
         const ticketDate = new Date(ticket.createdAt);
@@ -175,98 +175,135 @@ export default function Yourticket() {
             : true;
         return isDateMatch && isStatusMatch && isMovieNameMatch;
     });
-
-
-
     const currentTickets = filteredTickets.slice(indexOfFirstItem, indexOfLastItem);
+    const sortedTickets = [...currentTickets].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
     return (
         <>
             <div className="container" style={{ color: "#fff" }}>
-                <h3 align='center'>Lịch sử vé</h3>
+                <h3 align="center">Lịch sử vé</h3>
                 <div className="his-header d-flex justify-content-around">
-                    <div className="d-flex justify-content-around gap-1">
+                    <div className="his-box-tool">
                         <div className="his-tool-day">
-                            <input type="date" aria-label='date chosing' onChange={handleDateChange}></input>
+                            <input type="date" aria-label="date chosing" onChange={handleDateChange} />
                         </div>
                         <div
                             className="his-tool-status"
                             onMouseEnter={() => setHisdropdown(true)}
-                            onMouseLeave={() => setHisdropdown(false)} // Ẩn dropdown khi chuột rời khỏi
+                            onMouseLeave={() => setHisdropdown(false)}
                         >
                             <span>{selectedStatus}</span>
                             <FontAwesomeIcon
                                 icon={faCaretDown}
                                 style={{ color: "#ffffff", fontSize: "30px" }}
                             />
-                            {
-                                hisdropdown && (
-                                    <div className="his-dropdown-content">
-                                        <button onClick={() => { setSelectedStatus('All'); setHisdropdown(false); }}>All</button>
-                                        <button onClick={() => { setSelectedStatus('Chưa sử dụng'); setHisdropdown(false); }}>Chưa sử dụng</button>
-                                        <button onClick={() => { setSelectedStatus('Đã sử dụng'); setHisdropdown(false); }}>Đã sử dụng</button>
-                                    </div>
-                                )
-                            }
+                            {hisdropdown && (
+                                <div className="his-dropdown-content">
+                                    <button onClick={() => { setSelectedStatus('All'); setHisdropdown(false); }}>All</button>
+                                    <button onClick={() => { setSelectedStatus('Chưa sử dụng'); setHisdropdown(false); }}>Chưa sử dụng</button>
+                                    <button onClick={() => { setSelectedStatus('Đã sử dụng'); setHisdropdown(false); }}>Đã sử dụng</button>
+                                </div>
+                            )}
                         </div>
-
                     </div>
                     <div className="his-tool-search">
-                        <input type="text" placeholder='Tìm kiếm vé' aria-label='###'
+                        <input
+                            type="text"
+                            placeholder="Tìm kiếm vé"
+                            aria-label="###"
                             value={movieSearchQuery}
-                            onChange={(e) => setMovieSearchQuery(e.target.value)} ></input>
-                        <FontAwesomeIcon icon={faSearch} className='his-search-icon' />
+                            onChange={(e) => setMovieSearchQuery(e.target.value)}
+                        />
+                        <FontAwesomeIcon icon={faSearch} className="his-search-icon" />
                     </div>
                 </div>
-                <div className='his-table-content'>
-                    <table className='his-table'>
-                        <thead className="p-3">
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã vé</th>
-                                <th>Phim</th>
-                                <th>Ngày mua</th>
-                                <th>Trạng thái</th>
-                                <th>Tùy chọn</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentTickets.map((ve, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{ve._id}</td>
-                                        <td>{getPhimName(ve.cachieu_id)}</td>
-                                        <td>{new Date(ve.createdAt).toLocaleDateString()}</td>
-                                        <td>{ve.__v === 0 ? "Chưa sử dụng" : "Đã sử dụng"}</td>
-                                        <td>
-                                            <span onClick={() => handleModal(ve)}>Chi tiết</span>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                    <div className='page-btn'>
-                        <div className="pagination">
-                            <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
-                                Prev
-                            </button>
-                            <span>Trang {currentPage} / {totalPages}</span>
-                            <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
-                                Next
-                            </button>
+                <div className="his-table-content">
+                    {currentTickets.length === 0 ? (
+                        <div style={{ textAlign: "center", padding: "20px" }}>
+                            <h4>Không có dữ liệu để hiển thị</h4>
                         </div>
+                    ) : (
+                        <>
 
-                    </div>
+                            <table className="his-table">
+                                <thead className="p-3">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã vé</th>
+                                        <th>Phim</th>
+                                        <th>Ngày mua</th>
+                                        <th>Trạng thái</th>
+                                        <th>Tùy chọn</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {sortedTickets.map((ve, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{ve._id}</td>
+                                            <td>{getPhimName(ve.cachieu_id)}</td>
+                                            <td>{new Date(ve.createdAt).toLocaleDateString()}</td>
+                                            <td className={ve.__v === 0 ? "status unused" : "status used"}>
+                                                {ve.__v === 0 ? "Chưa sử dụng" : "Đã sử dụng"}
+                                            </td>
+                                            <td>
+                                                <span onClick={() => handleModal(ve)}>Chi tiết</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <div className="page-btn">
+                                <div className="pagination">
+                                    <button
+                                        className="first"
+                                        onClick={() => setCurrentPage(1)}
+                                        disabled={currentPage === 1}
+                                    >
+                                        Đầu
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentPage(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                    >
+                                        Trước
+                                    </button>
+                                    <span>Trang {currentPage} / {totalPages}</span>
+                                    <button
+                                        onClick={() => setCurrentPage(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                    >
+                                        Sau
+                                    </button>
+                                    <button
+                                        className="last"
+                                        onClick={() => setCurrentPage(totalPages)}
+                                        disabled={currentPage === totalPages}
+                                    >
+                                        Cuối
+                                    </button>
+                                </div>
+                            </div>
+
+                        </>
+                    )}
+
                     {modal && selectedTicket && (
                         <div className="ticket-modal-container">
                             <div className="ticket-modal-content">
                                 <div className="ticket-header">
                                     <h2>Vé Ace Cinema</h2>
-                                    <h5>Mã vé</h5>
-                                    <div className="qr">
-                                        <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${selectedTicket._id}&size=100x100}`} alt="qr" />
-                                    </div>
+
+                                    {selectedTicket && selectedTicket.__v === 0 && (
+                                        <>
+                                            <h5>Mã vé</h5>
+                                            <div className="qr">
+                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${selectedTicket._id}&size=200x200`} alt="qr" />
+                                            </div>
+                                        </>
+                                    )}
+
+
                                 </div>
                                 <div className="ticket-body">
                                     <p><strong>Phim:</strong> {getPhimName(selectedTicket.cachieu_id)}</p>
@@ -287,6 +324,7 @@ export default function Yourticket() {
                     )}
                 </div>
             </div>
+
         </>
     );
 }
