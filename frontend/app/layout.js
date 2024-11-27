@@ -7,6 +7,7 @@ import Footer from "./components/footer";
 import { usePathname } from "next/navigation";
 import Providers from "@/redux/Provider";
 import AuthProvider from "./components/AuthProvider";
+import Access from "./components/accessRole";
 
 export default function RootLayout({ children }) {
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
             <body style={{ backgroundColor: "#050B17" }}>
               <Providers>
                 <AuthProvider>
+                  <Access>
                   <link
                     rel="stylesheet"
                     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -31,6 +33,7 @@ export default function RootLayout({ children }) {
                   <Header />
                   {children}
                   {!isThanhCong && !isAdminRoute && <Footer />}
+                  </Access>
                 </AuthProvider>
               </Providers>
               <script
