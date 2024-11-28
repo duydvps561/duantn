@@ -23,7 +23,7 @@ router.post("/add", async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-<<<<<<< HEAD
+
 
 // Get invoice by ID
 router.get('/:id', async (req, res) => {
