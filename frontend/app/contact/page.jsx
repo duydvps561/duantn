@@ -8,7 +8,7 @@ import {
   faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2"; 
 import "./contact.css";
 
 const ContactPage = () => {
@@ -63,9 +63,7 @@ const ContactPage = () => {
             className="card-img"
             alt="Contact Banner"
           />
-          <div className="card-img-overlay">
-            <h3 className="card-title">Liên Hệ</h3>
-          </div>
+          
         </div>
       </div>
 
@@ -170,9 +168,7 @@ const ContactPage = () => {
             className="card-img"
             alt="Bottom Banner"
           />
-          <div className="card-img-overlay">
-            <h2 className="card-title">Get in Touch</h2>
-          </div>
+         
         </div>
       </div>
     </div>
