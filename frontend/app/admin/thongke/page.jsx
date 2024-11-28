@@ -21,6 +21,8 @@ const ThongKePage = () => {
     totalRevenue: 0,
     latestTaikhoan: [],
     latestHoadon: [],
+    revenueDaily: [],
+    revenueMonthly: []
   });
 
   useEffect(() => {
@@ -36,6 +38,8 @@ const ThongKePage = () => {
           revenueRes,
           latestTaikhoanRes,
           latestHoadonRes,
+          revenueDailyRes, 
+          revenueMonthlyRes,
         ] = await Promise.all([
           fetch("http://localhost:3000/thongke/soluong/taikhoan"),
           fetch("http://localhost:3000/thongke/soluong/tintuc"),
@@ -46,6 +50,8 @@ const ThongKePage = () => {
           fetch("http://localhost:3000/thongke/tong-tien-hoadon"),
           fetch("http://localhost:3000/thongke/taikhoan-moi-nhat"),
           fetch("http://localhost:3000/thongke/hoadon-moi-nhat"),
+          fetch("http://localhost:3000/thongke/doanh-thu-theo-ngay"),
+          fetch("http://localhost:3000/thongke/doanh-thu-theo-thang")
         ]);
 
         setStats({
@@ -54,10 +60,12 @@ const ThongKePage = () => {
           food: (await foodRes.json()).totalFood,
           phongchieu: (await phongchieuRes.json()).totalPhongchieu,
           ordersDaily: await dailyOrdersRes.json(),
-          orderMonthly: await monthlyOrdersRes.json(), // Gán dữ liệu đúng trường
+          orderMonthly: await monthlyOrdersRes.json(), 
           totalRevenue: (await revenueRes.json()).total,
           latestTaikhoan: await latestTaikhoanRes.json(),
           latestHoadon: await latestHoadonRes.json(),
+          revenueDaily: await revenueDailyRes.json(),
+          revenueMonthly: await revenueMonthlyRes.json()
         });
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu:", error);
@@ -94,6 +102,35 @@ const ThongKePage = () => {
       },
     ],
   };
+  // Biểu đồ đường doanh thu theo ngày
+const lineDataDaily = {
+  labels: stats.revenueDaily?.map((item) => item._id) || [],
+  datasets: [
+      {
+          label: "Doanh thu theo ngày",
+          data: stats.revenueDaily?.map((item) => item.totalRevenue) || [],
+          borderColor: "#4d6950",
+          backgroundColor: "rgba(77, 105, 80, 0.2)",
+          borderWidth: 2,
+          tension: 0.4
+      }
+  ]
+};
+
+// Biểu đồ đường doanh thu theo tháng
+const lineDataMonthly = {
+  labels: stats.revenueMonthly?.map((item) => item._id) || [],
+  datasets: [
+      {
+          label: "Doanh thu theo tháng",
+          data: stats.revenueMonthly?.map((item) => item.totalRevenue) || [],
+          borderColor: "#007bff",
+          backgroundColor: "rgba(0, 123, 255, 0.2)",
+          borderWidth: 2,
+          tension: 0.4
+      }
+  ]
+};
 
   return (
     <Layout>
@@ -211,6 +248,35 @@ const ThongKePage = () => {
               }}
             />
           </div>
+        </div>
+        <div className="row mt-5">
+            {/* Biểu đồ đường doanh thu theo ngày */}
+            <div className="chartContainer col-6">
+                <h2>Doanh thu 7 ngày qua</h2>
+                <Line
+                    data={lineDataDaily}
+                    options={{ responsive: true, plugins: { legend: { display: true } } }}
+                />
+            </div>
+
+            {/* Biểu đồ đường doanh thu theo tháng */}
+            <div className="chartContainer col-6">
+                <h2>Doanh thu 6 tháng qua</h2>
+                <Line
+                    data={lineDataMonthly}
+                    options={{
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            tooltip: { mode: "index", intersect: false }
+                        },
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: { beginAtZero: true }
+                        }
+                    }}
+                />
+            </div>
         </div>
       </div>
     </Layout>

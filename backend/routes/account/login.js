@@ -47,6 +47,9 @@ router.post("/login", async (req, res, next) => {
         username: user.tentaikhoan,
         phone: user.sdt,
         birth: user.ngaysinh,
+        gioitinh: user.gioitinh,
+        trangthai: user.trangthai,
+        img:user.img,
       },
     });
   } catch (error) {

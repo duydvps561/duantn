@@ -56,9 +56,9 @@ const QuanLyPhongPage = () => {
   const addRoom = async () => {
     if (!validateInputs()) return;
 
-    const roomData = { 
-      tenphong: roomName, 
-      trangthai: status, 
+    const roomData = {
+      tenphong: roomName,
+      trangthai: status,
       loaiphong_id: roomType // Đảm bảo rằng đây là trường đúng
     };
 
@@ -82,9 +82,9 @@ const QuanLyPhongPage = () => {
   const updateRoom = async (id) => {
     if (!validateInputs()) return;
 
-    const roomData = { 
-      tenphong: roomName, 
-      trangthai: status, 
+    const roomData = {
+      tenphong: roomName,
+      trangthai: status,
       loaiphong_id: roomType
     };
 
@@ -128,70 +128,75 @@ const QuanLyPhongPage = () => {
 
   return (
     <Layout>
-   <h1 style={{
-  display: 'flex', 
-  justifyContent: 'center',
+      <h1 style={{
+        display: 'flex',
+        justifyContent: 'center',
 
-  alignItems: 'center', 
-}}>
+        alignItems: 'center',
+      }}>
         Quản Lý Phòng Phim</h1>
 
       {/* Form to Add or Edit Room */}
-      <div style={{
-  display: 'flex',
-  gap: '1rem', 
-  justifyContent: 'space-between'
+     <div style={{
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: '1rem',
+     }}>
+     <div style={{
+        display: 'flex',
+        gap: '1rem',
+        justifyContent: 'space-between'
 
-}}>
-   <div style={{
-  flex: 4,
-  
-}} className={styles.formContainer}>
-   <h1 style={{
-  display: 'flex', 
-  justifyContent: 'center',
-    marginBottom: '2rem',
-  alignItems: 'center', 
-}}>
-         </h1>
-        <input
-          type="text"
-          value={roomName}
-          onChange={(e) => setRoomName(e.target.value)}
-          placeholder="Nhập tên phòng"
-          className={styles.inputField}
-        />
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className={styles.selectField}
-        >
-          <option value="1">Đang Hoạt Động</option>
-          <option value="0">Ngừng Hoạt Động</option>
-        </select>
-        <select
-          value={roomType}
-          onChange={(e) => setRoomType(e.target.value)}
-          className={styles.selectField}
-        >
-          <option value="">Chọn loại phòng</option>
-          {roomTypes.map((type) => (
-            <option key={type._id} value={type._id}>{type.loaiphong}</option> 
-          ))}
-        </select>
-        <button 
-          onClick={isEditing ? () => updateRoom(editId) : addRoom} 
-          className={styles.submitButton}
-        >
-          {isEditing ? 'Cập Nhật' : 'Thêm Phòng'}
-        </button>
+      }}>
+        <div style={{
+          flex: 4,
+
+        }} className={styles.formContainer}>
+          <h1 style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '2rem',
+            alignItems: 'center',
+          }}>
+          </h1>
+          <input
+            type="text"
+            value={roomName}
+            onChange={(e) => setRoomName(e.target.value)}
+            placeholder="Nhập tên phòng"
+            className={styles.inputField}
+          />
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className={styles.selectField}
+          >
+            <option value="1">Đang Hoạt Động</option>
+            <option value="0">Ngừng Hoạt Động</option>
+          </select>
+          <select
+            value={roomType}
+            onChange={(e) => setRoomType(e.target.value)}
+            className={styles.selectField}
+          >
+            <option value="">Chọn loại phòng</option>
+            {roomTypes.map((type) => (
+              <option key={type._id} value={type._id}>{type.loaiphong}</option>
+            ))}
+          </select>
+          <button
+            onClick={isEditing ? () => updateRoom(editId) : addRoom}
+            className={styles.submitButton}
+          >
+            {isEditing ? 'Cập Nhật' : 'Thêm Phòng'}
+          </button>
+        </div>
       </div>
-</div>
       {/* Tables Section */}
       <div style={{
-  flex: 6,
-  
-}} className={styles.tablesContainer}>
+        flex: 6,
+
+      }} className={styles.tablesContainer}>
         <div className={styles.tableSection}>
           <h2 className={styles.tableTitle}>Danh Sách Phòng</h2>
           <table className={styles.table}>
@@ -209,21 +214,21 @@ const QuanLyPhongPage = () => {
                 <tr key={room._id}>
                   <td>{index + 1}</td>
                   <td>
-                  <Link href={`/admin/phong-phim/chitietphongphim?id=${room._id}`} className="btn me-2 sua">
-                                {room.tenphong}
-                  </Link>
+                    <Link href={`/admin/phong-phim/chitietphongphim?id=${room._id}`} className="btn me-2 sua">
+                      {room.tenphong}
+                    </Link>
                   </td>
                   <td>{room.trangthai === '1' ? 'Đang Hoạt Động' : 'Ngừng Hoạt Động'}</td>
                   <td>{room.loaiphong}</td>
                   <td>
-                    <button 
-                      className={styles.editButton} 
+                    <button
+                      className={styles.editButton}
                       onClick={() => handleEdit(room._id, room.tenphong, room.trangthai, room.loaiphong)}
                     >
                       Sửa
                     </button>
-                    <button 
-                      className={styles.deleteButton} 
+                    <button
+                      className={styles.deleteButton}
                       onClick={() => deleteRoom(room._id)}
                     >
                       Xóa
@@ -235,6 +240,7 @@ const QuanLyPhongPage = () => {
           </table>
         </div>
       </div>
+     </div>
     </Layout>
   );
 };
