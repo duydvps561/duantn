@@ -23,10 +23,9 @@ router.post("/add", async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-<<<<<<< HEAD
 
 // Get invoice by ID
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const hoadon = await Hoadon.findById(req.params.id).populate(
       "taikhoan_id",
