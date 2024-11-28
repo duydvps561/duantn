@@ -186,5 +186,62 @@ router.get('/don-trong-thang', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+router.get('/doanh-thu-theo-ngay', async (req, res) => {
+    try {
+        const today = new Date();
+        today.setHours(23, 59, 59, 999);
+
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - 6);
+
+        const revenueDaily = await hoadon.aggregate([
+            {
+                $match: {
+                    ngaylap: { $gte: startOfWeek, $lte: today },
+                    trangthai: '2' 
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$ngaylap' } },
+                    totalRevenue: { $sum: '$tongtien' }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        res.json(revenueDaily);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+router.get('/doanh-thu-theo-thang', async (req, res) => {
+    try {
+        const today = new Date();
+        const sixMonthsAgo = new Date(today);
+        sixMonthsAgo.setMonth(today.getMonth() - 5);
+
+        const revenueMonthly = await hoadon.aggregate([
+            {
+                $match: {
+                    ngaylap: { $gte: sixMonthsAgo },
+                    trangthai: '2'
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m', date: '$ngaylap' } },
+                    totalRevenue: { $sum: '$tongtien' }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        res.json(revenueMonthly);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 module.exports = router;
