@@ -117,6 +117,7 @@ export default function LichChieu() {
                           ? `${phim.noidung.slice(0, 90)}...`
                           : phim.noidung}
                       </p>
+                      {/* lịch chiếu của phim */}
                     </div>
                   </div>
                 </div>
