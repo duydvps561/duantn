@@ -124,12 +124,12 @@ const MovieCategoryManagement = () => {
         onChange={(e) => setCategoryName(e.target.value)} 
         placeholder="Tên thể loại" 
       />
-      <input
+      {/* <input
         type="number"
         value={categoryQuantity}
         onChange={(e) => setCategoryQuantity(parseInt(e.target.value, 10))}
         placeholder="Số lượng phim"
-      />
+      /> */}
       <div className="button-container">
         <button className="submit-category-btn" onClick={handleCategorySubmit}>
           {currentCategoryId ? "Cập nhật" : "Thêm"}
