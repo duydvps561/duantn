@@ -1,12 +1,15 @@
 "use client";
-
 import Layout from '@/app/components/admin/Layout';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import styles from './edit.module.css';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 export default function EditMovie() {
+  const router = useRouter();
+
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const [loading, setLoading] = useState(true);
@@ -35,6 +38,7 @@ export default function EditMovie() {
           const movieData = response.data;
           movieData.img = `http://localhost:3000/img/phims/${movieData.img}`; // Thiết lập URL ảnh
           setMovie(movieData);
+
         } else {
           console.error('Failed to fetch movie:', response.statusText);
         }
@@ -88,6 +92,16 @@ export default function EditMovie() {
       if (response.status === 200) {
         console.log('Movie updated successfully:', response.data);
         // Show success notification or redirect
+        Swal.fire({
+          title: 'Cập nhật thành công!',
+          text: 'Phim đã được cập nhật thành công.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          // Chuyển hướng sang trang /admin/phim sau khi người dùng nhấn OK
+          router.push('/admin/phim');
+        });
+
       } else {
         console.error('Failed to update movie:', response.statusText);
       }
@@ -102,131 +116,144 @@ export default function EditMovie() {
     <Layout>
       <div className="m-3">
         <h2>Sửa Phim</h2>
-        <form className={styles.formContainer} onSubmit={handleSubmit} encType="multipart/form-data">
-          <div className={`${styles.formRow}`}>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Tên phim</label>
-              <input
-                type="text"
-                name="tenphim"
-                required
-                className="form-control"
-                value={movie.tenphim}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Hình ảnh</label>
-              <input
-                type="file"
-                name="img"
-                accept="image/*"
-                className="form-control"
-                onChange={handleImageChange} // Handle image change
-              />
-           {movie.img && <img src={movie.img} alt="Current Movie" className={styles.imagePreview} />} {/* Hiển thị ảnh hiện tại */}
-            </div>
-          </div>
-          <div className={`${styles.formRow}`}>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Nội dung</label>
-              <textarea
-                name="noidung"
-                required
-                className="form-control"
-                value={movie.noidung}
-                onChange={handleInputChange}
-              ></textarea>
-            </div>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Trailer</label>
-              <input
-                type="text"
-                name="trailler"
-                required
-                className="form-control"
-                value={movie.trailler}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className={`${styles.formRow}`}>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Đạo diễn</label>
-              <input
-                type="text"
-                name="daodien"
-                required
-                className="form-control"
-                value={movie.daodien}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Diễn viên</label>
-              <input
-                type="text"
-                name="dienvien"
-                required
-                className="form-control"
-                value={movie.dienvien}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className={`${styles.formRow}`}>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Thời lượng</label>
-              <input
-                type="number"
-                name="thoiluong"
-                required
-                className="form-control"
-                value={movie.thoiluong}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Ngày hiệu lực</label>
-              <input
-                type="date"
-                name="ngayhieuluc"
-                required
-                className="form-control"
-                value={movie.ngayhieuluc.slice(0, 10)} // Format date
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className={`${styles.formRow}`}>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Ngày hiệu lực đến</label>
-              <input
-                type="date"
-                name="ngayhieulucden"
-                required
-                className="form-control"
-                value={movie.ngayhieulucden.slice(0, 10)} // Format date
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${styles.formGroup}`}>
-              <label className="form-label">Trạng thái</label>
-              <select
-                name="trangthai"
-                className="form-control"
-                value={movie.trangthai}
-                onChange={handleInputChange}
-              >
-                <option value="1">Còn chiếu</option>
-                <option value="0">Ngừng chiếu</option>
-              </select>
-            </div>
-          </div>
-          <button type="submit" className={`${styles.submitButton}`}>
-            Cập Nhật Phim
-          </button>
-        </form>
+    <form className={styles.formContainer} onSubmit={handleSubmit} encType="multipart/form-data">
+  <div className={`${styles.formRow}`}>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="tenphim" className="form-label">Tên phim</label>
+      <input
+        id="tenphim"
+        type="text"
+        name="tenphim"
+        required
+        className="form-control"
+        value={movie.tenphim}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="img" className="form-label">Hình ảnh</label>
+      <input
+        id="img"
+        type="file"
+        name="img"
+        accept="image/*"
+        className="form-control"
+        onChange={handleImageChange} // Handle image change
+      />
+      {movie.img && <img src={movie.img} alt="Current Movie" className={styles.imagePreview} />}
+    </div>
+  </div>
+  <div className={`${styles.formRow}`}>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="noidung" className="form-label">Nội dung</label>
+      <textarea
+        id="noidung"
+        name="noidung"
+        required
+        className="form-control"
+        value={movie.noidung}
+        onChange={handleInputChange}
+      ></textarea>
+    </div>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="trailler" className="form-label">Trailer</label>
+      <input
+        id="trailler"
+        type="text"
+        name="trailler"
+        required
+        className="form-control"
+        value={movie.trailler}
+        onChange={handleInputChange}
+      />
+    </div>
+  </div>
+  <div className={`${styles.formRow}`}>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="daodien" className="form-label">Đạo diễn</label>
+      <input
+        id="daodien"
+        type="text"
+        name="daodien"
+        required
+        className="form-control"
+        value={movie.daodien}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="dienvien" className="form-label">Diễn viên</label>
+      <input
+        id="dienvien"
+        type="text"
+        name="dienvien"
+        required
+        className="form-control"
+        value={movie.dienvien}
+        onChange={handleInputChange}
+      />
+    </div>
+  </div>
+  <div className={`${styles.formRow}`}>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="thoiluong" className="form-label">Thời lượng</label>
+      <input
+        id="thoiluong"
+        type="number"
+        name="thoiluong"
+        required
+        min={0}
+        defaultValue={0}
+        className="form-control"
+        value={movie.thoiluong}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="ngayhieuluc" className="form-label">Ngày hiệu lực</label>
+      <input
+        id="ngayhieuluc"
+        type="date"
+        name="ngayhieuluc"
+        required
+        className="form-control"
+        value={movie.ngayhieuluc.slice(0, 10)} // Format date
+        onChange={handleInputChange}
+      />
+    </div>
+  </div>
+  <div className={`${styles.formRow}`}>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="ngayhieulucden" className="form-label">Ngày hiệu lực đến</label>
+      <input
+        id="ngayhieulucden"
+        type="date"
+        name="ngayhieulucden"
+        required
+        className="form-control"
+        value={movie.ngayhieulucden.slice(0, 10)} // Format date
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={`${styles.formGroup}`}>
+      <label htmlFor="trangthai" className="form-label">Trạng thái</label>
+      <select
+        id="trangthai"
+        name="trangthai"
+        className="form-control"
+        value={movie.trangthai}
+        onChange={handleInputChange}
+      >
+        <option value="1">Không hoạt động</option>
+        <option value="0">Hoạt động</option>
+      </select>
+    </div>
+  </div>
+  <button type="submit" className={`${styles.submitButton}`}>
+    Cập Nhật Phim
+  </button>
+</form>
+
       </div>
     </Layout>
   );

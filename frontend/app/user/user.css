@@ -1,0 +1,146 @@
+.user-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #343a40; /* Màu nền tối hơn */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Box-shadow hơi sáng hơn */
+    
+    .user-profile__title{
+        color: white; /* Màu chữ trắng */
+        font-size: 20px;
+    }
+    .user-profile__info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .avt-user {
+            margin-bottom: 16px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #ddd; 
+        }
+        .avt-user img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .user-information {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+            width: 100%;
+
+            .name__info {
+                text-align: start;
+                padding: 16px;
+                margin-bottom: 16px;
+                min-height: 150px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                background-color: #495057; /* Màu nền tối cho thông tin */
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Box-shadow tối hơn */
+                width: 100%;
+                color: white; /* Màu chữ trắng */
+                font-size: 16px;
+            }
+        }
+        
+        .information {
+            text-align: start;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #495057; /* Màu nền tối cho thông tin */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Box-shadow tối hơn */
+            width: 100%;
+            color: white; /* Màu chữ trắng */
+            font-size: 16px;
+        }
+
+        .rank__user {
+            display: flex;
+            justify-content: space-between;
+            min-height: 150px;
+            margin-top: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #495057; /* Màu nền tối cho thông tin cấp bậc */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Box-shadow tối hơn */
+            width: 100%;
+            color: white; /* Màu chữ trắng */
+            font-size: 16px;
+        }
+
+        .edit-button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffc107;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .edit-button:hover {
+            background-color: #e0a800;
+        }
+    }
+
+    .user-profile__form {
+        .form-group {
+            margin-bottom: 15px;
+
+            .form-group__label {
+                margin-bottom: 5px;
+                font-weight: bold;
+                color: white; /* Màu chữ trắng cho label */
+            }
+            .form-group__input {
+                padding: 10px;
+                border: 1px solid #ced4da;
+                border-radius: 5px;
+                width: 100%;
+            }
+            .error-message{
+                color: red;
+            }
+        }
+
+        .put-button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .put-button:hover {
+            background-color: #0056b3;
+        }
+
+        .cancel-button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .cancel-button:hover {
+            background-color: #c82333;
+        }
+    }
+}

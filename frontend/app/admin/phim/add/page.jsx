@@ -64,50 +64,50 @@ const AddMovie = () => {
         <h2>Thêm Phim Mới</h2>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="form-group my-2">
-            <label className="form-label">Tên phim</label>
+            <label style={{'color': 'black'}} className="form-label">Tên phim</label>
             <input type="text" name="tenphim" required className="form-control" />
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Nội dung</label>
+            <label style={{'color': 'black'}} className="form-label">Nội dung</label>
             <textarea name="noidung" required className="form-control"></textarea>
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Thời lượng</label>
+            <label style={{'color': 'black'}} className="form-label">Thời lượng</label>
             <input type="number" name="thoiluong" required className="form-control" />
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Đạo diễn</label>
+            <label style={{'color': 'black'}} className="form-label">Đạo diễn</label>
             <input type="text" name="daodien" required className="form-control" />
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Diễn viên</label>
+            <label style={{'color': 'black'}} className="form-label">Diễn viên</label>
             <input type="text" name="dienvien" required className="form-control" />
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Trailer</label>
+            <label style={{'color': 'black'}} className="form-label">Trailer</label>
             <input type="text" name="trailler" required className="form-control" /> {/* Ensure correct spelling */}
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Ngày hiệu lực</label>
+            <label style={{'color': 'black'}} className="form-label">Ngày hiệu lực</label>
             <input type="date" name="ngayhieuluc" required className="form-control" />
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Ngày hiệu lực đến</label>
+            <label style={{'color': 'black'}} className="form-label">Ngày hiệu lực đến</label>
             <input type="date" name="ngayhieulucden" required className="form-control" />
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Hình ảnh</label>
+            <label style={{'color': 'black'}} className="form-label">Hình ảnh</label>
             <input type="file" name="img" accept="image/*" required className="form-control" />
           </div>
           <div className="form-group my-2">
-            <label className="form-label">Trạng thái</label>
+            <label style={{'color': 'black'}} className="form-label">Trạng thái</label>
             <select name="trangthai" className="form-control" defaultValue="1">
               <option value="1">Hiện</option>
               <option value="0">Ẩn</option>
               <option value="2">chưa chiếu </option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary my-3">Thêm Phim</button>
+          <button type="submit" style={{background: '#4d6950', color: 'white'}} className="btn   my-3">Thêm Phim</button>
         </form>
       </div>
     </Layout>

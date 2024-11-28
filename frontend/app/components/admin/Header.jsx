@@ -57,19 +57,10 @@ const Header = () => {
                 />
               </div>
               <ul
-                className="dropdown-menu mt-2"
+                className="dropdown-menu mt-2 w-100"
                 style={{ backgroundColor: "#10141b" }}
                 aria-labelledby="dropdownMenuButton"
               >
-                {/* <li>
-                  <Link
-                    href={`/user`}
-                    className="dropdown-item"
-                    style={{ fontSize: "17px" }}
-                  >
-                    Thông tin cá nhân
-                  </Link>
-                </li> */}
                 <li>
                   <a
                     className="dropdown-item"
@@ -89,13 +80,13 @@ const Header = () => {
     </header>
   );
 };
-
 const headerStyle = {
   backgroundColor: '#ffffff',
   color: 'black',
   padding: '10px',
   textAlign: 'center',
-
+  display:'flex',
+  justifyContent:'space-around',
 };
 
 const titleContainerStyle = {
