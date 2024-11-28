@@ -105,7 +105,7 @@ const SuaTinTuc = () => {
         <h1 className="text-center my-4">Sửa Tin Tức</h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data" className="row newpayper g-3">
           <div className="col-md-6">
-            <label className="form-label">Title</label>
+            <label className="form-label">Tiêu đề</label>
             <input
               type="text"
               name="title"
@@ -116,7 +116,7 @@ const SuaTinTuc = () => {
             />
           </div>
           <div className="col-md-6">
-            <label className="form-label">Describe</label>
+            <label className="form-label">Mô tả</label>
             <input
               type="text"
               name="describe"
@@ -127,7 +127,7 @@ const SuaTinTuc = () => {
             />
           </div>
           <div className="col-12">
-            <label className="form-label">Content</label>
+            <label className="form-label">Nội dung</label>
             {isContentLoaded && (
               <Editor
                 apiKey="sxuecqw6ie1p3ksawpdq4piz7jvlucsub11a6z83r8atnksh"
