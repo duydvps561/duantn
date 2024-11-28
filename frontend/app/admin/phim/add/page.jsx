@@ -2,6 +2,7 @@
 
 import Layout from '@/app/components/admin/Layout';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
 const AddMovie = () => {
   const [loading, setLoading] = useState(true);
@@ -31,25 +32,47 @@ const AddMovie = () => {
   // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
-
+  
     const formData = new FormData(event.target); // Create FormData object
-
+  
     try {
       const response = await fetch('http://localhost:3000/phim/add', {
         method: 'POST',
         body: formData,
       });
-
+  
       if (response.ok) {
         const result = await response.json();
         console.log('Movie added successfully:', result);
-        // Show success notification or redirect
+  
+        // Hiển thị thông báo thành công
+        await Swal.fire({
+          title: 'Thành công!',
+          text: 'Phim đã được thêm thành công.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+  
+        // Có thể chuyển hướng hoặc làm gì đó khác sau thông báo thành công
+        // router.push('/admin/phim'); // Uncomment to redirect if needed
       } else {
         const errorData = await response.json();
         console.error('Failed to add movie:', errorData);
+        Swal.fire({
+          title: 'Lỗi!',
+          text: 'Không thể thêm phim. Vui lòng kiểm tra lại.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       }
     } catch (error) {
       console.error('Error:', error);
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra khi thêm phim.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
