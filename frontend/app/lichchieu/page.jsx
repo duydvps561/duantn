@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import "./lichchieu.css";
+import "./lichchieu-responsive.css"; // CSS responsive
 
 export default function LichChieu() {
   const [listPhim, setListPhim] = useState([]);
