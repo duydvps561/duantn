@@ -4,6 +4,7 @@ import axios from "axios";
 import Layout from "@/app/components/admin/Layout";
 import styles from "./QuanLyPhim.module.css";
 import "../../globals.css";
+import Swal from 'sweetalert2';
 
 const QuanLyGiaGhePage = () => {
   const [seatPrices, setSeatPrices] = useState([]);
@@ -51,22 +52,55 @@ const QuanLyGiaGhePage = () => {
   const addSeatPrice = async () => {
     try {
       await axios.post("http://localhost:3000/giaghe/add", selectedSeatPrice);
-      fetchSeatPrices();
-      resetForm();
+      
+      // Hiển thị thông báo thành công
+      await Swal.fire({
+        title: 'Thành công!',
+        text: 'Giá vé đã được thêm thành công.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+  
+      fetchSeatPrices(); // Cập nhật danh sách giá vé
+      resetForm(); // Đặt lại form
     } catch (error) {
       console.error("Error adding seat price:", error);
+      
+      // Hiển thị thông báo lỗi
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra khi thêm giá vé.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
   const updateSeatPrice = async (id) => {
     try {
       await axios.put(`http://localhost:3000/giaghe/update/${id}`, selectedSeatPrice);
-      fetchSeatPrices();
-      resetForm();
-      setIsEditing(false);
-      setEditId(null);
+      
+      // Hiển thị thông báo thành công
+      await Swal.fire({
+        title: 'Thành công!',
+        text: 'Giá vé đã được cập nhật thành công.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+  
+      fetchSeatPrices(); // Cập nhật danh sách giá vé
+      resetForm(); // Đặt lại form
+      setIsEditing(false); // Đặt trạng thái chỉnh sửa về false
+      setEditId(null); // Đặt ID chỉnh sửa về null
     } catch (error) {
       console.error("Error updating seat price:", error);
+      // Hiển thị thông báo lỗi
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra khi cập nhật giá vé.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
@@ -79,11 +113,28 @@ const QuanLyGiaGhePage = () => {
   const deleteSeatPrice = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/giaghe/delete/${id}`);
-      fetchSeatPrices();
+      
+      // Hiển thị thông báo thành công
+      await Swal.fire({
+        title: 'Xóa thành công!',
+        text: 'Giá vé đã được xóa thành công.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+  
+      fetchSeatPrices(); // Cập nhật danh sách giá vé
     } catch (error) {
       console.error("Error deleting seat price:", error);
+      // Hiển thị thông báo lỗi
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra khi xóa giá vé.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
+  
 
   const resetForm = () => {
     setSelectedSeatPrice({
@@ -163,26 +214,27 @@ const QuanLyGiaGhePage = () => {
           onChange={(e) => setSelectedSeatPrice({ ...selectedSeatPrice, gioketthuc: e.target.value })}
           className={styles.inputField}
         />
-         <label className={styles.toggleLabel}>
-    <span>Áp dụng cho cuối tuần</span>
-    <input
-      type="checkbox"
-      checked={selectedSeatPrice.ngaycuoituan === 1}
-      onChange={(e) => setSelectedSeatPrice({ ...selectedSeatPrice, ngaycuoituan: e.target.checked ? 1 : 0 })}
-      className={styles.toggleInput}
-    />
-  </label>
-  
-  {/* Toggle cho Trạng Thái */}
-  <label className={styles.toggleLabel}>
-    <span>Trạng thái hoạt động</span>
-    <input
-      type="checkbox"
-      checked={selectedSeatPrice.trangthai === 1}
-      onChange={(e) => setSelectedSeatPrice({ ...selectedSeatPrice, trangthai: e.target.checked ? 1 : 0 })}
-      className={styles.toggleInput}
-    />
-  </label>
+       <label style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+  <span style={{ marginRight: '10px', color: 'black' }}>Áp dụng cho cuối tuần</span>
+  <input
+    type="checkbox"
+    checked={selectedSeatPrice.ngaycuoituan === 1}
+    onChange={(e) => setSelectedSeatPrice({ ...selectedSeatPrice, ngaycuoituan: e.target.checked ? 1 : 0 })}
+    style={{ width: '40px', height: '20px', cursor: 'pointer' }}
+  />
+</label>
+
+{/* Toggle cho Trạng Thái */}
+<label style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+  <span style={{ marginRight: '10px', color: 'black' }}>Trạng thái hoạt động</span>
+  <input
+    type="checkbox"
+    checked={selectedSeatPrice.trangthai === 1}
+    onChange={(e) => setSelectedSeatPrice({ ...selectedSeatPrice, trangthai: e.target.checked ? 1 : 0 })}
+    style={{ width: '40px', height: '20px', cursor: 'pointer' }}
+  />
+</label>
+
         <button
           className={styles.addButton}
           onClick={isEditing ? () => updateSeatPrice(editId) : addSeatPrice}

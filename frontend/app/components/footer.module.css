@@ -1,3 +1,73 @@
 .color{
     background-color: rgba(33,37,41,0.05);
+  }/* Footer CSS Responsive */
+
+/* Thêm khoảng cách và căn chỉnh */
+ 
+.menu-bot {
+  flex-wrap: wrap; /* Đảm bảo menu xuống hàng nếu không đủ không gian */
+  gap: 10px; /* Thêm khoảng cách giữa các mục */
+}
+
+.menu-bot .nav-item {
+  margin: 0 5px;
+}
+
+.img {
+  flex-wrap: wrap; /* Hình ảnh tự động xuống hàng nếu cần */
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.img img {
+  margin: 5px;
+  max-width: 100px; /* Đảm bảo hình ảnh không vượt quá 100px */
+  height: auto; /* Tự động điều chỉnh tỷ lệ */
+}
+
+.contact-bottom {
+  text-align: center; /* Văn bản căn giữa */
+  font-size: 14px; /* Thu nhỏ kích thước chữ để hiển thị gọn gàng */
+  margin-top: 15px;
+}
+
+/* Áp dụng cho màn hình nhỏ hơn 768px (tablet và mobile) */
+@media (max-width: 768px) {
+ 
+
+  .menu-bot {
+    justify-content: center; /* Canh giữa menu */
   }
+
+  .menu-bot .nav-link {
+    font-size: 14px; /* Thu nhỏ font chữ */
+  }
+
+  .img {
+    justify-content: center; /* Canh giữa các icon */
+  }
+
+  .img img {
+    max-width: 80px; /* Giảm kích thước icon */
+  }
+
+  .contact-bottom p {
+    font-size: 12px; /* Giảm kích thước chữ */
+    line-height: 1.5; /* Tăng khoảng cách dòng cho dễ đọc */
+  }
+}
+
+/* Áp dụng cho màn hình nhỏ hơn 576px (mobile) */
+@media (max-width: 576px) {
+  .menu-bot .nav-link {
+    font-size: 12px; /* Tiếp tục giảm font chữ */
+  }
+
+  .img img {
+    max-width: 60px; /* Giảm kích thước icon hơn nữa */
+  }
+
+  .contact-bottom p {
+    font-size: 10px; /* Thu nhỏ chữ tối đa để phù hợp trên mobile */
+  }
+}

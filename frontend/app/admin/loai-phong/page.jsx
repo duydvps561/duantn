@@ -69,8 +69,8 @@ const QuanLyPhongPage = () => {
 
   return (
     <Layout>
-      <h1>Quản Lý Phòng Phim</h1>
-      <p>Đây là trang quản lý phòng phim.</p>
+      <h1>Quản Lý Loại phòng</h1>
+      <p>Đây là trang quản lý Loại phòng.</p>
 
       {/* Form to Add or Edit Room */}
       <div className={styles.formContainer}>
