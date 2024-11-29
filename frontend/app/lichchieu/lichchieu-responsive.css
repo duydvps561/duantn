@@ -1,0 +1,76 @@
+/* Responsive CSS cho LichChieu */
+
+/* Áp dụng cho màn hình nhỏ hơn 768px (tablet và mobile) */
+@media (max-width: 768px) {
+    .film-container {
+        margin-top: 20px;
+        padding: 0 10px; /* Thêm padding vào container */
+    }
+
+    .film-title {
+        font-size: 18px;
+    }
+
+    .age-warning {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .date-list {
+        display: grid !important; /* Sử dụng grid layout */
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Tự điều chỉnh số cột */
+        gap: 10px; /* Khoảng cách giữa các nút */
+
+        padding: 10px; /* Thêm padding cho cả danh sách */
+    }
+
+    .date-button {
+        margin: 0; /* Loại bỏ margin riêng lẻ */
+        height: 50px; /* Đảm bảo chiều cao đồng nhất */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center;
+    width: 100% !important;
+    }
+
+    .film-list {
+        display: flex;
+        flex-direction: column; /* Hiển thị phim theo chiều dọc */
+        align-items: center; /* Canh giữa các card */
+        gap: 10px;
+
+        .film-card {
+            width: 90%; /* Chiếm 90% chiều ngang màn hình */
+            height: auto; /* Tự động điều chỉnh chiều cao */
+        }
+
+        .film-card-body {
+            font-size: 12px;
+
+            .film-title {
+                font-size: 16px;
+            }
+
+            .film-description {
+                width: auto; /* Tự động điều chỉnh chiều rộng */
+                font-size: 14px;
+            }
+        }
+
+        .film-timeline {
+            flex-direction: column; /* Sắp xếp thông tin theo cột */
+            gap: 5px;
+
+            .release-date,
+            .duration-info {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .film-image {
+        width: 100%; /* Hình ảnh chiếm toàn bộ chiều ngang */
+        height: auto; /* Giữ tỷ lệ hình ảnh */
+        object-fit: contain;
+    }
+}
