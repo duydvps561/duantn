@@ -103,78 +103,82 @@ const UserProfile = () => {
   return (
     <div className="user-container">
       {isEditing ? (
-        <form onSubmit={formik.handleSubmit} className="user-profile__form">
-        
-        <div className="form-group">
-          <label className="form-group__label">Email:</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="example@gmail.com"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            required
-            className="form-group__input"
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <div className="error-message">{formik.errors.email}</div>
-          ) : null}
-        </div>
-        <div className="form-group">
-          <label className="form-group__label">Tên tài khoản:</label>
-          <input
-            type="text"
-            name="tentaikhoan"
-            placeholder="Your Name"
-            value={formik.values.tentaikhoan}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            required
-            className="form-group__input"
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-group__label">Số điện thoại:</label>
-          <input
-            type="text"
-            name="sdt"
-            placeholder="Số điện thoại"
-            value={formik.values.sdt}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            required
-            className="form-group__input"
-          />
-          {formik.touched.sdt && formik.errors.sdt ? (
-            <div className="error-message">{formik.errors.sdt}</div>
-          ) : null}
-        </div>
-        <div className="form-group">
-          <label className="form-group__label">Ngày sinh:</label>
-          <input
-            type="date"
-            name="ngaysinh"
-            value={formik.values.ngaysinh.split("T")[0]}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            required
-            className="form-group__input"
-          />
-        </div>
-        <div className="form-buttons">
-          <button type="submit" className="user-profile__button put-button">
-            Lưu thay đổi
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsEditing(false)}
-            className="user-profile__button cancel-button"
-          >
-            Hủy
-          </button>
-        </div>
-      </form>
+        <>
+          <h2 className="edit-title">Chỉnh sửa thông tin</h2>
+          <form onSubmit={formik.handleSubmit} className="user-profile__form">
+            <div className="form-group">
+              <label className="form-group__label">Email:</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="example@gmail.com"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+                className="form-group__input"
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="error-message">{formik.errors.email}</div>
+              ) : null}
+            </div>
+            <div className="form-group">
+              <label className="form-group__label">Tên tài khoản:</label>
+              <input
+                type="text"
+                name="tentaikhoan"
+                placeholder="Your Name"
+                value={formik.values.tentaikhoan}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+                className="form-group__input"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-group__label">Số điện thoại:</label>
+              <input
+                type="text"
+                name="sdt"
+                placeholder="Số điện thoại"
+                value={formik.values.sdt}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+                className="form-group__input"
+              />
+              {formik.touched.sdt && formik.errors.sdt ? (
+                <div className="error-message">{formik.errors.sdt}</div>
+              ) : null}
+            </div>
+            <div className="form-group">
+              <label className="form-group__label">Ngày sinh:</label>
+              <input
+                type="date"
+                name="ngaysinh"
+                style={{ color: "#666666" }}
+                value={formik.values.ngaysinh.split("T")[0]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+                className="form-group__input"
+              />
+            </div>
+            <div className="form-buttons">
+              <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="user-profile__button cancel-button"
+            >
+              Hủy
+            </button>
+              <button type="submit" className="user-profile__button put-button">
+                Lưu thay đổi
+              </button>
+             
+            </div>
+          </form>
+        </>
       ) : (
         userData && (
           <div className="user-profile__info">
@@ -187,17 +191,15 @@ const UserProfile = () => {
             <div className="user-information">
               <div className="name__info">
                 <h3>{userData.tentaikhoan}</h3>
-
                 <p>{userData.email}</p>
                 <p>{userData.sdt}</p>
-
                 <p>Đang {userData.trangthai}</p>
                 <button
-                onClick={() => setIsEditing(true)}
-                className="user-profile__button edit-button"
-              >
-                Chỉnh sửa
-              </button>
+                  onClick={() => setIsEditing(true)}
+                  className="user-profile__button edit-button"
+                >
+                  Chỉnh sửa
+                </button>
               </div>
             </div>
             <div className="rank__user">
@@ -205,7 +207,6 @@ const UserProfile = () => {
                 <strong>Thành viên từ:</strong> 01/01/2022
               </p>
             </div>
-           
           </div>
         )
       )}
