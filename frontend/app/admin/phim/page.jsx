@@ -5,6 +5,8 @@ import Link from 'next/link'; // Import Link from next/link
 import styles from './QuanLyPhim.module.css';
 import '../../globals.css';
 import '../../admin_header.css';
+import Swal from 'sweetalert2';
+
 const QuanLyPhimPage = () => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
@@ -27,7 +29,17 @@ const QuanLyPhimPage = () => {
     return new Date(isoDate).toLocaleDateString('vi-VN');
   };
   const deleteMovie = async (id) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa phim này?')) {
+    // Hiển thị thông báo xác nhận trước khi xóa
+    const result = await Swal.fire({
+      title: 'Xác nhận xóa',
+      text: 'Bạn có chắc chắn muốn xóa phim này?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có, xóa nó!',
+      cancelButtonText: 'Không, quay lại!'
+    });
+  
+    if (result.isConfirmed) {
       try {
         const response = await fetch(`http://localhost:3000/phim/${id}`, {
           method: 'DELETE',
@@ -36,8 +48,21 @@ const QuanLyPhimPage = () => {
           throw new Error('Failed to delete movie');
         }
         setMovies(movies.filter(movie => movie._id !== id));
+        // Hiển thị thông báo thành công
+        Swal.fire({
+          title: 'Xóa thành công!',
+          text: 'Phim đã được xóa thành công.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
       } catch (error) {
         console.error('Error deleting movie:', error);
+        Swal.fire({
+          title: 'Lỗi!',
+          text: 'Có lỗi xảy ra khi xóa phim.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       }
     }
   };

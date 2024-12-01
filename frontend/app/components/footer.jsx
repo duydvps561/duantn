@@ -31,7 +31,9 @@ export default function Footer() {
           </li>
         </ul>
       </div>
-      <div className="img d-flex justify-content-center align-items-center">
+      <div style={{
+        flexDirection: 'column'
+      }} className="img d-flex justify-content-center align-items-center">
         <img src="img/facebook.png" alt="" style={{ height: "50px" }} />
         <img src="img/zalo.png" alt="" style={{ height: "55px" }} />
         <img src="img/youtube.png" alt="" style={{ height: "50px" }} />

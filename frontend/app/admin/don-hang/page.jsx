@@ -1,154 +1,184 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Layout from "@/app/components/admin/Layout";
 import "./OrderManagement.css";
 import "../../globals.css";
 import "../../admin_header.css";
 
 const OrderManagement = () => {
-  const [orders, setOrders] = useState([]); // List of orders
-  const [selectedOrder, setSelectedOrder] = useState(null); // Selected order for modal
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [orders, setOrders] = useState([]); // Danh sách đơn hàng
+  const [filteredOrders, setFilteredOrders] = useState([]); // Đơn hàng hiển thị trên trang hiện tại
+  const [selectedOrder, setSelectedOrder] = useState(null); // Đơn hàng được chọn để xem chi tiết
+  const [loading, setLoading] = useState(false); // Trạng thái loading
+  const [error, setError] = useState(null); // Lỗi nếu có
+  const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
+  const ITEMS_PER_PAGE = 10; // Số lượng đơn hàng mỗi trang
+  const [totalPages, setTotalPages] = useState(1); // Tổng số trang
 
-  // Fetch orders when the component loads
+  // Fetch danh sách đơn hàng khi component load
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        setLoading(true); // Start loading
-        const response = await fetch("http://localhost:3000/hoadon");
-        if (!response.ok) throw new Error("Failed to fetch orders");
-        const data = await response.json();
+        setLoading(true);
+        const response = await axios.get("http://localhost:3000/hoadon");
+        const data = response.data;
 
-        // Sort orders by creation date (newest first)
+        // Sắp xếp đơn hàng theo ngày lập (mới nhất ở trên cùng)
         const sortedOrders = data.sort(
           (a, b) => new Date(b.ngaylap) - new Date(a.ngaylap)
         );
         setOrders(sortedOrders);
+
+        // Tính toán phân trang
+        setTotalPages(Math.ceil(sortedOrders.length / ITEMS_PER_PAGE));
+        setFilteredOrders(sortedOrders.slice(0, ITEMS_PER_PAGE)); // Hiển thị trang đầu tiên
       } catch (err) {
+        console.error("Lỗi khi tải danh sách đơn hàng:", err);
         setError(err.message);
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);
       }
     };
 
     fetchOrders();
   }, []);
 
-  // Fetch order details for modal
+  // Phân trang
+  const paginate = (page) => {
+    setCurrentPage(page);
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    setFilteredOrders(orders.slice(startIndex, endIndex));
+  };
+
+  // Fetch thông tin chi tiết đơn hàng
   const handleViewOrder = async (id) => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/hoadon/${id}`);
-      if (!response.ok) throw new Error("Failed to fetch order details");
-      const data = await response.json();
-      setSelectedOrder(data); // Set the selected order
-      setIsModalOpen(true); // Open the modal
+      const response = await axios.get(`http://localhost:3000/hoadon/${id}`);
+      const data = response.data;
+      setSelectedOrder(data);
     } catch (err) {
+      console.error("Lỗi khi tải chi tiết đơn hàng:", err);
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // Close modal handler
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedOrder(null);
-  };
-
   return (
     <Layout>
-      <div className="order-management">
-        <h2>Quản Lý Đơn Hàng</h2>
-        <p>Đây là trang quản lý đơn hàng</p>
-        {loading && <p>Loading...</p>}
-        {error && <p className="error">{error}</p>}
-        {/* <div className="add-order-btn-container">
-          <button className="add-order-btn">Thêm Đơn Hàng</button>
-        </div> */}
-      </div>
-      <div className="tablesContainer">
-        <div className="tableSection">
-          <h2 className="tableTitle">Danh Sách Đơn Hàng</h2>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>STT</th>
-                <th>Mã Đơn Hàng</th>
-                <th>Trạng Thái</th>
-                <th>Thao Tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order, index) => (
-                <tr key={order._id}>
-                  <td>{index + 1}</td>
-                  <td>{order._id}</td>
-                  <td>{order.trangthai}</td>
-                  <td>
-                    <button
-                      className="editButton"
-                      onClick={() => handleViewOrder(order._id)}
-                    >
-                      Xem Đơn Hàng
-                    </button>
-                  </td>
+      <div className="order-management-container">
+        {/* Bảng danh sách đơn hàng */}
+        <div className="orders-list">
+          <div className="tableSection">
+            <h2 className="tableTitle">Danh sách đơn hàng</h2>
+
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Mã đơn hàng</th>
+                  <th>Ngày lập</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {/* Modal Overlay */}
-      {isModalOpen && selectedOrder && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <button className="close-button" onClick={handleCloseModal}>
-              &times;
-            </button>
-            <h3>Chi Tiết Đơn Hàng</h3>
-            <p>
-              <strong>Tên Người Đặt:</strong>{" "}
-              {selectedOrder.taikhoan_id?.tentaikhoan || "N/A"}
-            </p>
-            <p>
-              <strong>Ngày Lập:</strong>{" "}
-              {new Date(selectedOrder.ngaylap).toLocaleDateString()}
-            </p>
-            <p>
-              <strong>Giờ Lập:</strong> {selectedOrder.giolap || "N/A"}
-            </p>
-            <p>
-              <strong>Tổng Tiền:</strong> {selectedOrder.tongtien} VND
-            </p>
-            <h4>Chi Tiết Sản Phẩm:</h4>
-            {selectedOrder.details && selectedOrder.details.length > 0 ? (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Tên Món</th>
-                    <th>Giá</th>
-                    <th>Số Lượng</th>
+              </thead>
+              <tbody>
+                {filteredOrders.map((order) => (
+                  <tr key={order._id}>
+                    <td>{order._id}</td>
+                    <td>{new Date(order.ngaylap).toLocaleDateString()}</td>
+                    <td>{order.trangthai}</td>
+                    <td>
+                      <button
+                        className="editButton"
+                        onClick={() => handleViewOrder(order._id)}
+                      >
+                        Xem đơn hàng
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {selectedOrder.details.map((item, idx) => (
-                    <tr key={idx}>
-                      <td>{item.name}</td>
-                      <td>{item.price} VND</td>
-                      <td>{item.quantity}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p>Không có chi tiết đơn hàng</p>
-            )}
+                ))}
+              </tbody>
+            </table>
+
+            <nav aria-label="Pagination">
+              <ul className="pagination pagination-sm justify-content-center">
+                <li
+                  className={`page-item ${
+                    currentPage === 1 ? "disabled" : ""
+                  }`}
+                >
+                  <button
+                    onClick={() => paginate(currentPage - 1)}
+                    className="page-link"
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </button>
+                </li>
+                {[...Array(totalPages)].map((_, index) => (
+                  <li
+                    key={index + 1}
+                    className={`page-item ${
+                      currentPage === index + 1 ? "active" : ""
+                    }`}
+                  >
+                    <button
+                      onClick={() => paginate(index + 1)}
+                      className="page-link"
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li
+                  className={`page-item ${
+                    currentPage === totalPages ? "disabled" : ""
+                  }`}
+                >
+                  <button
+                    onClick={() => paginate(currentPage + 1)}
+                    className="page-link"
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
-      )}
+
+        {/* Bảng chi tiết đơn hàng */}
+        <div className="order-details">
+          {selectedOrder ? (
+            <>
+              <h3>Chi tiết đơn hàng</h3>
+              <p>
+                <strong>Mã đơn hàng:</strong> {selectedOrder._id}
+              </p>
+              <p>
+                <strong>Ngày lập:</strong>{" "}
+                {new Date(selectedOrder.ngaylap).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Trạng thái:</strong> {selectedOrder.trangthai}
+              </p>
+              <p>
+                <strong>Tên người đặt:</strong>{" "}
+                {selectedOrder.taikhoan_id.tentaikhoan}
+              </p>
+              <p>
+                <strong>Thông tin khác:</strong>{" "}
+                {selectedOrder.thongtinchitiet}
+              </p>
+            </>
+          ) : (
+            <p>Chọn một đơn hàng để xem chi tiết</p>
+          )}
+        </div>
+      </div>
     </Layout>
   );
 };

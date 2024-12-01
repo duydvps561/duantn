@@ -6,7 +6,6 @@ const food = require('../models/food/food');
 const hoadon = require('../models/food/hoadon');
 const phim = require('../models/movie/phim');
 const phongchieu = require('../models/room/phongchieu');
-
 // Lấy số lượng tài khoản
 router.get('/soluong/taikhoan', async (req, res) => {
     try {
@@ -97,11 +96,12 @@ router.get('/hoadon-moi-nhat', async (req, res) => {
 router.get('/don-trong-ngay', async (req, res) => {
     try {
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        today.setHours(23, 59, 59, 999); // Đặt giờ cuối ngày hôm nay
 
         const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - 6);
+        startOfWeek.setDate(today.getDate() - 6); // Tính ngày bắt đầu của tuần
 
+        // Tạo một truy vấn để lấy số liệu trong tuần và bao gồm cả ngày hôm nay
         const ordersWeek = await hoadon.aggregate([
             {
                 $match: {
@@ -118,11 +118,24 @@ router.get('/don-trong-ngay', async (req, res) => {
             { $sort: { _id: 1 } }
         ]);
 
+        // Kiểm tra xem liệu ngày hôm nay có trong dữ liệu không và thêm nếu cần
+        const todayData = ordersWeek.find(order => order._id === today.toISOString().split('T')[0]);
+
+        if (!todayData) {
+            ordersWeek.push({
+                _id: today.toISOString().split('T')[0],
+                count: 0,
+                total: 0
+            });
+        }
+
         res.json(ordersWeek);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
+
+
 //Số lượng đơn trong 6 tháng vửa qua
 router.get('/don-trong-thang', async (req, res) => {
     try {
@@ -173,5 +186,62 @@ router.get('/don-trong-thang', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+router.get('/doanh-thu-theo-ngay', async (req, res) => {
+    try {
+        const today = new Date();
+        today.setHours(23, 59, 59, 999);
+
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - 6);
+
+        const revenueDaily = await hoadon.aggregate([
+            {
+                $match: {
+                    ngaylap: { $gte: startOfWeek, $lte: today },
+                    trangthai: '2' 
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$ngaylap' } },
+                    totalRevenue: { $sum: '$tongtien' }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        res.json(revenueDaily);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+router.get('/doanh-thu-theo-thang', async (req, res) => {
+    try {
+        const today = new Date();
+        const sixMonthsAgo = new Date(today);
+        sixMonthsAgo.setMonth(today.getMonth() - 5);
+
+        const revenueMonthly = await hoadon.aggregate([
+            {
+                $match: {
+                    ngaylap: { $gte: sixMonthsAgo },
+                    trangthai: '2'
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m', date: '$ngaylap' } },
+                    totalRevenue: { $sum: '$tongtien' }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        res.json(revenueMonthly);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 module.exports = router;

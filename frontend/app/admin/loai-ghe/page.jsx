@@ -6,7 +6,7 @@ import styles from './QuanLyPhim.module.css';
 import '../../globals.css';
 import '../../admin_header.css';
 import { SketchPicker } from 'react-color';
-
+import Swal from 'sweetalert2';
 const QuanLyLoaiGhePage = () => {
   const [seatTypes, setSeatTypes] = useState([]);
   const [seatTypeName, setSeatTypeName] = useState("");
@@ -36,13 +36,30 @@ const QuanLyLoaiGhePage = () => {
     try {
       await axios.post("http://localhost:3000/loaighe/add", { 
         loaighe: seatTypeName,
-        mau: seatTypeColor // Add color field
+        mau: seatTypeColor // Thêm trường màu
       });
-      fetchSeatTypes();
+  
+      // Hiển thị thông báo thành công
+      await Swal.fire({
+        title: 'Thành công!',
+        text: 'Loại ghế đã được thêm thành công.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+  
+      fetchSeatTypes(); // Cập nhật danh sách loại ghế
       setSeatTypeName("");
-      setSeatTypeColor("#000000"); // Reset color to default
+      setSeatTypeColor("#000000"); // Đặt lại màu về mặc định
     } catch (error) {
       console.error("Error adding seat type:", error);
+      
+      // Hiển thị thông báo lỗi
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra khi thêm loại ghế.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
@@ -50,15 +67,32 @@ const QuanLyLoaiGhePage = () => {
     try {
       await axios.put(`http://localhost:3000/loaighe/update/${id}`, { 
         loaighe: seatTypeName,
-        mau: seatTypeColor // Add color field
+        mau: seatTypeColor // Thêm trường màu
       });
-      fetchSeatTypes();
+  
+      // Hiển thị thông báo thành công
+      await Swal.fire({
+        title: 'Thành công!',
+        text: 'Loại ghế đã được cập nhật thành công.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+  
+      fetchSeatTypes(); // Cập nhật danh sách loại ghế
       setSeatTypeName("");
-      setSeatTypeColor("#000000"); // Reset color to default
+      setSeatTypeColor("#000000"); // Đặt lại màu về mặc định
       setIsEditing(false);
       setEditId(null);
     } catch (error) {
       console.error("Error updating seat type:", error);
+      
+      // Hiển thị thông báo lỗi
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra khi cập nhật loại ghế.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
 
@@ -72,11 +106,29 @@ const QuanLyLoaiGhePage = () => {
   const deleteSeatType = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/loaighe/delete/${id}`);
-      fetchSeatTypes();
+      
+      // Hiển thị thông báo thành công
+      await Swal.fire({
+        title: 'Xóa thành công!',
+        text: 'Loại ghế đã được xóa thành công.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+  
+      fetchSeatTypes(); // Cập nhật danh sách loại ghế
     } catch (error) {
       console.error("Error deleting seat type:", error);
+      
+      // Hiển thị thông báo lỗi
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Có lỗi xảy ra khi xóa loại ghế.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   };
+  
 
   if (loading) {
     return <div className={styles.loading}>Đang tải dữ liệu...</div>;

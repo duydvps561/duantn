@@ -24,6 +24,9 @@ const QRScannerPage = () => {
           title: 'Mã QR không hợp lệ',
           text: 'Vui lòng quét lại mã QR hợp lệ.',
           confirmButtonText: 'OK',
+        }).then(() => {
+          // Reload lại trang khi người dùng ấn "OK"
+          window.location.reload();
         });
         return;
       }
@@ -40,8 +43,11 @@ const QRScannerPage = () => {
           Swal.fire({
             icon: 'success',
             title: 'Check-in thành công',
-            text: `Hóa đơn ${result.hoadon._id} đã được cập nhật trạng thái.`,
+            text: `Hóa đơn ${result.hoadon._id} đã checkin.`,
             confirmButtonText: 'OK',
+          }).then(() => {
+            // Reload lại trang khi người dùng ấn "OK"
+            window.location.reload();
           });
 
           // Ngừng quét sau khi đã quét thành công
@@ -52,9 +58,11 @@ const QRScannerPage = () => {
 
           Swal.fire({
             icon: 'error',
-            title: 'Không hợp lệ',
-            text: error.message,
+            title: 'QR đã check-in',
             confirmButtonText: 'Thử lại',
+          }).then(() => {
+            // Reload lại trang khi người dùng ấn "Thử lại"
+            window.location.reload();
           });
         }
       } catch (err) {
@@ -65,6 +73,9 @@ const QRScannerPage = () => {
           title: 'Lỗi hệ thống',
           text: 'Không thể kết nối với server.',
           confirmButtonText: 'Thử lại',
+        }).then(() => {
+          // Reload lại trang khi người dùng ấn "Thử lại"
+          window.location.reload();
         });
       }
     }
@@ -77,6 +88,9 @@ const QRScannerPage = () => {
       title: 'Lỗi quét mã QR',
       text: 'Không thể quét mã QR. Vui lòng thử lại.',
       confirmButtonText: 'OK',
+    }).then(() => {
+      // Reload lại trang khi người dùng ấn "OK"
+      window.location.reload();
     });
   };
 
@@ -87,7 +101,7 @@ const QRScannerPage = () => {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Quét mã QR</h1>
+      <h1>Quét mã Checkin</h1>
       <QrScanner
         delay={300}
         style={previewStyle}
@@ -95,7 +109,6 @@ const QRScannerPage = () => {
         onScan={handleScan}
         facingMode="environment" // Quét camera sau
       />
-      <p>Kết quả: {result || 'Chưa có kết quả'}</p>
     </div>
   );
 };

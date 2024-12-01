@@ -27,7 +27,8 @@ label {
 }
 
 input[type="date"],
-select {
+select,
+input[type="text"] {
     padding: 10px;
     font-size: 16px;
     border-radius: 4px;
@@ -37,10 +38,12 @@ select {
     transition: border-color 0.3s;
     background-color: #ffffff !important;
     color: #000000 !important;
+    height: 40px; /* Đảm bảo chiều cao bằng nhau */
 }
 
 input[type="date"]:focus,
-select:focus {
+select:focus,
+input[type="text"]:focus {
     border-color: #4d6950;
     outline: none;
     color: #000000 !important;
@@ -73,6 +76,7 @@ button[type="submit"]:hover {
     margin: 0 10px; 
     color: #000000;
 }
+
 .col-3 {
     flex-basis: 30%; 
 }
