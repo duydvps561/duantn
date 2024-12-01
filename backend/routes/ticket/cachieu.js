@@ -93,8 +93,6 @@ router.put('/update/:id', async (req, res) => {
     res.status(500).json({ error: 'Không thể cập nhật CaChieu' });
   }
 });
-
-
 // Xóa một CaChieu
 router.get('/:id', async (req, res) => {
   try {
