@@ -1,160 +1,187 @@
 .contact-container {
-  max-width: 1200px; /* Limiting the width of the container */
-  margin: 0 auto; /* Centering the container */
+  max-width: 1200px; 
+  margin: 0 auto; 
   padding: 20px;
-}
-.contact-banner {
-  width: 100%;
-  height: 250px;
-  margin: 20px 0;
-}
-.banner-top .card-img-overlay {
-  position: absolute;
-  top: 70px;
-  left: 500px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 20px;
-  border: none;
-  
-}
-.contact-banner-bottom .banner-bottom img {
-  height: 250px;
-  object-fit: fill;
-}
 
-.contact-banner-bottom {
-  width: 100%;
-  height: 250px;
-  margin: 20px 0;
-}
-.banner-bottom .card-img-overlay {
-  position: absolute;
-  top: 80px;
-  left: 500px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 20px;
-}
-.contact-banner .banner-top img {
-  height: 250px;
-  object-fit: fill;
-  border: none;
-}
+  .contact-banner {
+    width: 100%;
+    height: 250px;
+    margin: 20px 0;
 
-.getInTouch {
-  display: flex; /* Use flexbox for layout */
-  justify-content: space-between; /* Space between columns */
-}
+    .card-img-overlay {
+      
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+      border: none;
+    }
 
-.from-getIntouch {
-  flex: 1; /* Allow this column to grow */
-  margin-right: 20px; /* Space between columns */
-  background-color: #494949;
-  padding: 20px; /* Padding for the form area */
-  border-radius: 8px; /* Rounded corners */
-  color: white; /* Text color */
-}
-.title-from {
-  margin-left: 24px;
-  color: #fff;
-}
-.title-from h3 {
-  font-size: 24px;
-  font-weight: bold;
-}
-.title-from h1 {
-  font-size: 32px;
-}
-.from-getIntouch form {
-  display: flex; /* Use flexbox for the form */
-  flex-direction: column; /* Stack elements vertically */
-  align-items: center; /* Align items to the start */
-  margin: 0;
-}
+    img {
+      height: 250px;
+      object-fit: fill;
+      border: none;
+    }
+  }
 
-/* label {
-  align-self: flex-start; 
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 24px;
-  font-size: 16px;
-}
+  .contact-banner-bottom {
+    width: 100%;
+    height: 250px;
+    margin: 20px 0;
 
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-textarea {
-  width: 90%; 
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #3a3a3a;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+    .banner-bottom img {
+      height: 250px;
+      object-fit: fill;
+    }
 
-textarea {
-  height: 150px;
-  margin-bottom: 30px;
-  color: #fff;
-  background-color: #3a3a3a;
-} */
+    .banner-bottom .card-img-overlay {
+     
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
 
-.from-getIntouch .from button {
-  padding: 10px 20px;
-  border: 2px solid #fff;
-  border-radius: 20px;
-  background-color: #494949;
-  width: 90%;
-  height: 40px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Smooth transition */
-}
-
-.from-getIntouch .from button:hover {
-  background-color: #141618; /* Darker shade on hover */
-}
-
-.contact-infor {
-  flex: 1; /* Allow this column to grow */
-  background-color: #1a1a1a34; /* White background for contrast */
-  padding: 20px; /* Padding for the info area */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-.contact-infor .text {
-  color: #fff;
-}
-.icon-infor {
-  display: grid; /* Enable grid layout */
-  grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
-  gap: 10px; /* Space between grid items */
-}
-
-.icon {
-  font-weight: bold; /* Optional: make text bold */
-  text-align: center;
-  color: #fff;
-  height: 100px;
-}
-
-.map {
-  margin-top: 20px; /* Space above map */
-}
-.contact-banner-bottom {
-  background-color: #494949;
-  width: 100%;
-  height: 250px;
-  margin-top: 20px;
-}
-@media (max-width: 768px) {
   .getInTouch {
-    flex-direction: column; /* Stack columns on smaller screens */
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space between columns */
+
+    .from-getIntouch {
+      flex: 1; /* Allow this column to grow */
+      margin-right: 20px; /* Space between columns */
+      background-color: #494949;
+      padding: 20px; /* Padding for the form area */
+      border-radius: 8px; /* Rounded corners */
+      color: white; /* Text color */
+
+      .title-from {
+        margin-left: 24px;
+        color: #fff;
+
+        h3 {
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        h1 {
+          font-size: 32px;
+        }
+      }
+
+      form {
+        display: flex; /* Use flexbox for the form */
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Align items to the start */
+        margin: 0;
+
+        label {
+          align-self: flex-start; 
+          margin-top: 10px;
+          margin-bottom: 10px;
+          margin-left: 24px;
+          font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+          width: 90%; 
+          padding: 10px;
+          margin-bottom: 10px;
+          background-color: #3a3a3a;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+
+        textarea {
+          height: 150px;
+          margin-bottom: 30px;
+          color: #fff;
+          background-color: #3a3a3a;
+        }
+
+        button {
+          padding: 10px 20px;
+          border: 2px solid #fff;
+          border-radius: 20px;
+          background-color: #494949;
+          width: 90%;
+          height: 40px;
+          color: white;
+          cursor: pointer;
+          transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        button:hover {
+          background-color: #141618; /* Darker shade on hover */
+        }
+      }
+    }
+
+    .contact-infor {
+      flex: 1; /* Allow this column to grow */
+      background-color: #1a1a1a34; /* White background for contrast */
+      padding: 20px; /* Padding for the info area */
+      border-radius: 8px; /* Rounded corners */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+
+      .icon-infor {
+        display: grid; /* Enable grid layout */
+        grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
+        gap: 10px; /* Space between grid items */
+
+        .icon {
+          font-weight: bold; /* Optional: make text bold */
+          text-align: center;
+          color: #fff;
+          height: 100px;
+        }
+      }
+    }
+
+    .map {
+      margin-top: 20px; /* Space above map */
+    }
   }
 
-  .from-getIntouch {
-    margin-right: 0; /* Remove margin on smaller screens */
-    margin-bottom: 20px; /* Space below form */
+  /* Responsive Styles */
+  @media (max-width: 868px) {
+    .contact-banner {
+      height: 150px;
+      .card-img-overlay {
+        color: #fff;
+        font-weight: bold;
+        font-size: 20px;
+      }
+      img {
+        height: 150px; /* Adjusted height for smaller screens */
+      }
+    }
+
+    .contact-banner-bottom {
+      height: 150px;
+      .banner-bottom img {
+        height: 150px; /* Adjusted height for smaller screens */
+      }
+      .banner-bottom .card-img-overlay {
+        position: absolute;
+        top: 40px; /* Adjusted position for smaller screens */
+        left: 20px; /* Adjusted position for smaller screens */
+      }
+    }
+
+    .getInTouch {
+      flex-direction: column; /* Stack columns vertically */
+      .from-getIntouch {
+        margin-right: 0; /* Remove right margin */
+        margin-bottom: 20px; /* Add margin below */
+      }
+    }
+
+    .contact-infor {
+      margin-bottom: 20px; /* Add margin below for spacing */
+    }
   }
+
+ 
 }
