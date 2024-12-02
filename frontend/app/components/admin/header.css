@@ -1,0 +1,69 @@
+/* header.css */
+.headerstyle{
+    background-color: #ffffff;
+    color: black;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .titleContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  .leftTitle {
+    padding-left: 670px;
+    color: #4d6950;
+    text-align: center;
+  }
+  
+  .rightTitle {
+    margin: 0;
+  }
+  
+  .dropdownButton {
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .dropdownMenu {
+    background-color: #10141b;
+  }
+  
+  .userIconContainer {
+    background-color: #202d32;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .userName {
+    font-size: 17px;
+    color: #000;
+  }
+  
+  .chevronIcon {
+    color: #000;
+    font-size: 17px;
+  }
+  
+  .logoutLink {
+    font-size: 17px;
+  }
+  .qr-checkin{
+    padding-left: 400px;
+  }
+  .qr-checkin:hover{
+    cursor: pointer;
+  }
+  .qr-checkin img{
+    width: 40px;
+    height: 40px;
+  }

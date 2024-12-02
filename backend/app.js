@@ -40,6 +40,8 @@ var VeRouter = require("./routes/ticket/ve");
 var TintucRouter = require("./routes/tintucs");
 var ThongkeRouter = require("./routes/thongke");
 var BanerRouter = require("./routes/banner");
+var checkinRouter = require("./routes/checkin");
+
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -87,6 +89,7 @@ app.use("/thongke", ThongkeRouter);
 app.use("/lienhe", ContactRouter);
 app.use("/tintuc", TintucRouter);
 app.use("/banner", BanerRouter);
+app.use("/checkin", checkinRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

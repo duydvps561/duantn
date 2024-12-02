@@ -80,7 +80,7 @@ export default function CaChieuPage() {
         <Layout>
             <div className="container-fluid">
                 <h1 className="my-4">Danh Sách Ca Chiếu</h1>
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="d-flex justify-content-end mb-3">
                     <Link style={{background: '#4d6950', color: 'white'}} href="/admin/cachieu/them" className="btn  ">
                         Thêm Ca Chiếu
                     </Link>
