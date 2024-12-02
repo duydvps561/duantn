@@ -244,6 +244,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Swal from 'sweetalert2';
 import styles from './ChiTietPhongPhim.module.css';
 import * as Yup from 'yup';
+import Link from 'next/link';
 
 const ChiTietPhongPhimPage = () => {
   const [phongChieuDetail, setPhongChieuDetail] = useState(null);
@@ -416,6 +417,11 @@ const ChiTietPhongPhimPage = () => {
     <Layout>
       <div className="container-fluid border border-black p-5">
         <h2>Chi tiết phòng chiếu: {phongChieuDetail.phongchieu.tenphong}</h2>
+        <div className="d-flex justify-content-end mb-3">
+                    <Link style={{background: '#198754', color: 'white'}} href="/admin/phong-phim/them-ghe" className="btn  ">
+                        Thêm ghế
+                    </Link>
+        </div>
         <div className="row ">
           <div className="col-md-8">
             <h3>Sơ đồ ghế</h3>
@@ -457,7 +463,7 @@ const ChiTietPhongPhimPage = () => {
               Cập nhật ghế
             </button>
             <button className="btn btn-danger mt-3 ms-2" onClick={handleDeleteGhes}>
-              Xóa ghế đã chọn
+              Xóa ghế
             </button>
           </div>
         </div>
