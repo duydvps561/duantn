@@ -151,10 +151,26 @@
 }
 
 .sit-header .s-p-2 {
-  border: 1px solid #ff0101;
-  border-radius: 30px;
-  padding: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #f44336; 
+  text-align: center; 
+  background: linear-gradient(90deg, #ff5722, #ffc107);
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+  padding: 10px 20px; 
+  border: 2px solid #f44336; 
+  border-radius: 10px;
+  display: inline-block; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s ease;
 }
+
+.sit-header .s-p-2:hover {
+  transform: scale(1.1); 
+  cursor: pointer;
+}
+
 
 .seat-content .seat-title {
   font-size: 28px;

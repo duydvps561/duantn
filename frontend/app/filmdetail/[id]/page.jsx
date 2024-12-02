@@ -1,7 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./fimdetail.css";
-import { useRef } from "react";
 import Food from "@/app/components/food";
 import { useDispatch, useSelector } from "react-redux";
 import { addSeat, clearCart } from "@/redux/slice/cartSlice";
@@ -53,12 +52,6 @@ export default function filmdetail({ params }) {
   const [giaghedata, setGiaghedata] = useState([]);
   const [giaghe, setGiaghe] = useState(0);
   const [dataSelected, setDataSelected] = useState(false)
-  const rollRef = useRef();
-  if (show) {
-    setTimeout(() => {
-      rollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 0);
-  }
   const minutes = Math.floor(timeleft / 60);
   const seconds = timeleft % 60;
 
@@ -127,6 +120,10 @@ export default function filmdetail({ params }) {
   }, [id]);
 
   useEffect(() => {
+    console.log("gio hang cap nhap", cart);
+  }, [cart]);
+
+  useEffect(() => {
     if (id && cachieu && Array.isArray(cachieu)) {
       const foundPhim = cachieu.filter((item) => item.phim_id === id);
       setPhimCachieu(foundPhim || null);
@@ -135,34 +132,34 @@ export default function filmdetail({ params }) {
     }
   }, [id, cachieu]);
 
-  useEffect(() => {
-    const gheMap = {};
-    gheData.forEach((ghe) => {
-      if (!gheMap[phongchieuid]) {
-        gheMap[phongchieuid] = [];
+useEffect(() => {
+  if (phongchieudata?._id) {
+    setPhongChieuid(phongchieudata._id);
+  }
+}, [phongchieudata, setPhongChieuid]);
+
+const organizeSeatsByRow = (gheData, phongchieu_id) => {
+  return gheData
+    .filter((ghe) => ghe.phongchieu_id === phongchieu_id) 
+    .reduce((acc, ghe) => {
+      const row = ghe.hang;
+      if (!acc[row]) {
+        acc[row] = [];
       }
-      gheMap[phongchieuid].push(ghe);
-    });
-  }, [gheData]);
+      acc[row].push(ghe);
+      return acc;
+    }, {});
+};
 
-  useEffect(() => {
-    console.log("gio hang cap nhap", cart);
-  }, [cart]);
-
-  const seatsByRow = gheData.reduce((acc, ghe) => {
-    const row = ghe.hang;
-    if (!acc[row]) {
-      acc[row] = [];
-    }
-    acc[row].push(ghe);
-    return acc;
-  }, {});
-
-  Object.keys(seatsByRow).forEach((row) => {
-    seatsByRow[row].sort((a, b) => a.cot - b.cot);
+const seatsByRow = useMemo(() => {
+  const rows = organizeSeatsByRow(gheData, phongchieuid);
+  Object.keys(rows).forEach((row) => {
+    rows[row].sort((a, b) => a.cot - b.cot); 
   });
-  const MAX_SEATS_TO_SHOW = 5;
+  return rows;
+}, [gheData, phongchieuid]);
 
+  const MAX_SEATS_TO_SHOW = 5;
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -281,7 +278,7 @@ export default function filmdetail({ params }) {
         <div className="date text-light">
           {phimCachieu.length > 0 ? (
             phimCachieu
-              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))  // Sắp xếp theo ngày
+              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))
               .map((item) => (
                 <div
                   className={`text ${dataSelected === item._id ? 'selected' : ''}`}
@@ -292,7 +289,7 @@ export default function filmdetail({ params }) {
                     dispatch(updateNgayChieu(item.ngaychieu));
                   }}
                 >
-                  <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
+                  <p>Tháng {new Date(item.ngaychieu).getMonth() + 1}</p>
                   <h2>{new Date(item.ngaychieu).getDate()}</h2>
                   <p>
                     {
@@ -375,7 +372,7 @@ export default function filmdetail({ params }) {
               </p>
               <div className="siting-order">
                 <table className="siting-table">
-                  <tbody>
+                <tbody>
                     {Object.entries(seatsByRow)
                       .sort(([rowA], [rowB]) => rowA.localeCompare(rowB))
                       .map(([row, seats]) => (
@@ -501,10 +498,9 @@ export default function filmdetail({ params }) {
                         </div>
                       ))}
                   </tbody>
-
                 </table>
               </div>
-              <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
+              {/* <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
                 <div className="note d-flex gap-2">
                   <p className="box-color-1">X</p>
                   <p>Đã đặt</p>
@@ -525,7 +521,7 @@ export default function filmdetail({ params }) {
                   <p className="box-color-5"></p>
                   <p>Ghế đôi</p>
                 </div>
-              </div>
+              </div> */}
               <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 mb-3 align-items-center flex-wrap ">
                 <div className="seat-bill">
                   <p className="seat-selected">
