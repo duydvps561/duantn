@@ -5,105 +5,62 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import './header.css'; // Import CSS file
 
 const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const authen = useSelector((state) => state.auth.authenticated);
   const user = useSelector((state) => state.auth.user);
-  const handleLogout = () =>{
+  const handleLogout = () => {
     dispatch(logout());
     router.push('/');
-  }
+  };
   return (
-    <header style={headerStyle}>
-      <div style={titleContainerStyle}>
-        <h4 style={leftTitleStyle}>ACE ADMIN</h4>
+    <header className="headerstyle">
+      <div className="titleContainer">
+        <h4 className="leftTitle">ACE ADMIN</h4>
+      </div>
+      <div className='qr-checkin'>
+        <Link href='/admin/QR'><img src="http://localhost:3000/img/qr.png" alt="" /></Link>
       </div>
       <div>
         {authen && user?.role === 'Admin' && (
-          <>
-            <div className="dropdown">
-              <div
-                className="d-flex align-items-center gap-3"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                style={{ textDecoration: "none", cursor: "pointer" }}
-              >
-                <div
-                  style={{
-                    backgroundColor: "#202d32",
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                  }}
-                  className="d-flex align-items-center justify-content-center"
-                >
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    style={{ color: "#ffffff", fontSize: "14px" }}
-                  />
-                </div>
-                <span
-                  className=""
-                  style={{ fontSize: "17px",color:'#000' }}
-                >
-                  {user.username}
-                </span>
+          <div className="dropdown">
+            <div
+              className="d-flex align-items-center gap-3 dropdownButton"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <div className="userIconContainer">
                 <FontAwesomeIcon
-                  icon={faChevronDown}
-                  style={{ color: "#000", fontSize: "17px" }}
+                  icon={faUser}
+                  style={{ color: '#ffffff', fontSize: '14px' }}
                 />
               </div>
-              <ul
-                className="dropdown-menu mt-2 w-100"
-                style={{ backgroundColor: "#10141b" }}
-                aria-labelledby="dropdownMenuButton"
-              >
-                <li>
-                  <a
-                    className="dropdown-item"
-                    href="#"
-                    style={{ fontSize: "17px" }}
-                    onClick={(handleLogout)}
-                  >
-                    <i className="fa-solid fa-arrow-right-from-bracket"></i> Đăng
-                    xuất
-                  </a>
-                </li>
-              </ul>
+              <span className="userName">{user.username}</span>
+              <FontAwesomeIcon icon={faChevronDown} className="chevronIcon" />
             </div>
-          </>
+            <ul
+              className="dropdown-menu mt-2 w-100 dropdownMenu"
+              aria-labelledby="dropdownMenuButton"
+            >
+              <li>
+                <a
+                  className="dropdown-item logoutLink"
+                  href="#"
+                  onClick={handleLogout}
+                >
+                  <i className="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+                </a>
+              </li>
+            </ul>
+          </div>
         )}
       </div>
     </header>
   );
-};
-const headerStyle = {
-  backgroundColor: '#ffffff',
-  color: 'black',
-  padding: '10px',
-  textAlign: 'center',
-  display:'flex',
-  justifyContent:'space-around',
-};
-
-const titleContainerStyle = {
-  display: 'flex',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  padding: '0 20px',
-};
-
-const leftTitleStyle = {
-  margin: 0,
-  color: '#4d6950',
-
-};
-
-const rightTitleStyle = {
-  margin: 0,
 };
 
 export default Header;

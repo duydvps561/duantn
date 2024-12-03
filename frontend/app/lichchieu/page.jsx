@@ -101,7 +101,7 @@ export default function LichChieu() {
                             if (showtime.phim_id === phim._id && showtimeDate.toISOString().split('T')[0] === selectedDate) {
                               return (
                                 <>
-                                <Link className="text-decoration-none"  href={`/filmdetail/${phim._id}`}>
+                                <Link className="text-decoration-none"  href={`/filmdetail/${phim._id}/${showtime.giobatdau}/${selectedDate}`}>
                                 <p key={showtime._id} className="film-schedule text-light border border-1 rounded p-1 mb-0  ">
                                   {showtime.giobatdau}
                               </p>

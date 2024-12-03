@@ -1,6 +1,6 @@
 .contact-container {
-  max-width: 1200px; 
-  margin: 0 auto; 
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
 
   .contact-banner {
@@ -9,7 +9,6 @@
     margin: 20px 0;
 
     .card-img-overlay {
-      
       color: #fff;
       font-weight: bold;
       font-size: 20px;
@@ -34,7 +33,6 @@
     }
 
     .banner-bottom .card-img-overlay {
-     
       color: #fff;
       font-weight: bold;
       font-size: 20px;
@@ -46,12 +44,13 @@
     justify-content: space-between; /* Space between columns */
 
     .from-getIntouch {
-      flex: 1; /* Allow this column to grow */
-      margin-right: 20px; /* Space between columns */
-      background-color: #494949;
-      padding: 20px; /* Padding for the form area */
-      border-radius: 8px; /* Rounded corners */
-      color: white; /* Text color */
+      flex: 1;
+      margin-right: 20px;
+      background-color: #020817;
+      border: 1px solid rgb(209, 209, 209);
+      padding: 20px;
+      border-radius: 15px;
+      color: rgb(209, 209, 209);
 
       .title-from {
         margin-left: 24px;
@@ -74,7 +73,7 @@
         margin: 0;
 
         label {
-          align-self: flex-start; 
+          align-self: flex-start;
           margin-top: 10px;
           margin-bottom: 10px;
           margin-left: 24px;
@@ -85,35 +84,38 @@
         input[type="email"],
         input[type="tel"],
         textarea {
-          width: 90%; 
+          width: 90%;
           padding: 10px;
           margin-bottom: 10px;
-          background-color: #3a3a3a;
+          background-color: #020817;
           border: 1px solid #ccc;
-          border-radius: 4px;
+          border-radius: 15px;
         }
 
         textarea {
           height: 150px;
           margin-bottom: 30px;
           color: #fff;
-          background-color: #3a3a3a;
+          background-color: #020817;
         }
 
         button {
           padding: 10px 20px;
           border: 2px solid #fff;
-          border-radius: 20px;
-          background-color: #494949;
+          border-radius: 15px;
+          background: linear-gradient(to top right, #ffcccc 0%, #ff0000 100%);
           width: 90%;
           height: 40px;
           color: white;
           cursor: pointer;
-          transition: background-color 0.3s; /* Smooth transition */
+          transition: background 3s; 
         }
 
         button:hover {
-          background-color: #141618; /* Darker shade on hover */
+          background: linear-gradient(to bottom left, #ffcccc 0%, #ff0000 100%);
+        }
+        button:active{
+          background: #777777;
         }
       }
     }
@@ -182,6 +184,4 @@
       margin-bottom: 20px; /* Add margin below for spacing */
     }
   }
-
- 
 }

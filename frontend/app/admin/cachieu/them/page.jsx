@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,6 +6,7 @@ import axios from "axios";
 import Layout from "@/app/components/admin/Layout";
 import Swal from "sweetalert2";
 import './AddCaChieu.css';
+
 export default function ThemCaChieu() {
   const [phongChieus, setPhongChieus] = useState([]);
   const [phims, setPhims] = useState([]);
@@ -23,14 +23,11 @@ export default function ThemCaChieu() {
   useEffect(() => {
     const layDuLieu = async () => {
       try {
-        const [phongChieuResponse, phimResponse] = await Promise.all([
-          axios.get("http://localhost:3000/phongchieu"),
-          axios.get("http://localhost:3000/phim"),
-        ]);
+        const [phongChieuResponse, phimResponse] = await Promise.all([axios.get("http://localhost:3000/phongchieu"), axios.get("http://localhost:3000/phim")]);
         setPhongChieus(phongChieuResponse.data);
         setPhims(phimResponse.data);
 
-        // Cài đặt giá trị tối thiểu cho ngày
+        // Cài đặt giá trị tối thiểu cho ngày là hôm nay
         const today = new Date().toISOString().split("T")[0];
         document.getElementById("ngaychieu").setAttribute("min", today);
       } catch (error) {
@@ -67,6 +64,17 @@ export default function ThemCaChieu() {
     });
   };
 
+  // Kiểm tra phòng chiếu còn trống
+  const kiemTraTrongTai = async (values) => {
+    try {
+      const response = await axios.post('http://localhost:3000/xuatchieu/check', values);
+      return response.data.available;
+    } catch (error) {
+      console.error('Lỗi khi kiểm tra trống:', error);
+      return false;
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       phongchieu_id: "",
@@ -91,6 +99,13 @@ export default function ThemCaChieu() {
           return;
         }
 
+        // Kiểm tra phòng chiếu còn trống
+        const isAvailable = await kiemTraTrongTai(values);
+        if (!isAvailable) {
+          Swal.fire("Lỗi", "Khoảng thời gian này đã có ca chiếu khác!", "error");
+          return;
+        }
+
         // Lưu ca chiếu vào cơ sở dữ liệu
         try {
           await axios.post("http://localhost:3000/xuatchieu/add", values);
@@ -109,7 +124,6 @@ export default function ThemCaChieu() {
     },
   });
 
-  // Tính giờ kết thúc mỗi khi chọn phim hoặc giờ bắt đầu
   useEffect(() => {
     const selectedPhim = phims.find((phim) => phim._id === formik.values.phim_id);
     if (selectedPhim && formik.values.giobatdau) {
@@ -167,12 +181,12 @@ export default function ThemCaChieu() {
               <label>Ngày Chiếu</label>
               <input
                 type="date"
-                id="ngaychieu"
                 name="ngaychieu"
                 value={formik.values.ngaychieu}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={`form-control ${formik.errors.ngaychieu ? "is-invalid" : ""}`}
+                id="ngaychieu"
               />
             </div>
 
@@ -186,9 +200,9 @@ export default function ThemCaChieu() {
                 className={`form-control ${formik.errors.giobatdau ? "is-invalid" : ""}`}
               >
                 <option value="">Chọn giờ bắt đầu</option>
-                {gioBatDauOptions.map((time, idx) => (
-                  <option key={idx} value={time}>
-                    {time}
+                {gioBatDauOptions.map((gio) => (
+                  <option key={gio} value={gio}>
+                    {gio}
                   </option>
                 ))}
               </select>
@@ -200,15 +214,17 @@ export default function ThemCaChieu() {
                 type="text"
                 name="gioketthuc"
                 value={gioKetThuc}
-                readOnly
+                disabled
                 className="form-control"
               />
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary mt-3">
-            Thêm Ca Chiếu
-          </button>
+          <div className="form-group text-center">
+            <button type="submit" className="btn btn-primary">
+              Thêm Ca Chiếu
+            </button>
+          </div>
         </form>
         <div className="mt-5">
                     <h3>Danh Sách Ca Chiếu</h3>
