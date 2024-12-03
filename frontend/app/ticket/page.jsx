@@ -64,8 +64,8 @@ export default function Ticket() {
                                 <th scope="col" className="cuple">200.000đ</th>
                             </tr>
                             <tr>
-                                <td scope="row" className="t-row">Từ 12:00 đến trước 17:00<br></br>
-                                    From 5PM to before 11:00PM</td>
+                                <td scope="row" className="t-row">Từ 23:00<br></br>
+                                From 11:00PM</td>
                                 <th scope="col" className="standard">65.000đ</th>
                                 <th scope="col" className="vip">70.000đ</th>
                                 <th scope="col" className="cuple">150.000đ</th>
@@ -77,7 +77,7 @@ export default function Ticket() {
                     </table>
                     <p className="notice">* Đối với phim có thời lượng từ 150 phút trở lên: phụ thu 10.000 VNĐ / vé</p>
                 </div>
-                <div className="t-section-2">
+                {/* <div className="t-section-2">
                     <h2 className="table-title">2. GIÁ VÉ XEM PHIM 3D</h2>
                     <table class="ticket-table">
                         <thead>
@@ -148,7 +148,7 @@ export default function Ticket() {
                         </tbody>
                     </table>
                     <p className="notice">* Đối với phim có thời lượng từ 150 phút trở lên: phụ thu 10.000 VNĐ / vé</p>
-                </div>
+                </div> */}
                 <div className="t-section-3">
                     <div className="ticket-detail">
                         <div className="d-1">
