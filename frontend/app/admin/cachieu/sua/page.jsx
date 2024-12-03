@@ -64,6 +64,17 @@ export default function UpdateCaChieu() {
     return `${String(gioKetThuc).padStart(2, "0")}:${String(phutKetThuc).padStart(2, "0")}`;
   };
 
+  // Function to check room availability
+  const kiemTraTrongTai = async (values) => {
+    try {
+      const response = await axios.post("http://localhost:3000/xuatchieu/check", values);
+      return response.data.available;
+    } catch (error) {
+      console.error("Lỗi khi kiểm tra trống:", error);
+      return false;
+    }
+  };
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: caChieu || {
@@ -80,6 +91,18 @@ export default function UpdateCaChieu() {
       giobatdau: Yup.string().required("Nhập giờ bắt đầu"),
     }),
     onSubmit: async (values) => {
+      // Check room availability before submitting
+      const available = await kiemTraTrongTai(values);
+      if (!available) {
+        Swal.fire({
+          title: "Lỗi!",
+          text: "Phòng chiếu này không còn chỗ trong ngày này.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
+
       try {
         values.gioketthuc = tinhGioKetThuc(
           values.giobatdau,
@@ -202,9 +225,9 @@ export default function UpdateCaChieu() {
                 className={`form-control ${formik.touched.giobatdau && formik.errors.giobatdau ? "is-invalid" : ""}`}
               >
                 <option value="">Chọn giờ bắt đầu</option>
-                {gioBatDauOptions.map((time, idx) => (
-                  <option key={idx} value={time}>
-                    {time}
+                {gioBatDauOptions.map((gio, index) => (
+                  <option key={index} value={gio}>
+                    {gio}
                   </option>
                 ))}
               </select>
@@ -225,7 +248,9 @@ export default function UpdateCaChieu() {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary">Cập Nhật</button>
+          <button type="submit" className="btn btn-primary">
+            Cập Nhật
+          </button>
         </form>
       </div>
     </Layout>
