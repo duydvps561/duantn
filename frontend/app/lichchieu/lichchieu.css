@@ -77,13 +77,13 @@
         .film-description {
           color: #ffffff;
           width: 250px;
+          margin-bottom: 10px;
         }
       }
     }
 
     .film-timeline {
       display: flex;
-      margin-bottom: 10px;
 
       .release-date {
         font-size: 14px;
