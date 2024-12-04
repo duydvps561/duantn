@@ -132,34 +132,49 @@ export default function filmdetail({ params }) {
     }
   }, [id, cachieu]);
 
-useEffect(() => {
-  if (phongchieudata?._id) {
-    setPhongChieuid(phongchieudata._id);
-  }
-}, [phongchieudata, setPhongChieuid]);
+  useEffect(() => {
+    if (phongchieudata?._id) {
+      setPhongChieuid(phongchieudata._id);
+    }
+  }, [phongchieudata, setPhongChieuid]);
 
-const organizeSeatsByRow = (gheData, phongchieu_id) => {
-  return gheData
-    .filter((ghe) => ghe.phongchieu_id === phongchieu_id) 
-    .reduce((acc, ghe) => {
-      const row = ghe.hang;
-      if (!acc[row]) {
-        acc[row] = [];
-      }
-      acc[row].push(ghe);
-      return acc;
-    }, {});
-};
+  const organizeSeatsByRow = (gheData, phongchieu_id) => {
+    return gheData
+      .filter((ghe) => ghe.phongchieu_id === phongchieu_id)
+      .reduce((acc, ghe) => {
+        const row = ghe.hang;
+        if (!acc[row]) {
+          acc[row] = [];
+        }
+        acc[row].push(ghe);
+        return acc;
+      }, {});
+  };
 
-const seatsByRow = useMemo(() => {
-  const rows = organizeSeatsByRow(gheData, phongchieuid);
-  Object.keys(rows).forEach((row) => {
-    rows[row].sort((a, b) => a.cot - b.cot); 
-  });
-  return rows;
-}, [gheData, phongchieuid]);
+  const seatsByRow = useMemo(() => {
+    const rows = organizeSeatsByRow(gheData, phongchieuid);
+    Object.keys(rows).forEach((row) => {
+      rows[row].sort((a, b) => a.cot - b.cot);
+    });
+    return rows;
+  }, [gheData, phongchieuid]);
 
   const MAX_SEATS_TO_SHOW = 5;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); 
+  const endDate = new Date(today);
+  endDate.setDate(today.getDate() + 4); 
+
+  const phimHienTai = phimCachieu.filter((item) => {
+    const ngayChieu = new Date(item.ngaychieu);
+    ngayChieu.setHours(0, 0, 0, 0); 
+    return ngayChieu >= today && ngayChieu <= endDate;
+  });
+
+  const homNay = new Date(today).toISOString().split('T')[0];
+  const coCaChieuHomNay = phimHienTai.some((item) => {
+    return item.ngaychieu.startsWith(homNay);
+  });
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -276,8 +291,8 @@ const seatsByRow = useMemo(() => {
       </section>
       <div className="date-order">
         <div className="date text-light">
-          {phimCachieu.length > 0 ? (
-            phimCachieu
+          {phimHienTai.length > 0 ? (
+            phimHienTai
               .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))
               .map((item) => (
                 <div
@@ -307,9 +322,8 @@ const seatsByRow = useMemo(() => {
                 </div>
               ))
           ) : (
-            <p>Không tìm thấy thông tin phim.</p>
+            <p className="mt-2">Phim tạm thời chưa có ca chiếu.</p>
           )}
-
         </div>
         <div className="note">
           <p>
@@ -372,7 +386,7 @@ const seatsByRow = useMemo(() => {
               </p>
               <div className="siting-order">
                 <table className="siting-table">
-                <tbody>
+                  <tbody>
                     {Object.entries(seatsByRow)
                       .sort(([rowA], [rowB]) => rowA.localeCompare(rowB))
                       .map(([row, seats]) => (
