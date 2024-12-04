@@ -162,11 +162,18 @@ const QuanLyGiaGhePage = () => {
 
   // Điều chỉnh giá ghế cho ngày lễ hoặc cuối tuần
   const adjustSeatPrice = (seatPrice) => {
-    if (isWeekend(seatPrice.giobatdau)) {
-      return seatPrice.giaghe * 1.5; // Tăng 50% giá vào cuối tuần
-    }
-    return seatPrice.giaghe;
+    const price = isWeekend(seatPrice.giobatdau) ? seatPrice.giaghe * 1.5 : seatPrice.giaghe;
+    return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
   };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+  
 
   if (loading) {
     return <div className={styles.loading}>Đang tải dữ liệu...</div>;
@@ -265,9 +272,10 @@ const QuanLyGiaGhePage = () => {
                 <tr key={seatPrice._id}>
                   <td>{index + 1}</td>
                   <td>{seatPrice.loaighe_id?.loaighe || "Không xác định"}</td>
-                  <td>{adjustSeatPrice(seatPrice)}</td>
-                  <td>{`${getWeekday(seatPrice.giobatdau)}  `}</td>
-                  <td>{`${getWeekday(seatPrice.gioketthuc)}  `}</td>
+                  <td>{adjustSeatPrice(seatPrice)}</td> {/* Hiển thị giá dưới dạng VNĐ */}
+                  <td>{formatDate(seatPrice.giobatdau)}</td>
+<td>{formatDate(seatPrice.gioketthuc)}</td>
+
                   <td>{seatPrice.ngaycuoituan === 1 ? "Có" : "Không"}</td>
             <td>{seatPrice.trangthai === 1 ? "Hoạt động" : "Không hoạt động"}</td>
                   <td>
