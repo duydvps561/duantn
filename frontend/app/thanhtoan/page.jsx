@@ -2,10 +2,8 @@
 import React, { useEffect, useState } from "react";
 import "./thanhtoan.css";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart } from "@/redux/slice/cartSlice";
 import { setQrUrl } from "@/redux/slice/qrSlice";
 import { useRouter } from "next/navigation";
-import { clearMovieInfo } from "@/redux/slice/filmSlice";
 export default function ThanhToan() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -112,7 +110,7 @@ export default function ThanhToan() {
               <tr>
                 <th>Danh mục</th>
                 <th>Số lượng</th>
-                <th>Tổng tiền</th>
+                <th>Đơn giá</th>
               </tr>
             </thead>
             <tbody>
