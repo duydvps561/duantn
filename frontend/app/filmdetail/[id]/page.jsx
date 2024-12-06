@@ -12,24 +12,28 @@ import {
   updatePhongChieu,
   updateTenPhim,
 } from "@/redux/slice/filmSlice";
+import { useParams } from "react-router-dom";
 export default function filmdetail({ params }) {
-  const dispatch = useDispatch();
 
+
+  const { cart } = useSelector((state) => state.cart);
+  const id = params.id;
+  // const [ngaychieuSelected, setNgayChieuSelected] = useState("");
+
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(clearCart());
   }, [dispatch]);
 
-  const { cart } = useSelector((state) => state.cart);
-  const id = params.id;
+ 
   const [show, setShow] = useState(false);
-
   const [phimChitiet, setPhimChitiet] = useState([]);
   const [ngayHieuLuc, setNgayHieuLuc] = useState("");
   const [cachieu, setCaChieu] = useState([]);
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
-
   const [timeleft, setTimeLeft] = useState(10 * 60);
+
   useEffect(() => {
     if (timeleft > 0) {
       const timer = setTimeout(() => {
@@ -132,34 +136,48 @@ export default function filmdetail({ params }) {
     }
   }, [id, cachieu]);
 
-useEffect(() => {
-  if (phongchieudata?._id) {
-    setPhongChieuid(phongchieudata._id);
-  }
-}, [phongchieudata, setPhongChieuid]);
+  useEffect(() => {
+    if (phongchieudata?._id) {
+      setPhongChieuid(phongchieudata._id);
+    }
+  }, [phongchieudata, setPhongChieuid]);
 
-const organizeSeatsByRow = (gheData, phongchieu_id) => {
-  return gheData
-    .filter((ghe) => ghe.phongchieu_id === phongchieu_id) 
-    .reduce((acc, ghe) => {
-      const row = ghe.hang;
-      if (!acc[row]) {
-        acc[row] = [];
-      }
-      acc[row].push(ghe);
-      return acc;
-    }, {});
-};
+  const organizeSeatsByRow = (gheData, phongchieu_id) => {
+    return gheData
+      .filter((ghe) => ghe.phongchieu_id === phongchieu_id)
+      .reduce((acc, ghe) => {
+        const row = ghe.hang;
+        if (!acc[row]) {
+          acc[row] = [];
+        }
+        acc[row].push(ghe);
+        return acc;
+      }, {});
+  };
 
-const seatsByRow = useMemo(() => {
-  const rows = organizeSeatsByRow(gheData, phongchieuid);
-  Object.keys(rows).forEach((row) => {
-    rows[row].sort((a, b) => a.cot - b.cot); 
-  });
-  return rows;
-}, [gheData, phongchieuid]);
+  const seatsByRow = useMemo(() => {
+    const rows = organizeSeatsByRow(gheData, phongchieuid);
+    Object.keys(rows).forEach((row) => {
+      rows[row].sort((a, b) => a.cot - b.cot);
+    });
+    return rows;
+  }, [gheData, phongchieuid]);
 
   const MAX_SEATS_TO_SHOW = 5;
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const ngayChieuParam = queryParams.get('ngaychieu');
+    const giochieu = queryParams.get('giochieu');
+  
+    if (ngayChieuParam) {
+      setNgayChieuSelected(ngayChieuParam);
+    }
+    if (giochieu) {
+      setgiochieu(giochieu);
+      setShow(true);
+
+    }
+  }, []);
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -281,12 +299,13 @@ const seatsByRow = useMemo(() => {
               .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))
               .map((item) => (
                 <div
-                  className={`text ${dataSelected === item._id ? 'selected' : ''}`}
+                  className={`text  ${ngaychieuSelected === (item.ngaychieu) ? 'selected' : ''}`}
                   key={item.id}
                   onClick={() => {
                     setDataSelected(item._id);
                     setNgayChieuSelected(item.ngaychieu);
                     dispatch(updateNgayChieu(item.ngaychieu));
+
                   }}
                 >
                   <p>Tháng {new Date(item.ngaychieu).getMonth() + 1}</p>
@@ -322,6 +341,8 @@ const seatsByRow = useMemo(() => {
                 const phongchieudt = phongchieu.find(
                   (phong) => phong._id === item.phongchieu_id
                 );
+                console.log(phongchieudt);
+                
                 if (item.ngaychieu === ngaychieuSelected) {
                   return (
                     <button
@@ -337,6 +358,10 @@ const seatsByRow = useMemo(() => {
                         dispatch(
                           updatePhongChieu(phongchieudt?.tenphong || null)
                         );
+                        console.log(item._id);// set lấy ngày chiếu và giờ chiếu của ca chiếu để dispatch(updateCaChieuID(item._id))
+                        console.log(item.giobatdau); // giờ bắt đầu đã được set 
+                        console.log(phongchieudt); // tìm ca chiếu của phim thuộc phòng nào và set cho nó 
+                        console.log(item.giobatdau);// dispatch(updateGioChieu(item.giobatdau)); đã được set 
                       }}
                     >
                       {item.giobatdau}
@@ -372,7 +397,7 @@ const seatsByRow = useMemo(() => {
               </p>
               <div className="siting-order">
                 <table className="siting-table">
-                <tbody>
+                  <tbody>
                     {Object.entries(seatsByRow)
                       .sort(([rowA], [rowB]) => rowA.localeCompare(rowB))
                       .map(([row, seats]) => (
