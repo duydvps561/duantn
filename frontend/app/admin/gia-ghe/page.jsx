@@ -11,8 +11,8 @@ const QuanLyGiaGhePage = () => {
   const [selectedSeatPrice, setSelectedSeatPrice] = useState({
     loaighe_id: "",
     giaghe: "",
-    giobatdau: "",
-    gioketthuc: "",
+    giobatdau: "00:00", // Đặt giá trị mặc định cho giobatdau
+    gioketthuc: "00:00", // Đặt giá trị mặc định cho gioketthuc
     ngaycuoituan: 0, // thêm ngaycuoituan
     trangthai: 1,    // thêm trangthai
   });
@@ -21,7 +21,12 @@ const QuanLyGiaGhePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [seatTypes, setSeatTypes] = useState([]);
-
+  const handleTimeChange = (key) => (e) => {
+    setSelectedSeatPrice((prev) => ({
+      ...prev,
+      [key]: e.target.value,
+    }));
+  };
   useEffect(() => {
     fetchSeatPrices();
     fetchSeatTypes();
@@ -165,13 +170,10 @@ const QuanLyGiaGhePage = () => {
     const price = isWeekend(seatPrice.giobatdau) ? seatPrice.giaghe * 1.5 : seatPrice.giaghe;
     return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price);
   };
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+  const formatTime = (dateString) => {
+    return `${dateString}`; // Trả về chuỗi định dạng HH:MM
+ 
+
   };
   
 
@@ -209,18 +211,18 @@ const QuanLyGiaGhePage = () => {
           placeholder="Nhập giá ghế"
           className={styles.inputField}
         />
-        <input
-          type="datetime-local"
-          value={selectedSeatPrice.giobatdau}
-          onChange={(e) => setSelectedSeatPrice({ ...selectedSeatPrice, giobatdau: e.target.value })}
-          className={styles.inputField}
-        />
-        <input
-          type="datetime-local"
-          value={selectedSeatPrice.gioketthuc}
-          onChange={(e) => setSelectedSeatPrice({ ...selectedSeatPrice, gioketthuc: e.target.value })}
-          className={styles.inputField}
-        />
+          <input
+        type="time"
+        value={selectedSeatPrice.giobatdau}
+        onChange={handleTimeChange('giobatdau')}
+        className={styles.inputField}
+      />
+      <input
+        type="time"
+        value={selectedSeatPrice.gioketthuc}
+        onChange={handleTimeChange('gioketthuc')}
+        className={styles.inputField}
+      />
        <label style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
   <span style={{ marginRight: '10px', color: 'black' }}>Áp dụng cho cuối tuần</span>
   <input
@@ -260,10 +262,10 @@ const QuanLyGiaGhePage = () => {
                 <th>STT</th>
                 <th>Loại Ghế</th>
                 <th>Giá Ghế</th>
-                <th>Ngày Bắt Đầu</th>
-                <th>Ngày Kết Thúc</th>
-                <th>Trạng Thái</th>
-                <th>Thao Tác</th>
+                <th>Giờ Bắt Đầu</th>
+                <th>Giờ Kết Thúc</th>
+                <th>Áp Dụng</th>
+                <th>Trạng thái</th>
                 <th>Thao Tác</th>
               </tr>
             </thead>
@@ -273,10 +275,11 @@ const QuanLyGiaGhePage = () => {
                   <td>{index + 1}</td>
                   <td>{seatPrice.loaighe_id?.loaighe || "Không xác định"}</td>
                   <td>{adjustSeatPrice(seatPrice)}</td> {/* Hiển thị giá dưới dạng VNĐ */}
-                  <td>{formatDate(seatPrice.giobatdau)}</td>
-<td>{formatDate(seatPrice.gioketthuc)}</td>
+                  <td>{formatTime(seatPrice.giobatdau)}</td>
+<td>{formatTime(seatPrice.gioketthuc)}</td>
 
-                  <td>{seatPrice.ngaycuoituan === 1 ? "Có" : "Không"}</td>
+
+                  <td>{seatPrice.ngaycuoituan === 1 ? "Cuối tuần - lễ" : "Trong tuần"}</td>
             <td>{seatPrice.trangthai === 1 ? "Hoạt động" : "Không hoạt động"}</td>
                   <td>
                   <td>
