@@ -72,19 +72,19 @@ body {
 .title-card h1 {
   font-weight: bold;
   color: #b7b7b7;
-  font-size: 16px; /* Title font size */
-  margin: 0; /* Remove default margin */
+  font-size: 16px; 
+  margin: 0; 
 }
 
 @media (max-width: 768px) {
   .card {
-    width: calc(45% - 20px); /* 2 cards in a row on smaller screens */
+    width: calc(45% - 20px); 
   }
 }
 
 @media (max-width: 480px) {
   .card {
-    width: calc(100% - 20px); /* 1 card in a row on very small screens */
+    width: calc(100% - 20px);
   }
 }
 
@@ -98,13 +98,12 @@ header {
   z-index: 99;
   height: 70px;
   background-color: rgba(5, 11, 23, 0.7);
-  backdrop-filter: blur(20px); /* Làm mờ phần tử dưới header */
+  backdrop-filter: blur(20px);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   gap: 20px;
   transition: background-color 0.3s ease;
-  /* thêm border-bôttom */
 }
 
 /* Logo styling */
@@ -112,7 +111,6 @@ header img {
   height: 50px;
 }
 
-/* Navigation styling */
 header .nav-list {
   display: flex;
   list-style: none;
@@ -133,9 +131,8 @@ header .nav-list {
   
 }
 .nav-list li a.active {
-  color: rgb(255, 37, 74); /* Màu sắc cho liên kết hiện tại */
+  color: rgb(255, 37, 74);
 }
-/* Button styling */
 .btn-section {
   display: flex;
   margin-right: 100px;
@@ -165,7 +162,6 @@ header .nav-list {
   text-align: center;
   border: 1px solid #fff;
   border-radius: 20px;
-  /* transition: transform 0.2s ease; */
 }
 
 .login-btn:hover {
@@ -195,13 +191,192 @@ header .nav-list {
 }
 
 .icon-log-out:hover {
-  color: darkred; /* Màu khi hover */
+  color: darkred;
 }
 .dropdown-menu .dropdown-item {
   color: #ffffff;
 }
 .dropdown-menu .dropdown-item:hover {
   background-color: #878484;
+}
+@media (min-width: 768px) {
+  .nav-list.d-md-flex {
+    display: flex;
+    align-items:center;
+  }
+  .nav-list ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+  }
+  .dropdown {
+    display: block;
+  }
+
+  .burger-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  header{
+    display: flex;
+    justify-content: space-between;
+  }
+.nav-list {
+  display: none;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center; 
+  list-style: none;
+  position: absolute;
+  top: 78%;
+  left: 0;
+  background-color: rgba(5, 11, 23, 0.7);
+  width: 100%;
+}
+
+.nav-list li {
+  width: 100%; 
+  text-align: center; 
+  padding: 10px;
+  list-style: none;
+}
+
+.nav-list.d-block {
+  display: flex; 
+}
+
+.nav-list a {
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+  .nav-list.d-none {
+    display: block;
+  }
+
+  .nav-list.d-block {
+    display: block;
+  }
+  .burger-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    z-index: 100; 
+  }
+  
+  .burger-btn .fa-bars {
+    font-size: 24px; 
+    color: #fff;
+    transition: transform 0.3s ease; 
+  }
+  
+  .burger-btn.open .fa-bars {
+    transform: rotate(90deg);
+  }
+  .dropdown{
+    display: none;
+  }
+  .user-profile {
+    padding: 20px;
+    border-top: 2px solid #0b1c4534;
+    text-align: center;
+  }
+  
+  .user-profile img {
+    width: 30%;
+    max-width: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  .user-profile h3 {
+    color: #ffffff;
+    margin-bottom: 5px;
+    font-size: 1.25rem;
+  }
+  
+  .user-profile li {
+    list-style: none;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+  
+  .user-profile li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .user-profile li a:hover {
+    color: #00bcd4;
+  }
+  
+  .user-profile .user-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .user-link li {
+    width: 200px;
+    height: 40px;
+    line-height: 40px; 
+    text-align: center;
+    padding: 0 15px; 
+    border-right: 1px solid #0f2e4f;
+    list-style: none; 
+  }
+  
+  .user-link li:last-child {
+    border-right: none; 
+  }
+  
+  .user-link li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .user-link li a:hover {
+    color: #c82333;
+  }
+  .user-logout {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    gap: 8px; 
+    padding: 10px 15px; 
+    background-color: #c82333; 
+    color: #ffffff; 
+    border-radius: 5px; 
+    font-size: 14px;
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-logout:hover {
+    background-color: #a71d2a; 
+  }
+  
+  .user-logout span {
+    font-weight: 500; 
+  }
+  
+  .user-logout svg {
+    font-size: 16px; 
+  }
+  
 }
 
 /* Footer styling */

@@ -5,13 +5,16 @@ import * as Yup from "yup";
 import axios from "axios";
 import Layout from "@/app/components/admin/Layout";
 import Swal from "sweetalert2";
-import './AddCaChieu.css';
+import "./AddCaChieu.css";
 
 export default function ThemCaChieu() {
   const [phongChieus, setPhongChieus] = useState([]);
   const [phims, setPhims] = useState([]);
+  const [phimSuggestions, setPhimSuggestions] = useState([]);
+  const [filterPhim, setFilterPhim] = useState("");
+  const [showPhimSuggestions, setShowPhimSuggestions] = useState(false);
   const [caChieus, setCaChieus] = useState([]);
-  const [gioKetThuc, setGioKetThuc] = useState(""); // Trạng thái lưu giờ kết thúc
+  const [gioKetThuc, setGioKetThuc] = useState("");
   const [gioBatDauOptions] = useState(
     Array.from({ length: 44 }, (_, i) => {
       const hours = Math.floor(i / 2) + 1;
@@ -23,7 +26,10 @@ export default function ThemCaChieu() {
   useEffect(() => {
     const layDuLieu = async () => {
       try {
-        const [phongChieuResponse, phimResponse] = await Promise.all([axios.get("http://localhost:3000/phongchieu"), axios.get("http://localhost:3000/phim")]);
+        const [phongChieuResponse, phimResponse] = await Promise.all([
+          axios.get("http://localhost:3000/phongchieu"),
+          axios.get("http://localhost:3000/phim"),
+        ]);
         setPhongChieus(phongChieuResponse.data);
         setPhims(phimResponse.data);
 
@@ -64,15 +70,30 @@ export default function ThemCaChieu() {
     });
   };
 
-  // Kiểm tra phòng chiếu còn trống
   const kiemTraTrongTai = async (values) => {
     try {
-      const response = await axios.post('http://localhost:3000/xuatchieu/check', values);
+      const response = await axios.post("http://localhost:3000/xuatchieu/check", values);
       return response.data.available;
     } catch (error) {
-      console.error('Lỗi khi kiểm tra trống:', error);
+      console.error("Lỗi khi kiểm tra trống:", error);
       return false;
     }
+  };
+
+  const handleFilterChange = (e) => {
+    const search = e.target.value.toLowerCase();
+    setFilterPhim(search);
+    setShowPhimSuggestions(true);
+    const filteredSuggestions = phims.filter((phim) =>
+      phim.tenphim.toLowerCase().includes(search)
+    );
+    setPhimSuggestions(filteredSuggestions);
+  };
+
+  const handleSelectPhim = (phim) => {
+    formik.setFieldValue("phim_id", phim._id);
+    setFilterPhim(phim.tenphim);
+    setShowPhimSuggestions(false);
   };
 
   const formik = useFormik({
@@ -99,14 +120,12 @@ export default function ThemCaChieu() {
           return;
         }
 
-        // Kiểm tra phòng chiếu còn trống
         const isAvailable = await kiemTraTrongTai(values);
         if (!isAvailable) {
           Swal.fire("Lỗi", "Khoảng thời gian này đã có ca chiếu khác!", "error");
           return;
         }
 
-        // Lưu ca chiếu vào cơ sở dữ liệu
         try {
           await axios.post("http://localhost:3000/xuatchieu/add", values);
           setCaChieus((prevCaChieus) => [
@@ -115,7 +134,7 @@ export default function ThemCaChieu() {
           ]);
           Swal.fire("Thành công!", "Ca chiếu đã được thêm thành công!", "success");
           resetForm();
-          setGioKetThuc(""); // Reset giờ kết thúc
+          setGioKetThuc("");
         } catch (error) {
           console.error("Lỗi khi thêm CaChieu:", error);
           Swal.fire("Lỗi!", "Đã xảy ra lỗi khi thêm ca chiếu.", "error");
@@ -141,7 +160,26 @@ export default function ThemCaChieu() {
         <h1 className="my-4">Thêm Ca Chiếu Mới</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className="row">
-            <div className="col-md-3 mb-3">
+            <div className="col-md-6 mb-3">
+              <label>Phim</label>
+              <input
+                type="text"
+                className={`form-control ${formik.errors.phim_id ? "is-invalid" : ""}`}
+                placeholder="Nhập tên phim"
+                value={filterPhim}
+                onChange={handleFilterChange}
+              />
+              {showPhimSuggestions && phimSuggestions.length > 0 && (
+                <ul className="suggestions">
+                  {phimSuggestions.map((phim) => (
+                    <li key={phim._id} onClick={() => handleSelectPhim(phim)}>
+                      {phim.tenphim} - {phim.trangthai}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className="col-md-6 mb-3">
               <label>Phòng Chiếu</label>
               <select
                 name="phongchieu_id"
@@ -159,38 +197,20 @@ export default function ThemCaChieu() {
               </select>
             </div>
 
-            <div className="col-md-3 mb-3">
-              <label>Phim</label>
-              <select
-                name="phim_id"
-                value={formik.values.phim_id}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={`form-control ${formik.errors.phim_id ? "is-invalid" : ""}`}
-              >
-                <option value="">Chọn phim</option>
-                {phims.map((phim) => (
-                  <option key={phim._id} value={phim._id}>
-                    {phim.tenphim}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="col-md-2 mb-3">
+            <div className="col-md-4 mb-3">
               <label>Ngày Chiếu</label>
               <input
                 type="date"
                 name="ngaychieu"
+                id="ngaychieu"
                 value={formik.values.ngaychieu}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={`form-control ${formik.errors.ngaychieu ? "is-invalid" : ""}`}
-                id="ngaychieu"
               />
             </div>
 
-            <div className="col-md-2 mb-3">
+            <div className="col-md-4 mb-3">
               <label>Giờ Bắt Đầu</label>
               <select
                 name="giobatdau"
@@ -200,32 +220,24 @@ export default function ThemCaChieu() {
                 className={`form-control ${formik.errors.giobatdau ? "is-invalid" : ""}`}
               >
                 <option value="">Chọn giờ bắt đầu</option>
-                {gioBatDauOptions.map((gio) => (
-                  <option key={gio} value={gio}>
-                    {gio}
+                {gioBatDauOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
                   </option>
                 ))}
               </select>
             </div>
-
-            <div className="col-md-2 mb-3">
+            <div className="col-md-4 mb-3">
               <label>Giờ Kết Thúc</label>
-              <input
-                type="text"
-                name="gioketthuc"
-                value={gioKetThuc}
-                disabled
-                className="form-control"
-              />
+              <input type="text" className="form-control" value={gioKetThuc} disabled />
             </div>
           </div>
 
-          <div className="form-group text-center">
-            <button type="submit" className="btn btn-primary">
-              Thêm Ca Chiếu
-            </button>
-          </div>
+          <button type="submit" className="btn btn-primary">
+            Thêm Ca Chiếu
+          </button>
         </form>
+
         <div className="mt-5">
                     <h3>Danh Sách Ca Chiếu</h3>
                     <table className="table">
