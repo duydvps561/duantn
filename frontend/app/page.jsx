@@ -34,6 +34,9 @@ export default function Home() {
     observer.observe(box);
   });
 
+  const today = new Date();
+  // console.log(today);
+
   const userId = useSelector((state) => state.auth.user?.id);
   const userEmail = useSelector((state) => state.auth.user?.email);
   const dispatch = useDispatch();
@@ -327,7 +330,7 @@ export default function Home() {
       <div className="card" key={movie._id}>
         <div className="box">
           <Link
-            href={`/filmdetail/${movie._id}`}
+            href={`/filmdetail/${movie._id}`} //?cachieu=${selectedDate}//
             className="text-decoration-none text-muted"
           >
             <div className="img-top">
