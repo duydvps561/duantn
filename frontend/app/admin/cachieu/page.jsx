@@ -243,7 +243,9 @@ export default function CaChieuPage() {
                             </tbody>
                         </table>
                     </div>
-                    <nav aria-label="Pagination">
+                </div>
+                <div>
+                <nav aria-label="Pagination">
                             <ul className="pagination pagination-sm justify-content-center">
                                 <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                                     <button onClick={() => paginate(currentPage - 1)} className="page-link">

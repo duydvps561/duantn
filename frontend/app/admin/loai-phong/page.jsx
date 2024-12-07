@@ -72,8 +72,11 @@ const QuanLyPhongPage = () => {
       <h1>Quản Lý Loại phòng</h1>
       <p>Đây là trang quản lý Loại phòng.</p>
 
-      {/* Form to Add or Edit Room */}
-      <div className={styles.formContainer}>
+    <div className='container-fluid'>
+      <div className='row'>
+              {/* Form to Add or Edit Room */}
+      <div className='col-6 mt-2'>
+              <div className={styles.formContainer}>
         <input
           type="text"
           value={roomName}
@@ -93,19 +96,20 @@ const QuanLyPhongPage = () => {
           onClick={isEditing ? () => updateRoom(editId) : addRoom} 
           className={styles.submitButton}
         >
-          {isEditing ? 'Cập Nhật' : 'Thêm Phòng'}
+          {isEditing ? 'Cập Nhật' : 'Thêm Loại Phòng'}
         </button>
+      </div>
       </div>
 
       {/* Tables Section */}
-      <div className={styles.tablesContainer}>
+        <div className='col-6'>
+        <div className={styles.tablesContainer}>
         <div className={styles.tableSection}>
-          <h2 className={styles.tableTitle}>Danh Sách Phòng</h2>
           <table className={styles.table}>
             <thead>
               <tr>
                 <th>STT</th>
-                <th>Tên Phòng</th>
+                <th>Loại Phòng</th>
                 <th>Trạng Thái</th>
                 <th>Thao Tác</th>
               </tr>
@@ -136,6 +140,9 @@ const QuanLyPhongPage = () => {
           </table>
         </div>
       </div>
+        </div>
+      </div>
+    </div>
     </Layout>
   );
 };

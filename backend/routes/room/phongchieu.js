@@ -4,7 +4,7 @@ const Phongchieu = require('../../models/room/phongchieu');
 const Loaiphong = require('../../models/room/loaiphong');
 const Ghe = require('../../models/room/ghe');
 const Loaighe = require('../../models/room/loaighe');
-
+const CaChieu = require('../../models/ticket/cachieu');
 // Lấy tất cả phòng chiếu
 router.get('/', async (req, res, next) => {
   try {
@@ -74,15 +74,34 @@ router.put('/update/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const phongchieu = await Phongchieu.findByIdAndDelete(id);
+
+    // Kiểm tra xem phòng chiếu có tồn tại không
+    const phongchieu = await Phongchieu.findById(id);
     if (!phongchieu) {
       return res.status(404).send({ error: 'Phòng chiếu không tồn tại' });
     }
-    res.status(200).send({ message: 'Phòng chiếu đã được xóa' });
+
+    // Xóa tất cả các ca chiếu liên quan đến phòng chiếu
+    const deletedCaChieu = await CaChieu.deleteMany({ phongchieu_id: id });
+    
+    // Xóa tất cả các ghế liên quan đến phòng chiếu
+    const deletedGhe = await Ghe.deleteMany({ phongchieu_id: id });
+
+    // Xóa phòng chiếu
+    await Phongchieu.findByIdAndDelete(id);
+
+    res.status(200).send({
+      message: 'Phòng chiếu và các dữ liệu liên kết đã được xóa thành công',
+      details: {
+        deletedCaChieuCount: deletedCaChieu.deletedCount,
+        deletedGheCount: deletedGhe.deletedCount,
+      },
+    });
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
+
 
 // Lấy danh sách ghế theo phòng chiếu ID
 router.get('/ghe/:id', async (req, res) => {
