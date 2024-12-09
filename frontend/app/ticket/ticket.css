@@ -118,3 +118,30 @@ tbody th {
   color: #ffffff;
   margin-bottom: 24px;
 }
+
+
+@media (max-width: 768px) {
+  .t-title {
+    font-size: 24px;
+  }
+  .apply-date {
+    font-size: 18px;
+  }
+  .ticket-table th,
+  .ticket-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .t-title {
+    font-size: 20px;
+  }
+  .apply-date {
+    font-size: 16px;
+  }
+  .ticket-table {
+    font-size: 12px;
+  }
+}
