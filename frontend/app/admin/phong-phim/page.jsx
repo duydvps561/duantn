@@ -35,6 +35,7 @@ const QuanLyPhongPage = () => {
     try {
       const response = await axios.get('http://localhost:3000/phongchieu');
       setRooms(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching rooms:', error);
       alert('Có lỗi xảy ra khi lấy danh sách phòng.');
@@ -221,9 +222,9 @@ const QuanLyPhongPage = () => {
                       {room.tenphong}
                     </Link>
                   </td>
-        <td>{room.trangthai === '1' ? 'Đang Hoạt Động' : 'Ngừng Hoạt Động'}</td>
-        <td>{roomType}</td>
-        <td>
+                  <td>{room.trangthai === '1' ? 'Đang Hoạt Động' : 'Ngừng Hoạt Động'}</td>
+                  <td>{room.loaiphong_id.loaiphong}</td>
+                  <td>
                     <button
                       className={styles.editButton}
                       onClick={() => handleEdit(room._id, room.tenphong, room.trangthai, room.loaiphong)}
