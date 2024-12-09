@@ -280,3 +280,12 @@ background-color: #445c46;
 display: flex;
 justify-content: space-between;
 }
+
+.category-link {
+  background: none;
+  border: none;
+  color: rgb(0, 0, 0);
+  text-decoration: underline;
+  cursor: pointer;
+  text-decoration: none;
+}
