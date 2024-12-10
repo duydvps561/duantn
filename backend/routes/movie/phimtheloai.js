@@ -2,41 +2,64 @@ var express = require('express');
 var router = express.Router();
 const Phimtheloai = require('../../models/movie/phimtheloai');
 
-router.get('/', async function(req, res, next) {
-  try {
-    const phimtheloai = await Phimtheloai.find(); 
-    res.json(phimtheloai);
-  } catch (err) {
-    next(err);
-  }
+// Create a new phimtheloai
+router.post('/', async (req, res) => {
+    try {
+        const phimTheLoai = new Phimtheloai(req.body);
+        await phimTheLoai.save();
+        res.status(201).send(phimTheLoai);
+    } catch (error) {
+        res.status(400).send(error);
+    }
 });
-router.post('/add', async (req, res) => {
-  try {
-    const phimtheloai = new Phimtheloai(req.body);
-    const result = await phimtheloai.save();
-    res.status(201).send(result);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
+
+// Get all phimtheloai
+router.get('/', async (req, res) => {
+    try {
+        const phimTheLoais = await Phimtheloai.find().populate('phim_id theloai_id');
+        res.status(200).send(phimTheLoais);
+    } catch (error) {
+        res.status(500).send(error);
+    }
 });
-// sửa 
-router.put('/edit/:id', async (req, res) => {
-  try {
-    const phimtheloai = await Phimtheloai.findByIdAndUpdate(req.params.id, req.body, {new: true});
-    if (!phimtheloai) return res.status(404).send('The phim the loai with the given ID was not found.');
-    res.send(phimtheloai);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
+
+// Get a phimtheloai by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const phimTheLoai = await Phimtheloai.findById(req.params.id).populate('phim_id theloai_id');
+        if (!phimTheLoai) {
+            return res.status(404).send();
+        }
+        res.status(200).send(phimTheLoai);
+    } catch (error) {
+        res.status(500).send(error);
+    }
 });
-// xóa
-router.delete('/delete/:id', async (req, res) => {
-  try {
-    const phimtheloai = await Phimtheloai.findByIdAndDelete(req.params.id);
-    if (!phimtheloai) return res.status(404).send('The phim the loai with the given ID was not found.');
-    res.send(phimtheloai);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
+
+// Update a phimtheloai by ID
+router.patch('/:id', async (req, res) => {
+    try {
+        const phimTheLoai = await Phimtheloai.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!phimTheLoai) {
+            return res.status(404).send();
+        }
+        res.status(200).send(phimTheLoai);
+    } catch (error) {
+        res.status(400).send(error);
+    }
 });
+
+// Delete a phimtheloai by ID
+router.delete('/:id', async (req, res) => {
+    try {
+        const phimTheLoai = await Phimtheloai.findByIdAndDelete(req.params.id);
+        if (!phimTheLoai) {
+            return res.status(404).send();
+        }
+        res.status(200).send(phimTheLoai);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

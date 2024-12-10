@@ -117,7 +117,7 @@ const QuanLyPhimPage = () => {
                   </td> */}
                   <td>{formatDate(movie.ngayhieuluc)}</td>
                   <td>{formatDate(movie.ngayhieulucden)}</td>
-                  <td>{movie.trangthai === '0' ? 'Hoạt Động' : 'Không Hoạt Động'}</td>
+                  <td>{movie.trangthai === '0' ? 'Đang Chiếu' : movie.trangthai === '1' ? 'Sắp Chiếu' : 'Hết Kỳ Hạn'}</td>
                   <td style={{display: 'flex'}}>
                   <Link href={`/admin/phim/edit?id=${movie._id}`} style={{background: '#4d6950', color: 'white'}} className="btn me-2 sua">Sửa</Link>
                     <button className={styles.deleteButton} onClick={() => deleteMovie(movie._id)}>Xóa</button>

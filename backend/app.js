@@ -41,7 +41,7 @@ var TintucRouter = require("./routes/tintucs");
 var ThongkeRouter = require("./routes/thongke");
 var BanerRouter = require("./routes/banner");
 var checkinRouter = require("./routes/checkin");
-
+var {updateMovieStatus} = require("./routes/movie/phimupdate");
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -90,6 +90,10 @@ app.use("/lienhe", ContactRouter);
 app.use("/tintuc", TintucRouter);
 app.use("/banner", BanerRouter);
 app.use("/checkin", checkinRouter);
+setInterval(() => {
+  updateMovieStatus();
+}, 86400000);
+
 
 app.use(function (req, res, next) {
   next(createError(404));

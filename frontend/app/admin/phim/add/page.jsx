@@ -1,12 +1,14 @@
 "use client"; // Client Component directive
 
 import Layout from '@/app/components/admin/Layout';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
 const AddMovie = () => {
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState([]); // State for genres (optional)
+  const router = useRouter();
 
   // Fetch genres from the backend (optional)
   useEffect(() => {
@@ -51,6 +53,9 @@ const AddMovie = () => {
           text: 'Phim đã được thêm thành công.',
           icon: 'success',
           confirmButtonText: 'OK',
+        }).then(() => {
+          // Chuyển hướng sang trang /admin/phim sau khi người dùng nhấn OK
+          router.push('/admin/phim');
         });
   
         // Có thể chuyển hướng hoặc làm gì đó khác sau thông báo thành công

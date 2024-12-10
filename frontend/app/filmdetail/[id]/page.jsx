@@ -1,7 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./fimdetail.css";
-import { useRef } from "react";
 import Food from "@/app/components/food";
 import { useDispatch, useSelector } from "react-redux";
 import { addSeat, clearCart } from "@/redux/slice/cartSlice";
@@ -13,24 +12,28 @@ import {
   updatePhongChieu,
   updateTenPhim,
 } from "@/redux/slice/filmSlice";
+import { useParams } from "react-router-dom";
 export default function filmdetail({ params }) {
-  const dispatch = useDispatch();
 
+
+  const { cart } = useSelector((state) => state.cart);
+  const id = params.id;
+  // const [ngaychieuSelected, setNgayChieuSelected] = useState("");
+
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(clearCart());
   }, [dispatch]);
 
-  const { cart } = useSelector((state) => state.cart);
-  const id = params.id;
+ 
   const [show, setShow] = useState(false);
-
   const [phimChitiet, setPhimChitiet] = useState([]);
   const [ngayHieuLuc, setNgayHieuLuc] = useState("");
   const [cachieu, setCaChieu] = useState([]);
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
-
   const [timeleft, setTimeLeft] = useState(10 * 60);
+
   useEffect(() => {
     if (timeleft > 0) {
       const timer = setTimeout(() => {
@@ -53,12 +56,6 @@ export default function filmdetail({ params }) {
   const [giaghedata, setGiaghedata] = useState([]);
   const [giaghe, setGiaghe] = useState(0);
   const [dataSelected, setDataSelected] = useState(false)
-  const rollRef = useRef();
-  if (show) {
-    setTimeout(() => {
-      rollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 0);
-  }
   const minutes = Math.floor(timeleft / 60);
   const seconds = timeleft % 60;
 
@@ -127,6 +124,9 @@ export default function filmdetail({ params }) {
   }, [id]);
 
   useEffect(() => {
+    console.log("gio hang cap nhap", cart);
+  }, [cart]);
+  useEffect(() => {
     if (id && cachieu && Array.isArray(cachieu)) {
       const foundPhim = cachieu.filter((item) => item.phim_id === id);
       setPhimCachieu(foundPhim || null);
@@ -136,33 +136,174 @@ export default function filmdetail({ params }) {
   }, [id, cachieu]);
 
   useEffect(() => {
-    const gheMap = {};
-    gheData.forEach((ghe) => {
-      if (!gheMap[phongchieuid]) {
-        gheMap[phongchieuid] = [];
-      }
-      gheMap[phongchieuid].push(ghe);
-    });
-  }, [gheData]);
-
-  useEffect(() => {
-    console.log("gio hang cap nhap", cart);
-  }, [cart]);
-
-  const seatsByRow = gheData.reduce((acc, ghe) => {
-    const row = ghe.hang;
-    if (!acc[row]) {
-      acc[row] = [];
+    if (phongchieudata?._id) {
+      setPhongChieuid(phongchieudata._id);
     }
-    acc[row].push(ghe);
-    return acc;
-  }, {});
+  }, [phongchieudata, setPhongChieuid]);
 
-  Object.keys(seatsByRow).forEach((row) => {
-    seatsByRow[row].sort((a, b) => a.cot - b.cot);
-  });
+  const organizeSeatsByRow = (gheData, phongchieu_id) => {
+    return gheData
+      .filter((ghe) => ghe.phongchieu_id === phongchieu_id)
+      .reduce((acc, ghe) => {
+        const row = ghe.hang;
+        if (!acc[row]) {
+          acc[row] = [];
+        }
+        acc[row].push(ghe);
+        return acc;
+      }, {});
+  };
+
+  const seatsByRow = useMemo(() => {
+    const rows = organizeSeatsByRow(gheData, phongchieuid);
+    Object.keys(rows).forEach((row) => {
+      rows[row].sort((a, b) => a.cot - b.cot);
+    });
+    return rows;
+  }, [gheData, phongchieuid]);
+
   const MAX_SEATS_TO_SHOW = 5;
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const ngayChieuParam = queryParams.get('ngaychieu');
+    const giochieu = queryParams.get('giochieu');
+  
+    if (ngayChieuParam) {
+      setNgayChieuSelected(ngayChieuParam);
+    }
+    if (giochieu) {
+      setgiochieu(giochieu);
+      setShow(true);
 
+    }
+  }, []);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const endDate = new Date(today);
+  endDate.setDate(today.getDate() + 4);
+
+  const phimHienTai = phimCachieu.filter((item) => {
+    const ngayChieu = new Date(item.ngaychieu);
+    ngayChieu.setHours(0, 0, 0, 0);
+    return ngayChieu >= today && ngayChieu <= endDate;
+  });
+  const handleSeatClick = (ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData) => {
+    const gia = giaLoaighe ? giaLoaighe.giaghe : 0;
+    const handleDoubleSeat = () => {
+      // Xác định tên ghế (ví dụ: f1, g2...)
+      const firstSeat = seat; // seat là tên ghế hiện tại, ví dụ 'f1'
+      const seatNumber = parseInt(seat.substring(1)); // Lấy phần số trong tên ghế, ví dụ 'f1' -> 1
+    
+      // Xác định ghế thứ hai của cặp ghế đôi
+      const secondSeat = `${seat.charAt(0)}${seatNumber % 2 === 0 ? seatNumber - 1 : seatNumber + 1}`;  // Xác định ghế liền kề (ví dụ: 'f2' nếu ghế đầu là 'f1')
+    
+      // Kiểm tra xem ghế đầu tiên và ghế liền kề có trong danh sách đã chọn không
+      const isFirstSeatSelected = seatSelected.includes(firstSeat);
+      const isSecondSeatSelected = seatSelected.includes(secondSeat);
+    
+      if (isFirstSeatSelected || isSecondSeatSelected) {
+        setSeatSelected((prevSeats) =>
+          prevSeats.filter(
+            (selected) => selected !== firstSeat && selected !== secondSeat
+          )
+        );
+    
+        // Cập nhật Redux và giá tiền khi hủy chọn ghế
+        dispatch(clearCart());
+        setGiaghe((prevTotal) => prevTotal - gia * 2);
+      } else {
+        const isSecondSeatAvailable = gheData.some(
+          (g) => `${g.hang}${g.cot}` === secondSeat
+        );
+    
+        if (isSecondSeatAvailable) {
+          setSeatSelected((prevSeats) => [
+            ...prevSeats,
+            firstSeat,
+            secondSeat,
+          ]);
+          dispatch(
+            addSeat({
+              _id: ghe._id,
+              seat: [firstSeat, secondSeat],
+              gia: gia * 1,
+            })
+          );
+          setGiaghe((prevTotal) => prevTotal + gia * 2);
+        } else {
+          alert("Ghế đôi không hợp lệ! Ghế liền kề đã bị chọn.");
+        }
+      }
+    };
+    
+    
+
+
+    // Hàm xử lý ghế thường
+    const hasAdjacentSeat = (seat1, seat2) => {
+      const hang1 = seat1.slice(0, 1);
+      const hang2 = seat2.slice(0, 1);
+      const cot1 = parseInt(seat1.slice(1));
+      const cot2 = parseInt(seat2.slice(1));
+      return hang1 === hang2 && Math.abs(cot1 - cot2) === 1;
+    };
+
+    // Kiểm tra danh sách ghế có liền kề hợp lệ không
+    const validateAdjacentSeats = (selectedSeats) => {
+      for (let i = 0; i < selectedSeats.length - 1; i++) {
+        if (!hasAdjacentSeat(selectedSeats[i], selectedSeats[i + 1])) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    // Hàm xử lý ghế thường
+    const handleSingleSeat = () => {
+      if (isSelected) {
+        // Hủy chọn ghế thường
+        const updatedSeats = seatSelected.filter((selected) => selected !== seat);
+        if (!validateAdjacentSeats(updatedSeats)) {
+          alert("Các ghế còn lại không liền kề! Hủy chọn toàn bộ ghế không hợp lệ.");
+          setSeatSelected([]);
+          dispatch(clearCart())
+          setGiaghe(0);
+        } else {
+          setSeatSelected(updatedSeats);
+          dispatch(
+            addSeat({
+              _id: ghe._id,
+              seat: updatedSeats,
+              gia: gia * updatedSeats.length,
+            })
+          );
+          setGiaghe((prevTotal) => prevTotal - gia);
+        }
+      } else {
+        // Chọn ghế thường
+        if (seatSelected.length === 0 || hasAdjacentSeat(seat, seatSelected[seatSelected.length - 1])) {
+          setSeatSelected((prevSeats) => [...prevSeats, seat]);
+          dispatch(
+            addSeat({
+              _id: ghe._id,
+              seat: [...seatSelected, seat],
+              gia: gia * (seatSelected.length + 1),
+            })
+          );
+          setGiaghe((prevTotal) => prevTotal + gia);
+        } else {
+          alert("Ghế phải liền kề với ghế đã chọn!");
+        }
+      }
+    };
+
+    // Phân loại ghế
+    if (loaigheItem && loaigheItem.loaighe === "Ghế Đôi") {
+      handleDoubleSeat();
+    } else {
+      handleSingleSeat();
+    }
+  };
   return (
     <>
       <section className="film-detail justify-content-center">
@@ -279,20 +420,21 @@ export default function filmdetail({ params }) {
       </section>
       <div className="date-order">
         <div className="date text-light">
-          {phimCachieu.length > 0 ? (
-            phimCachieu
-              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))  // Sắp xếp theo ngày
+          {phimHienTai.length > 0 ? (
+            phimHienTai
+              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))
               .map((item) => (
                 <div
-                  className={`text ${dataSelected === item._id ? 'selected' : ''}`}
+                  className={`text  ${ngaychieuSelected === (item.ngaychieu) ? 'selected' : ''}`}
                   key={item.id}
                   onClick={() => {
                     setDataSelected(item._id);
                     setNgayChieuSelected(item.ngaychieu);
                     dispatch(updateNgayChieu(item.ngaychieu));
+
                   }}
                 >
-                  <p>Th {new Date(item.ngaychieu).getMonth() + 1}</p>
+                  <p>Tháng {new Date(item.ngaychieu).getMonth() + 1}</p>
                   <h2>{new Date(item.ngaychieu).getDate()}</h2>
                   <p>
                     {
@@ -310,9 +452,8 @@ export default function filmdetail({ params }) {
                 </div>
               ))
           ) : (
-            <p>Không tìm thấy thông tin phim.</p>
+            <p className="mt-2">Phim tạm thời chưa có ca chiếu.</p>
           )}
-
         </div>
         <div className="note">
           <p>
@@ -325,6 +466,8 @@ export default function filmdetail({ params }) {
                 const phongchieudt = phongchieu.find(
                   (phong) => phong._id === item.phongchieu_id
                 );
+                console.log(phongchieudt);
+                
                 if (item.ngaychieu === ngaychieuSelected) {
                   return (
                     <button
@@ -340,6 +483,10 @@ export default function filmdetail({ params }) {
                         dispatch(
                           updatePhongChieu(phongchieudt?.tenphong || null)
                         );
+                        console.log(item._id);// set lấy ngày chiếu và giờ chiếu của ca chiếu để dispatch(updateCaChieuID(item._id))
+                        console.log(item.giobatdau); // giờ bắt đầu đã được set 
+                        console.log(phongchieudt); // tìm ca chiếu của phim thuộc phòng nào và set cho nó 
+                        console.log(item.giobatdau);// dispatch(updateGioChieu(item.giobatdau)); đã được set 
                       }}
                     >
                       {item.giobatdau}
@@ -401,6 +548,7 @@ export default function filmdetail({ params }) {
                                     style.backgroundColor = "#005AD8";
                                     style.color = "white";
                                   }
+
                                   return (
                                     <td
                                       key={ghe._id}
@@ -413,83 +561,9 @@ export default function filmdetail({ params }) {
                                         border: "1px solid #ccc",
                                         margin: "3px",
                                       }}
-                                      onClick={() => {
-                                        console.log(ghe._id);
-                                        const gia = giaLoaighe ? giaLoaighe.giaghe : 0;
-                                        console.log(
-                                          loaigheItem ? loaigheItem.loaighe : "ko co loai ghe"
-                                        );
-                                        if (
-                                          loaigheItem &&
-                                          loaigheItem.loaighe === "Ghế Đôi"
-                                        ) {
-                                          const firstSeat = seat;
-                                          const secondSeat = `${ghe.hang}${parseInt(ghe.cot) + 1}`;
-                                          if (isSelected) {
-                                            setSeatSelected((prevSeats) =>
-                                              prevSeats.filter(
-                                                (selected) =>
-                                                  selected !== firstSeat && selected !== secondSeat
-                                              )
-                                            );
-                                            dispatch(
-                                              addSeat({
-                                                _id: ghe._id,
-                                                seat: [],
-                                                gia: 0,
-                                              })
-                                            );
-                                            setGiaghe((prevTotal) => prevTotal - gia * 2);
-                                          } else {
-                                            if (
-                                              gheData.some(
-                                                (g) => `${g.hang}${g.cot}` === secondSeat
-                                              )
-                                            ) {
-                                              setSeatSelected((prevSeats) => [
-                                                ...prevSeats,
-                                                firstSeat,
-                                                secondSeat,
-                                              ]);
-                                              dispatch(
-                                                addSeat({
-                                                  _id: ghe._id,
-                                                  seat: [firstSeat, secondSeat],
-                                                  gia,
-                                                })
-                                              );
-                                              setGiaghe((prevTotal) => prevTotal + gia * 2);
-                                            }
-                                          }
-                                        } else {
-                                          if (isSelected) {
-                                            setSeatSelected((prevSeats) =>
-                                              prevSeats.filter((selected) => selected !== seat)
-                                            );
-                                            dispatch(
-                                              addSeat({
-                                                _id: ghe._id,
-                                                seat: [],
-                                                gia: 0,
-                                              })
-                                            );
-                                            setGiaghe((prevTotal) => prevTotal - gia);
-                                          } else {
-                                            setSeatSelected((prevSeats) => [
-                                              ...prevSeats,
-                                              seat,
-                                            ]);
-                                            dispatch(
-                                              addSeat({
-                                                _id: ghe._id,
-                                                seat: [seat],
-                                                gia,
-                                              })
-                                            );
-                                            setGiaghe((prevTotal) => prevTotal + gia);
-                                          }
-                                        }
-                                      }}
+                                      onClick={() =>
+                                        handleSeatClick(ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData)
+                                      }
                                     >
                                       {seat}
                                     </td>
@@ -501,10 +575,9 @@ export default function filmdetail({ params }) {
                         </div>
                       ))}
                   </tbody>
-
                 </table>
               </div>
-              <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
+              {/* <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
                 <div className="note d-flex gap-2">
                   <p className="box-color-1">X</p>
                   <p>Đã đặt</p>
@@ -525,7 +598,7 @@ export default function filmdetail({ params }) {
                   <p className="box-color-5"></p>
                   <p>Ghế đôi</p>
                 </div>
-              </div>
+              </div> */}
               <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 mb-3 align-items-center flex-wrap ">
                 <div className="seat-bill">
                   <p className="seat-selected">
@@ -552,6 +625,7 @@ export default function filmdetail({ params }) {
                       setSeatSelected([]);
                       dispatch(clearCart());
                       dispatch(clearMovieInfo());
+                      setGiaghe(0)
                     }}
                   >
                     Quay lại

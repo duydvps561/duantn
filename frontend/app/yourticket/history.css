@@ -75,7 +75,7 @@
     height: 40px;
     border-radius: 5px;
     font-size: 16px;
-    color: rgb(221, 211, 211);
+    color: #000;
     position: relative;
     background-color:none;
 }
@@ -92,76 +92,69 @@
 .his-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 10px; /* Tạo khoảng cách giữa các hàng */
+    border-spacing: 10px;
     margin: 20px 0;
-    font-size: 1rem;
+    font-size: 16px;
     text-align: left;
-    background-color: transparent;
+    border: 2px solid #0f273c;
+    border-radius: 10px;
 }
 
-.his-table thead {
-    color: #f1c40f; /* Vàng */
-    text-transform: uppercase;
+.his-table thead th {
+    padding: 12px;
     font-weight: bold;
-    font-size: 1.1rem;
     text-align: center;
-}
-
-.his-table thead tr th {
-    padding: 15px;
-    background: #2c3e50; /* Đen xám */
-    border-radius: 10px 10px 0 0; /* Góc bo tròn */
+    font-size: 16px;
+    color: #fff;
 }
 
 .his-table tbody tr {
-    background: #34495e; /* Xanh đen */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s, box-shadow 0.3s;
+    border-bottom: 1px solid #ddd;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .his-table tbody tr:hover {
     transform: scale(1.02);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1), 0px -4px 8px rgba(168, 30, 30, 0.1); 
 }
+
+
 
 .his-table tbody td {
-    padding: 15px;
+    padding: 12px;
     text-align: center;
-    color: #ecf0f1; /* Trắng nhạt */
-}
-
-.his-table tbody td:nth-child(2) {
-    color: #f1c40f; /* Vàng */
-    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
 }
 
 .his-table tbody td:last-child span {
-    background: #e74c3c; /* Đỏ */
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 5px;
+    color: #007bff;
+    text-decoration: underline;
     cursor: pointer;
-    transition: background 0.3s;
 }
 
 .his-table tbody td:last-child span:hover {
-    background: #c0392b; /* Đỏ đậm hơn */
+    color: #0056b3;
 }
+
 .status {
     font-weight: bold;
-    text-align: center;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: white;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .status.unused {
-    background-color: #27ae60; /* Màu xanh lá */
+    color: #13c94c;
+    border-color: #13c94c;
 }
 
 .status.used {
-    background-color: #c0392b; /* Màu đỏ */
+    color: #dc3545;
+    border-color: #dc3545;
 }
+
 
 /* Responsive */
 @media (max-width: 768px) {

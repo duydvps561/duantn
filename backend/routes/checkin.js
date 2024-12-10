@@ -64,6 +64,10 @@ router.put('/scan-qr/:hoadonId', async (req, res) => {
         // Tổng hợp thông tin phim (nếu có nhiều vé, chỉ cần tên phim đầu tiên)
         const phimDetails = veDetails.length > 0 ? veDetails[0].cachieu_id.phim_id.tenphim : 'Không xác định';
 
+        // Thêm thông tin suất chiếu: Ngày chiếu và Giờ bắt đầu
+        const ngaychieu = veDetails.length > 0 ? veDetails[0].cachieu_id.ngaychieu : null;
+        const giobatdau = veDetails.length > 0 ? veDetails[0].cachieu_id.giobatdau : null;
+
         // Tổng hợp thông tin món ăn
         const foodDetails = foodOrders.map((order) => ({
             tenfood: order.food_id.tenfood,
@@ -79,6 +83,8 @@ router.put('/scan-qr/:hoadonId', async (req, res) => {
             },
             tentaikhoan: taikhoan.tentaikhoan, // tên tài khoản
             phim: phimDetails,
+            ngaychieu: ngaychieu, // Ngày chiếu
+            giobatdau: giobatdau, // Giờ bắt đầu
             ghe: gheDetails.map(item => item.ghe),
             phong: [...new Set(gheDetails.map(item => item.phong))], // Loại bỏ phòng trùng lặp
             food: foodDetails,

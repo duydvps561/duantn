@@ -11,6 +11,8 @@ const MovieCategoryManagement = () => {
   const [currentCategoryId, setCurrentCategoryId] = useState(null); // For tracking edit
   const [showCategoryForm, setShowCategoryForm] = useState(false); // Toggle for form visibility
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMovies, setSelectedMovies] = useState([]); // Danh sách phim thuộc thể loại
+  const [selectedCategoryName, setSelectedCategoryName] = useState(""); // Tên thể loại đã chọn
   const itemsPerPage = 10;
 
   // Fetch categories from API on component mount
@@ -102,6 +104,22 @@ const MovieCategoryManagement = () => {
       .catch(error => console.error("Error deleting category:", error));
   };
 
+  // Handle category click to fetch movies
+  const handleCategoryClick = (category) => {
+    setSelectedCategoryName(category.tentheloai);
+    fetch(`http://localhost:3000/phim/theloai/${category._id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then((movies) => {
+        setSelectedMovies(movies);
+      })
+      .catch((error) => console.error("Error fetching movies by category:", error));
+  };
+
   return (
     <Layout>
       <div className="category-management">
@@ -115,31 +133,24 @@ const MovieCategoryManagement = () => {
         </div>
 
         {showCategoryForm && (
-  <div className="overlay">
-    <div className="category-form">
-      <h3>{currentCategoryId ? "Chỉnh sửa thể loại" : "Thêm thể loại mới"}</h3>
-      <input 
-        type="text" 
-        value={categoryName} 
-        onChange={(e) => setCategoryName(e.target.value)} 
-        placeholder="Tên thể loại" 
-      />
-      {/* <input
-        type="number"
-        value={categoryQuantity}
-        onChange={(e) => setCategoryQuantity(parseInt(e.target.value, 10))}
-        placeholder="Số lượng phim"
-      /> */}
-      <div className="button-container">
-        <button className="submit-category-btn" onClick={handleCategorySubmit}>
-          {currentCategoryId ? "Cập nhật" : "Thêm"}
-        </button>
-        <button className="cancel-btn" onClick={closeCategoryForm}>Hủy</button>
-      </div>
-    </div>
-  </div>
-)}
-
+          <div className="overlay">
+            <div className="category-form">
+              <h3>{currentCategoryId ? "Chỉnh sửa thể loại" : "Thêm thể loại mới"}</h3>
+              <input 
+                type="text" 
+                value={categoryName} 
+                onChange={(e) => setCategoryName(e.target.value)} 
+                placeholder="Tên thể loại" 
+              />
+              <div className="button-container">
+                <button className="submit-category-btn" onClick={handleCategorySubmit}>
+                  {currentCategoryId ? "Cập nhật" : "Thêm"}
+                </button>
+                <button className="cancel-btn" onClick={closeCategoryForm}>Hủy</button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="tablesContainer">
           <div className="tableSection">
@@ -149,7 +160,6 @@ const MovieCategoryManagement = () => {
                 <tr>
                   <th>STT</th>
                   <th>Thể Loại</th>
-                  {/* <th>Số Bộ Phim</th> */}
                   <th>Thao Tác</th>
                 </tr>
               </thead>
@@ -157,8 +167,14 @@ const MovieCategoryManagement = () => {
                 {currentItems.map((category, index) => (
                   <tr key={category._id}>
                     <td>{indexOfFirstItem + index + 1}</td>
-                    <td>{category.tentheloai}</td>
-                    {/* <td>{category.quantity}</td> */}
+                    <td>
+                      <button 
+                        className="category-link" 
+                        onClick={() => handleCategoryClick(category)}
+                      >
+                        {category.tentheloai}
+                      </button>
+                    </td>
                     <td>
                       <button className="editButton" onClick={() => openCategoryForm(category)}>Sửa</button>
                       <button className="deleteButton" onClick={() => handleDelete(category._id)}>Xóa</button>
@@ -167,29 +183,33 @@ const MovieCategoryManagement = () => {
                 ))}
               </tbody>
             </table>
-
-            <nav className="pagination-container">
-              <ul className="pagination">
-                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                  <button onClick={() => paginate(currentPage - 1)} className="page-link">
-                    <span aria-hidden="true">&laquo;</span>
-                  </button>
-                </li>
-                {[...Array(totalPages)].map((_, index) => (
-                  <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                    <button onClick={() => paginate(index + 1)} className="page-link">
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                  <button onClick={() => paginate(currentPage + 1)} className="page-link">
-                    <span aria-hidden="true">&raquo;</span>
-                  </button>
-                </li>
-              </ul>
-            </nav>
           </div>
+
+          {selectedMovies.length > 0 && (
+            <div className="movies-list">
+              <h3>Các phim thuộc thể loại: {selectedCategoryName}</h3>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Tên Phim</th>
+                    <th>Thời Lượng</th>
+                    <th>Đạo Diễn</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedMovies.map((movie, index) => (
+                    <tr key={movie._id}>
+                      <td>{index + 1}</td>
+                      <td>{movie.tenphim}</td>
+                      <td>{movie.thoiluong}</td>
+                      <td>{movie.daodien}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </Layout>

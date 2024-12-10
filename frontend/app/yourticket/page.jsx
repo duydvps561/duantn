@@ -120,10 +120,15 @@ export default function Yourticket() {
         const selectedCachieu = cachieudata.find(cachieu => cachieu._id === cachieuId);
         if (selectedCachieu) {
             const { giobatdau, ngaychieu } = selectedCachieu;
-            return `${giobatdau}-${ngaychieu}`;
+    
+            // Chuyển đổi ngaychieu thành định dạng ngày
+            const formattedDate = new Date(ngaychieu).toLocaleDateString('vi-VN'); // Chuyển thành định dạng ngày Việt Nam
+    
+            return `${giobatdau} - ${formattedDate}`;
         }
         return "Thông tin không có sẵn";
     }
+    
 
     const getSeatName = async (gheid) => {
         try {
@@ -158,12 +163,17 @@ export default function Yourticket() {
         const ticketDate = new Date(ticket.createdAt);
         const ticketDateString = ticketDate.toISOString().split('T')[0];
 
-        const ticketStatus = ticket.__v === 0 ? "Chưa sử dụng" : "Đã sử dụng";
+        // Lấy trạng thái từ hoadonlist
+        const status = hoadonlist.find((item) => item._id === ticket.hoadon_id)?.trangthai || "Chưa xác định";
+        const ticketStatus = status === 1 ? "Đã sử dụng" : "Chưa sử dụng";
 
+        // Kiểm tra ngày
         const isDateMatch = selectedDate ? ticketDateString === selectedDate : true;
 
+        // Kiểm tra trạng thái
         const isStatusMatch = selectedStatus && selectedStatus !== "All" ? ticketStatus === selectedStatus : true;
 
+        // Kiểm tra tên phim
         const cachieu = cachieudata.find(cachieu => cachieu._id === ticket.cachieu_id);
         const phim = cachieu ? phimdata.find(phim => phim._id === cachieu.phim_id) : null;
         const movieName = phim ? phim.tenphim : "Không tìm thấy phim";
@@ -173,10 +183,16 @@ export default function Yourticket() {
         const isMovieNameMatch = movieSearchQuery
             ? normalizedMovieName.includes(normalizedSearchQuery)
             : true;
+
         return isDateMatch && isStatusMatch && isMovieNameMatch;
     });
+
+    // Phân trang
     const currentTickets = filteredTickets.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Sắp xếp theo ngày
     const sortedTickets = [...currentTickets].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
 
     return (
         <>
@@ -224,7 +240,6 @@ export default function Yourticket() {
                         </div>
                     ) : (
                         <>
-
                             <table className="his-table">
                                 <thead className="p-3">
                                     <tr>
@@ -237,21 +252,27 @@ export default function Yourticket() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {sortedTickets.map((ve, index) => (
-                                        <tr key={index}>
-                                            <td>{index + 1}</td>
-                                            <td>{ve._id}</td>
-                                            <td>{getPhimName(ve.cachieu_id)}</td>
-                                            <td>{new Date(ve.createdAt).toLocaleDateString()}</td>
-                                            <td className={ve.__v === 0 ? "status unused" : "status used"}>
-                                                {ve.__v === 0 ? "Chưa sử dụng" : "Đã sử dụng"}
-                                            </td>
-                                            <td>
-                                                <span onClick={() => handleModal(ve)}>Chi tiết</span>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {sortedTickets.map((ve, index) => {
+                                        const status = hoadonlist.find((item) => item._id === ve.hoadon_id)?.trangthai;
+                                        const ticketStatus = status == 2 ? "Đã sử dụng" : "Chưa sử dụng";
+                                        console.log(ticketStatus);
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{ve._id}</td>
+                                                <td>{getPhimName(ve.cachieu_id)}</td>
+                                                <td>{new Date(ve.createdAt).toLocaleDateString()}</td>
+                                                <td className={ticketStatus === "Chưa sử dụng" ? "status unused" : "status used"}>
+                                                    {ticketStatus}
+                                                </td>
+                                                <td>
+                                                    <span onClick={() => handleModal(ve)}>Chi tiết</span>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
+
                             </table>
                             <div className="page-btn">
                                 <div className="pagination">

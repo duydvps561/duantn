@@ -121,6 +121,8 @@ const QRScannerPage = () => {
                   <tr>
                     <th>Tên tài khoản</th>
                     <th>Phòng chiếu</th>
+                    <th>Ngày chiếu</th>
+                    <th>Giờ chiếu</th>
                     <th>Phim</th>
                     <th>Ghế</th>
                     <th>Đồ ăn</th>
@@ -130,6 +132,8 @@ const QRScannerPage = () => {
                   <tr>
                     <td>{hoadonInfo.tentaikhoan}</td>
                     <td>{hoadonInfo.phong.join(', ')}</td>
+                    <td>{new Date(hoadonInfo.ngaychieu).toLocaleDateString()}</td>
+                    <td>{hoadonInfo.giobatdau}</td>
                     <td>{hoadonInfo.phim}</td>
                     <td>{hoadonInfo.ghe.join(', ')}</td>
                     <td>{hoadonInfo.food.map(item => `${item.tenfood} (x${item.soluong})`).join(', ')}</td>

@@ -35,6 +35,7 @@ const QuanLyPhongPage = () => {
     try {
       const response = await axios.get('http://localhost:3000/phongchieu');
       setRooms(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching rooms:', error);
       alert('Có lỗi xảy ra khi lấy danh sách phòng.');
@@ -139,7 +140,7 @@ const QuanLyPhongPage = () => {
       {/* Form to Add or Edit Room */}
      <div style={{
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
+      gridTemplateColumns: '5fr 6fr',
       gap: '1rem',
      }}>
      <div style={{
@@ -210,16 +211,19 @@ const QuanLyPhongPage = () => {
               </tr>
             </thead>
             <tbody>
-              {rooms.map((room, index) => (
-                <tr key={room._id}>
-                  <td>{index + 1}</td>
-                  <td>
+  {rooms.map((room, index) => {
+    // Lấy thông tin loại phòng từ loaiphong_id
+    const roomType = room.loaiphong_id ? room.loaiphong_id.loaiphong : 'Không xác định';
+    return (
+      <tr key={room._id}>
+        <td>{index + 1}</td>
+        <td>
                     <Link href={`/admin/phong-phim/chitietphongphim?id=${room._id}`} className="btn me-2 sua">
                       {room.tenphong}
                     </Link>
                   </td>
                   <td>{room.trangthai === '1' ? 'Đang Hoạt Động' : 'Ngừng Hoạt Động'}</td>
-                  <td>{room.loaiphong}</td>
+                  <td>{room.loaiphong_id.loaiphong}</td>
                   <td>
                     <button
                       className={styles.editButton}
@@ -234,9 +238,11 @@ const QuanLyPhongPage = () => {
                       Xóa
                     </button>
                   </td>
-                </tr>
-              ))}
-            </tbody>
+      </tr>
+    );
+  })}
+</tbody>
+
           </table>
         </div>
       </div>
