@@ -4,7 +4,7 @@ import Link from "next/link";
 import useSWR from "swr";
 import "./lichchieu.css";
 import "./lichchieu-responsive.css"; // CSS responsive
-import { Button } from "@/public/bootstrap-5.3.3-dist/js/bootstrap.bundle.min";
+
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 

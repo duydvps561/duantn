@@ -36,7 +36,7 @@ router.get('/', async function(req, res, next) {
 // lấy tất cả các phim có trạng thái là 1
  router.get('/dangchieu', async function(req, res, next) {
   try {
-    const phim = await Phim.find({ trangthai: 1 }); 
+    const phim = await Phim.find({ trangthai: 0 }); 
     res.json(phim);
   } catch (err) {
     next(err);
@@ -45,7 +45,7 @@ router.get('/', async function(req, res, next) {
 // lấy tất cả các phim có  trạng thái là 0
  router.get('/sapchieu', async function(req, res, next) {
   try {
-    const phim = await Phim.find({ trangthai: 0 }); 
+    const phim = await Phim.find({ trangthai: 1 }); 
     res.json(phim);
   } catch (err) {
     next(err);

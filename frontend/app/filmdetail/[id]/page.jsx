@@ -364,20 +364,16 @@ export default function filmdetail({ params }) {
                 </div>
                 <div className="modal-body">
                   <div className="embed-responsive embed-responsive-16by9">
-                    {phimChitiet.trailer ? (
-                      <iframe
-                        className="embed-responsive-item"
-                        width="100%"
-                        height="400px"
-                        src={phimChitiet.trailer}
-                        title={`${phimChitiet.tenphim} Trailer`}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    ) : (
-                      <p className="text-light">Trailer không có sẵn</p>
-                    )}
+                  <iframe
+                    width="100%"
+                    height="500"
+                    src={phimChitiet.trailler}
+                    title={phimChitiet.tenphim || "Trailer"}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
                   </div>
                 </div>
               </div>

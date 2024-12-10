@@ -15,6 +15,7 @@ const UserProfile = () => {
     const savedData = localStorage.getItem("userData");
     return savedData ? JSON.parse(savedData) : null;
   });
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -92,8 +93,19 @@ const UserProfile = () => {
     }
   }, [user, userData]);
 
-  if (loading)
-    return <p className="loading">Đang tải thông tin người dùng...</p>;
+  useEffect(() => {
+    // Update the form values whenever editing mode is activated
+    if (isEditing && userData) {
+      formik.setValues({
+        email: userData.email,
+        tentaikhoan: userData.tentaikhoan,
+        sdt: userData.sdt,
+        ngaysinh: userData.ngaysinh,
+      });
+    }
+  }, [isEditing, userData]);
+
+  if (loading) return <p className="loading">Đang tải thông tin người dùng...</p>;
   if (error) return <p className="error">Lỗi: {error}</p>;
 
   if (!user) {
@@ -166,16 +178,15 @@ const UserProfile = () => {
             </div>
             <div className="form-buttons">
               <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="user-profile__button cancel-button"
-            >
-              Hủy
-            </button>
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="user-profile__button cancel-button"
+              >
+                Hủy
+              </button>
               <button type="submit" className="user-profile__button put-button">
                 Lưu thay đổi
               </button>
-             
             </div>
           </form>
         </>
