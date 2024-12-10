@@ -315,8 +315,15 @@ export default function Home() {
           axios.get("http://localhost:3000/phim/dangchieu"),
           axios.get("http://localhost:3000/phim/sapchieu"),
         ]);
-        setMoviesNowPlaying(nowPlayingResponse.data);
-        setMoviesComingSoon(comingSoonResponse.data);
+      const nowPlayingMovies = nowPlayingResponse.data
+        .sort((a, b) => new Date(b.ngayhieuluc) - new Date(a.ngayhieuluc))
+        .slice(0, 10);
+      const comingSoonMovies = comingSoonResponse.data
+        .sort((a, b) => new Date(b.ngayhieuluc) - new Date(a.ngayhieuluc))
+        .slice(0, 10);
+
+      setMoviesNowPlaying(nowPlayingMovies);
+      setMoviesComingSoon(comingSoonMovies);
       } catch (error) {
         console.error("Không tìm thấy dữ liệu phim:", error);
       }
@@ -371,7 +378,7 @@ export default function Home() {
           <h1>Phim Đang Chiếu</h1>
         </div>
 
-        <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
+        <div className="row">{renderMovieCards(moviesComingSoon)}</div>
 
         <div className="main-title mt-5">
           <i
@@ -381,7 +388,7 @@ export default function Home() {
           <h1>Phim Sắp Chiếu</h1>
         </div>
 
-        <div className="row">{renderMovieCards(moviesComingSoon)}</div>
+        <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
       </div>
     </>
   );
