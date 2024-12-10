@@ -82,7 +82,7 @@ export default function LoginModal({ show, handleClose }) {
           </button>
           <h2>Đăng Ký</h2>
           <form onSubmit={formik.handleSubmit}>
-            <div>
+            <div className="input">
               <label>Tên tài khoản</label>
               <input
                 type="text"
@@ -96,7 +96,7 @@ export default function LoginModal({ show, handleClose }) {
               ) : null}
             </div>
 
-            <div>
+            <div className="input">
               <label>Số điện thoại</label>
               <input
                 type="text"
@@ -144,7 +144,7 @@ export default function LoginModal({ show, handleClose }) {
               </div>
             </div>
 
-            <div>
+            <div className="input">
               <label>Email</label>
               <input
                 type="email"

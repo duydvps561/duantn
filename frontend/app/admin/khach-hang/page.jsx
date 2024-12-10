@@ -14,6 +14,11 @@ const CustomerManagement = () => {
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const ITEMS_PER_PAGE = 10; // Số lượng khách hàng hiển thị mỗi trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch customers from API
   useEffect(() => {
@@ -21,12 +26,32 @@ const CustomerManagement = () => {
       .get("http://localhost:3000/taikhoan")
       .then((response) => {
         const sortedCustomers = response.data.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt) // Sort by registration time
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setCustomers(sortedCustomers);
+        setTotalPages(Math.ceil(sortedCustomers.length / ITEMS_PER_PAGE));
+        setFilteredCustomers(sortedCustomers.slice(0, ITEMS_PER_PAGE));
       })
       .catch((error) => console.error("Error fetching customers:", error));
   }, []);
+  useEffect(() => {
+    const searchResults = customers.filter(
+      (customer) =>
+        customer.tentaikhoan.toLowerCase().includes(searchTerm.toLowerCase()) || // Kiểm tra tên tài khoản
+        customer.email.toLowerCase().includes(searchTerm.toLowerCase()) || // Kiểm tra email
+        customer.sdt.includes(searchTerm) // Kiểm tra số điện thoại
+    );
+    setTotalPages(Math.ceil(searchResults.length / ITEMS_PER_PAGE));
+    setFilteredCustomers(searchResults.slice(0, ITEMS_PER_PAGE));
+    setCurrentPage(1); // Reset về trang đầu tiên khi tìm kiếm
+  }, [searchTerm, customers]);
+  const paginate = (page) => {
+    setCurrentPage(page);
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    setFilteredCustomers(customers.slice(startIndex, endIndex));
+  };
+  
   // Toggle add/edit form visibility
   const toggleForm = (customer = null) => {
     setShowForm(!showForm);
@@ -190,7 +215,15 @@ const CustomerManagement = () => {
           Thêm Tài Khoản
         </button>
         </div>
-        
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Tìm kiếm tên tài khoản hoặc email..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
 
         {showForm && (
           <div className="modal-overlay">
@@ -320,37 +353,60 @@ const CustomerManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {customers.map((customer, index) => (
-              <tr key={customer._id}>
-                <td>{index + 1}</td>
-                <td>{customer.tentaikhoan}</td>
-                <td>{customer.email}</td>
-                <td>{customer.sdt}</td>
-                <td>{new Date(customer.ngaysinh).toLocaleDateString("vi-VN")}</td>
-                <td>
-                  <button onClick={() => toggleStatus(customer)} className="status-button">
-                    {customer.trangthai}
-                  </button>
-                </td>
-                <td>
-                  <button onClick={() => toggleRole(customer)} className="role-button">
-                    {customer.vaitro}
-                  </button>
-                </td>
-                <td>
-  <div className="action-buttons">
-    <button className="edit-button" onClick={() => toggleForm(customer)}>
-      Sửa
-    </button>
-    <button className="delete-icon" onClick={() => deleteCustomer(customer._id)}>
-      Xóa
-    </button>
-  </div>
-</td>
-              </tr>
-            ))}
-          </tbody>
+  {filteredCustomers.map((customer, index) => (
+    <tr key={customer._id}>
+      <td>{(currentPage - 1) * ITEMS_PER_PAGE + index + 1}</td>
+      <td>{customer.tentaikhoan}</td>
+      <td>{customer.email}</td>
+      <td>{customer.sdt}</td>
+      <td>{new Date(customer.ngaysinh).toLocaleDateString("vi-VN")}</td>
+      <td>
+        <button onClick={() => toggleStatus(customer)} className="status-button">
+          {customer.trangthai}
+        </button>
+      </td>
+      <td>
+        <button onClick={() => toggleRole(customer)} className="role-button">
+          {customer.vaitro}
+        </button>
+      </td>
+      <td>
+        <div className="action-buttons">
+          <button className="edit-button" onClick={() => toggleForm(customer)}>
+            Sửa
+          </button>
+          <button className="delete-icon" onClick={() => deleteCustomer(customer._id)}>
+            Xóa
+          </button>
+        </div>
+      </td>
+    </tr>
+  ))}
+</tbody>
         </table>
+        <br />
+        <nav aria-label="Pagination">
+  <ul className="pagination pagination-sm justify-content-center">
+    <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+      <button onClick={() => paginate(currentPage - 1)} className="page-link">
+        &laquo;
+      </button>
+    </li>
+    {[...Array(totalPages)].map((_, index) => (
+      <li key={index + 1} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+        <button onClick={() => paginate(index + 1)} className="page-link">
+          {index + 1}
+        </button>
+      </li>
+    ))}
+    <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+      <button onClick={() => paginate(currentPage + 1)} className="page-link">
+        &raquo;
+      </button>
+    </li>
+  </ul>
+</nav>
+
       </div>
     </Layout>
   );

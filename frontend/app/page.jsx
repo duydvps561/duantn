@@ -11,7 +11,6 @@ import { postHoadon } from "@/redux/slice/hoadonSlice";
 import { postTicket } from "@/redux/slice/ticket";
 import { Sendemail } from "@/redux/slice/email";
 import { postFoodOrder } from "@/redux/slice/foodorderSlice";
-import Access from "./components/accessRole";
 
 export default function Home() {
   const boxes = document.querySelectorAll(".box");
@@ -142,7 +141,7 @@ export default function Home() {
         });
           const ticketResult = await dispatch(postTicket(ticketdata)).unwrap();
           console.log("Vé đã được tạo:", ticketResult);
-          const ticketId = ticketResult._id;
+          const ticketId = ticketResult.hoadon_id;
           const ticketDetails = await fetch(
             `http://localhost:3000/ve/${ticketId}`
           ).then((res) => res.json());
@@ -186,7 +185,7 @@ export default function Home() {
           const ngayThangNam = `${ngay}/${thang}/${nam}`;
 
           // qr
-          const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${ticketId}&size=100x100`;
+          const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${ticketId}&size=200x200`;
           const emailHTML = `
           <html>
             <style>
@@ -239,7 +238,7 @@ export default function Home() {
                     <p><strong>Mã vé:</strong> ${ticketId}</p>
                     </div>
                     <div>
-                    <img style="text-align: center; padding-bottom: 20px;" src="${qrCodeUrl}" alt="QR Code" style="width: 350px; height: 350px;" />
+                    <img style="text-align: center; padding-bottom: 20px;" src="${qrCodeUrl}" alt="QR Code" style="width: 550px; height: 350px;" />
                     </div>
                     <p><a href="http://localhost:3001" class="btn">Truy cập Website</a></p>
                     <p>Hãy xuất trình mã vé này tại quầy để nhận vé hoặc quét mã QR để vào rạp. Chúc bạn có trải nghiệm xem phim thú vị!</p>
