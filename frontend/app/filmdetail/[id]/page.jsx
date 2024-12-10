@@ -188,16 +188,14 @@ export default function filmdetail({ params }) {
     return ngayChieu >= today && ngayChieu <= endDate;
   });
   const handleSeatClick = (ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData) => {
+    
     const gia = giaLoaighe ? giaLoaighe.giaghe : 0;
     const handleDoubleSeat = () => {
-      // Xác định tên ghế (ví dụ: f1, g2...)
-      const firstSeat = seat; // seat là tên ghế hiện tại, ví dụ 'f1'
-      const seatNumber = parseInt(seat.substring(1)); // Lấy phần số trong tên ghế, ví dụ 'f1' -> 1
+      const firstSeat = seat; 
+      const seatNumber = parseInt(seat.substring(1)); 
     
-      // Xác định ghế thứ hai của cặp ghế đôi
-      const secondSeat = `${seat.charAt(0)}${seatNumber % 2 === 0 ? seatNumber - 1 : seatNumber + 1}`;  // Xác định ghế liền kề (ví dụ: 'f2' nếu ghế đầu là 'f1')
+      const secondSeat = `${seat.charAt(0)}${seatNumber % 2 === 0 ? seatNumber - 1 : seatNumber + 1}`;  
     
-      // Kiểm tra xem ghế đầu tiên và ghế liền kề có trong danh sách đã chọn không
       const isFirstSeatSelected = seatSelected.includes(firstSeat);
       const isSecondSeatSelected = seatSelected.includes(secondSeat);
     
@@ -208,7 +206,6 @@ export default function filmdetail({ params }) {
           )
         );
     
-        // Cập nhật Redux và giá tiền khi hủy chọn ghế
         dispatch(clearCart());
         setGiaghe((prevTotal) => prevTotal - gia * 2);
       } else {
@@ -236,67 +233,37 @@ export default function filmdetail({ params }) {
       }
     };
     
-    
 
-
-    // Hàm xử lý ghế thường
-    const hasAdjacentSeat = (seat1, seat2) => {
-      const hang1 = seat1.slice(0, 1);
-      const hang2 = seat2.slice(0, 1);
-      const cot1 = parseInt(seat1.slice(1));
-      const cot2 = parseInt(seat2.slice(1));
-      return hang1 === hang2 && Math.abs(cot1 - cot2) === 1;
-    };
-
-    // Kiểm tra danh sách ghế có liền kề hợp lệ không
-    const validateAdjacentSeats = (selectedSeats) => {
-      for (let i = 0; i < selectedSeats.length - 1; i++) {
-        if (!hasAdjacentSeat(selectedSeats[i], selectedSeats[i + 1])) {
-          return false;
-        }
-      }
-      return true;
-    };
-
-    // Hàm xử lý ghế thường
     const handleSingleSeat = () => {
-      if (isSelected) {
-        // Hủy chọn ghế thường
-        const updatedSeats = seatSelected.filter((selected) => selected !== seat);
-        if (!validateAdjacentSeats(updatedSeats)) {
-          alert("Các ghế còn lại không liền kề! Hủy chọn toàn bộ ghế không hợp lệ.");
-          setSeatSelected([]);
-          dispatch(clearCart())
-          setGiaghe(0);
-        } else {
-          setSeatSelected(updatedSeats);
-          dispatch(
-            addSeat({
-              _id: ghe._id,
-              seat: updatedSeats,
-              gia: gia * updatedSeats.length,
-            })
-          );
-          setGiaghe((prevTotal) => prevTotal - gia);
-        }
+      const isSeatSelected = seatSelected.includes(seat);
+    
+      if (isSeatSelected) {
+        // Bỏ chọn ghế
+        setSeatSelected((prevSeats) => prevSeats.filter((selected) => selected !== seat));
+        dispatch(clearCart());
+        setGiaghe((prevTotal) => prevTotal - gia);
       } else {
-        // Chọn ghế thường
-        if (seatSelected.length === 0 || hasAdjacentSeat(seat, seatSelected[seatSelected.length - 1])) {
+        const selectedSeatData = gheData.find((g) => `${g.hang}${g.cot}` === seat);
+    
+        if (selectedSeatData) {
+          // Chọn ghế
           setSeatSelected((prevSeats) => [...prevSeats, seat]);
           dispatch(
             addSeat({
-              _id: ghe._id,
-              seat: [...seatSelected, seat],
-              gia: gia * (seatSelected.length + 1),
+              _id: selectedSeatData._id,
+              seat: [seat],
+              gia: gia,
             })
           );
           setGiaghe((prevTotal) => prevTotal + gia);
         } else {
-          alert("Ghế phải liền kề với ghế đã chọn!");
+          alert("Ghế không hợp lệ!");
         }
       }
     };
-
+    
+    
+    
     // Phân loại ghế
     if (loaigheItem && loaigheItem.loaighe === "Ghế Đôi") {
       handleDoubleSeat();
@@ -465,9 +432,7 @@ export default function filmdetail({ params }) {
               phimCachieu.map((item) => {
                 const phongchieudt = phongchieu.find(
                   (phong) => phong._id === item.phongchieu_id
-                );
-                console.log(phongchieudt);
-                
+                );                
                 if (item.ngaychieu === ngaychieuSelected) {
                   return (
                     <button
@@ -483,10 +448,6 @@ export default function filmdetail({ params }) {
                         dispatch(
                           updatePhongChieu(phongchieudt?.tenphong || null)
                         );
-                        console.log(item._id);// set lấy ngày chiếu và giờ chiếu của ca chiếu để dispatch(updateCaChieuID(item._id))
-                        console.log(item.giobatdau); // giờ bắt đầu đã được set 
-                        console.log(phongchieudt); // tìm ca chiếu của phim thuộc phòng nào và set cho nó 
-                        console.log(item.giobatdau);// dispatch(updateGioChieu(item.giobatdau)); đã được set 
                       }}
                     >
                       {item.giobatdau}
