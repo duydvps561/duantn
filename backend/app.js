@@ -92,7 +92,7 @@ app.use("/banner", BanerRouter);
 app.use("/checkin", checkinRouter);
 setInterval(() => {
   updateMovieStatus();
-}, 86400000);
+}, 43200000);
 
 
 app.use(function (req, res, next) {
