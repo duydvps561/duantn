@@ -31,7 +31,22 @@
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Thêm bóng cho modal */
 }
+.input{
+  margin-top: 20px;
+}
+.gender-birthdate{
+  margin-top: 20px;
+}
+.gender{
+  margin-top: 20px;
+
+}
+.birthdate{
+  margin-top: 20px;
+
+}
 .password-group {
+  margin: 20px 0;
   justify-content: center;
   display: flex; /* Dàn ngang các phần tử */
   justify-content: space-between; /* Tạo khoảng cách đều giữa các phần tử */
