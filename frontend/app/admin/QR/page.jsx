@@ -106,7 +106,7 @@ const QRScannerPage = () => {
               onError={handleError}
               onScan={handleScan}
               facingMode="environment"
-              style={{ width: '100%', maxWidth: '320px' }}
+              style={{ width: '100%', maxWidth: '400px' }}
             />
           </div>
         )}
