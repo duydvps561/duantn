@@ -12,7 +12,7 @@ import {
   updatePhongChieu,
   updateTenPhim,
 } from "@/redux/slice/filmSlice";
-import { useParams } from "react-router-dom";
+import Link from "next/link";
 export default function filmdetail({ params }) {
 
 
@@ -25,7 +25,7 @@ export default function filmdetail({ params }) {
     dispatch(clearCart());
   }, [dispatch]);
 
- 
+
   const [show, setShow] = useState(false);
   const [phimChitiet, setPhimChitiet] = useState([]);
   const [ngayHieuLuc, setNgayHieuLuc] = useState("");
@@ -126,6 +126,7 @@ export default function filmdetail({ params }) {
   useEffect(() => {
     console.log("gio hang cap nhap", cart);
   }, [cart]);
+
   useEffect(() => {
     if (id && cachieu && Array.isArray(cachieu)) {
       const foundPhim = cachieu.filter((item) => item.phim_id === id);
@@ -167,7 +168,7 @@ export default function filmdetail({ params }) {
     const queryParams = new URLSearchParams(window.location.search);
     const ngayChieuParam = queryParams.get('ngaychieu');
     const giochieu = queryParams.get('giochieu');
-  
+
     if (ngayChieuParam) {
       setNgayChieuSelected(ngayChieuParam);
     }
@@ -188,31 +189,102 @@ export default function filmdetail({ params }) {
     return ngayChieu >= today && ngayChieu <= endDate;
   });
   const handleSeatClick = (ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData) => {
-    
-    const gia = giaLoaighe ? giaLoaighe.giaghe : 0;
+    const loaighe = loaigheItem.loaighe;
+
+    // Lọc giá theo loại ghế
+    const giatheoLoaighe = giaLoaighe.filter(
+      (item) => item.loaighe_id.loaighe === loaighe
+    );
+
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
+
+    // Hàm kiểm tra khung giờ
+    const KhungGio = (startTime, endTime) => {
+      const [startHour, startMinute] = startTime.split(':').map(Number);
+      const [endHour, endMinute] = endTime.split(':').map(Number);
+
+      const currentTimeInMinutes = currentHour * 60 + currentMinute;
+      const startTimeInMinutes = startHour * 60 + startMinute;
+      const endTimeInMinutes = endHour * 60 + endMinute;
+
+      return (
+        currentTimeInMinutes >= startTimeInMinutes &&
+        currentTimeInMinutes <= endTimeInMinutes
+      );
+    };
+
+    // Hàm kiểm tra ngày cuối tuần hoặc ngày lễ
+    const CuoiTuanLe = (weekendandHoliday) => {
+      const today = new Date();
+      const dayOfWeek = today.getDay();
+
+      const isCuoituan = dayOfWeek === 0 || dayOfWeek === 6 ? 1 : 0;
+
+      const holidays = ['2024-12-25', '2024-01-01'];
+      const todayString = today.toISOString().split('T')[0];
+      const isHoliday = holidays.includes(todayString) ? 1 : 0;
+
+      return weekendandHoliday === isCuoituan || weekendandHoliday === isHoliday;
+    };
+
+    const khungGioPhuHop = giatheoLoaighe.find((item) => {
+      const startTime = item.giobatdau;
+      const endTime = item.gioketthuc;
+
+      // Kiểm tra dữ liệu đầu vào
+      if (!startTime || !endTime) {
+        console.error('Dữ liệu giờ bắt đầu hoặc giờ kết thúc không hợp lệ.');
+        return false;
+      }
+
+      // Kiểm tra khung giờ hợp lệ
+      return KhungGio(startTime, endTime);
+    });
+
+    const khungGioHoacNgayDacBiet =
+      khungGioPhuHop ||
+      giatheoLoaighe.find((item) => CuoiTuanLe(item.ngaycuoituan));
+
+    const gia =
+      khungGioHoacNgayDacBiet?.giaghe ||
+      (giatheoLoaighe.length > 0 ? giatheoLoaighe[0].giaghe : 0);
+
+    if (khungGioHoacNgayDacBiet) {
+      const { giobatdau, gioketthuc, giaghe } = khungGioHoacNgayDacBiet;
+      console.log(
+        `Khung giờ hiện tại: ${giobatdau} - ${gioketthuc || 'Ngày đặc biệt'}, Giá ghế: ${giaghe} , Loại ghế: ${loaighe}`
+      );
+    } else {
+      console.log(`Không có khung giờ phù hợp. Giá mặc định: ${gia}`);
+    }
+
+
+
     const handleDoubleSeat = () => {
-      const firstSeat = seat; 
-      const seatNumber = parseInt(seat.substring(1)); 
-    
-      const secondSeat = `${seat.charAt(0)}${seatNumber % 2 === 0 ? seatNumber - 1 : seatNumber + 1}`;  
-    
+      const firstSeat = seat;
+      const seatNumber = parseInt(seat.substring(1));
+
+      const secondSeat = `${seat.charAt(0)}${seatNumber % 2 === 0 ? seatNumber - 1 : seatNumber + 1}`;
+
       const isFirstSeatSelected = seatSelected.includes(firstSeat);
       const isSecondSeatSelected = seatSelected.includes(secondSeat);
-    
+
       if (isFirstSeatSelected || isSecondSeatSelected) {
         setSeatSelected((prevSeats) =>
           prevSeats.filter(
             (selected) => selected !== firstSeat && selected !== secondSeat
           )
         );
-    
+
         dispatch(clearCart());
         setGiaghe((prevTotal) => prevTotal - gia * 2);
       } else {
         const isSecondSeatAvailable = gheData.some(
           (g) => `${g.hang}${g.cot}` === secondSeat
         );
-    
+
         if (isSecondSeatAvailable) {
           setSeatSelected((prevSeats) => [
             ...prevSeats,
@@ -232,19 +304,51 @@ export default function filmdetail({ params }) {
         }
       }
     };
-    
+
 
     const handleSingleSeat = () => {
+      const seatNumber = parseInt(seat.substring(1));
+      const seatRow = seat.charAt(0);
+
       const isSeatSelected = seatSelected.includes(seat);
-    
+
       if (isSeatSelected) {
-        // Bỏ chọn ghế
+        const selectedSeatsInRow = seatSelected
+          .filter((selectedSeat) => selectedSeat.charAt(0) === seatRow)
+          .map((selectedSeat) => parseInt(selectedSeat.substring(1)))
+          .sort((a, b) => a - b);
+
+        const lastSelectedSeat = selectedSeatsInRow[selectedSeatsInRow.length - 1];
+
+        if (seatNumber !== lastSelectedSeat) {
+          alert(`Bạn phải bỏ ghế ${seatRow}${lastSelectedSeat} trước!`);
+          return;
+        }
+
+        // Bỏ ghế
         setSeatSelected((prevSeats) => prevSeats.filter((selected) => selected !== seat));
         dispatch(clearCart());
         setGiaghe((prevTotal) => prevTotal - gia);
       } else {
+        const selectedSeatsInRow = seatSelected
+          .filter((selectedSeat) => selectedSeat.charAt(0) === seatRow)
+          .map((selectedSeat) => parseInt(selectedSeat.substring(1)))
+          .sort((a, b) => a - b);
+
+        const lastSelectedSeat = selectedSeatsInRow.length > 0
+          ? selectedSeatsInRow[selectedSeatsInRow.length - 1]
+          : 0;
+
+        if (lastSelectedSeat === 0 && seatNumber !== 1) {
+          alert(`Bạn chỉ có thể chọn ghế ${seatRow}1`);
+          return;
+        } else if (seatNumber !== lastSelectedSeat + 1) {
+          alert(`Bạn chỉ có thể chọn ghế ${seatRow}${lastSelectedSeat + 1}`);
+          return;
+        }
+
         const selectedSeatData = gheData.find((g) => `${g.hang}${g.cot}` === seat);
-    
+
         if (selectedSeatData) {
           // Chọn ghế
           setSeatSelected((prevSeats) => [...prevSeats, seat]);
@@ -261,9 +365,7 @@ export default function filmdetail({ params }) {
         }
       }
     };
-    
-    
-    
+
     // Phân loại ghế
     if (loaigheItem && loaigheItem.loaighe === "Ghế Đôi") {
       handleDoubleSeat();
@@ -364,16 +466,16 @@ export default function filmdetail({ params }) {
                 </div>
                 <div className="modal-body">
                   <div className="embed-responsive embed-responsive-16by9">
-                  <iframe
-                    width="100%"
-                    height="500"
-                    src={phimChitiet.trailler}
-                    title={phimChitiet.tenphim || "Trailer"}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  ></iframe>
+                    <iframe
+                      width="100%"
+                      height="500"
+                      src={phimChitiet.trailler}
+                      title={phimChitiet.tenphim || "Trailer"}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    ></iframe>
                   </div>
                 </div>
               </div>
@@ -428,7 +530,7 @@ export default function filmdetail({ params }) {
               phimCachieu.map((item) => {
                 const phongchieudt = phongchieu.find(
                   (phong) => phong._id === item.phongchieu_id
-                );                
+                );
                 if (item.ngaychieu === ngaychieuSelected) {
                   return (
                     <button
@@ -493,10 +595,7 @@ export default function filmdetail({ params }) {
                                   const loaigheItem = loaighe.find(
                                     (item) => item._id === ghe.loaighe_id
                                   );
-                                  const giaLoaighe = giaghedata.find(
-                                    (item) =>
-                                      item.loaighe_id._id === ghe.loaighe_id
-                                  );
+                                  const giaLoaighe = giaghedata;
                                   let style = {};
                                   if (loaigheItem) {
                                     style.backgroundColor = loaigheItem.mau;
@@ -505,7 +604,6 @@ export default function filmdetail({ params }) {
                                     style.backgroundColor = "#005AD8";
                                     style.color = "white";
                                   }
-
                                   return (
                                     <td
                                       key={ghe._id}
@@ -556,6 +654,9 @@ export default function filmdetail({ params }) {
                   <p>Ghế đôi</p>
                 </div>
               </div> */}
+              <div className="d-flex justify-content-center text-light mt-1">
+                <p>Giá ghế thay đổi theo từng khung giờ. Quý khách vui lòng tham khảo trang <Link href={"/ticket"} style={{ textDecoration: 'none', fontWeight: 'bold', fontSize: '14px' }}>Giá vé</Link> để biết thêm thông tin</p>
+              </div>
               <div className="seat-checkout d-flex justify-content-around gap-3 mt-3 mb-3 align-items-center flex-wrap ">
                 <div className="seat-bill">
                   <p className="seat-selected">
