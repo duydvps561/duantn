@@ -52,7 +52,7 @@ export default function Slide() {
               </button>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 d-none d-lg-block">
             {
               banner.filter(item => item.type === 'B' && item.hidden === false).map((item, index) => (
                 <div key={index} className="mb-3">
