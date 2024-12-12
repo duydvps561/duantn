@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import useSWR from "swr";
+import styles from './slide.module.css';
 
 export default function Slide() {
   const fetcher = (...args) => fetch(...args).then(res => res.json());
@@ -14,8 +15,8 @@ export default function Slide() {
   }
 
   return (
-    <div className="w-full flex justify-center mt-3 ms-5">
-      <div className="container">
+    <div className="w-full flex justify-center">
+      <div className={styles.containerr}>
         <div className="row">
           <div className="col-md-8 p-0">
             <div id="carouselExample" className="carousel slide">
