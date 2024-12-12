@@ -375,114 +375,106 @@ export default function filmdetail({ params }) {
   };
   return (
     <>
-      <section className="film-detail justify-content-center">
-        <div className="card bg-dark ">
-          <img
-            src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
-            alt=""
-            style={{ width: "250", height: "450px" }}
-          />
-          <div className="card-img-overlay d-lg-flex justify-content-center">
-            <div className="img-overlay">
-              <img
-                src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
-                alt=""
-                style={{ width: "250", height: "350px" }}
-              />
-            </div>
-            <div className="title-overlay ms-3">
-              <h1 className="card-title" style={{ color: "#ffffff" }}>
-                {phimChitiet &&
-                  phimChitiet.tenphim &&
-                  phimChitiet.tenphim.includes("-")
-                  ? phimChitiet.tenphim.slice(
-                    0,
-                    phimChitiet.tenphim.lastIndexOf("-")
-                  )
-                  : phimChitiet
-                    ? phimChitiet.tenphim
-                    : "Loading..."}
-              </h1>
-              <ul>
-                <li>
-                  <a href="">Kinh di</a>
-                  <a href="">America</a>
-                  <a href="">{phimChitiet.thoiluong}</a>
-                  <a href="">{phimChitiet.daodien}</a>
-                </li>
-              </ul>
-              <p className="card-text" style={{ color: "#ffffff" }}>
-                {phimChitiet.dienvien}
-              </p>
-              <p className="card-text" style={{ color: "#ffffff" }}>
-                Khởi chiếu: {ngayHieuLuc}
-              </p>
-              <p className="card-text">
-                <small>
-                  {phimChitiet && phimChitiet.noidung
-                    ? phimChitiet.noidung.length > 100
-                      ? `${phimChitiet.noidung.slice(0, 100)}...`
-                      : phimChitiet.noidung
-                    : "Loading..."}{" "}
-                </small>
-              </p>
-              <p className="card-node text-danger">
-                Kiểm duyệt: T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi
-                trở lên (18+)
-              </p>
-              <div className="view-detail d-flex">
-                <p className="card-text mt-2" style={{ color: "#ffffff" }}>
-                  Chi tiet noi dung
-                </p>
-                <button
-                  onClick={toggleTrailer}
-                  className="btn ms-3 rounded-pill bg-dark text-warning border border-warning"
-                >
-                  Xem Trailer
-                </button>
-              </div>
+      <section className="film-detail">
+  <div className="card ">
+    <div className="img-container  position-relative">
+      <img
+        src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
+        alt="Ảnh nền phim"
+        className="film-img"
+      />
+    </div>
+
+    <div className="card-body film-details">
+      <div className="img-overlay ">
+        <img
+          src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
+          alt="Ảnh chính phim"
+          className="film-img-small"
+        />
+      </div>
+
+      <div className="title-overlay ms-lg-3 text-white">
+        <h1 className="card-title">
+          {phimChitiet.tenphim || "Loading..."}
+        </h1>
+        <ul>
+          <li><a href="#">Kinh dị</a></li>
+          <li><a href="#">America</a></li>
+          <li><a href="#">{phimChitiet.thoiluong}</a></li>
+          <li><a href="#">{phimChitiet.daodien}</a></li>
+        </ul>
+        <p className="card-text">
+          {phimChitiet.dienvien}
+        </p>
+        <p className="card-text">
+          Khởi chiếu: {ngayHieuLuc}
+        </p>
+        <p className="card-text">
+          <small>
+            {phimChitiet && phimChitiet.noidung
+              ? phimChitiet.noidung.length > 100
+                ? `${phimChitiet.noidung.slice(0, 100)}...`
+                : phimChitiet.noidung
+              : "Loading..."}
+          </small>
+        </p>
+        <p className="card-node text-danger">
+          Kiểm duyệt: T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)
+        </p>
+        <div className="view-detail d-flex">
+          <p className="card-text mt-2">Chi tiết nội dung</p>
+          <button
+            onClick={toggleTrailer}
+            className="btn ms-3 rounded-pill bg-dark text-warning border border-warning"
+          >
+            Xem Trailer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {showTrailer && (
+    <div
+      className="modal d-block"
+      tabIndex="-1"
+      role="dialog"
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+    >
+      <div className="modal-dialog modal-lg" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">
+              Trailer: {phimChitiet.tenphim}
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={toggleTrailer}
+            ></button>
+          </div>
+          <div className="modal-body">
+            <div className="embed-responsive embed-responsive-16by9">
+              <iframe
+                width="100%"
+                height="500"
+                src={phimChitiet.trailler}
+                title={phimChitiet.tenphim || "Trailer"}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  )}
+</section>
 
-        {showTrailer && (
-          <div
-            className="modal d-block"
-            tabIndex="-1"
-            role="dialog"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
-          >
-            <div className="modal-dialog modal-lg" role="document">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">
-                    Trailer: {phimChitiet.tenphim}
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    onClick={toggleTrailer}
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  <div className="embed-responsive embed-responsive-16by9">
-                    <iframe
-                      width="100%"
-                      height="500"
-                      src={phimChitiet.trailler}
-                      title={phimChitiet.tenphim || "Trailer"}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </section>
+
       <div className="date-order">
         <div className="date text-light">
           {phimHienTai.length > 0 ? (

@@ -4,114 +4,166 @@
   box-sizing: border-box;
 }
 
-.card img {
-  object-fit: cover;
-  width: 100%;
-  height: 500px;
-}
 
-@media screen and (max-width: 1960px) {
-  .card-img {
-    width: 100%;
-  }
-
-  .card {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .card-img {
-    height: 800px;
-  }
-}
-
-@media screen and (max-width: 756px) {
-  .title-overlay {
-    font-size: small;
-  }
-}
-
+/* Film Detail Section */
 .film-detail {
-  width: 215vh;
+  padding: 20px;
+  position: relative;
 }
 
-.card-img-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+/* Card Background */
+.card {
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: rgba(5, 11, 23, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+/* Main Image */
+.card img {
+  width: 100%; 
+  height: auto; 
+  max-height: 450px;
+  object-fit: cover;
+}
+
+/* Card Overlay */
+.film-details {
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;  /* Đảm bảo overlay chiếm toàn bộ chiều rộng */
   padding: 20px;
-  flex-wrap: wrap;
 }
-.img-overlay {
-  margin-bottom: 30px;
+
+/* Card Img Overlay */
+.card-img-overlay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
 }
+
+/* Overlay Content */
 .img-overlay img {
-  width: 250px;
-  height: 350px;
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 8px;
   object-fit: cover;
 }
 
 .title-overlay {
-  margin-left: 20px;
-  max-width: 600px;
+  z-index: 3;
+  color: white;
+  text-align: left;
+  padding: 15px;  
+  border-radius: 8px; 
+  background-color: rgba(0, 0, 0, 0.5); /* Nền trong suốt cho text */
 }
 
+/* Title */
 .title-overlay h1 {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 1.8rem;
   margin-bottom: 15px;
 }
 
+/* List Info */
 .title-overlay ul {
-  list-style-type: none;
+  display: flex;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .title-overlay ul li a {
-  color: #ffcc00;
-  text-decoration: none;
+  color: #ffc107;
   margin-right: 10px;
+  text-decoration: none;
 }
 
 .title-overlay ul li a:hover {
   text-decoration: underline;
 }
 
-.title-overlay .card-text {
-  margin-bottom: 10px;
-  font-size: 1rem;
-}
-
-.title-overlay .card-text small {
-  font-size: 0.9rem;
+/* Card Text */
+.card-text {
+  margin-bottom: 15px;
   color: #ccc;
 }
 
+/* Warning Text */
+.card-node {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ff4444;
+}
+
+/* Button Detail */
 .view-detail {
   margin-top: 20px;
 }
 
-.view-detail .btn {
-  background-color: #343a40;
-  color: #ffc107;
-  border: 1px solid #ffc107;
-  padding: 10px 20px;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.view-detail button {
+  transition: all 0.3s ease;
 }
 
-.view-detail .btn:hover {
+.view-detail button:hover {
   background-color: #ffc107;
-  color: #343a40;
-  border: 1px solid #343a40;
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  .film-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Overlay content */
+  .card-img-overlay {
+    flex-direction: column;  /* Đặt các phần tử theo cột khi màn hình nhỏ */
+    align-items: center;  /* Căn giữa các phần tử */
+    padding: 15px;
+  }
+
+  .img-overlay img {
+    width: 100%;
+    max-width: 300px; /* Giảm kích thước ảnh khi màn hình nhỏ */
+  }
+
+  .title-overlay h1 {
+    font-size: 1.5rem;
+    text-align: center;  /* Căn giữa tiêu đề */
+  }
+
+  .title-overlay ul {
+    flex-direction: column; /* Đặt các liên kết trong danh sách theo cột */
+    align-items: center;
+  }
+
+  .title-overlay ul li {
+    margin-bottom: 5px;  /* Thêm khoảng cách giữa các liên kết */
+  }
+}
+
+/* Modal Styles */
+.modal .modal-content {
+  background-color: #333;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.modal .btn-close {
+  color: #fff;
 }
 
 /* date*/
@@ -130,9 +182,11 @@
   margin: 0;
   padding: 0;
 }
+
 .date .text.selected {
   background-color: #ff254a;
 }
+
 .date .text {
   padding: 10px 20px;
   text-align: center;
@@ -153,21 +207,21 @@
 .sit-header .s-p-2 {
   font-size: 1rem;
   font-weight: bold;
-  color: #f44336; 
-  text-align: center; 
+  color: #f44336;
+  text-align: center;
   background: linear-gradient(90deg, #ff5722, #ffc107);
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent; 
-  padding: 10px 20px; 
-  border: 2px solid #f44336; 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 10px 20px;
+  border: 2px solid #f44336;
   border-radius: 10px;
-  display: inline-block; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  display: inline-block;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
 .sit-header .s-p-2:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
   cursor: pointer;
 }
 
@@ -251,15 +305,18 @@
   border-radius: 5px;
   background-color: #ff3741;
 }
+
 .seat-bill {
   position: relative;
 }
+
 .seat-bill p {
   font-size: 18px;
   font-weight: bold;
   color: #ffffff;
   padding: 0;
 }
+
 .seat-selected {
   max-width: 100%;
   display: flex;
@@ -301,201 +358,101 @@
   cursor: pointer;
   margin-left: 40px;
 }
+
 .continue-btn:disabled {
-  background-color: #6c757d; /* Màu tối khi nút bị vô hiệu hóa */
-  color: #cccccc; /* Màu chữ mờ hơn cho trạng thái disabled */
-  cursor: not-allowed; /* Đổi con trỏ khi nút bị vô hiệu hóa */
-  opacity: 0.7; /* Làm nhạt nút một chút */
+  background-color: #6c757d;
+  color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+  
+}
+@media (max-width: 768px) {
+  .siting-table td {
+    font-size: 12px; /* Smaller font size for smaller screens */
+    padding: 4px;   /* Adjust padding for smaller screens */
+  }
+
+  .siting-table {
+    width: 100%;
+    overflow-x: auto; /* Allow horizontal scroll if needed */
+  }
 }
 
+@media (max-width: 480px) {
+  .siting-table td {
+    font-size: 10px;  /* Further adjust font size for very small screens */
+    padding: 2px;     /* Adjust padding for mobile view */
+  }
+}
 /* food */
-/* .food-banner img {
-  width: 100%;
-  height: auto;
-}
-.food-cb-title {
-  font-size: 34px;
-  font-weight: 700;
-  color: #fc8a06;
+
+/* Container tổng */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
+/* Tiêu đề của từng danh sách món ăn */
 .food-title {
-  font-size: 34px;
-  font-weight: 700;
-  color: #fc8a06;
-}
-
-.best-seller {
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.food-title {
-  text-align: center;
-  font-size: 30px;
+  font-size: 1.8rem;
   font-weight: bold;
+  text-align: center;
   margin-bottom: 20px;
-  color: #fc8a06;
+  color: #fff;
 }
 
-.food-bestsell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 30px;
-}
-
-.food-box {
-  width: 250px;
-  height: 377px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.3s;
-}
-.food-box:hover {
-  transform: scale(1.05);
-}
-.food-box img {
-  width: 100%;
-  height: 250px;
-  border-bottom: 1px solid #ddd;
-}
-
-.food-content {
-  padding: 10px;
-}
-.food-content h2 {
-  font-size: 18px;
-  color: #333;
-}
-.food-content span {
-  color: #777;
-  font-size: 16px;
-}
-.food-btn-addCart {
-  width: 100%;
-  height: 55px;
-  padding: 10px;
-  font-size: 16px;
-  color: #555555;
-  background-color: #f39421;
-  border: none;
-  border-radius: 0 0 8px 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-.btn-pre {
-  color: #ffffff;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.btn-next {
-  color: #ffffff;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.btn-pre i:hover {
-  cursor: pointer;
-  color: rgb(42, 49, 64);
-}
-.btn-next i:hover {
-  cursor: pointer;
-  color: rgb(42, 49, 64);
-}
-.food-btn-addCart:hover {
-  background-color: #1bc92d;
-  /* Màu cam đậm khi hover */
-/* } */
-.btn-cart {
-  margin: 20px 230px 20px 0;
-}
-.btn-checkout {
-  width: 270px;
-  height: 55px;
-  color: #ffffff;
-  background-color: #e61f1f;
-  border: none;
-  font-size: 20px;
-  font-weight: bold;
-  border-radius: 30px;
-}
-.btn-checkout:hover {
-  background-color: #964f4f;
-  color: #ffffff;
-} 
-.food-container {
-  padding: 30px;
-  background-color: #f5f5f5;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-}
-
-.food-title {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 25px;
-  font-weight: bold;
-  color: #2c3e50;
-}
-
+/* Food Content */
 .food-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   justify-content: center;
-  text-align: center;
-  margin-top: 20px;
+  gap: 20px;
 }
 
+/* Food Box - Hộp đồ ăn */
 .food-box {
-  width: calc(25% - 20px);
-  text-align: center;
+  width: 250px;
+  flex-direction: column;
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
   padding: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  position: relative;
-  min-width: 270px; 
 }
 
 .food-box:hover {
   transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .food-box img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
-  transition: all 0.3s ease-in-out;
+  height: 150px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
-.food-box:hover img {
-  transform: scale(1.1);
-}
-.food-content h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-top: 15px;
-  color: #34495e;
+.food-box h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 10px 0;
+  color: #333;
+  text-align: center;
 }
 
-.food-content span {
-  font-size: 1.1rem;
-  color: #27ae60;
-  font-weight: bold;
+.food-box span {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+}
+
+.food-box strong {
+  color: #e63946;
+  text-align: center;
 }
 
 .food-btn-addCart {
@@ -516,41 +473,118 @@
   transform: scale(1.05);
 }
 
-.food-see-more {
-  display: block;
-  width: 100%;
-  text-align: center;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #3498db;
-  color: white;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  text-transform: uppercase;
+.btn-checkout {
+  width: 250px;
+  height: 55px;
+  margin-right: 240px;
+  color: #ffffff;
+  background-color: #e61f1f;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 30px;
+}
+
+.btn-checkout:hover {
+  background-color: #964f4f;
+  color: #ffffff;
+}
+/* Navigation Buttons */
+.food-nav-btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-.food-see-more:hover {
-  background-color: #2980b9;
+.food-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
-@media (max-width: 1200px) {
+.food-nav-btn svg {
+  font-size: 30px;
+  color: #000;
+  transition: transform 0.2s ease;
+}
+
+.food-nav-btn:hover svg {
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+
+/* Tablet và nhỏ hơn */
+@media (max-width: 1024px) {
   .food-box {
-      width: calc(33.33% - 20px);
+    width: 200px; /* Giảm kích thước hộp */
+  }
+
+  .food-box img {
+    height: 130px; /* Giảm chiều cao ảnh */
+  }
+
+  .food-btn-addCart {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+
+  .food-title {
+    font-size: 1.5rem; /* Giảm kích thước tiêu đề */
+  }
+  .btn-checkout {
+    width: 170px;
+    height: 35px;
+    color: #ffffff;
+    background-color: #e61f1f;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 20px;
   }
 }
 
+/* Điện thoại */
 @media (max-width: 768px) {
-  .food-box {
-      width: calc(50% - 20px);
+  .food-content {
+    flex-direction: column;
+    align-items: center;
   }
+
+  .food-box {
+    width: 90%; /* Chiều rộng gần full */
+  }
+
+  .food-title {
+    font-size: 1.3rem;
+  }
+
+  .food-btn-addCart {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+  
 }
 
+/* Điện thoại nhỏ */
 @media (max-width: 480px) {
   .food-box {
-      width: 100%;
+    width: 100%; /* Chiều rộng full */
+    margin-bottom: 20px;
   }
+
+  .food-title {
+    font-size: 1.2rem;
+  }
+
+  .food-btn-addCart {
+    font-size: 0.7rem;
+  }
+  
 }
+
 
 /* Thoigian */
 .thoigian_chieu {

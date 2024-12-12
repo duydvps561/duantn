@@ -77,7 +77,7 @@ export default function Food() {
                     <div className="food-content">
                         <div className="d-flex gap-3 justify-content-center mb-2">
                             <button className="food-nav-btn prev" style={{ border: 'none' }} disabled={currentIndexBongNgo === 0}>
-                                <FontAwesomeIcon icon={faChevronLeft} onClick={goToPreviousBongNgo} style={{ color: "#000", fontSize: "30px" }} />
+                                <FontAwesomeIcon icon={faChevronLeft} onClick={goToPreviousBongNgo} style={{ color: "#fff", fontSize: "30px" }} />
                             </button>
                             {displayedBongNgoItems.map((product) => (
                                 <div key={product._id} className="food-box">
@@ -92,7 +92,7 @@ export default function Food() {
                                 </div>
                             ))}
                             <button className="food-nav-btn next" style={{ border: 'none' }} disabled={currentIndexBongNgo + itemsPerPage >= bongNgoItems.length}>
-                                <FontAwesomeIcon icon={faChevronRight} onClick={goToNextBongNgo} style={{ color: "#000", fontSize: "30px" }} />
+                                <FontAwesomeIcon icon={faChevronRight} onClick={goToNextBongNgo} style={{ color: "#fff", fontSize: "30px" }} />
                             </button>
                         </div>
                     </div>
@@ -102,7 +102,7 @@ export default function Food() {
                     <div className="food-content">
                         <div className="d-flex gap-3 justify-content-center mb-2">
                             <button className="food-nav-btn prev" style={{ border: 'none' }} disabled={currentIndexNuoc === 0}>
-                                <FontAwesomeIcon icon={faChevronLeft} onClick={goToPreviousNuoc} style={{ color: "#000", fontSize: "30px" }} />
+                                <FontAwesomeIcon icon={faChevronLeft} onClick={goToPreviousNuoc} style={{ color: "#fff", fontSize: "30px" }} />
                             </button>
                             {displayedNuocItems.map((product) => (
                                 <div key={product._id} className="food-box">
@@ -117,7 +117,7 @@ export default function Food() {
                                 </div>
                             ))}
                             <button className="food-nav-btn next" style={{ border: 'none' }} disabled={currentIndexNuoc + itemsPerPage >= nuocItems.length}>
-                                <FontAwesomeIcon icon={faChevronRight} onClick={goToNextNuoc} style={{ color: "#000", fontSize: "30px" }} />
+                                <FontAwesomeIcon icon={faChevronRight} onClick={goToNextNuoc} style={{ color: "#fff", fontSize: "30px" }} />
                             </button>
                         </div>
                     </div>
