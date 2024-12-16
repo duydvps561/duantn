@@ -15,10 +15,11 @@ const UserProfile = () => {
     const savedData = localStorage.getItem("userData");
     return savedData ? JSON.parse(savedData) : null;
   });
-  
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [avatar, setAvatar] = useState(null); // Thêm state cho avatar
 
   const formik = useFormik({
     initialValues: {
@@ -43,9 +44,20 @@ const UserProfile = () => {
       const id = user?.id;
 
       try {
+        const formData = new FormData();
+        formData.append("email", values.email);
+        formData.append("tentaikhoan", values.tentaikhoan);
+        formData.append("sdt", values.sdt);
+        formData.append("ngaysinh", values.ngaysinh);
+        
+        // Nếu có avatar mới, thêm vào formData
+        if (avatar) {
+          formData.append("img", avatar);
+        }
+
         const response = await axios.put(
           `http://localhost:3000/taikhoan/${id}`,
-          values
+          formData
         );
         setUserData(response.data);
         localStorage.setItem("userData", JSON.stringify(response.data));
@@ -104,6 +116,34 @@ const UserProfile = () => {
       });
     }
   }, [isEditing, userData]);
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatar(file); // Cập nhật state avatar khi người dùng chọn file
+    }
+  };
+
+  const handleUpdateAvatar = async () => {
+    const id = user?.id;
+
+    if (avatar) {
+      try {
+        const formData = new FormData();
+        formData.append("img", avatar); // Thêm avatar vào formData
+
+        const response = await axios.put(
+          `http://localhost:3000/taikhoan/${id}/img`, // Đảm bảo endpoint đúng
+          formData
+        );
+        setUserData(response.data);
+        localStorage.setItem("userData", JSON.stringify(response.data));
+      } catch (error) {
+        console.error("Error updating avatar:", error);
+        setError("Unable to update avatar");
+      }
+    }
+  };
 
   if (loading) return <p className="loading">Đang tải thông tin người dùng...</p>;
   if (error) return <p className="error">Lỗi: {error}</p>;
@@ -195,9 +235,18 @@ const UserProfile = () => {
           <div className="user-profile__info">
             <div className="avt-user">
               <img
-                src={userData.avatar || "./img/A (1) 4.png"}
+                src={userData.img || "./img/A (1) 4.png"} // Hiển thị avatar nếu có, nếu không hiển thị ảnh mặc định
                 alt="Avatar User"
               />
+              {/* Nút thay đổi avatar */}
+              <input
+                type="file"
+                onChange={handleAvatarChange} // Gọi hàm handleAvatarChange khi người dùng chọn ảnh
+                className="avatar-upload"
+              />
+              <button onClick={handleUpdateAvatar} className="user-profile__button update-avatar-button">
+                Cập nhật avatar
+              </button>
             </div>
             <div className="user-information">
               <div className="name__info">

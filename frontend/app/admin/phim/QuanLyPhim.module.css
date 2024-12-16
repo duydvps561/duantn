@@ -92,3 +92,27 @@
 .sua:hover {
   background-color: #218838;
 }
+.filterSelect {
+  width: 200px;
+  padding: 8px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+}
+.filterContainer {
+  margin-bottom: 16px;
+}
+.filterSelect:hover{
+  background-color: white;
+}
+.searchInput {
+  width: 300px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+
