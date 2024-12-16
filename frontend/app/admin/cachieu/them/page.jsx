@@ -160,7 +160,7 @@ export default function ThemCaChieu() {
         <h1 className="my-4">Thêm Ca Chiếu Mới</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className="row">
-            <div className="col-md-6 mb-3">
+            <div className="col-md-5 mb-3">
               <label>Phim</label>
               <input
                 type="text"
@@ -179,7 +179,7 @@ export default function ThemCaChieu() {
                 </ul>
               )}
             </div>
-            <div className="col-md-6 mb-3">
+            <div className="col-md-5 mb-3">
               <label>Phòng Chiếu</label>
               <select
                 name="phongchieu_id"
@@ -197,7 +197,7 @@ export default function ThemCaChieu() {
               </select>
             </div>
 
-            <div className="col-md-4 mb-3">
+            <div className="col-md-3 mb-3">
               <label>Ngày Chiếu</label>
               <input
                 type="date"
@@ -210,7 +210,7 @@ export default function ThemCaChieu() {
               />
             </div>
 
-            <div className="col-md-4 mb-3">
+            <div className="col-md-3 mb-3">
               <label>Giờ Bắt Đầu</label>
               <select
                 name="giobatdau"
@@ -227,7 +227,7 @@ export default function ThemCaChieu() {
                 ))}
               </select>
             </div>
-            <div className="col-md-4 mb-3">
+            <div className="col-md-3 mb-3">
               <label>Giờ Kết Thúc</label>
               <input type="text" className="form-control" value={gioKetThuc} disabled />
             </div>

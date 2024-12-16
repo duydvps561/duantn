@@ -265,7 +265,7 @@ export default function CaChieuPage() {
                                     </button>
                                 </li>
                             </ul>
-                    </nav>
+                </nav>
                 </div>
             </div>
         </Layout>
