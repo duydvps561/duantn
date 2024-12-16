@@ -3,45 +3,33 @@
   margin: 0 auto;
   padding: 20px;
 
-  .contact-banner {
-    width: 100%;
-    height: 250px;
+  .banner-contact-top {
+    max-width: 100%;
+    max-height: 250px;
     margin: 20px 0;
 
-    .card-img-overlay {
-      color: #fff;
-      font-weight: bold;
-      font-size: 20px;
-      border: none;
-    }
-
     img {
-      height: 250px;
+      max-height: 250px;
       object-fit: fill;
       border: none;
     }
   }
-
-  .contact-banner-bottom {
-    width: 100%;
-    height: 250px;
+  .banner-contact-bottom {
+    max-width: 100%;
+    max-height: 250px;
     margin: 20px 0;
 
-    .banner-bottom img {
-      height: 250px;
+    img {
+      max-height: 250px;
       object-fit: fill;
-    }
-
-    .banner-bottom .card-img-overlay {
-      color: #fff;
-      font-weight: bold;
-      font-size: 20px;
+      border: none;
     }
   }
 
   .getInTouch {
     display: flex; /* Use flexbox for layout */
     justify-content: space-between; /* Space between columns */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
 
     .from-getIntouch {
       flex: 1;
@@ -51,6 +39,7 @@
       padding: 20px;
       border-radius: 15px;
       color: rgb(209, 209, 209);
+      min-width: 300px; /* Minimum width for better responsiveness */
 
       .title-from {
         margin-left: 24px;
@@ -108,67 +97,79 @@
           height: 40px;
           color: white;
           cursor: pointer;
-          transition: background 3s; 
+          transition: background 0.3s;
         }
 
         button:hover {
           background: linear-gradient(to bottom left, #ffcccc 0%, #ff0000 100%);
         }
-        button:active{
+
+        button:active {
           background: #777777;
         }
       }
     }
 
     .contact-infor {
-      flex: 1; /* Allow this column to grow */
-      background-color: #1a1a1a34; /* White background for contrast */
-      padding: 20px; /* Padding for the info area */
-      border-radius: 8px; /* Rounded corners */
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      flex: 1; /* Chiếm không gian linh hoạt */
+      background-color: rgba(26, 26, 26, 0.2); /* Nền với độ trong suốt nhẹ */
+      padding: 20px; /* Khoảng cách bên trong */
+      border-radius: 12px; /* Góc bo tròn */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Đổ bóng */
+      transition: box-shadow 0.3s ease, transform 0.3s ease; /* Hiệu ứng hover */
+
+      &:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        transform: translateY(-5px); /* Hiệu ứng nổi lên */
+      }
 
       .icon-infor {
-        display: grid; /* Enable grid layout */
-        grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
-        gap: 10px; /* Space between grid items */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
 
         .icon {
-          font-weight: bold; /* Optional: make text bold */
+          font-weight: 600;
           text-align: center;
-          color: #fff;
-          height: 100px;
+          color: #ffffff;
+          background-color: #282828;
+          padding: 10px;
+          border-radius: 8px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          transition: background-color 0.3s ease, transform 0.3s ease;
+
+          &:hover {
+            background-color: #3b3b3b;
+            transform: scale(1.05);
+          }
         }
       }
     }
 
     .map {
-      margin-top: 20px; /* Space above map */
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .map iframe {
+      margin-top: 40px;
+      width: 100%;
+      height: 400px;
+      border: 0;
     }
   }
 
   /* Responsive Styles */
   @media (max-width: 868px) {
     .contact-banner {
+      width: 100%;
       height: 150px;
-      .card-img-overlay {
-        color: #fff;
-        font-weight: bold;
-        font-size: 20px;
-      }
       img {
-        height: 150px; /* Adjusted height for smaller screens */
-      }
-    }
-
-    .contact-banner-bottom {
-      height: 150px;
-      .banner-bottom img {
-        height: 150px; /* Adjusted height for smaller screens */
-      }
-      .banner-bottom .card-img-overlay {
-        position: absolute;
-        top: 40px; /* Adjusted position for smaller screens */
-        left: 20px; /* Adjusted position for smaller screens */
+        height: 150px;
       }
     }
 
@@ -180,8 +181,60 @@
       }
     }
 
+    .contact-infor .icon-infor {
+      grid-template-columns: 1fr; /* Stack icons vertically on smaller screens */
+    }
+    .map iframe {
+      max-width: 100%;
+      height: 600px;
+    }
+  }
+  @media (max-width: 762px) {
+    .banner-contact-top {
+      width: 100%;
+      img {
+        height: 130px; /* Điều chỉnh chiều cao cho hình ảnh */
+      }
+    }
+
+    .banner-contact-bottom {
+      width: 100%;
+      height: 130px; /* Điều chỉnh chiều cao cho banner dưới */
+      img {
+        height: 130px; /* Điều chỉnh chiều cao cho hình ảnh */
+      }
+    }
+
+    .getInTouch {
+      flex-direction: column; /* Cột xếp dọc */
+      .from-getIntouch {
+        margin-right: 0; /* Bỏ margin bên phải */
+        margin-bottom: 15px; /* Thêm khoảng cách phía dưới */
+      }
+    }
+
     .contact-infor {
-      margin-bottom: 20px; /* Add margin below for spacing */
+      margin-bottom: 15px; /* Điều chỉnh khoảng cách bên dưới */
+    }
+
+    .contact-infor .icon-infor {
+      grid-template-columns: 1fr; /* Biểu tượng xếp dọc */
+    }
+
+    .map iframe {
+      max-width: 100%; /* Đảm bảo khung iframe không vượt quá chiều rộng */
+    }
+  }
+  @media (max-width: 452px) {
+    .icon-infor {
+      flex-direction: column; /* Xếp theo cột */
+      align-items: flex-start; /* Căn trái các phần tử */
+    }
+
+    .icon {
+      display: flex; /* Căn chỉnh icon và nội dung */
+      flex-direction: column; /* Nội dung bên trong cũng theo cột */
+      gap: 5px; /* Khoảng cách giữa các dòng */
     }
   }
 }

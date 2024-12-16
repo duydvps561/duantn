@@ -15,6 +15,10 @@ const ThongKePage = () => {
     tintuc: 0,
     food: 0,
     phongchieu: 0,
+    phim: 0,
+    phim0: 0,
+    phim1: 0,
+    phim2: 0,
     ordersDaily: [],
     orderMonthly: [], // Khởi tạo với mảng rỗng
     revenueMonthly: [],
@@ -40,18 +44,27 @@ const ThongKePage = () => {
           latestHoadonRes,
           revenueDailyRes, 
           revenueMonthlyRes,
+          Tongphim,
+          Tongphim0,
+          Tongphim1,
+          Tongphim2
         ] = await Promise.all([
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/soluong/taikhoan"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/soluong/tintuc"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/soluong/food"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/soluong/phongchieu"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/don-trong-ngay"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/don-trong-thang"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/tong-tien-hoadon"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/taikhoan-moi-nhat"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/hoadon-moi-nhat"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/doanh-thu-theo-ngay"),
-          fetch("https://backend-duan-9qb7.onrender.com/thongke/doanh-thu-theo-thang")
+
+          fetch("http://localhost:3000/thongke/soluong/taikhoan"),
+          fetch("http://localhost:3000/thongke/soluong/tintuc"),
+          fetch("http://localhost:3000/thongke/soluong/food"),
+          fetch("http://localhost:3000/thongke/soluong/phongchieu"),
+          fetch("http://localhost:3000/thongke/don-trong-ngay"),
+          fetch("http://localhost:3000/thongke/don-trong-thang"),
+          fetch("http://localhost:3000/thongke/tong-tien-hoadon"),
+          fetch("http://localhost:3000/thongke/taikhoan-moi-nhat"),
+          fetch("http://localhost:3000/thongke/hoadon-moi-nhat"),
+          fetch("http://localhost:3000/thongke/doanh-thu-theo-ngay"),
+          fetch("http://localhost:3000/thongke/doanh-thu-theo-thang"),
+          fetch("http://localhost:3000/thongke/soluong/phim"),
+          fetch(`http://localhost:3000/thongke/soluong/phim/trangthai/0`),
+          fetch(`http://localhost:3000/thongke/soluong/phim/trangthai/1`),
+          fetch(`http://localhost:3000/thongke/soluong/phim/trangthai/2`),
         ]);
 
         setStats({
@@ -65,7 +78,11 @@ const ThongKePage = () => {
           latestTaikhoan: await latestTaikhoanRes.json(),
           latestHoadon: await latestHoadonRes.json(),
           revenueDaily: await revenueDailyRes.json(),
-          revenueMonthly: await revenueMonthlyRes.json()
+          revenueMonthly: await revenueMonthlyRes.json(),
+          phim: (await Tongphim.json()).totalPhim,
+          phim0: (await Tongphim0.json()).phimTrangThai0,
+          phim1: (await Tongphim1.json()).phimTrangThai1,
+          phim2: (await Tongphim2.json()).phimTrangThai2,
         });
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu:", error);
@@ -159,6 +176,24 @@ const lineDataMonthly = {
             <h3>Phòng chiếu</h3>
             <p>{stats.phongchieu}</p>
             <Link href="phong-phim">Xem thêm</Link>
+          </div>
+        </div>
+        <div className="statsGrid-Phim">
+        <div className="statCard-Phim">
+            <h3>Tổng Phim</h3>
+            <p>{stats.phim}</p>
+          </div>
+          <div className="statCard-Phim">
+            <h3>Phim Đang Chiếu</h3>
+            <p>{stats.phim0}</p>
+          </div>
+          <div className="statCard-Phim">
+            <h3>Phim Sắp Chiếu</h3>
+            <p>{stats.phim1}</p>
+          </div>
+          <div className="statCard-Phim">
+            <h3>Phim Hết Hạn</h3>
+            <p>{stats.phim2}</p>
           </div>
         </div>
         <div className="row mt-5">

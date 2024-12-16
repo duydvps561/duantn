@@ -24,6 +24,9 @@ const QRScannerPage = () => {
           title: 'Mã QR không hợp lệ',
           text: 'Vui lòng quét lại mã QR hợp lệ.',
           confirmButtonText: 'OK',
+        }).then(() => {
+          // Reload lại trang sau khi người dùng nhấn OK
+          window.location.reload();
         });
         return;
       }
@@ -40,22 +43,89 @@ const QRScannerPage = () => {
             icon: 'success',
             title: 'Check-in thành công',
             confirmButtonText: 'OK',
+          }).then(() => {
+
           });
 
           setScanning(false);
         } else {
           const error = await response.json();
-          Swal.fire({
-            icon: 'error',
-            title: 'Vé đã được checkin',
-            confirmButtonText: 'Thử lại',
-          }).then(() => {
-            // Reload lại trang khi nhấn OK
-            window.location.reload();
-          });
 
-          // Ngừng quét sau khi đã quét thành công
-          setScanning(false);;
+          // Check for different error responses
+          if (error.message === 'Hóa đơn không tồn tại') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Hóa đơn không tồn tại',
+              text: 'Vui lòng kiểm tra lại mã QR.',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              // Reload lại trang sau khi người dùng nhấn OK
+              window.location.reload();
+            });
+          } else if (error.message === 'Hóa đơn đã được check-in trước đó') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Vé đã được checkin',
+              text: 'Mã QR này đã được sử dụng để check-in.',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              // Reload lại trang sau khi người dùng nhấn OK
+              window.location.reload();
+            });
+          } else if (error.message === 'Ngày chiếu không trùng khớp với ngày hiện tại') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ngày chiếu không hợp lệ',
+              text: 'Vui lòng kiểm tra lại ngày chiếu.',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              // Reload lại trang sau khi người dùng nhấn OK
+              window.location.reload();
+            });
+          } else if (error.message === 'Thông tin ngày chiếu hoặc giờ bắt đầu không hợp lệ') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi thông tin chiếu',
+              text: 'Ngày chiếu hoặc giờ chiếu không hợp lệ.',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              // Reload lại trang sau khi người dùng nhấn OK
+              window.location.reload();
+            });
+          } else if (error.message === 'Chưa đến thời gian check-in. Vui lòng đợi trong vòng 30 phút trước giờ chiếu') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Chưa đến giờ check-in',
+              text: 'Chờ đến 30 phút trước giờ chiếu để check-in.',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              // Reload lại trang sau khi người dùng nhấn OK
+              window.location.reload();
+            });
+          } else if (error.message === 'Đã quá thời gian check-in cho suất chiếu này') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Quá thời gian check-in',
+              text: 'Bạn không thể check-in vì đã quá thời gian cho suất chiếu này.',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              // Reload lại trang sau khi người dùng nhấn OK
+              window.location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi hệ thống',
+              text: 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              // Reload lại trang sau khi người dùng nhấn OK
+              window.location.reload();
+            });
+          }
+
+          // Ngừng quét sau khi đã quét thành công hoặc lỗi
+          setScanning(false);
         }
       } catch (err) {
         Swal.fire({
@@ -64,12 +134,12 @@ const QRScannerPage = () => {
           text: 'Không thể kết nối với server.',
           confirmButtonText: 'Thử lại',
         }).then(() => {
-          // Reload lại trang khi nhấn OK
+          // Reload lại trang sau khi người dùng nhấn OK
           window.location.reload();
         });
 
         // Ngừng quét sau khi đã quét thành công
-        setScanning(false);;
+        setScanning(false);
       }
     }
   };
@@ -81,12 +151,12 @@ const QRScannerPage = () => {
       text: 'Không thể quét mã QR. Vui lòng thử lại.',
       confirmButtonText: 'OK',
     }).then(() => {
-      // Reload lại trang khi nhấn OK
+      // Reload lại trang sau khi người dùng nhấn OK
       window.location.reload();
     });
 
     // Ngừng quét sau khi đã quét thành công
-    setScanning(false);;
+    setScanning(false);
   };
 
   const handleRestartScanning = () => {

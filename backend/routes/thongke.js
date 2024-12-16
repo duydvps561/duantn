@@ -243,5 +243,42 @@ router.get('/doanh-thu-theo-thang', async (req, res) => {
     }
 });
 
+router.get('/soluong/phim', async (req, res) => {
+    try {
+        const totalPhim = await phim.countDocuments();
+        res.json({ totalPhim });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
+// Đếm số lượng phim theo trangthai = 0
+router.get('/soluong/phim/trangthai/0', async (req, res) => {
+    try {
+        const phimTrangThai0 = await phim.countDocuments({ trangthai: '0' });
+        res.json({ phimTrangThai0 });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Đếm số lượng phim theo trangthai = 1
+router.get('/soluong/phim/trangthai/1', async (req, res) => {
+    try {
+        const phimTrangThai1 = await phim.countDocuments({ trangthai: '1' });
+        res.json({ phimTrangThai1 });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Đếm số lượng phim theo trangthai = 2
+router.get('/soluong/phim/trangthai/2', async (req, res) => {
+    try {
+        const phimTrangThai2 = await phim.countDocuments({ trangthai: '2' });
+        res.json({ phimTrangThai2 });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 module.exports = router;

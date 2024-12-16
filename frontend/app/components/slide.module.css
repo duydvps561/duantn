@@ -1,6 +1,12 @@
 .containerr{
-    width:92%;
+    width:75%;
     margin: 0 auto;
+}
+@media (max-width: 1140px) {
+    .containerr {
+        width: 100%;
+        margin: 0;
+    }
 }
 @media (max-width: 768px) {
     .containerr {
