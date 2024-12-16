@@ -26,7 +26,7 @@ const SuaTinTuc = () => {
   useEffect(() => {
     const fetchTinTuc = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/tintuc/${tinTucId}`);
+        const response = await axios.get(`https://backend-duan-9qb7.onrender.com/tintuc/${tinTucId}`);
         setFormData({
           title: response.data.title,
           describe: response.data.describe,
@@ -34,7 +34,7 @@ const SuaTinTuc = () => {
           loai: response.data.loai,
           trangthai: response.data.trangthai,
         });
-        setCurrentImage(`http://localhost:3000/img/tintuc/${response.data.image}`);
+        setCurrentImage(`https://backend-duan-9qb7.onrender.com/img/tintuc/${response.data.image}`);
         setIsContentLoaded(true);
       } catch (error) {
         console.error('Error fetching tin tức data:', error);
@@ -87,7 +87,7 @@ const SuaTinTuc = () => {
     }
 
     try {
-      await axios.put(`http://localhost:3000/tintuc/update/${tinTucId}`, formDataToSend, {
+      await axios.put(`https://backend-duan-9qb7.onrender.com/tintuc/update/${tinTucId}`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -34,7 +34,7 @@ const QuanLyGiaGhePage = () => {
 
   const fetchSeatPrices = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/giaghe");
+      const response = await axios.get("https://backend-duan-9qb7.onrender.com/giaghe");
       setSeatPrices(response.data);
     } catch (error) {
       console.error("Failed to fetch seat prices:", error);
@@ -46,7 +46,7 @@ const QuanLyGiaGhePage = () => {
 
   const fetchSeatTypes = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/loaighe");
+      const response = await axios.get("https://backend-duan-9qb7.onrender.com/loaighe");
       setSeatTypes(response.data);
     } catch (error) {
       console.error("Failed to fetch seat types:", error);
@@ -56,7 +56,7 @@ const QuanLyGiaGhePage = () => {
 
   const addSeatPrice = async () => {
     try {
-      await axios.post("http://localhost:3000/giaghe/add", selectedSeatPrice);
+      await axios.post("https://backend-duan-9qb7.onrender.com/giaghe/add", selectedSeatPrice);
       
       // Hiển thị thông báo thành công
       await Swal.fire({
@@ -83,7 +83,7 @@ const QuanLyGiaGhePage = () => {
 
   const updateSeatPrice = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/giaghe/update/${id}`, selectedSeatPrice);
+      await axios.put(`https://backend-duan-9qb7.onrender.com/giaghe/update/${id}`, selectedSeatPrice);
       
       // Hiển thị thông báo thành công
       await Swal.fire({
@@ -117,7 +117,7 @@ const QuanLyGiaGhePage = () => {
 
   const deleteSeatPrice = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/giaghe/delete/${id}`);
+      await axios.delete(`https://backend-duan-9qb7.onrender.com/giaghe/delete/${id}`);
       
       // Hiển thị thông báo thành công
       await Swal.fire({

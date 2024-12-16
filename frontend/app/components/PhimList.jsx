@@ -6,7 +6,7 @@ export default function PhimList() {
   const [phimList, setPhimList] = useState([]); // State để lưu danh sách phim
   const fetchPhim = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/phim`);
+      const res = await fetch(`https://backend-duan-9qb7.onrender.com/phim`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }

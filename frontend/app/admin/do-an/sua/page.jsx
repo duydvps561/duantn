@@ -76,7 +76,7 @@ const SuaDoAnPage = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:3000/food/update/${foodId}`,
+        `https://backend-duan-9qb7.onrender.com/food/update/${foodId}`,
         formData,
         {
           headers: {
@@ -180,7 +180,7 @@ const SuaDoAnPage = () => {
           <div className={styles.imageContainer}>
             {foodData.img && (
               <img
-                src={`http://localhost:3000/img/food/${foodData.img}`}
+                src={`https://backend-duan-9qb7.onrender.com/img/food/${foodData.img}`}
                 alt={foodData.tenfood}
                 className={styles.currentImage}
               />

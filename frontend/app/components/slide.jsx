@@ -24,7 +24,7 @@ export default function Slide() {
                 {banner.filter(item => item.type === 'A'&& item.hidden === false).map((item, index) => (
                   <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
                     <Image
-                      src={`http://localhost:3000/img/banner/${item.img}`}
+                      src={`https://backend-duan-9qb7.onrender.com/img/banner/${item.img}`}
                       alt={`Banner image ${index + 1}`}
                       width={879}
                       height={420}
@@ -58,7 +58,7 @@ export default function Slide() {
               banner.filter(item => item.type === 'B' && item.hidden === false).map((item, index) => (
                 <div key={index} className="mb-3">
                   <Image
-                    src={`http://localhost:3000/img/banner/${item.img}`}
+                    src={`https://backend-duan-9qb7.onrender.com/img/banner/${item.img}`}
                     alt={`Banner image ${index + 1}`}
                     width={380}
                     height={202}

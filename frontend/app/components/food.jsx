@@ -81,7 +81,7 @@ export default function Food() {
                             </button>
                             {displayedBongNgoItems.map((product) => (
                                 <div key={product._id} className="food-box">
-                                    <img src={`http://localhost:3000/img/food/${product.img}`} alt="anh food" />
+                                    <img src={`https://backend-duan-9qb7.onrender.com/img/food/${product.img}`} alt="anh food" />
                                     <div className="food-content">
                                         <h2>{product.tenfood}</h2>
                                         <span>Giá : <strong>{product.gia}</strong></span>
@@ -106,7 +106,7 @@ export default function Food() {
                             </button>
                             {displayedNuocItems.map((product) => (
                                 <div key={product._id} className="food-box">
-                                    <img src={`http://localhost:3000/img/food/${product.img}`} alt="anh food" />
+                                    <img src={`https://backend-duan-9qb7.onrender.com/img/food/${product.img}`} alt="anh food" />
                                     <div className="food-content">
                                         <h2>{product.tenfood}</h2>
                                         <span>Giá : <strong>{product.gia}</strong></span>

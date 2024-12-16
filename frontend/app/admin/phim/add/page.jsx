@@ -14,7 +14,7 @@ const AddMovie = () => {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await fetch('http://localhost:3000/theloai'); // Adjust the endpoint as needed
+        const response = await fetch('https://backend-duan-9qb7.onrender.com/theloai'); // Adjust the endpoint as needed
         if (response.ok) {
           const data = await response.json();
           setGenres(data); // Set genres into state
@@ -38,7 +38,7 @@ const AddMovie = () => {
     const formData = new FormData(event.target); // Create FormData object
   
     try {
-      const response = await fetch('http://localhost:3000/phim/add', {
+      const response = await fetch('https://backend-duan-9qb7.onrender.com/phim/add', {
         method: 'POST',
         body: formData,
       });

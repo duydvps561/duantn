@@ -41,17 +41,17 @@ const ThongKePage = () => {
           revenueDailyRes, 
           revenueMonthlyRes,
         ] = await Promise.all([
-          fetch("http://localhost:3000/thongke/soluong/taikhoan"),
-          fetch("http://localhost:3000/thongke/soluong/tintuc"),
-          fetch("http://localhost:3000/thongke/soluong/food"),
-          fetch("http://localhost:3000/thongke/soluong/phongchieu"),
-          fetch("http://localhost:3000/thongke/don-trong-ngay"),
-          fetch("http://localhost:3000/thongke/don-trong-thang"),
-          fetch("http://localhost:3000/thongke/tong-tien-hoadon"),
-          fetch("http://localhost:3000/thongke/taikhoan-moi-nhat"),
-          fetch("http://localhost:3000/thongke/hoadon-moi-nhat"),
-          fetch("http://localhost:3000/thongke/doanh-thu-theo-ngay"),
-          fetch("http://localhost:3000/thongke/doanh-thu-theo-thang")
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/soluong/taikhoan"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/soluong/tintuc"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/soluong/food"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/soluong/phongchieu"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/don-trong-ngay"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/don-trong-thang"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/tong-tien-hoadon"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/taikhoan-moi-nhat"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/hoadon-moi-nhat"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/doanh-thu-theo-ngay"),
+          fetch("https://backend-duan-9qb7.onrender.com/thongke/doanh-thu-theo-thang")
         ]);
 
         setStats({

@@ -22,7 +22,7 @@ const QuanLyLoaiGhePage = () => {
 
   const fetchSeatTypes = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/loaighe");
+      const response = await axios.get("https://backend-duan-9qb7.onrender.com/loaighe");
       setSeatTypes(response.data);
     } catch (error) {
       console.error("Failed to fetch seat types:", error);
@@ -34,7 +34,7 @@ const QuanLyLoaiGhePage = () => {
 
   const addSeatType = async () => {
     try {
-      await axios.post("http://localhost:3000/loaighe/add", { 
+      await axios.post("https://backend-duan-9qb7.onrender.com/loaighe/add", { 
         loaighe: seatTypeName,
         mau: seatTypeColor // Thêm trường màu
       });
@@ -65,7 +65,7 @@ const QuanLyLoaiGhePage = () => {
 
   const updateSeatType = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/loaighe/update/${id}`, { 
+      await axios.put(`https://backend-duan-9qb7.onrender.com/loaighe/update/${id}`, { 
         loaighe: seatTypeName,
         mau: seatTypeColor // Thêm trường màu
       });
@@ -105,7 +105,7 @@ const QuanLyLoaiGhePage = () => {
 
   const deleteSeatType = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/loaighe/delete/${id}`);
+      await axios.delete(`https://backend-duan-9qb7.onrender.com/loaighe/delete/${id}`);
       
       // Hiển thị thông báo thành công
       await Swal.fire({

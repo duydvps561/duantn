@@ -17,7 +17,7 @@ const LoaigheCRUD = () => {
 
   const fetchLoaighes = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/loaighe");
+      const response = await axios.get("https://backend-duan-9qb7.onrender.com/loaighe");
       setLoaigheList(response.data);
     } catch (error) {
       console.error("Error fetching loaighe:", error);
@@ -27,7 +27,7 @@ const LoaigheCRUD = () => {
   // Add new loaighe
   const addLoaighe = async () => {
     try {
-      await axios.post("http://localhost:3000/loaighe/add", { loaighe });
+      await axios.post("https://backend-duan-9qb7.onrender.com/loaighe/add", { loaighe });
       fetchLoaighes(); // Refresh the list
       setLoaighe(""); // Clear the input
     } catch (error) {
@@ -38,7 +38,7 @@ const LoaigheCRUD = () => {
   // Update loaighe
   const updateLoaighe = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/loaighe/update/${id}`, { loaighe });
+      await axios.put(`https://backend-duan-9qb7.onrender.com/loaighe/update/${id}`, { loaighe });
       fetchLoaighes(); // Refresh the list
       setLoaighe(""); // Clear the input
       setIsEditing(false);
@@ -58,7 +58,7 @@ const LoaigheCRUD = () => {
   // Delete loaighe
   const deleteLoaighe = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/loaighe/delete/${id}`);
+      await axios.delete(`https://backend-duan-9qb7.onrender.com/loaighe/delete/${id}`);
       fetchLoaighes(); // Refresh the list
     } catch (error) {
       console.error("Error deleting loaighe:", error);

@@ -23,7 +23,7 @@ const CustomerManagement = () => {
   // Fetch customers from API
   useEffect(() => {
     axios
-      .get("http://localhost:3000/taikhoan")
+      .get("https://backend-duan-9qb7.onrender.com/taikhoan")
       .then((response) => {
         const sortedCustomers = response.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -106,7 +106,7 @@ const CustomerManagement = () => {
       try {
         if (editMode) {
           const { tentaikhoan, gioitinh, sdt, ngaysinh, email, vaitro, trangthai } = values;
-          const response = await axios.put(`http://localhost:3000/taikhoan/${selectedCustomer._id}`, {
+          const response = await axios.put(`https://backend-duan-9qb7.onrender.com/taikhoan/${selectedCustomer._id}`, {
             tentaikhoan,
             gioitinh,
             sdt,
@@ -122,7 +122,7 @@ const CustomerManagement = () => {
             ));
           }
         } else {
-          const response = await axios.post("http://localhost:3000/register/add", {
+          const response = await axios.post("https://backend-duan-9qb7.onrender.com/register/add", {
             tentaikhoan: values.tentaikhoan,
             gioitinh: values.gioitinh,
             sdt: values.sdt,
@@ -149,7 +149,7 @@ const CustomerManagement = () => {
   const deleteCustomer = async (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa khách hàng này?")) {
       try {
-        await axios.delete(`http://localhost:3000/taikhoan/${id}`);
+        await axios.delete(`https://backend-duan-9qb7.onrender.com/taikhoan/${id}`);
         setCustomers(customers.filter((customer) => customer._id !== id));
         alert("Xóa khách hàng thành công!");
       } catch (error) {
@@ -166,7 +166,7 @@ const CustomerManagement = () => {
 
     if (window.confirm(confirmMessage)) {
       try {
-        const response = await axios.put(`http://localhost:3000/taikhoan/${customer._id}`, {
+        const response = await axios.put(`https://backend-duan-9qb7.onrender.com/taikhoan/${customer._id}`, {
           ...customer,
           trangthai: newStatus,
         });
@@ -189,7 +189,7 @@ const CustomerManagement = () => {
 
     if (window.confirm(confirmMessage)) {
       try {
-        const response = await axios.put(`http://localhost:3000/taikhoan/${customer._id}`, {
+        const response = await axios.put(`https://backend-duan-9qb7.onrender.com/taikhoan/${customer._id}`, {
           ...customer,
           vaitro: newRole,
         });

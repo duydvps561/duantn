@@ -32,11 +32,11 @@ export default function EditMovie() {
     const fetchMovie = async () => {
       if (!id) return; // Check if id exists
       try {
-        const response = await axios.get(`http://localhost:3000/phim/${id}`);
+        const response = await axios.get(`https://backend-duan-9qb7.onrender.com/phim/${id}`);
         if (response.status === 200) {
           // Thiết lập URL ảnh mặc định
           const movieData = response.data;
-          movieData.img = `http://localhost:3000/img/phims/${movieData.img}`; // Thiết lập URL ảnh
+          movieData.img = `https://backend-duan-9qb7.onrender.com/img/phims/${movieData.img}`; // Thiết lập URL ảnh
           setMovie(movieData);
 
         } else {
@@ -83,7 +83,7 @@ export default function EditMovie() {
       console.log(key, value);
   }
     try {
-      const response = await axios.put(`http://localhost:3000/phim/${id}`, formData, {
+      const response = await axios.put(`https://backend-duan-9qb7.onrender.com/phim/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

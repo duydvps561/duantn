@@ -10,7 +10,7 @@ export default function Edit() {
     const id = searchParams.get('id'); // Extract the id from search params
 
     const fetcher = (...args) => fetch(...args).then(res => res.json());
-    const { data: banner, error } = useSWR(id ? `http://localhost:3000/banner/${id}` : null, fetcher);
+    const { data: banner, error } = useSWR(id ? `https://backend-duan-9qb7.onrender.com/banner/${id}` : null, fetcher);
     
     const [formData, setFormData] = useState({
         name: '',

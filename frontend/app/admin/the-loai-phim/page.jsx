@@ -17,7 +17,7 @@ const MovieCategoryManagement = () => {
 
   // Fetch categories from API on component mount
   useEffect(() => {
-    fetch("http://localhost:3000/theloai")
+    fetch("https://backend-duan-9qb7.onrender.com/theloai")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok " + response.statusText);
@@ -65,8 +65,8 @@ const MovieCategoryManagement = () => {
   // Submit new or edited category
   const handleCategorySubmit = () => {
     const url = currentCategoryId 
-      ? `http://localhost:3000/theloai/edit/${currentCategoryId}` 
-      : "http://localhost:3000/theloai/add";
+      ? `https://backend-duan-9qb7.onrender.com/theloai/edit/${currentCategoryId}` 
+      : "https://backend-duan-9qb7.onrender.com/theloai/add";
     const method = currentCategoryId ? "PUT" : "POST";
     const body = JSON.stringify({
       tentheloai: categoryName,
@@ -94,7 +94,7 @@ const MovieCategoryManagement = () => {
 
   // Delete category
   const handleDelete = (id) => {
-    fetch(`http://localhost:3000/theloai/delete/${id}`, { method: "DELETE" })
+    fetch(`https://backend-duan-9qb7.onrender.com/theloai/delete/${id}`, { method: "DELETE" })
       .then(response => {
         if (!response.ok) {
           throw new Error("Failed to delete category: " + response.statusText);
@@ -107,7 +107,7 @@ const MovieCategoryManagement = () => {
   // Handle category click to fetch movies
   const handleCategoryClick = (category) => {
     setSelectedCategoryName(category.tentheloai);
-    fetch(`http://localhost:3000/phim/theloai/${category._id}`)
+    fetch(`https://backend-duan-9qb7.onrender.com/phim/theloai/${category._id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok " + response.statusText);
