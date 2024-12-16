@@ -139,7 +139,7 @@ export default function ThanhToan() {
           <div className="title-item">
             <h2 className="text-light">Phương thức thanh toán</h2>
           </div>
-          <div className="paymoment">
+          <div className="paymoment p-3">
             {['PayOS'].map((method) => (
               <div className="pay-account" key={method}>
                 <input

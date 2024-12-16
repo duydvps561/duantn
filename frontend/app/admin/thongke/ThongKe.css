@@ -9,7 +9,12 @@
   gap: 20px;
   margin-bottom: 40px;
 }
-
+.statsGrid-Phim{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
 .statCard {
   background-color: #fff;
   padding: 20px;
@@ -18,8 +23,18 @@
   text-align: center;
   transition: all 0.3s ease;
 }
-
+.statCard-Phim{
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
 .statCard:hover {
+  transform: translateY(-5px); /* Thêm hiệu ứng hover để làm nổi bật */
+}
+.statCard-Phim:hover {
   transform: translateY(-5px); /* Thêm hiệu ứng hover để làm nổi bật */
 }
 
@@ -36,6 +51,23 @@
   font-weight: 700; /* In đậm số liệu */
 }
 .statCard a {
+  font-size: 1.2em;
+  color: #4d6950;
+  font-weight: 700; /* In đậm số liệu */
+}
+.statCard-Phim h3 {
+  margin-bottom: 10px;
+  font-size: 1.3em;
+  color: #4d6950;
+  font-weight: 600; /* In đậm tiêu đề */
+}
+
+.statCard-Phim p {
+  font-size: 1.6em;
+  color: #4d6950;
+  font-weight: 700; /* In đậm số liệu */
+}
+.statCard-Phim a {
   font-size: 1.2em;
   color: #4d6950;
   font-weight: 700; /* In đậm số liệu */

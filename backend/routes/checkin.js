@@ -7,7 +7,7 @@ const Ghe = require('../models/room/ghe');
 const Movie = require('../models/movie/phim');
 const FoodOrder = require('../models/food/foododer');
 const Food = require('../models/food/food');
-const TaiKhoan = require('../models/account/taikhoan'); // Import mô hình tài khoản
+const TaiKhoan = require('../models/account/taikhoan');
 
 // Route để quét QR và cập nhật trạng thái
 router.put('/scan-qr/:hoadonId', async (req, res) => {
@@ -26,17 +26,6 @@ router.put('/scan-qr/:hoadonId', async (req, res) => {
             return res.status(400).json({ message: 'Hóa đơn đã được check-in trước đó' });
         }
 
-        // Cập nhật trạng thái hóa đơn từ 1 -> 2 (đã check-in)
-        hoadon.trangthai = '2';
-        await hoadon.save();
-
-        // Lấy thông tin tài khoản liên quan đến hóa đơn
-        const taikhoan = await TaiKhoan.findById(hoadon.taikhoan_id);
-
-        if (!taikhoan) {
-            return res.status(404).json({ message: 'Không tìm thấy tài khoản khách hàng' });
-        }
-
         // Lấy thông tin vé liên quan đến hóa đơn
         const veDetails = await Ve.find({ hoadon_id: hoadonId })
             .populate({
@@ -49,9 +38,51 @@ router.put('/scan-qr/:hoadonId', async (req, res) => {
                 populate: { path: 'phongchieu_id', model: PhongChieu }, // Lấy thông tin phòng
             });
 
-        // Lấy thông tin món ăn liên quan đến hóa đơn
-        const foodOrders = await FoodOrder.find({ hoadon_id: hoadonId })
-            .populate('food_id');
+        if (veDetails.length === 0) {
+            return res.status(404).json({ message: 'Không tìm thấy vé liên quan đến hóa đơn' });
+        }
+
+        // Lấy thông tin suất chiếu: Ngày chiếu và Giờ bắt đầu
+        const ngaychieu = veDetails[0].cachieu_id.ngaychieu;
+        const giobatdau = veDetails[0].cachieu_id.giobatdau;
+
+        if (!ngaychieu || !giobatdau) {
+            return res.status(400).json({ message: 'Thông tin ngày chiếu hoặc giờ bắt đầu không hợp lệ' });
+        }
+
+        // Bước 2: Kiểm tra ngày chiếu
+        const today = new Date().toISOString().split('T')[0]; // Ngày hiện tại (YYYY-MM-DD)
+        const ngaychieuDate = new Date(ngaychieu).toISOString().split('T')[0]; // Loại bỏ phần giờ của ngaychieu
+
+        if (today !== ngaychieuDate) {
+            return res.status(400).json({ message: 'Ngày chiếu không trùng khớp với ngày hiện tại' });
+        }
+
+        // Bước 3: Kiểm tra thời gian
+        const now = new Date(); // Thời gian hiện tại
+        const checkInTime = new Date(`${ngaychieuDate}T${giobatdau}`); // Thời gian bắt đầu suất chiếu
+        const timeDifference = (checkInTime - now) / (60 * 1000); // Chênh lệch phút
+
+        if (timeDifference > 30) {
+            return res.status(400).json({
+                message: 'Chưa đến thời gian check-in. Vui lòng đợi trong vòng 30 phút trước giờ chiếu',
+            });
+        } else if (timeDifference < 0) {
+            return res.status(400).json({
+                message: 'Đã quá thời gian check-in cho suất chiếu này',
+            });
+        }
+
+        // Bước 4: Cập nhật trạng thái hóa đơn từ 1 -> 2 (đã check-in)
+        hoadon.trangthai = '2';
+        await hoadon.save();
+
+        // Lấy thông tin tài khoản liên quan đến hóa đơn
+        const taikhoan = await TaiKhoan.findById(hoadon.taikhoan_id);
+
+        if (!taikhoan) {
+            return res.status(404).json({ message: 'Không tìm thấy tài khoản khách hàng' });
+        }
 
         // Tổng hợp thông tin ghế và phòng
         const gheDetails = veDetails.flatMap((ve) =>
@@ -62,11 +93,11 @@ router.put('/scan-qr/:hoadonId', async (req, res) => {
         );
 
         // Tổng hợp thông tin phim (nếu có nhiều vé, chỉ cần tên phim đầu tiên)
-        const phimDetails = veDetails.length > 0 ? veDetails[0].cachieu_id.phim_id.tenphim : 'Không xác định';
+        const phimDetails = veDetails[0].cachieu_id.phim_id.tenphim;
 
-        // Thêm thông tin suất chiếu: Ngày chiếu và Giờ bắt đầu
-        const ngaychieu = veDetails.length > 0 ? veDetails[0].cachieu_id.ngaychieu : null;
-        const giobatdau = veDetails.length > 0 ? veDetails[0].cachieu_id.giobatdau : null;
+        // Lấy thông tin món ăn liên quan đến hóa đơn
+        const foodOrders = await FoodOrder.find({ hoadon_id: hoadonId })
+            .populate('food_id');
 
         // Tổng hợp thông tin món ăn
         const foodDetails = foodOrders.map((order) => ({
@@ -81,9 +112,9 @@ router.put('/scan-qr/:hoadonId', async (req, res) => {
                 ...hoadon._doc,
                 tongtien: hoadon.tongtien, // Tổng tiền hóa đơn
             },
-            tentaikhoan: taikhoan.tentaikhoan, // tên tài khoản
+            tentaikhoan: taikhoan.tentaikhoan, // Tên tài khoản
             phim: phimDetails,
-            ngaychieu: ngaychieu, // Ngày chiếu
+            ngaychieu: ngaychieuDate, // Ngày chiếu
             giobatdau: giobatdau, // Giờ bắt đầu
             ghe: gheDetails.map(item => item.ghe),
             phong: [...new Set(gheDetails.map(item => item.phong))], // Loại bỏ phòng trùng lặp
