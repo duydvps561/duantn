@@ -49,6 +49,7 @@ export default function filmdetail({ params }) {
   const [phimCachieu, setPhimCachieu] = useState([]);
   const [phongchieu, setPhongChieu] = useState([]);
   const [phongchieudata, setPhongChieuData] = useState([]);
+  const [vedata, setVeData] = useState([]);
   const [ngaychieuSelected, setNgayChieuSelected] = useState("");
   const [giochieu, setgiochieu] = useState([]);
   const [foodshow, setFoodShow] = useState(false);
@@ -74,6 +75,7 @@ export default function filmdetail({ params }) {
           seatRes,
           seatModelRes,
           giagheRes,
+          veRes,
         ] = await Promise.all([
           fetch(`http://localhost:3000/phim/${id}`),
           fetch(`http://localhost:3000/xuatchieu`),
@@ -81,6 +83,7 @@ export default function filmdetail({ params }) {
           fetch(`http://localhost:3000/ghe`),
           fetch(`http://localhost:3000/loaighe`),
           fetch(`http://localhost:3000/giaghe`),
+          fetch(`http://localhost:3000/ve`)
         ]);
 
         if (!phimChitietRes.ok || !caChieuRes.ok || !phongchieuRes.ok || !seatRes.ok || !seatModelRes.ok || !giagheRes.ok) {
@@ -94,6 +97,7 @@ export default function filmdetail({ params }) {
           seatData,
           seatModelData,
           giagheData,
+          veData,
         ] = await Promise.all([
           phimChitietRes.json(),
           caChieuRes.json(),
@@ -101,6 +105,7 @@ export default function filmdetail({ params }) {
           seatRes.json(),
           seatModelRes.json(),
           giagheRes.json(),
+          veRes.json(),
         ]);
 
         setPhimChitiet(phimChitietData);
@@ -114,7 +119,7 @@ export default function filmdetail({ params }) {
         setGheData(seatData);
         setloaiGhe(seatModelData);
         setGiaghedata(giagheData);
-
+        setVeData(veData);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu:", error);
       }
@@ -190,74 +195,60 @@ export default function filmdetail({ params }) {
   });
   const handleSeatClick = (ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData) => {
     const loaighe = loaigheItem.loaighe;
-
     // Lọc giá theo loại ghế
     const giatheoLoaighe = giaLoaighe.filter(
       (item) => item.loaighe_id.loaighe === loaighe
     );
 
-    const currentDate = new Date();
-    const currentHour = currentDate.getHours();
-    const currentMinute = currentDate.getMinutes();
+    const currentDate = new Date(); // Lấy ngày hiện tại
+    const currentDay = currentDate.getDay(); // Lấy ngày trong tuần (0: Chủ Nhật, 1: Thứ Hai, ..., 6: Thứ Bảy)
 
-    // Hàm kiểm tra khung giờ
-    const KhungGio = (startTime, endTime) => {
-      const [startHour, startMinute] = startTime.split(':').map(Number);
-      const [endHour, endMinute] = endTime.split(':').map(Number);
+    // Kiểm tra nếu là cuối tuần (Thứ Bảy hoặc Chủ Nhật)
+    const isWeekend = (currentDay === 0 || currentDay === 6) ? 1 : 0;
 
-      const currentTimeInMinutes = currentHour * 60 + currentMinute;
-      const startTimeInMinutes = startHour * 60 + startMinute;
-      const endTimeInMinutes = endHour * 60 + endMinute;
+    console.log(`Hôm nay là ${currentDay === 0 ? 'Chủ Nhật' : currentDay === 6 ? 'Thứ Bảy' : 'ngày thường'}, isWeekend: ${isWeekend}`);
 
-      return (
-        currentTimeInMinutes >= startTimeInMinutes &&
-        currentTimeInMinutes <= endTimeInMinutes
-      );
-    };
-
-    // Hàm kiểm tra ngày cuối tuần hoặc ngày lễ
-    const CuoiTuanLe = (weekendandHoliday) => {
-      const today = new Date();
-      const dayOfWeek = today.getDay();
-
-      const isCuoituan = dayOfWeek === 0 || dayOfWeek === 6 ? 1 : 0;
-
-      const holidays = ['2024-12-25', '2024-01-01'];
-      const todayString = today.toISOString().split('T')[0];
-      const isHoliday = holidays.includes(todayString) ? 1 : 0;
-
-      return weekendandHoliday === isCuoituan || weekendandHoliday === isHoliday;
-    };
-
-    const khungGioPhuHop = giatheoLoaighe.find((item) => {
+    // Lọc các phần tử trong giatheoLoaighe có khung giờ phù hợp và kiểm tra ngày cuối tuần
+    const filteredData = giatheoLoaighe.filter((item) => {
       const startTime = item.giobatdau;
       const endTime = item.gioketthuc;
 
-      // Kiểm tra dữ liệu đầu vào
-      if (!startTime || !endTime) {
-        console.error('Dữ liệu giờ bắt đầu hoặc giờ kết thúc không hợp lệ.');
-        return false;
+      // Chuyển thời gian bắt đầu và kết thúc thành tổng số phút
+      const [startHour, startMinute] = startTime.split(':').map(Number);
+      const [endHour, endMinute] = endTime.split(':').map(Number);
+
+      const currentTimeInMinutes = currentDate.getHours() * 60 + currentDate.getMinutes();
+      const startTimeInMinutes = startHour * 60 + startMinute;
+      let endTimeInMinutes = endHour * 60 + endMinute;
+
+      if (endTimeInMinutes < startTimeInMinutes) {
+        endTimeInMinutes += 24 * 60; // Cộng thêm 24h nếu qua ngày tiếp theo
       }
 
-      // Kiểm tra khung giờ hợp lệ
-      return KhungGio(startTime, endTime);
+      // Kiểm tra khung giờ và ngày cuối tuần
+      return (
+        currentTimeInMinutes >= startTimeInMinutes &&
+        currentTimeInMinutes <= endTimeInMinutes &&
+        item.ngaycuoituan === isWeekend
+      );
     });
 
-    const khungGioHoacNgayDacBiet =
-      khungGioPhuHop ||
-      giatheoLoaighe.find((item) => CuoiTuanLe(item.ngaycuoituan));
+    // Lấy giá trị giaghe
+    const gia = filteredData.length > 0 ? filteredData[0].giaghe : 0;
 
-    const gia =
-      khungGioHoacNgayDacBiet?.giaghe ||
-      (giatheoLoaighe.length > 0 ? giatheoLoaighe[0].giaghe : 0);
-
-    if (khungGioHoacNgayDacBiet) {
-      const { giobatdau, gioketthuc, giaghe } = khungGioHoacNgayDacBiet;
-      console.log(
-        `Khung giờ hiện tại: ${giobatdau} - ${gioketthuc || 'Ngày đặc biệt'}, Giá ghế: ${giaghe} , Loại ghế: ${loaighe}`
-      );
+    if (gia > 0) {
+      console.log(`Khung giờ hiện tại, Giá ghế: ${gia}`);
     } else {
-      console.log(`Không có khung giờ phù hợp. Giá mặc định: ${gia}`);
+      console.log("Không có dữ liệu phù hợp. Giá ghế mặc định: 0");
+    }
+
+    // In chi tiết các phần tử khớp
+    if (filteredData.length > 0) {
+      filteredData.forEach((item) => {
+        console.log(
+          `Khung giờ phù hợp: ${item.giobatdau} - ${item.gioketthuc}, Giá ghế: ${item.giaghe}, Ngày cuối tuần: ${item.ngaycuoituan}`
+        );
+      });
     }
 
 
@@ -312,20 +303,21 @@ export default function filmdetail({ params }) {
 
       const isSeatSelected = seatSelected.includes(seat);
 
-      if (isSeatSelected) {
-        const selectedSeatsInRow = seatSelected
-          .filter((selectedSeat) => selectedSeat.charAt(0) === seatRow)
-          .map((selectedSeat) => parseInt(selectedSeat.substring(1)))
-          .sort((a, b) => a - b);
+      const purchasedSeatsInRow = vedata
+        .filter((item) => item.ghe_id.includes(ghe._id) && item.ghe_id.charAt(0) === seatRow)
+        .map((item) => parseInt(item.ghe_id.substring(1)))
+        .sort((a, b) => a - b);
 
-        const lastSelectedSeat = selectedSeatsInRow[selectedSeatsInRow.length - 1];
+      if (purchasedSeatsInRow.length > 0) {
+        const lastPurchasedSeat = purchasedSeatsInRow[purchasedSeatsInRow.length - 1];
 
-        if (seatNumber !== lastSelectedSeat) {
-          alert(`Bạn phải bỏ ghế ${seatRow}${lastSelectedSeat} trước!`);
+        if (seatNumber <= lastPurchasedSeat) {
+          alert(`Bạn chỉ có thể chọn ghế tiếp theo sau ghế ${seatRow}${lastPurchasedSeat}`);
           return;
         }
+      }
 
-        // Bỏ ghế
+      if (isSeatSelected) {
         setSeatSelected((prevSeats) => prevSeats.filter((selected) => selected !== seat));
         dispatch(clearCart());
         setGiaghe((prevTotal) => prevTotal - gia);
@@ -335,20 +327,19 @@ export default function filmdetail({ params }) {
           .map((selectedSeat) => parseInt(selectedSeat.substring(1)))
           .sort((a, b) => a - b);
 
-        const lastSelectedSeat = selectedSeatsInRow.length > 0
-          ? selectedSeatsInRow[selectedSeatsInRow.length - 1]
-          : 0;
+        for (let i = 0; i < selectedSeatsInRow.length - 1; i++) {
+          if (selectedSeatsInRow[i + 1] - selectedSeatsInRow[i] > 1) {
+            alert(`Bạn không thể chọn ghế cách một ghế. Vui lòng chọn ghế tiếp theo.`);
+            return;
+          }
+        }
 
-        if (lastSelectedSeat === 0 && seatNumber !== 1) {
-          alert(`Bạn chỉ có thể chọn ghế ${seatRow}1`);
-          return;
-        } else if (seatNumber !== lastSelectedSeat + 1) {
-          alert(`Bạn chỉ có thể chọn ghế ${seatRow}${lastSelectedSeat + 1}`);
+        if (selectedSeatsInRow.length > 0 && seatNumber !== selectedSeatsInRow[selectedSeatsInRow.length - 1] + 1) {
+          alert(`Bạn chỉ có thể chọn ghế tiếp theo theo thứ tự.`);
           return;
         }
 
-        const selectedSeatData = gheData.find((g) => `${g.hang}${g.cot}` === seat);
-
+        const selectedSeatData = gheData.find((g) => g._id === ghe._id);
         if (selectedSeatData) {
           // Chọn ghế
           setSeatSelected((prevSeats) => [...prevSeats, seat]);
@@ -366,6 +357,7 @@ export default function filmdetail({ params }) {
       }
     };
 
+
     // Phân loại ghế
     if (loaigheItem && loaigheItem.loaighe === "Ghế Đôi") {
       handleDoubleSeat();
@@ -376,103 +368,103 @@ export default function filmdetail({ params }) {
   return (
     <>
       <section className="film-detail">
-  <div className="card ">
-    <div className="img-container  position-relative">
-      <img
-        src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
-        alt="Ảnh nền phim"
-        className="film-img"
-      />
-    </div>
-
-    <div className="card-body film-details">
-      <div className="img-overlay ">
-        <img
-          src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
-          alt="Ảnh chính phim"
-          className="film-img-small"
-        />
-      </div>
-
-      <div className="title-overlay ms-lg-3 text-white">
-        <h1 className="card-title">
-          {phimChitiet.tenphim || "Loading..."}
-        </h1>
-        <ul>
-          <li><a href="#">Kinh dị</a></li>
-          <li><a href="#">America</a></li>
-          <li><a href="#">{phimChitiet.thoiluong}</a></li>
-          <li><a href="#">{phimChitiet.daodien}</a></li>
-        </ul>
-        <p className="card-text">
-          {phimChitiet.dienvien}
-        </p>
-        <p className="card-text">
-          Khởi chiếu: {ngayHieuLuc}
-        </p>
-        <p className="card-text">
-          <small>
-            {phimChitiet && phimChitiet.noidung
-              ? phimChitiet.noidung.length > 100
-                ? `${phimChitiet.noidung.slice(0, 100)}...`
-                : phimChitiet.noidung
-              : "Loading..."}
-          </small>
-        </p>
-        <p className="card-node text-danger">
-          Kiểm duyệt: T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)
-        </p>
-        <div className="view-detail d-flex">
-          <p className="card-text mt-2">Chi tiết nội dung</p>
-          <button
-            onClick={toggleTrailer}
-            className="btn ms-3 rounded-pill bg-dark text-warning border border-warning"
-          >
-            Xem Trailer
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {showTrailer && (
-    <div
-      className="modal d-block"
-      tabIndex="-1"
-      role="dialog"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
-    >
-      <div className="modal-dialog modal-lg" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">
-              Trailer: {phimChitiet.tenphim}
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={toggleTrailer}
-            ></button>
+        <div className="card ">
+          <div className="img-container  position-relative">
+            <img
+              src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
+              alt="Ảnh nền phim"
+              className="film-img"
+            />
           </div>
-          <div className="modal-body">
-            <div className="embed-responsive embed-responsive-16by9">
-              <iframe
-                width="100%"
-                height="500"
-                src={phimChitiet.trailler}
-                title={phimChitiet.tenphim || "Trailer"}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              ></iframe>
+
+          <div className="card-body film-details">
+            <div className="img-overlay ">
+              <img
+                src={`http://localhost:3000/img/phims/${phimChitiet.img}`}
+                alt="Ảnh chính phim"
+                className="film-img-small"
+              />
+            </div>
+
+            <div className="title-overlay ms-lg-3 text-white">
+              <h1 className="card-title">
+                {phimChitiet.tenphim || "Loading..."}
+              </h1>
+              <ul>
+                <li><a href="#">Kinh dị</a></li>
+                <li><a href="#">America</a></li>
+                <li><a href="#">{phimChitiet.thoiluong}</a></li>
+                <li><a href="#">{phimChitiet.daodien}</a></li>
+              </ul>
+              <p className="card-text">
+                {phimChitiet.dienvien}
+              </p>
+              <p className="card-text">
+                Khởi chiếu: {ngayHieuLuc}
+              </p>
+              <p className="card-text">
+                <small>
+                  {phimChitiet && phimChitiet.noidung
+                    ? phimChitiet.noidung.length > 100
+                      ? `${phimChitiet.noidung.slice(0, 100)}...`
+                      : phimChitiet.noidung
+                    : "Loading..."}
+                </small>
+              </p>
+              <p className="card-node text-danger">
+                Kiểm duyệt: T18 - Phim được phổ biến đến người xem từ đủ 18 tuổi trở lên (18+)
+              </p>
+              <div className="view-detail d-flex">
+                <p className="card-text mt-2">Chi tiết nội dung</p>
+                <button
+                  onClick={toggleTrailer}
+                  className="btn ms-3 rounded-pill bg-dark text-warning border border-warning"
+                >
+                  Xem Trailer
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  )}
-</section>
+
+        {showTrailer && (
+          <div
+            className="modal d-block"
+            tabIndex="-1"
+            role="dialog"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+          >
+            <div className="modal-dialog modal-lg" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">
+                    Trailer: {phimChitiet.tenphim}
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={toggleTrailer}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div className="embed-responsive embed-responsive-16by9">
+                    <iframe
+                      width="100%"
+                      height="500"
+                      src={phimChitiet.trailler}
+                      title={phimChitiet.tenphim || "Trailer"}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
 
 
       <div className="date-order">
@@ -588,14 +580,34 @@ export default function filmdetail({ params }) {
                                     (item) => item._id === ghe.loaighe_id
                                   );
                                   const giaLoaighe = giaghedata;
+
+                                  // Tập hợp các ghế đã mua để tối ưu hóa tra cứu
+                                  const purchasedSeats = new Set(
+                                    vedata.flatMap((item) => item.ghe_id)
+                                  );
+                                  const isPurchased = purchasedSeats.has(ghe._id);
+                                  // Áp dụng màu sắc và trạng thái cho ghế
                                   let style = {};
-                                  if (loaigheItem) {
+                                  if (isPurchased) {
+                                    style.backgroundColor = "gray";
+                                    style.cursor = "not-allowed";
+                                  } else if (loaigheItem) {
                                     style.backgroundColor = loaigheItem.mau;
                                   }
                                   if (isSelected) {
                                     style.backgroundColor = "#005AD8";
                                     style.color = "white";
                                   }
+
+                                  // Không cho phép chọn ghế đã mua
+                                  const handleClick = () => {
+                                    if (isPurchased) {
+                                      alert("Ghế này đã được mua, bạn không thể chọn!");
+                                      return;
+                                    }
+                                    handleSeatClick(ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData);
+                                  };
+
                                   return (
                                     <td
                                       key={ghe._id}
@@ -604,15 +616,13 @@ export default function filmdetail({ params }) {
                                         textAlign: "center",
                                         fontSize: "16px",
                                         padding: "5px",
-                                        cursor: "pointer",
+                                        cursor: isPurchased ? "not-allowed" : "pointer",
                                         border: "1px solid #ccc",
                                         margin: "3px",
                                       }}
-                                      onClick={() =>
-                                        handleSeatClick(ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData)
-                                      }
+                                      onClick={handleClick}
                                     >
-                                      {seat}
+                                      {isPurchased ? "X" : seat}
                                     </td>
                                   );
                                 })}
@@ -622,6 +632,7 @@ export default function filmdetail({ params }) {
                         </div>
                       ))}
                   </tbody>
+
                 </table>
               </div>
               {/* <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
