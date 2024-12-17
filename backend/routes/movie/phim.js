@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const multer = require('multer');
 const Phim = require('../../models/movie/phim');
+const PhimTheLoai = require('../../models/movie/phimtheloai');
+const TheLoai = require('../../models/movie/theloai'); 
 const path = require('path');
 
 const storage = multer.diskStorage({
@@ -55,46 +57,63 @@ router.get('/', async function(req, res, next) {
 // upload phim 
 router.post('/add', upload.single('img'), async (req, res) => {
   try {
-      const {
-          tenphim,
-          noidung,
-          thoiluong,
-          daodien,
-          dienvien,
-          trailler,
-          ngayhieuluc,
-          ngayhieulucden,
-          trangthai,
-      } = req.body;
-      const ngayhieulucDATA=ngayhieuluc.split("T")[0];
-      const ngayhieulucdenDATA=ngayhieulucden.split("T")[0];
-      const requiredFields = [tenphim, noidung, thoiluong, daodien, dienvien, trailler, ngayhieulucDATA, ngayhieulucdenDATA, trangthai];
-      for (const field of requiredFields) {
-          if (!field) {
-              return res.status(400).send({ message: 'All fields are required.' });
-          }
-      }
-      const img = req.file ? req.file.originalname : null;
-      const newphim = {
-          tenphim,
-          noidung,
-          thoiluong,
-          daodien,
-          dienvien,
-          trailler, // Make sure to use the correct spelling
-          ngayhieuluc:ngayhieulucDATA,
-          ngayhieulucden:ngayhieulucdenDATA,
-          trangthai,
-          img,
-      };
+    const {
+      tenphim,
+      noidung,
+      thoiluong,
+      daodien,
+      dienvien,
+      trailler,
+      ngayhieuluc,
+      ngayhieulucden,
+      trangthai,
+      theloaiIds
+    } = req.body;
 
-      const result = await Phim.create(newphim);
-      res.status(201).send(result);
+    // Kiểm tra nếu các trường không hợp lệ
+    if (!tenphim || !noidung || !thoiluong || !daodien || !dienvien || !trailler || !ngayhieuluc || !ngayhieulucden || !trangthai || !theloaiIds) {
+      return res.status(400).send({ message: 'Tất cả các trường là bắt buộc.' });
+    }
+
+    // Chắc chắn rằng theloaiIds là một mảng
+    let genresArray = [];
+    try {
+      genresArray = JSON.parse(theloaiIds); // chuyển đổi thành mảng nếu là chuỗi
+    } catch (e) {
+      return res.status(400).send({ message: 'theloaiIds phải là một mảng hợp lệ.' });
+    }
+
+    const img = req.file ? req.file.originalname : null;
+
+    const newPhim = {
+      tenphim,
+      noidung,
+      thoiluong,
+      daodien,
+      dienvien,
+      trailler,
+      ngayhieuluc,
+      ngayhieulucden,
+      trangthai,
+      img
+    };
+
+    // Tạo mới phim
+    const result = await Phim.create(newPhim);
+
+    // Lưu thể loại cho phim
+    const phimId = result._id;
+    const theloaiPromises = genresArray.map(id => PhimTheLoai.create({ phim_id: phimId, theloai_id: id }));
+
+    await Promise.all(theloaiPromises);
+
+    res.status(201).send(result);
   } catch (err) {
-      console.error('Error uploading movie:', err); 
-      res.status(500).send({ error: 'An error occurred while uploading the movie.' });
+    console.error('Lỗi khi thêm phim:', err);
+    res.status(500).send({ error: 'Đã có lỗi xảy ra khi thêm phim.' });
   }
 });
+
 //xóa phim
  router.delete('/:id', async (req, res) => {
   try {
@@ -105,7 +124,6 @@ router.post('/add', upload.single('img'), async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-//update phim
 //update phim
 router.put('/:id', upload.single('img'), async (req, res) => {
   try {

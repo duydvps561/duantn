@@ -244,8 +244,8 @@ export default function EditMovie() {
         value={movie.trangthai}
         onChange={handleInputChange}
       >
-        <option value="1">Không hoạt động</option>
-        <option value="0">Hoạt động</option>
+        <option value="1">Sắp Chiếu</option>
+        <option value="0">Đang Chiếu</option>
       </select>
     </div>
   </div>
