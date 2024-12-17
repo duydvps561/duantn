@@ -4,23 +4,23 @@ import "./news.css";
 import { useEffect, useState } from "react";
 
 export default function Tintuc() {
-  const boxes = document.querySelectorAll('.box');
+  const boxes = document.querySelectorAll(".box");
 
   const options = {
     root: null,
-    rootMargin: '0px',
-    threshold: .1
+    rootMargin: "0px",
+    threshold: 0.1,
   };
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        entry.target.classList.add("visible");
         observer.unobserve(entry.target);
       }
     });
   }, options);
 
-  boxes.forEach(box => {
+  boxes.forEach((box) => {
     observer.observe(box);
   });
   const [tintuc, setTintuc] = useState([]);
@@ -45,15 +45,18 @@ export default function Tintuc() {
 
   return (
     <>
-      <div className="container">
+      <div className="container-tintuc">
         <div className="row">
           {tintuc.map((item, index) => (
             <div className="col-md-4" key={index}>
-              <Link className="text-decoration-none" href={`/tintucchitiet/${item._id}`}>
+              <Link
+                className="text-decoration-none"
+                href={`/tintucchitiet/${item._id}`}
+              >
                 <div className="box hover:no-underline">
                   <div className="box_top">
                     <img
-                    src={`http://localhost:3000/img/tintuc/${item.image}`}
+                      src={`http://localhost:3000/img/tintuc/${item.image}`}
                       alt="Tin tức"
                       className="img-thumbnail w-100 max--height "
                     />
@@ -72,8 +75,6 @@ export default function Tintuc() {
           ))}
         </div>
       </div>
-
-
     </>
   );
 }
