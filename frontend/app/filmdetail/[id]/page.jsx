@@ -33,6 +33,10 @@ export default function filmdetail({ params }) {
   const [gheData, setGheData] = useState([]);
   const [loaighe, setloaiGhe] = useState([]);
   const [timeleft, setTimeLeft] = useState(10 * 60);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleContent = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   useEffect(() => {
     if (timeleft > 0) {
@@ -193,27 +197,24 @@ export default function filmdetail({ params }) {
     ngayChieu.setHours(0, 0, 0, 0);
     return ngayChieu >= today && ngayChieu <= endDate;
   });
+
   const handleSeatClick = (ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData) => {
     const loaighe = loaigheItem.loaighe;
-    // Lọc giá theo loại ghế
     const giatheoLoaighe = giaLoaighe.filter(
       (item) => item.loaighe_id.loaighe === loaighe
     );
 
-    const currentDate = new Date(); // Lấy ngày hiện tại
-    const currentDay = currentDate.getDay(); // Lấy ngày trong tuần (0: Chủ Nhật, 1: Thứ Hai, ..., 6: Thứ Bảy)
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay();
 
-    // Kiểm tra nếu là cuối tuần (Thứ Bảy hoặc Chủ Nhật)
     const isWeekend = (currentDay === 0 || currentDay === 6) ? 1 : 0;
 
     console.log(`Hôm nay là ${currentDay === 0 ? 'Chủ Nhật' : currentDay === 6 ? 'Thứ Bảy' : 'ngày thường'}, isWeekend: ${isWeekend}`);
 
-    // Lọc các phần tử trong giatheoLoaighe có khung giờ phù hợp và kiểm tra ngày cuối tuần
     const filteredData = giatheoLoaighe.filter((item) => {
       const startTime = item.giobatdau;
       const endTime = item.gioketthuc;
 
-      // Chuyển thời gian bắt đầu và kết thúc thành tổng số phút
       const [startHour, startMinute] = startTime.split(':').map(Number);
       const [endHour, endMinute] = endTime.split(':').map(Number);
 
@@ -222,10 +223,9 @@ export default function filmdetail({ params }) {
       let endTimeInMinutes = endHour * 60 + endMinute;
 
       if (endTimeInMinutes < startTimeInMinutes) {
-        endTimeInMinutes += 24 * 60; // Cộng thêm 24h nếu qua ngày tiếp theo
+        endTimeInMinutes += 24 * 60;
       }
 
-      // Kiểm tra khung giờ và ngày cuối tuần
       return (
         currentTimeInMinutes >= startTimeInMinutes &&
         currentTimeInMinutes <= endTimeInMinutes &&
@@ -233,15 +233,7 @@ export default function filmdetail({ params }) {
       );
     });
 
-    // Lấy giá trị giaghe
     const gia = filteredData.length > 0 ? filteredData[0].giaghe : 0;
-
-    if (gia > 0) {
-      console.log(`Khung giờ hiện tại, Giá ghế: ${gia}`);
-    } else {
-      console.log("Không có dữ liệu phù hợp. Giá ghế mặc định: 0");
-    }
-
     // In chi tiết các phần tử khớp
     if (filteredData.length > 0) {
       filteredData.forEach((item) => {
@@ -282,19 +274,29 @@ export default function filmdetail({ params }) {
             firstSeat,
             secondSeat,
           ]);
-          dispatch(
-            addSeat({
-              _id: ghe._id,
-              seat: [firstSeat, secondSeat],
-              gia: gia * 1,
-            })
-          );
-          setGiaghe((prevTotal) => prevTotal + gia * 2);
+
+          // Lưu cả hai ghế vào giỏ hàng, giả sử bạn có _id cho từng ghế
+          const firstSeatId = gheData.find(g => `${g.hang}${g.cot}` === firstSeat && g.phongchieu_id === phongchieudata?._id)?._id;
+          const secondSeatId = gheData.find(g => `${g.hang}${g.cot}` === secondSeat && g.phongchieu_id === phongchieudata?._id)?._id;
+
+          if (firstSeatId && secondSeatId) {
+            dispatch(
+              addSeat({
+                _id: [firstSeatId, secondSeatId],
+                seat: [firstSeat, secondSeat],
+                gia: gia * 1,
+              })
+            );
+            setGiaghe((prevTotal) => prevTotal + gia * 2);
+          } else {
+            alert("Không tìm thấy thông tin ghế!");
+          }
         } else {
           alert("Ghế đôi không hợp lệ! Ghế liền kề đã bị chọn.");
         }
       }
     };
+
 
 
     const handleSingleSeat = () => {
@@ -304,10 +306,13 @@ export default function filmdetail({ params }) {
       const isSeatSelected = seatSelected.includes(seat);
 
       const purchasedSeatsInRow = vedata
-        .filter((item) => item.ghe_id.includes(ghe._id) && item.ghe_id.charAt(0) === seatRow)
-        .map((item) => parseInt(item.ghe_id.substring(1)))
+        .filter(
+          (item) =>
+            String(item.ghe_id).includes(ghe._id) &&
+            String(item.ghe_id).charAt(0) === seatRow
+        )
+        .map((item) => parseInt(String(item.ghe_id).substring(1)))
         .sort((a, b) => a - b);
-
       if (purchasedSeatsInRow.length > 0) {
         const lastPurchasedSeat = purchasedSeatsInRow[purchasedSeatsInRow.length - 1];
 
@@ -365,6 +370,30 @@ export default function filmdetail({ params }) {
       handleSingleSeat();
     }
   };
+  const getPurchasedSeatsForDate = (selectedDate, selectedTime) => {
+    const formattedSelectedDate = new Date(selectedDate).setHours(0, 0, 0, 0);
+
+    return vedata
+      .filter((ve) => {
+        const caChieu = cachieu.find((ca) => ca._id === ve.cachieu_id);
+        if (!caChieu) return false;
+
+        const ngayChieu = new Date(caChieu.ngaychieu).setHours(0, 0, 0, 0);
+        const gioBatDau = caChieu.giobatdau; // Giả sử `giobatdau` là chuỗi thời gian 'HH:mm'
+
+        return (
+          ngayChieu === formattedSelectedDate &&
+          gioBatDau === selectedTime // So sánh giờ bắt đầu
+        );
+      })
+      .flatMap((ve) => ve.ghe_id);
+  };
+
+  // Sử dụng hàm
+  const selectedDate = ngaychieuSelected;
+  const selectedTime = giochieu;
+  const purchasedSeats = new Set(getPurchasedSeatsForDate(selectedDate, selectedTime));
+
   return (
     <>
       <section className="film-detail">
@@ -402,13 +431,19 @@ export default function filmdetail({ params }) {
               <p className="card-text">
                 Khởi chiếu: {ngayHieuLuc}
               </p>
-              <p className="card-text">
+              <p className="card-text" onClick={toggleContent} style={{ cursor: "pointer" }}>
                 <small>
-                  {phimChitiet && phimChitiet.noidung
-                    ? phimChitiet.noidung.length > 100
-                      ? `${phimChitiet.noidung.slice(0, 100)}...`
-                      : phimChitiet.noidung
-                    : "Loading..."}
+                  {phimChitiet && phimChitiet.noidung ? (
+                    isExpanded ? (
+                      phimChitiet.noidung
+                    ) : (
+                      phimChitiet.noidung.length > 100
+                        ? `${phimChitiet.noidung.slice(0, 100)}...`
+                        : phimChitiet.noidung
+                    )
+                  ) : (
+                    "Loading..."
+                  )}
                 </small>
               </p>
               <p className="card-node text-danger">
@@ -576,17 +611,13 @@ export default function filmdetail({ params }) {
                                 {seats.map((ghe) => {
                                   const seat = `${ghe.hang}${ghe.cot}`;
                                   const isSelected = seatSelected.includes(seat);
-                                  const loaigheItem = loaighe.find(
-                                    (item) => item._id === ghe.loaighe_id
-                                  );
+                                  const loaigheItem = loaighe.find((item) => item._id === ghe.loaighe_id);
                                   const giaLoaighe = giaghedata;
 
-                                  // Tập hợp các ghế đã mua để tối ưu hóa tra cứu
-                                  const purchasedSeats = new Set(
-                                    vedata.flatMap((item) => item.ghe_id)
-                                  );
+                                  // Lọc ghế đã mua dựa trên ngày chiếu
+
                                   const isPurchased = purchasedSeats.has(ghe._id);
-                                  // Áp dụng màu sắc và trạng thái cho ghế
+                                  // Định nghĩa kiểu dáng ghế
                                   let style = {};
                                   if (isPurchased) {
                                     style.backgroundColor = "gray";
@@ -599,7 +630,7 @@ export default function filmdetail({ params }) {
                                     style.color = "white";
                                   }
 
-                                  // Không cho phép chọn ghế đã mua
+                                  // Xử lý sự kiện click
                                   const handleClick = () => {
                                     if (isPurchased) {
                                       alert("Ghế này đã được mua, bạn không thể chọn!");
@@ -628,6 +659,7 @@ export default function filmdetail({ params }) {
                                 })}
                               </tr>
                             </tbody>
+
                           </table>
                         </div>
                       ))}
@@ -635,28 +667,28 @@ export default function filmdetail({ params }) {
 
                 </table>
               </div>
-              {/* <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
-                <div className="note d-flex gap-2">
+              <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
+                <div className="note d-flex gap-2 align-center">
                   <p className="box-color-1">X</p>
-                  <p>Đã đặt</p>
+                  <p className="mt-1">Đã đặt</p>
                 </div>
                 <div className="note d-flex gap-2">
                   <p className="box-color-2"></p>
-                  <p>Ghế bạn chọn</p>
+                  <p className="mt-1">Ghế bạn chọn</p>
                 </div>
                 <div className="note d-flex gap-2">
                   <p className="box-color-3"></p>
-                  <p>ghế thường</p>
+                  <p className="mt-1">ghế thường</p>
                 </div>
                 <div className="note d-flex gap-2">
                   <p className="box-color-4"></p>
-                  <p>Ghế VIP</p>
+                  <p className="mt-1">Ghế VIP</p>
                 </div>
                 <div className="note d-flex gap-2">
                   <p className="box-color-5"></p>
-                  <p>Ghế đôi</p>
+                  <p className="mt-1">Ghế đôi</p>
                 </div>
-              </div> */}
+              </div>
               <div className="d-flex justify-content-center text-light mt-1">
                 <p>Giá ghế thay đổi theo từng khung giờ. Quý khách vui lòng tham khảo trang <Link href={"/ticket"} style={{ textDecoration: 'none', fontWeight: 'bold', fontSize: '14px' }}>Giá vé</Link> để biết thêm thông tin</p>
               </div>

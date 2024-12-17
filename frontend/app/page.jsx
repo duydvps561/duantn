@@ -57,16 +57,18 @@ export default function Home() {
     const filmInfo = JSON.parse(localStorage.getItem("filmInfo") || "[]");
     setCachieuID(filmInfo.cachieuID);
     const idghe = cart
-      .filter((item) => item.hasOwnProperty("seat"))
-      .map((item) => item._id);
-    setGheID(idghe);
+      .filter((item) => item.hasOwnProperty("seat")) // Lọc các mục có thuộc tính "seat"
+      .flatMap((item) => item._id); // Lấy tất cả _id từ mảng _id của mỗi mục
+
+    setGheID(idghe); // Lưu các _id vào state
+
     const foodDetails = cart
-    .filter((item) => item.hasOwnProperty("tenfood"))
-    .map((item) => ({
+      .filter((item) => item.hasOwnProperty("tenfood"))
+      .map((item) => ({
         id: item._id,
         quantity: item.quantity,
         gia: item.gia,
-    }));
+      }));
     setFood(foodDetails);
     const amount = cart.reduce(
       (acc, item) => acc + item.gia * (item.quantity || 1),
@@ -123,9 +125,9 @@ export default function Home() {
             hoadon_id: hoadonId,
             food_id: item.id,
             soluong: item.quantity,
-            tongtien: item.gia*item.quantity,
+            tongtien: item.gia * item.quantity,
           }));
-      
+
           foodorderDataList.forEach((foodorderData) => {
             dispatch(postFoodOrder(foodorderData));
           });
@@ -138,10 +140,10 @@ export default function Home() {
           };
           food.forEach((fod) => {
             dispatch(postFoodOrder(fod));
-        });
+          });
           const ticketResult = await dispatch(postTicket(ticketdata)).unwrap();
           console.log("Vé đã được tạo:", ticketResult);
-          const ticketId = ticketResult.hoadon_id;
+          const ticketId = ticketResult._id;
           const ticketDetails = await fetch(
             `http://localhost:3000/ve/${ticketId}`
           ).then((res) => res.json());
@@ -153,6 +155,7 @@ export default function Home() {
           if (!cachieu) throw new Error("Không tìm thấy suất chiếu!");
 
           const gheList = [];
+          console.log(ticketDetails.ghe_id)
           try {
             const ghePromises = ticketDetails.ghe_id.map(async (gheid) => {
               const response = await fetch(
@@ -185,7 +188,8 @@ export default function Home() {
           const ngayThangNam = `${ngay}/${thang}/${nam}`;
 
           // qr
-          const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${ticketId}&size=200x200`;
+          console.log(ticketDetails.hoadon_id)
+          const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${ticketDetails.hoadon_id}&size=200x200`;
           const emailHTML = `
           <html>
             <style>
@@ -270,7 +274,6 @@ export default function Home() {
             "Thanh toán thành công. Cảm ơn bạn đã mua vé tại ACE Cinema. Hãy kiểm tra email để xem thông tin về vé!"
           );
           setShowNotification(true);
-
           setTimeout(() => {
             localStorage.removeItem("hoadonProcessed");
             router.replace("/");
@@ -315,15 +318,15 @@ export default function Home() {
           axios.get("http://localhost:3000/phim/dangchieu"),
           axios.get("http://localhost:3000/phim/sapchieu"),
         ]);
-      const nowPlayingMovies = nowPlayingResponse.data
-        .sort((a, b) => new Date(b.ngayhieuluc) - new Date(a.ngayhieuluc))
-        .slice(0, 10);
-      const comingSoonMovies = comingSoonResponse.data
-        .sort((a, b) => new Date(b.ngayhieuluc) - new Date(a.ngayhieuluc))
-        .slice(0, 10);
+        const nowPlayingMovies = nowPlayingResponse.data
+          .sort((a, b) => new Date(b.ngayhieuluc) - new Date(a.ngayhieuluc))
+          .slice(0, 10);
+        const comingSoonMovies = comingSoonResponse.data
+          .sort((a, b) => new Date(b.ngayhieuluc) - new Date(a.ngayhieuluc))
+          .slice(0, 10);
 
-      setMoviesNowPlaying(nowPlayingMovies);
-      setMoviesComingSoon(comingSoonMovies);
+        setMoviesNowPlaying(nowPlayingMovies);
+        setMoviesComingSoon(comingSoonMovies);
       } catch (error) {
         console.error("Không tìm thấy dữ liệu phim:", error);
       }
