@@ -12,6 +12,7 @@ router.get('/', async function(req, res, next) {
     next(err);
   }
 });
+
 router.get('/:id', async (req, res) => {
   try {
     const ghe = await Ghe.findById(req.params.id);
