@@ -5,13 +5,14 @@ const path = require("path");
 const Taikhoan = require("../../models/account/taikhoan");
 const Hoadon = require("../../models/food/hoadon");
 
-// Multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../../public/img/user"));
+    const destPath = path.join(__dirname, "../../public/img/user");
+    cb(null, destPath);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
   },
 });
 
@@ -26,6 +27,7 @@ function checkFileUpload(req, file, cb) {
 const upload = multer({
   storage: storage,
   fileFilter: checkFileUpload,
+  limits: { fileSize: 5 * 1024 * 1024 }, // Giới hạn kích thước tệp 5MB
 });
 
 // Get all accounts
@@ -119,17 +121,41 @@ router.get("/:id", async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-// Update account
-router.put("/:id", async (req, res) => {
+
+router.put("/:id", upload.single("img"), async (req, res) => {
   try {
-    const taikhoan = await Taikhoan.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const { email, tentaikhoan, sdt, ngaysinh } = req.body;
+
+    // Kiểm tra ID tài khoản
+    const taikhoan = await Taikhoan.findById(req.params.id);
     if (!taikhoan) {
       return res.status(404).send({ error: "Account not found" });
     }
-    res.json(taikhoan);
+
+    // Kiểm tra dữ liệu cập nhật
+    if (!email && !tentaikhoan && !sdt && !ngaysinh && !req.file) {
+      return res.status(400).send({ error: "No data provided for update" });
+    }
+
+    // Cập nhật thông tin từ phần thân yêu cầu
+    if (email) taikhoan.email = email;
+    if (tentaikhoan) taikhoan.tentaikhoan = tentaikhoan;
+    if (sdt) taikhoan.sdt = sdt;
+    if (ngaysinh) taikhoan.ngaysinh = ngaysinh;
+
+    // Cập nhật hình ảnh nếu có
+    if (req.file) {
+      console.log("Uploaded file:", req.file.filename);
+      taikhoan.img = `/img/user/${req.file.filename}`;
+    }
+
+    // Lưu thông tin cập nhật vào cơ sở dữ liệu
+    const updatedAccount = await taikhoan.save();
+
+    // Trả về thông tin người dùng đã được cập nhật
+    res.status(200).json(updatedAccount);
   } catch (err) {
+    console.error(err.message);
     res.status(500).send({ error: err.message });
   }
 });
