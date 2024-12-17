@@ -27,10 +27,16 @@ router.post("/add", async (req, res) => {
 // Get invoice by ID
 router.get("/:id", async (req, res) => {
   try {
-    const hoadon = await Hoadon.findById(req.params.id).populate(
-      "taikhoan_id",
-      "tentaikhoan"
-    );
+    const hoadon = await Hoadon.findById(req.params.id)
+      .populate("taikhoan_id", "tentaikhoan") // Populate tài khoản với trường tentaikhoan
+      .populate({
+        path: "doan",          // Đường dẫn tới mối quan hệ
+        populate: {
+          path: "foododers",  // Populate tiếp foodorders trong doan
+          select: "food_id",   // Chỉ lấy trường food_id
+        },
+      });
+
     if (!hoadon) {
       return res.status(404).send({ message: "Hóa đơn không tồn tại" });
     }
@@ -39,7 +45,6 @@ router.get("/:id", async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 });
-
 // Get invoice details
 router.get("/:id/details", async (req, res) => {
   try {
@@ -116,3 +121,4 @@ router.put("/qrcheckin/:id", async (req, res) => {
 });
 
 module.exports = router;
+  
