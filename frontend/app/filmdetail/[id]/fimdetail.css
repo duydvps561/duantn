@@ -271,7 +271,7 @@
   width: 40px;
   height: 40px;
   border-radius: 5px;
-  background-color: #252a31;
+  background-color: grey;
 }
 
 .note .box-color-2 {
@@ -295,7 +295,7 @@
   width: 40px;
   height: 40px;
   border-radius: 5px;
-  background-color: #ff8413;
+  background-color: #B62020;
 }
 
 .note .box-color-5 {
@@ -303,7 +303,7 @@
   width: 40px;
   height: 40px;
   border-radius: 5px;
-  background-color: #ff3741;
+  background-color: #F8E71C;
 }
 
 .seat-bill {
