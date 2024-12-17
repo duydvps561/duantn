@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './header.css'; // Import CSS file
-
+import './header.css';
 const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
