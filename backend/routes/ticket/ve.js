@@ -34,6 +34,24 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/hoadon/:hoadon_id', async (req, res) => {
+  try {
+   
+    const ve = await Ve.find({ hoadon_id: req.params.hoadon_id })
+      .populate({
+        path: 'cachieu_id',  // Tìm thông tin lịch chiếu
+        select: 'giobatdau gioketthuc ngaychieu phim_id'  // Chọn các trường cần thiết
+      });
+
+    if (!ve || ve.length === 0) {
+      return res.status(404).send({ message: 'Không tìm thấy vé cho hóa đơn này' });
+    }
+
+    res.json(ve);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 router.post('/add', async (req, res) => {
   try {
     const ve = new Ve(req.body);

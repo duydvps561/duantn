@@ -1,7 +1,8 @@
 var express = require("express");
 var router = express.Router();
 const Hoadon = require("../../models/food/hoadon");
-
+const FoodOder = require('../../models/food/foododer');// Model FoodOrder
+const Ve = require('../../models/ticket/ve');
 // Get all invoices
 router.get("/", async function (req, res, next) {
   try {
@@ -24,19 +25,97 @@ router.post("/add", async (req, res) => {
   }
 });
 
-// Get invoice by ID
+// router.get("/:id", async (req, res) => {
+//   try {
+//     const hoadon = await Hoadon.findById(req.params.id)
+//     .populate("taikhoan_id","tentaikhoan");
+//     const tickets = await Ve.find({ hoadon_id: req.params.id })
+//     .populate({
+//       path: 'cachieu_id',     
+//       model: 'cachieu_id',          
+//       select: 'giobatdau gioketthuc ngaychieu phim_id'
+//   });
+ 
+//     if (!hoadon) {
+//       return res.status(404).send({ message: "Hóa đơn không tồn tại" });
+//     }
+//     res.json(hoadon);
+//   } catch (err) {
+//     res.status(500).send({ error: err.message });
+//   }
+// });
+
 router.get("/:id", async (req, res) => {
   try {
-    const hoadon = await Hoadon.findById(req.params.id).populate(
-      "taikhoan_id",
-      "tentaikhoan"
-    );
+    // Lấy thông tin hóa đơn
+    const hoadon = await Hoadon.findById(req.params.id)
+      .populate("taikhoan_id", "tentaikhoan"); // Lấy tên tài khoản
+    
     if (!hoadon) {
       return res.status(404).send({ message: "Hóa đơn không tồn tại" });
     }
-    res.json(hoadon);
+
+    // Lấy tất cả món ăn/thức uống từ bảng foododer dựa vào hoadon_id
+    const foodOrders = await FoodOder.find({ hoadon_id: req.params.id })
+      .populate("food_id", "tenfood gia") // Lấy tên món ăn và giá
+      .lean();
+    // Debug thông tin foodOrders
+    console.log("Food Orders:", foodOrders);
+
+    // Lấy tất cả vé từ bảng ve dựa vào hoadon_id
+    const tickets = await Ve.find({ hoadon_id: req.params.id })
+  .populate({
+    path: 'cachieu_id', // Tìm thông tin lịch chiếu
+    select: 'giobatdau gioketthuc ngaychieu phim_id', // Chọn các trường cần thiết
+    populate: {
+      path: 'phim_id', // Tìm thông tin phim
+      select: 'tenphim thoiluong' // Chọn các trường cần thiết của phim
+    }
+  })
+  .populate({
+    path: 'ghe_id', // Populate the `ghe_id` field (seats)
+    select: 'hang cot phongchieu_id createdAt updatedAt', // Select specific fields from `ghe_id`
+    populate: {
+      path: 'phongchieu_id', // Populate hall details if needed
+      select: 'tenphongchieu' // Select the hall name
+    }
+  })
+  .lean()
+    // Debug thông tin tickets
+    console.log("Tickets:", tickets);
+
+  
+    // Tổng hợp dữ liệu trả về
+    const response = {
+      hoadon: {
+        _id: hoadon._id,
+        tentaikhoan: hoadon.taikhoan_id?.tentaikhoan || "Không xác định",
+        tongtien: hoadon.tongtien,
+        createdAt: hoadon.createdAt
+      },
+      foodOrders: foodOrders.map(order => ({
+        tenmon: order.food_id?.tenfood || "Không xác định",
+        gia: order.food_id?.gia || 0,
+        soluong: order.soluong,
+        tongtien: order.tongtien
+      })),
+      tickets: tickets.map(ticket => ({
+        giave: ticket.giave,
+        giobatdau: ticket.cachieu_id?.giobatdau || "N/A",
+        gioketthuc: ticket.cachieu_id?.gioketthuc || "N/A",
+        ngaychieu: ticket.cachieu_id?.ngaychieu || "N/A",
+        tenphim: ticket.cachieu_id?.phim_id?.tenphim || "N/A",
+        thoiluong: ticket.cachieu_id?.phim_id?.thoiluong || "N/A",
+        soghe: ticket.ghe_id?.map(ghe => `${ghe.hang}${ghe.cot}`).join(", ") || "N/A", // Combine row and column for seats
+        phongchieu: ticket.ghe_id?.map(ghe => ghe.phongchieu_id?.tenphongchieu).join(", ") || "N/A" // Hall name for each seat
+      }))
+    };
+
+    // Trả về kết quả
+    res.json(response);
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    console.error(err);
+    res.status(500).send({ error: "Có lỗi xảy ra khi lấy dữ liệu" });
   }
 });
 

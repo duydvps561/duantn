@@ -6,8 +6,8 @@
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
 }
-.container {
-  width: 100%;
+.container-tintuc {
+  width: 80%;
   margin: 0 auto;
 }
 .n-title {
@@ -66,19 +66,19 @@
   height: 100%;
   color: #ffffff;
 }
-.container {
+.container-tintuc {
   color: #ffffff;
 }
-.container .t-detail-title {
+.container-tintuc .t-detail-title {
   font-size: 30px;
   font-weight: bold;
   color: #ffffff;
 }
-.container .t-detail-content {
+.container-tintuc .t-detail-content {
   display: flex;
   flex-direction: column;
 }
-.max--height{
+.max--height {
   max-height: 270px;
   min-height: 270px;
 }

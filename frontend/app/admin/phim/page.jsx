@@ -26,7 +26,7 @@ const QuanLyPhimPage = () => {
         const data = await response.json();
         // Sắp xếp theo ngày hiệu lực từ mới đến cũ
         const sortedMovies = data.sort(
-          (a, b) => new Date(b.ngayhieuluc) - new Date(a.ngayhieuluc)
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setMovies(sortedMovies);
         setFilteredMovies(sortedMovies);
