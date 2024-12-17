@@ -14,17 +14,17 @@ body {
 }
 /* main content */
 /* Main Content */
-.container {
+/* .container {
   max-width: 1400px; 
   margin: 0 auto; 
   padding: 20px; 
-}
+} */
 
-.container .row {
+/* .container .row {
   display: flex; 
-  flex-wrap: wrap; /* Cho phép các phần tử xuống dòng */
-  gap: 20px; /* Khoảng cách giữa các phần tử */
-}
+  flex-wrap: wrap; 
+  gap: 20px; 
+} */
 
 .container .main-title {
   display: flex;
@@ -120,7 +120,7 @@ body {
   }
 
   .container .row .card {
-    width: calc(45% - 20px); /* 2 cột trên màn hình vừa */
+    width: calc(45% - 20px); 
   }
 
   .card-body {

@@ -2,7 +2,6 @@ import React from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Access from "../accessRole";
-
 const Layout = ({ children }) => {
   return (
     <>

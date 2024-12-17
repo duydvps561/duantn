@@ -9,17 +9,12 @@ import "./user.css"; // Nhập file CSS
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user); // Lấy user từ Redux state
+  const user = useSelector((state) => state.auth.user);
 
-  const [userData, setUserData] = useState(() => {
-    const savedData = localStorage.getItem("userData");
-    return savedData ? JSON.parse(savedData) : null;
-  });
-
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [avatar, setAvatar] = useState(null); // Thêm state cho avatar
 
   const formik = useFormik({
     initialValues: {
@@ -27,6 +22,7 @@ const UserProfile = () => {
       tentaikhoan: "",
       sdt: "",
       ngaysinh: "",
+      img: null,
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -42,29 +38,38 @@ const UserProfile = () => {
     }),
     onSubmit: async (values) => {
       const id = user?.id;
-
+      if (!id) {
+        console.error("User ID not found");
+        return;
+      }
       try {
         const formData = new FormData();
         formData.append("email", values.email);
         formData.append("tentaikhoan", values.tentaikhoan);
         formData.append("sdt", values.sdt);
         formData.append("ngaysinh", values.ngaysinh);
-        
-        // Nếu có avatar mới, thêm vào formData
-        if (avatar) {
-          formData.append("img", avatar);
+
+        if (values.img) {
+          formData.append("img", values.img);
+        }
+
+        console.log("FormData being submitted:");
+        for (let [key, value] of formData.entries()) {
+          console.log(`${key}:`, value);
         }
 
         const response = await axios.put(
           `http://localhost:3000/taikhoan/${id}`,
           formData
         );
+
+        console.log("Server response:", response.data);
+
         setUserData(response.data);
-        localStorage.setItem("userData", JSON.stringify(response.data));
         setIsEditing(false);
       } catch (error) {
-        console.error("Error updating user data:", error);
-        setError("Unable to update user data");
+        console.error("Error updating user data:", error.response || error);
+        setError(error.response?.data?.error || "Unable to update user data");
       }
     },
   });
@@ -72,85 +77,37 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const id = user?.id;
-
       if (id) {
         try {
+          console.log("Fetching user data with ID:", id);
           const response = await axios.get(
             `http://localhost:3000/taikhoan/${id}`
           );
+          console.log("Fetched user data:", response.data);
+
           setUserData(response.data);
-          localStorage.setItem("userData", JSON.stringify(response.data));
           formik.setValues({
             email: response.data.email,
             tentaikhoan: response.data.tentaikhoan,
             sdt: response.data.sdt,
             ngaysinh: response.data.ngaysinh,
+            img: response.data.img,
           });
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.error("Error fetching user data:", error.response || error);
           setError("Unable to fetch user data");
         } finally {
           setLoading(false);
         }
-      } else {
-        setLoading(false);
-        setError("User ID is not defined");
       }
     };
 
-    if (!userData) {
-      fetchUserData();
-    } else {
-      setLoading(false);
-    }
-  }, [user, userData]);
+    fetchUserData();
+  }, [user]);
 
-  useEffect(() => {
-    // Update the form values whenever editing mode is activated
-    if (isEditing && userData) {
-      formik.setValues({
-        email: userData.email,
-        tentaikhoan: userData.tentaikhoan,
-        sdt: userData.sdt,
-        ngaysinh: userData.ngaysinh,
-      });
-    }
-  }, [isEditing, userData]);
-
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setAvatar(file); // Cập nhật state avatar khi người dùng chọn file
-    }
-  };
-
-  const handleUpdateAvatar = async () => {
-    const id = user?.id;
-
-    if (avatar) {
-      try {
-        const formData = new FormData();
-        formData.append("img", avatar); // Thêm avatar vào formData
-
-        const response = await axios.put(
-          `http://localhost:3000/taikhoan/${id}/img`, // Đảm bảo endpoint đúng
-          formData
-        );
-        setUserData(response.data);
-        localStorage.setItem("userData", JSON.stringify(response.data));
-      } catch (error) {
-        console.error("Error updating avatar:", error);
-        setError("Unable to update avatar");
-      }
-    }
-  };
-
-  if (loading) return <p className="loading">Đang tải thông tin người dùng...</p>;
-  if (error) return <p className="error">Lỗi: {error}</p>;
-
-  if (!user) {
-    return <p className="error">Bạn chưa đăng nhập.</p>;
-  }
+  if (loading) return <p>Đang tải thông tin người dùng...</p>;
+  if (error) return <p>Lỗi: {error}</p>;
+  if (!user) return <p>Bạn chưa đăng nhập.</p>;
 
   return (
     <div className="user-container">
@@ -216,6 +173,27 @@ const UserProfile = () => {
                 className="form-group__input"
               />
             </div>
+            <div className="form-group">
+              <label className="form-group__label">Chọn hình ảnh:</label>
+              <input
+                type="file"
+                name="img"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const imageUrl = URL.createObjectURL(file);
+                    formik.setFieldValue("img", file);
+                    setUserData((prevData) => ({
+                      ...prevData,
+                      img: imageUrl,
+                    }));
+                  }
+                }}
+                onBlur={formik.handleBlur}
+                className="form-group__input"
+              />
+            </div>
             <div className="form-buttons">
               <button
                 type="button"
@@ -235,18 +213,9 @@ const UserProfile = () => {
           <div className="user-profile__info">
             <div className="avt-user">
               <img
-                src={userData.img || "./img/A (1) 4.png"} // Hiển thị avatar nếu có, nếu không hiển thị ảnh mặc định
+                src={userData.img || "./img/default-avatar.png"}
                 alt="Avatar User"
               />
-              {/* Nút thay đổi avatar */}
-              <input
-                type="file"
-                onChange={handleAvatarChange} // Gọi hàm handleAvatarChange khi người dùng chọn ảnh
-                className="avatar-upload"
-              />
-              <button onClick={handleUpdateAvatar} className="user-profile__button update-avatar-button">
-                Cập nhật avatar
-              </button>
             </div>
             <div className="user-information">
               <div className="name__info">
@@ -273,5 +242,4 @@ const UserProfile = () => {
     </div>
   );
 };
-
 export default UserProfile;

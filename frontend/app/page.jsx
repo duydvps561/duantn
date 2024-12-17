@@ -381,7 +381,7 @@ export default function Home() {
           <h1>Phim Đang Chiếu</h1>
         </div>
 
-        <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
+        <div className="row gap-3">{renderMovieCards(moviesNowPlaying)}</div>
 
         <div className="main-title mt-5">
           <i
@@ -391,7 +391,7 @@ export default function Home() {
           <h1>Phim Sắp Chiếu</h1>
         </div>
 
-        <div className="row">{renderMovieCards(moviesComingSoon)}</div>
+        <div className="row gap-3">{renderMovieCards(moviesComingSoon)}</div>
       </div>
     </>
   );
