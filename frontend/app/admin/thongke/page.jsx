@@ -49,6 +49,7 @@ const ThongKePage = () => {
           Tongphim1,
           Tongphim2
         ] = await Promise.all([
+
           fetch("http://localhost:3000/thongke/soluong/taikhoan"),
           fetch("http://localhost:3000/thongke/soluong/tintuc"),
           fetch("http://localhost:3000/thongke/soluong/food"),

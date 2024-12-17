@@ -158,36 +158,80 @@
 
           {/* Bảng chi tiết đơn hàng */}
           <div className="order-details">
-            {selectedOrder ? (
-              <>
-                <h3>Chi tiết đơn hàng</h3>
-                <p>
-                  <strong>Mã đơn hàng:</strong> {selectedOrder._id}
-                </p>
-                <p>
-                  <strong>Ngày lập:</strong>{" "}
-                  {new Date(selectedOrder.ngaylap).toLocaleDateString()}
-                </p>
-                <p>
-                  <strong>Trạng thái:</strong> {selectedOrder.trangthai === "1"
-          ? "Chờ xác nhận"
-          : selectedOrder.trangthai === "2"
-          ? "Đã xác nhận"
-          : "Không rõ"}
-                </p>
-                <p>
-                  <strong>Tên người đặt:</strong>{" "}
-                  {selectedOrder.taikhoan_id.tentaikhoan}
-                </p>
-                <p>
-                  <strong>Thông tin khác:</strong>{" "}
-                  {selectedOrder.thongtinchitiet}
-                </p>
-              </>
-            ) : (
-              <p>Chọn một đơn hàng để xem chi tiết</p>
-            )}
+  {selectedOrder ? (
+    <>
+      <h3>Chi tiết đơn hàng</h3>
+      <p>
+        <strong>Mã đơn hàng:</strong> {selectedOrder.hoadon._id}
+      </p>
+      <p>
+        <strong>Tên tài khoản:</strong> {selectedOrder.hoadon.tentaikhoan}
+      </p>
+      <p>
+        <strong>Tổng tiền:</strong> {selectedOrder.hoadon.tongtien}
+      </p>
+      <p>
+        <strong>Ngày lập:</strong>{" "}
+        {new Date(selectedOrder.hoadon.createdAt).toLocaleDateString()}
+      </p>
+
+      <h4>Thông tin món ăn:</h4>
+      {selectedOrder.foodOrders && selectedOrder.foodOrders.length > 0 ? (
+        selectedOrder.foodOrders.map((food, index) => (
+          <div key={index}>
+            <p>
+              <strong>Tên món:</strong> {food.tenmon}
+            </p>
+            <p>
+              <strong>Giá:</strong> {food.gia}
+            </p>
+            <p>
+              <strong>Số lượng:</strong> {food.soluong}
+            </p>
+            <p>
+              <strong>Tổng tiền:</strong> {food.tongtien}
+            </p>
           </div>
+        ))
+      ) : (
+        <p>Không có món ăn trong đơn hàng</p>
+      )}
+
+      <h4>Thông tin vé:</h4>
+      {selectedOrder.tickets && selectedOrder.tickets.length > 0 ? (
+        selectedOrder.tickets.map((ticket, index) => (
+          <div key={index}>
+            <p>
+              <strong>Giá vé:</strong> {ticket.giave}
+            </p>
+            <p>
+              <strong>Giờ bắt đầu:</strong> {ticket.giobatdau}
+            </p>
+            <p>
+              <strong>Giờ kết thúc:</strong> {ticket.gioketthuc}
+            </p>
+            <p>
+              <strong>Ngày chiếu:</strong>{" "}
+              {new Date(ticket.ngaychieu).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Tên phim:</strong> {ticket.tenphim || "N/A"}
+            </p>
+            <p>
+              <strong>Thời lượng:</strong> {ticket.thoiluong || "N/A"}
+            </p>
+           
+          </div>
+        ))
+      ) : (
+        <p>Không có vé trong đơn hàng</p>
+      )}
+    </>
+  ) : (
+    <p>Chọn một đơn hàng để xem chi tiết</p>
+  )}
+</div>
+
         </div>
       </Layout>
     );
