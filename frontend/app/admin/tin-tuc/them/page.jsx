@@ -41,7 +41,7 @@ const ThemTinTuc = () => {
       formDataToSend.append('trangthai', formData.trangthai);
       formDataToSend.append('image', image);
 
-      const response = await axios.post('https://backend-duan-9qb7.onrender.com/tintuc/add', formDataToSend, {
+      const response = await axios.post('http://localhost:3000/tintuc/add', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

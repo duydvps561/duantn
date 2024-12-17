@@ -20,8 +20,8 @@ const ThemGhe = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const phongchieuRes = await axios.get("https://backend-duan-9qb7.onrender.com/phongchieu");
-        const loaigheRes = await axios.get("https://backend-duan-9qb7.onrender.com/loaighe");
+        const phongchieuRes = await axios.get("http://localhost:3000/phongchieu");
+        const loaigheRes = await axios.get("http://localhost:3000/loaighe");
         setPhongchieuList(phongchieuRes.data);
         setLoaigheList(loaigheRes.data);
       } catch (err) {
@@ -53,7 +53,7 @@ const ThemGhe = () => {
     }));
 
     try {
-      await axios.post("https://backend-duan-9qb7.onrender.com/ghe/them-ghe", {
+      await axios.post("http://localhost:3000/ghe/them-ghe", {
         phongchieu_id: phongchieuId,
         danhSachGhe,
       });

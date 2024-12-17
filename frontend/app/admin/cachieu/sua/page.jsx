@@ -30,9 +30,9 @@ export default function UpdateCaChieu() {
     const fetchData = async () => {
       try {
         const [phongChieuRes, phimRes, caChieuRes] = await Promise.all([
-          axios.get("https://backend-duan-9qb7.onrender.com/phongchieu"),
-          axios.get("https://backend-duan-9qb7.onrender.com/phim"),
-          axios.get(`https://backend-duan-9qb7.onrender.com/xuatchieu/${caChieuId}`),
+          axios.get("http://localhost:3000/phongchieu"),
+          axios.get("http://localhost:3000/phim"),
+          axios.get(`http://localhost:3000/xuatchieu/${caChieuId}`),
         ]);
 
         setPhongChieus(phongChieuRes.data);
@@ -67,7 +67,7 @@ export default function UpdateCaChieu() {
   // Function to check room availability
   const kiemTraTrongTai = async (values) => {
     try {
-      const response = await axios.post("https://backend-duan-9qb7.onrender.com/xuatchieu/check", values);
+      const response = await axios.post("http://localhost:3000/xuatchieu/check", values);
       return response.data.available;
     } catch (error) {
       console.error("Lỗi khi kiểm tra trống:", error);
@@ -110,7 +110,7 @@ export default function UpdateCaChieu() {
         );
 
         await axios.put(
-          `https://backend-duan-9qb7.onrender.com/xuatchieu/update/${caChieuId}`,
+          `http://localhost:3000/xuatchieu/update/${caChieuId}`,
           values
         );
         Swal.fire({

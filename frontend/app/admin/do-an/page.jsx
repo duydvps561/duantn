@@ -47,7 +47,7 @@ const FoodList = () => {
 
     if (confirmed.isConfirmed) {
       try {
-        await axios.delete(`https://backend-duan-9qb7.onrender.com/food/delete/${id}`);
+        await axios.delete(`http://localhost:3000/food/delete/${id}`);
         setFoods(foods.filter(food => food._id !== id));
         setFilteredFoods(filteredFoods.filter(food => food._id !== id));
         Swal.fire('Xóa thành công!', 'Món ăn đã được xóa.', 'success');
@@ -103,7 +103,7 @@ const FoodList = () => {
                     <td>{food.tenfood}</td>
                     <td>
                       <img 
-                        src={`https://backend-duan-9qb7.onrender.com/img/food/${food.img}`} 
+                        src={`http://localhost:3000/img/food/${food.img}`} 
                         alt={food.tenfood} 
                         className={styles.foodImage} 
                       />

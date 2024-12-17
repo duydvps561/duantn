@@ -31,9 +31,9 @@
 //     const fetchData = async () => {
 //       try {
 //         const [phongchieuRes, loaigheRes, loaiphongRes] = await Promise.all([
-//           axios.get(`https://backend-duan-9qb7.onrender.com/phongchieu/ghe/${phongChieuId}`),
-//           axios.get('https://backend-duan-9qb7.onrender.com/loaighe'),
-//           axios.get('https://backend-duan-9qb7.onrender.com/loaiphong')
+//           axios.get(`http://localhost:3000/phongchieu/ghe/${phongChieuId}`),
+//           axios.get('http://localhost:3000/loaighe'),
+//           axios.get('http://localhost:3000/loaiphong')
 //         ]);
 //         setPhongChieuDetail(phongchieuRes.data);
 //         setLoaigheList(loaigheRes.data);
@@ -116,7 +116,7 @@
 //           loaighe_id: selectedLoaigheId || ghe.loaighe_id._id 
 //         };
 //         try {
-//           await axios.put(`https://backend-duan-9qb7.onrender.com/phongchieu/ghe/update/${ghe._id}`, updatedGhe);
+//           await axios.put(`http://localhost:3000/phongchieu/ghe/update/${ghe._id}`, updatedGhe);
 //         } catch (error) {
 //           console.error('Error updating seat:', error);
 //           Swal.fire('Cập nhật ghế thất bại', '', 'error');
@@ -139,7 +139,7 @@
 
 //     try {
 //       const deletePromises = selectedGhes.map(ghe =>
-//         axios.delete(`https://backend-duan-9qb7.onrender.com/phongchieu/ghe/delete/${ghe._id}`)
+//         axios.delete(`http://localhost:3000/phongchieu/ghe/delete/${ghe._id}`)
 //       );
 
 //       await Promise.all(deletePromises);
@@ -270,9 +270,9 @@ const ChiTietPhongPhimPage = () => {
     const fetchData = async () => {
       try {
         const [phongchieuRes, loaigheRes, loaiphongRes] = await Promise.all([
-          axios.get(`https://backend-duan-9qb7.onrender.com/phongchieu/ghe/${phongChieuId}`),
-          axios.get('https://backend-duan-9qb7.onrender.com/loaighe'),
-          axios.get('https://backend-duan-9qb7.onrender.com/loaiphong')
+          axios.get(`http://localhost:3000/phongchieu/ghe/${phongChieuId}`),
+          axios.get('http://localhost:3000/loaighe'),
+          axios.get('http://localhost:3000/loaiphong')
         ]);
         setPhongChieuDetail(phongchieuRes.data);
         setLoaigheList(loaigheRes.data);
@@ -357,7 +357,7 @@ const ChiTietPhongPhimPage = () => {
           loaighe_id: selectedLoaigheId || ghe.loaighe_id._id
         };
         try {
-          await axios.put(`https://backend-duan-9qb7.onrender.com/phongchieu/ghe/update/${ghe._id}`, updatedGhe);
+          await axios.put(`http://localhost:3000/phongchieu/ghe/update/${ghe._id}`, updatedGhe);
         } catch (error) {
           console.error('Error updating seat:', error);
           Swal.fire('Cập nhật ghế thất bại', '', 'error');
@@ -380,7 +380,7 @@ const ChiTietPhongPhimPage = () => {
 
     try {
       const deletePromises = selectedGhes.map(ghe =>
-        axios.delete(`https://backend-duan-9qb7.onrender.com/phongchieu/ghe/delete/${ghe._id}`)
+        axios.delete(`http://localhost:3000/phongchieu/ghe/delete/${ghe._id}`)
       );
 
       await Promise.all(deletePromises);

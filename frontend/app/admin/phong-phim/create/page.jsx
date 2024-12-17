@@ -19,7 +19,7 @@ const QuanLyPhongPage = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get('https://backend-duan-9qb7.onrender.com/loaiphong');
+      const response = await axios.get('http://localhost:3000/loaiphong');
       setLoaiphongList(response.data);
     } catch (error) {
       console.error('Error fetching rooms:', error);
@@ -28,7 +28,7 @@ const QuanLyPhongPage = () => {
 
   const addRoom = async () => {
     try {
-      await axios.post('https://backend-duan-9qb7.onrender.com/loaiphong/add', { loaiphong, trangthai });
+      await axios.post('http://localhost:3000/loaiphong/add', { loaiphong, trangthai });
       fetchLoaiphongs(); // Refresh the list
       setLoaiphong(''); // Clear the input
       setTrangthai('1'); // Reset status to default
@@ -40,7 +40,7 @@ const QuanLyPhongPage = () => {
 
   const updateRoom = async (id) => {
     try {
-      await axios.put(`https://backend-duan-9qb7.onrender.com/loaiphong/update/${id}`, { loaiphong, trangthai });
+      await axios.put(`http://localhost:3000/loaiphong/update/${id}`, { loaiphong, trangthai });
       fetchLoaiphongs(); // Refresh the list
       setLoaiphong(''); // Clear the input
       setTrangthai('1'); // Reset status to default
@@ -61,7 +61,7 @@ const QuanLyPhongPage = () => {
 
   const deleteRoom = async (id) => {
     try {
-      await axios.delete(`https://backend-duan-9qb7.onrender.com/loaiphong/delete/${id}`);
+      await axios.delete(`http://localhost:3000/loaiphong/delete/${id}`);
       fetchLoaiphongs(); // Refresh the list
     } catch (error) {
       console.error('Error deleting room:', error);

@@ -181,7 +181,7 @@ export default function Banner() {
                                     <td className="text-center">{item.name}</td>
                                     <td className="d-flex justify-content-center">
                                         <Image 
-                                            src={`https://backend-duan-9qb7.onrender.com/img/banner/${item.img}`}
+                                            src={`http://localhost:3000/img/banner/${item.img}`}
                                             alt={item.name}
                                             width={80}
                                             height={60}

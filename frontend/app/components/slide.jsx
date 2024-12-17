@@ -24,7 +24,7 @@ export default function Slide() {
               {banner.filter(item => item.type === 'A' && item.hidden === false).map((item, index) => (
                 <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
                   <Image
-                    src={`https://backend-duan-9qb7.onrender.com/img/banner/${item.img}`}
+                    src={`http://localhost:3000/img/banner/${item.img}`}
                     alt={`Banner image ${index + 1}`}
                     width={679}
                     height={420}

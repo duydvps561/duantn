@@ -18,7 +18,7 @@ const ContactUs = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const res = await axios.get("https://backend-duan-9qb7.onrender.com/lienhe");
+        const res = await axios.get("http://localhost:3000/lienhe");
         setContacts(res.data);
         setTotalPages(Math.ceil(res.data.length / ITEMS_PER_PAGE)); // Calculate total pages
         setFilteredContacts(res.data.slice(0, ITEMS_PER_PAGE)); // Show first page
@@ -49,7 +49,7 @@ const ContactUs = () => {
     }
 
     try {
-      await axios.post(`https://backend-duan-9qb7.onrender.com/lienhe/reply/${id}`, { replyMessage });
+      await axios.post(`http://localhost:3000/lienhe/reply/${id}`, { replyMessage });
       Swal.fire({
         title: "Thành công",
         text: "Phản hồi thành công!",

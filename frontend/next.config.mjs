@@ -3,9 +3,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'backend-duan-9qb7.onrender.com',
-        port: '',
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
         pathname: '/img/**',
       },
     ],

@@ -27,8 +27,8 @@ export default function ThemCaChieu() {
     const layDuLieu = async () => {
       try {
         const [phongChieuResponse, phimResponse] = await Promise.all([
-          axios.get("https://backend-duan-9qb7.onrender.com/phongchieu"),
-          axios.get("https://backend-duan-9qb7.onrender.com/phim"),
+          axios.get("http://localhost:3000/phongchieu"),
+          axios.get("http://localhost:3000/phim"),
         ]);
         setPhongChieus(phongChieuResponse.data);
         setPhims(phimResponse.data);
@@ -72,7 +72,7 @@ export default function ThemCaChieu() {
 
   const kiemTraTrongTai = async (values) => {
     try {
-      const response = await axios.post("https://backend-duan-9qb7.onrender.com/xuatchieu/check", values);
+      const response = await axios.post("http://localhost:3000/xuatchieu/check", values);
       return response.data.available;
     } catch (error) {
       console.error("Lỗi khi kiểm tra trống:", error);
@@ -127,7 +127,7 @@ export default function ThemCaChieu() {
         }
 
         try {
-          await axios.post("https://backend-duan-9qb7.onrender.com/xuatchieu/add", values);
+          await axios.post("http://localhost:3000/xuatchieu/add", values);
           setCaChieus((prevCaChieus) => [
             ...prevCaChieus,
             { ...values, ngaychieu: values.ngaychieu.split("-").reverse().join("/") },

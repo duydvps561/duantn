@@ -143,12 +143,12 @@ export default function Home() {
           console.log("Vé đã được tạo:", ticketResult);
           const ticketId = ticketResult.hoadon_id;
           const ticketDetails = await fetch(
-            `https://backend-duan-9qb7.onrender.com/ve/${ticketId}`
+            `http://localhost:3000/ve/${ticketId}`
           ).then((res) => res.json());
           if (!ticketDetails) throw new Error("Không tìm thấy chi tiết vé!");
 
           const cachieu = await fetch(
-            `https://backend-duan-9qb7.onrender.com/xuatchieu/${ticketDetails.cachieu_id}`
+            `http://localhost:3000/xuatchieu/${ticketDetails.cachieu_id}`
           ).then((res) => res.json());
           if (!cachieu) throw new Error("Không tìm thấy suất chiếu!");
 
@@ -156,7 +156,7 @@ export default function Home() {
           try {
             const ghePromises = ticketDetails.ghe_id.map(async (gheid) => {
               const response = await fetch(
-                `https://backend-duan-9qb7.onrender.com/ghe/${gheid}`
+                `http://localhost:3000/ghe/${gheid}`
               );
               if (!response.ok)
                 throw new Error(`Không tìm thấy ghế với ID ${gheid}`);
@@ -169,12 +169,12 @@ export default function Home() {
             console.error("Lỗi khi lấy thông tin ghế:", error);
           }
           const phongchieu = await fetch(
-            `https://backend-duan-9qb7.onrender.com/phongchieu/${cachieu.phongchieu_id}`
+            `http://localhost:3000/phongchieu/${cachieu.phongchieu_id}`
           ).then((res) => res.json());
           if (!phongchieu) throw new Error("Không tìm thấy phòng chiếu!");
 
           const phim = await fetch(
-            `https://backend-duan-9qb7.onrender.com/phim/${cachieu.phim_id}`
+            `http://localhost:3000/phim/${cachieu.phim_id}`
           ).then((res) => res.json());
           if (!phim) throw new Error("Không tìm thấy thông tin phim!");
 
@@ -312,8 +312,8 @@ export default function Home() {
     const fetchMovies = async () => {
       try {
         const [nowPlayingResponse, comingSoonResponse] = await Promise.all([
-          axios.get("https://backend-duan-9qb7.onrender.com/phim/dangchieu"),
-          axios.get("https://backend-duan-9qb7.onrender.com/phim/sapchieu"),
+          axios.get("http://localhost:3000/phim/dangchieu"),
+          axios.get("http://localhost:3000/phim/sapchieu"),
         ]);
       const nowPlayingMovies = nowPlayingResponse.data
         .sort((a, b) => new Date(b.ngayhieuluc) - new Date(a.ngayhieuluc))
@@ -341,7 +341,7 @@ export default function Home() {
           >
             <div className="img-top">
               <img
-                src={`https://backend-duan-9qb7.onrender.com/img/phims/${movie.img}`}
+                src={`http://localhost:3000/img/phims/${movie.img}`}
                 alt={movie.tenphim}
               />
             </div>
@@ -378,7 +378,7 @@ export default function Home() {
           <h1>Phim Đang Chiếu</h1>
         </div>
 
-        <div className="row">{renderMovieCards(moviesNowPlaying)}</div>
+        <div className="row gap-3">{renderMovieCards(moviesNowPlaying)}</div>
 
         <div className="main-title mt-5">
           <i

@@ -31,7 +31,7 @@ const QRScannerPage = () => {
         return;
       }
 
-      const apiUrl = `https://backend-duan-9qb7.onrender.com/checkin/scan-qr/${scannedText}`;
+      const apiUrl = `http://localhost:3000/checkin/scan-qr/${scannedText}`;
       try {
         const response = await fetch(apiUrl, { method: 'PUT' });
 

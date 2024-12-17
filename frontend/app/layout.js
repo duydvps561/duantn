@@ -27,6 +27,7 @@ export default function RootLayout({ children }) {
             </Access>
           </AuthProvider>
         </Providers>
+        <script src="./bootstrap/js/bootstrap.js"></script>
       </body>
     </html>
   );

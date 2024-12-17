@@ -23,9 +23,9 @@ export default function CaChieuPage() {
         const fetchData = async () => {
             try {
                 const [caChieuResponse, phimResponse, phongResponse] = await Promise.all([
-                    axios.get("https://backend-duan-9qb7.onrender.com/xuatchieu"),
-                    axios.get("https://backend-duan-9qb7.onrender.com/phim"),
-                    axios.get("https://backend-duan-9qb7.onrender.com/phongchieu"),
+                    axios.get("http://localhost:3000/xuatchieu"),
+                    axios.get("http://localhost:3000/phim"),
+                    axios.get("http://localhost:3000/phongchieu"),
                 ]);
 
                 const caChieuData = await Promise.all(
@@ -75,7 +75,7 @@ export default function CaChieuPage() {
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`https://backend-duan-9qb7.onrender.com/xuatchieu/delete/${id}`);
+                await axios.delete(`http://localhost:3000/xuatchieu/delete/${id}`);
                 setCaChieux(caChieux.filter((caChieu) => caChieu._id !== id));
                 Swal.fire("Đã xóa!", "Ca chiếu đã được xóa.", "success");
             } catch (error) {

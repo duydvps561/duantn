@@ -14,7 +14,7 @@ const TinTucPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://backend-duan-9qb7.onrender.com/tintuc');
+        const response = await axios.get('http://localhost:3000/tintuc');
         setTintucs(response.data);
       } catch (error) {
         console.error('Error fetching tin tuc:', error);
@@ -26,7 +26,7 @@ const TinTucPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://backend-duan-9qb7.onrender.com/tintuc/deletetintuc/${id}`);
+      await axios.delete(`http://localhost:3000/tintuc/deletetintuc/${id}`);
       setTintucs(tintucs.filter(item => item._id !== id));
     } catch (error) {
       console.error('Error deleting tin tuc:', error);
@@ -70,7 +70,7 @@ const TinTucPage = () => {
                   <tr key={tin._id}>
                     <td>{tin.title}</td>
                     <td>
-                    <img src={`https://backend-duan-9qb7.onrender.com/img/tintuc/${tin.image}`} alt={tin.title} className={styles.newsImage} />
+                    <img src={`http://localhost:3000/img/tintuc/${tin.image}`} alt={tin.title} className={styles.newsImage} />
                   </td>
                     <td>{tin.describe}</td>
                     <td>{new Date(tin.createdAt).toLocaleDateString()}</td>

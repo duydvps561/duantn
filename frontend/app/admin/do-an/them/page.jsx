@@ -41,7 +41,7 @@ const ThemDoAnPage = () => {
       uploadData.append('trangthai', trangthai);
       uploadData.append('img', image);
 
-      const response = await axios.post('https://backend-duan-9qb7.onrender.com/food/add', uploadData, {
+      const response = await axios.post('http://localhost:3000/food/add', uploadData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
