@@ -15,6 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@payos/node": "^1.0.10",
+    "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.3.0",
     "@tinymce/tinymce-react": "^5.1.1",
     "axios": "^1.7.7",
