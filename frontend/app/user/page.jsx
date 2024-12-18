@@ -213,7 +213,7 @@ const UserProfile = () => {
           <div className="user-profile__info">
             <div className="avt-user">
               <img
-                src={userData.img || "./img/default-avatar.png"}
+                src={`http://localhost:3000/${userData.img}` || "./img/default-avatar.png"}
                 alt="Avatar User"
               />
             </div>

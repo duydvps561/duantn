@@ -15,11 +15,11 @@ async function updateMovieStatus() {
       }
 
       // Update the movie status based on the current date
-      if (currentDate < phim.ngayhieuluc || currentDate > phim.ngayhieuluc) {
+      if (currentDate < phim.ngayhieuluc && currentDate < phim.ngayhieulucden) {
         phim.trangthai = '1'; 
       } else if (currentDate >= phim.ngayhieuluc && currentDate <= phim.ngayhieulucden) {
         phim.trangthai = '0'; 
-      } else if (currentDate > phim.ngayhieulucden) {
+      } else if (currentDate > phim.ngayhieuluc && currentDate > phim.ngayhieulucden ) {
         phim.trangthai = '2'; 
       }
 

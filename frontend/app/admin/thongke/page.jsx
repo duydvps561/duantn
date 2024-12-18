@@ -204,22 +204,16 @@ const lineDataMonthly = {
               <thead>
                 <tr>
                   <th>Email</th>
+                  <th>Tên Tài Khoản</th>
                   <th>Ngày tạo</th>
-                  <th>Hình Ảnh</th>
                 </tr>
               </thead>
               <tbody>
                 {stats.latestTaikhoan.map((taikhoan, index) => (
                   <tr key={index}>
                     <td>{taikhoan.email}</td>
+                    <td>{taikhoan.tentaikhoan}</td>
                     <td>{new Date(taikhoan.createdAt).toLocaleDateString()}</td>
-                    <td>
-                      <img
-                        src="https://via.placeholder.com/50"
-                        alt={taikhoan.email}
-                        className="userImage"
-                      />
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -235,7 +229,6 @@ const lineDataMonthly = {
                   <th>Mã hóa đơn</th>
                   <th>Ngày tạo</th>
                   <th>Tổng tiền</th>
-                  <th>Hình Ảnh</th>
                 </tr>
               </thead>
               <tbody>
@@ -244,13 +237,6 @@ const lineDataMonthly = {
                     <td>{hoadon._id}</td>
                     <td>{new Date(hoadon.createdAt).toLocaleDateString()}</td>
                     <td>{hoadon.tongtien.toLocaleString("vi-VN")} VND</td>
-                    <td>
-                      <img
-                        src="https://via.placeholder.com/50"
-                        alt={`Hóa đơn ${hoadon._id}`}
-                        className="userImage"
-                      />
-                    </td>
                   </tr>
                 ))}
               </tbody>
