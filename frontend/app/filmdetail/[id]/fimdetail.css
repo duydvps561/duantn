@@ -272,6 +272,9 @@
   height: 40px;
   border-radius: 5px;
   background-color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .note .box-color-2 {

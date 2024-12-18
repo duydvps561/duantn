@@ -243,8 +243,6 @@ export default function filmdetail({ params }) {
       });
     }
 
-
-
     const handleDoubleSeat = () => {
       const firstSeat = seat;
       const seatNumber = parseInt(seat.substring(1));
@@ -300,11 +298,12 @@ export default function filmdetail({ params }) {
 
 
     const handleSingleSeat = () => {
-      const seatNumber = parseInt(seat.substring(1));
-      const seatRow = seat.charAt(0);
+      const seatNumber = parseInt(seat.substring(1)); // Số ghế
+      const seatRow = seat.charAt(0); // Hàng ghế
 
-      const isSeatSelected = seatSelected.includes(seat);
+      const isSeatSelected = seatSelected.includes(seat); // Kiểm tra ghế đã chọn
 
+      // Lấy danh sách ghế đã mua trong cùng hàng
       const purchasedSeatsInRow = vedata
         .filter(
           (item) =>
@@ -313,9 +312,11 @@ export default function filmdetail({ params }) {
         )
         .map((item) => parseInt(String(item.ghe_id).substring(1)))
         .sort((a, b) => a - b);
+
       if (purchasedSeatsInRow.length > 0) {
         const lastPurchasedSeat = purchasedSeatsInRow[purchasedSeatsInRow.length - 1];
 
+        // Chặn chọn ghế trước ghế đã mua
         if (seatNumber <= lastPurchasedSeat) {
           alert(`Bạn chỉ có thể chọn ghế tiếp theo sau ghế ${seatRow}${lastPurchasedSeat}`);
           return;
@@ -323,7 +324,26 @@ export default function filmdetail({ params }) {
       }
 
       if (isSeatSelected) {
-        setSeatSelected((prevSeats) => prevSeats.filter((selected) => selected !== seat));
+        // Kiểm tra trạng thái ghế xung quanh nếu hủy
+        const selectedSeatsInRow = seatSelected
+          .filter((selectedSeat) => selectedSeat.charAt(0) === seatRow)
+          .map((selectedSeat) => parseInt(selectedSeat.substring(1)))
+          .sort((a, b) => a - b);
+
+        const seatIndex = selectedSeatsInRow.indexOf(seatNumber);
+
+        if (
+          seatIndex > 0 && // Không phải ghế đầu
+          seatIndex < selectedSeatsInRow.length - 1 && // Không phải ghế cuối
+          selectedSeatsInRow[seatIndex + 1] - selectedSeatsInRow[seatIndex - 1] === 2
+        ) {
+          alert(`Bạn không thể hủy ghế giữa dãy. Vui lòng hủy ghế đầu hoặc cuối.`);
+          return;
+        }
+
+        setSeatSelected((prevSeats) =>
+          prevSeats.filter((selected) => selected !== seat)
+        );
         dispatch(clearCart());
         setGiaghe((prevTotal) => prevTotal - gia);
       } else {
@@ -339,7 +359,10 @@ export default function filmdetail({ params }) {
           }
         }
 
-        if (selectedSeatsInRow.length > 0 && seatNumber !== selectedSeatsInRow[selectedSeatsInRow.length - 1] + 1) {
+        if (
+          selectedSeatsInRow.length > 0 &&
+          seatNumber !== selectedSeatsInRow[selectedSeatsInRow.length - 1] + 1
+        ) {
           alert(`Bạn chỉ có thể chọn ghế tiếp theo theo thứ tự.`);
           return;
         }
@@ -611,9 +634,8 @@ export default function filmdetail({ params }) {
                                 {seats.map((ghe) => {
                                   const seat = `${ghe.hang}${ghe.cot}`;
                                   const isSelected = seatSelected.includes(seat);
-                                  const loaigheItem = loaighe.find((item) => item._id === ghe.loaighe_id);
-                                  const giaLoaighe = giaghedata;
-
+                                  const giaLoaighe = giaghedata || 0;
+                                  const loaigheItem = loaighe.find((item) => item._id === ghe.loaighe_id) || {};
                                   // Lọc ghế đã mua dựa trên ngày chiếu
 
                                   const isPurchased = purchasedSeats.has(ghe._id);
@@ -633,9 +655,9 @@ export default function filmdetail({ params }) {
                                   // Xử lý sự kiện click
                                   const handleClick = () => {
                                     if (isPurchased) {
-                                      alert("Ghế này đã được mua, bạn không thể chọn!");
+                                      alert(`Ghế ${seat} đã được mua. Vui lòng chọn ghế khác.`);
                                       return;
-                                    }
+                                    }                                    
                                     handleSeatClick(ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData);
                                   };
 
@@ -669,7 +691,7 @@ export default function filmdetail({ params }) {
               </div>
               <div className="seat-notice d-flex justify-content-center gap-5 mt-3 align-center">
                 <div className="note d-flex gap-2 align-center">
-                  <p className="box-color-1">X</p>
+                  <p className="box-color-1"><span>X</span></p>
                   <p className="mt-1">Đã đặt</p>
                 </div>
                 <div className="note d-flex gap-2">
