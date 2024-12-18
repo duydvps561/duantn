@@ -213,6 +213,7 @@ header .nav-list {
   border: 1px solid #ccc;
   border-radius: 20px;
   transition: background-color 0.2s ease;
+  margin-right: 10px;
 }
 
 .regist-btn:hover {
