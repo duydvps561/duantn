@@ -1,7 +1,7 @@
 'use client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './history.css'
-import { faCaretDown, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faLessThanEqual, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHoadon } from '@/redux/slice/hoadonSlice'
@@ -28,6 +28,7 @@ export default function Yourticket() {
 
     const [selectedStatus, setSelectedStatus] = useState('All');
     const [hisdropdown, setHisdropdown] = useState(false);
+    const [endtick, setEndtick] = useState(false);
     const [movieSearchQuery, setMovieSearchQuery] = useState('');
 
     const [loading, setLoading] = useState(true);
@@ -40,6 +41,7 @@ export default function Yourticket() {
     const [totalPages, setTotalPages] = useState(1);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
     const fetchData = async () => {
         try {
             setLoading(true);
@@ -88,6 +90,7 @@ export default function Yourticket() {
 
 
     const handleModal = (ticket) => {
+        
         setSelectedTicket(ticket);
         setModal(true);
         setSeatName([]);
@@ -105,7 +108,6 @@ export default function Yourticket() {
     if (loading) {
         return <div>Đang tải dữ liệu...</div>;
     }
-
     const getPhimName = (cachieuId) => {
         const phim_id = cachieudata.find(cachieu => cachieu._id === cachieuId)?.phim_id;
         return phimdata.find(phim => phim._id === phim_id)?.tenphim || "Không tìm thấy phim";
@@ -120,15 +122,15 @@ export default function Yourticket() {
         const selectedCachieu = cachieudata.find(cachieu => cachieu._id === cachieuId);
         if (selectedCachieu) {
             const { giobatdau, ngaychieu } = selectedCachieu;
-    
+
             // Chuyển đổi ngaychieu thành định dạng ngày
             const formattedDate = new Date(ngaychieu).toLocaleDateString('vi-VN'); // Chuyển thành định dạng ngày Việt Nam
-    
+
             return `${giobatdau} - ${formattedDate}`;
         }
         return "Thông tin không có sẵn";
     }
-    
+
 
     const getSeatName = async (gheid) => {
         try {
@@ -193,7 +195,25 @@ export default function Yourticket() {
     // Sắp xếp theo ngày
     const sortedTickets = [...currentTickets].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
+    let tickStatus = "";
 
+    if (modal && selectedTicket) {
+        const hoadonMap = new Map(hoadonlist.map(item => [item._id, item.trangthai]));
+        const status = hoadonMap.get(selectedTicket.hoadon_id);
+        const cachieuMap = new Map(cachieudata.map((item) => [item._id, item.ngaychieu]));
+        const ngaychieu = cachieuMap.get(selectedTicket.cachieu_id);
+        if (ngaychieu) {
+            const ngayChieuDate = new Date(ngaychieu);
+            const currentDate = new Date();
+            if (ngayChieuDate <= currentDate && endtick !== false) {
+                setEndtick(false);  
+            } else if (ngayChieuDate > currentDate && endtick !== true) {
+                setEndtick(true);  
+            }
+            
+        }
+        tickStatus = Number(status) === 2 ? "Đã sử dụng" : "Chưa sử dụng";
+    }
     return (
         <>
             <div className="container" style={{ color: "#fff" }}>
@@ -253,25 +273,36 @@ export default function Yourticket() {
                                 </thead>
                                 <tbody>
                                     {sortedTickets.map((ve, index) => {
-                                        const status = hoadonlist.find((item) => item._id === ve.hoadon_id)?.trangthai;
-                                        const ticketStatus = status == 2 ? "Đã sử dụng" : "Chưa sử dụng";
-                                        console.log(ticketStatus);
+                                        const hoadonMap = new Map(hoadonlist.map(item => [item._id, item.trangthai]));
+                                        const status = hoadonMap.get(ve.hoadon_id);
+                                        const ticketStatus = Number(status) === 2 ? "Đã sử dụng" : "Chưa sử dụng";
+
+                                        const cachieuMap = new Map(cachieudata.map((item) => [item._id, item.ngaychieu]));
+                                        const ngaychieu = cachieuMap.get(ve.cachieu_id);
+
+                                        const ngayChieuDate = new Date(ngaychieu);
+                                        const currentDate = new Date();
+                                        const isExpired = ngayChieuDate <= currentDate;  
+                                        const displayStatus = ticketStatus === "Chưa sử dụng" && isExpired ? "Vé quá hạn sử dụng" : ticketStatus;
+
                                         return (
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
                                                 <td>{ve._id}</td>
                                                 <td>{getPhimName(ve.cachieu_id)}</td>
                                                 <td>{new Date(ve.createdAt).toLocaleDateString()}</td>
-                                                <td className={ticketStatus === "Chưa sử dụng" ? "status unused" : "status used"}>
-                                                    {ticketStatus}
+                                                <td className={displayStatus === "Vé quá hạn sử dụng" ? "status expired" : displayStatus === "Chưa sử dụng" ? "status unused" : "status used"}>
+                                                    {displayStatus}
                                                 </td>
+
                                                 <td>
-                                                    <span onClick={() => handleModal(ve)}>Chi tiết</span>
+                                                    <span onClick={() => handleModal(ve, ticketStatus)}>Chi tiết</span>
                                                 </td>
                                             </tr>
                                         );
                                     })}
                                 </tbody>
+
 
                             </table>
                             <div className="page-btn">
@@ -310,12 +341,13 @@ export default function Yourticket() {
                     )}
 
                     {modal && selectedTicket && (
+
                         <div className="ticket-modal-container">
                             <div className="ticket-modal-content">
                                 <div className="ticket-header">
                                     <h2>Vé Ace Cinema</h2>
 
-                                    {selectedTicket && selectedTicket.__v === 0 && (
+                                    {(tickStatus === "Chưa sử dụng" && endtick) && (
                                         <>
                                             <h5>Mã vé</h5>
                                             <div className="qr">
@@ -323,8 +355,6 @@ export default function Yourticket() {
                                             </div>
                                         </>
                                     )}
-
-
                                 </div>
                                 <div className="ticket-body">
                                     <p><strong>Phim:</strong> {getPhimName(selectedTicket.cachieu_id)}</p>
@@ -343,6 +373,7 @@ export default function Yourticket() {
                             </div>
                         </div>
                     )}
+
                 </div>
             </div>
 
