@@ -77,7 +77,7 @@ export default function Yourticket() {
 
     useEffect(() => {
         if (hoadonlist.length > 0 && velist.length > 0) {
-            const hoadon = hoadonlist.filter((item) => item.taikhoan_id._id === userID);
+            const hoadon = hoadonlist.filter((item) => item.taikhoan_id?._id === userID);
             if (hoadon.length > 0) {
                 const hoadonIDSet = new Set(hoadon.map(item => item._id));
                 const ve = velist.filter((item) => hoadonIDSet.has(item.hoadon_id));
@@ -90,7 +90,7 @@ export default function Yourticket() {
 
 
     const handleModal = (ticket) => {
-        
+
         setSelectedTicket(ticket);
         setModal(true);
         setSeatName([]);
@@ -205,13 +205,16 @@ export default function Yourticket() {
         if (ngaychieu) {
             const ngayChieuDate = new Date(ngaychieu);
             const currentDate = new Date();
-            if (ngayChieuDate <= currentDate && endtick !== false) {
-                setEndtick(false);  
-            } else if (ngayChieuDate > currentDate && endtick !== true) {
-                setEndtick(true);  
+            currentDate.setHours(0, 0, 0, 0);
+            if (ngayChieuDate >= currentDate && endtick !== true) {
+                setEndtick(true);
+                console.log("Cập nhật endtick: true (vé còn hiệu lực)");
+            } else if (ngayChieuDate < currentDate && endtick !== false) {
+                setEndtick(false);
+                console.log("Cập nhật endtick: false (vé đã quá hạn)");
             }
-            
         }
+
         tickStatus = Number(status) === 2 ? "Đã sử dụng" : "Chưa sử dụng";
     }
     return (
@@ -282,8 +285,16 @@ export default function Yourticket() {
 
                                         const ngayChieuDate = new Date(ngaychieu);
                                         const currentDate = new Date();
-                                        const isExpired = ngayChieuDate <= currentDate;  
-                                        const displayStatus = ticketStatus === "Chưa sử dụng" && isExpired ? "Vé quá hạn sử dụng" : ticketStatus;
+
+                                        ngayChieuDate.setHours(0, 0, 0, 0);
+                                        currentDate.setHours(0, 0, 0, 0);
+
+                                        const isExpired = ngayChieuDate < currentDate;
+
+                                        const displayStatus = ticketStatus === "Chưa sử dụng" && isExpired
+                                            ? "Vé quá hạn sử dụng"
+                                            : ticketStatus;
+
 
                                         return (
                                             <tr key={index}>
@@ -351,7 +362,7 @@ export default function Yourticket() {
                                         <>
                                             <h5>Mã vé</h5>
                                             <div className="qr">
-                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${selectedTicket._id}&size=200x200`} alt="qr" />
+                                                <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${selectedTicket.hoadon_id}&size=200x200`} alt="qr" />
                                             </div>
                                         </>
                                     )}

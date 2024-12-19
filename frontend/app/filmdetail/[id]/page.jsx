@@ -417,6 +417,17 @@ export default function filmdetail({ params }) {
   const selectedTime = giochieu;
   const purchasedSeats = new Set(getPurchasedSeatsForDate(selectedDate, selectedTime));
 
+  const uniqueDates = [];
+  const filteredPhim = phimHienTai.filter((item) => {
+    const dateKey = new Date(item.ngaychieu).toDateString();
+    if (!uniqueDates.includes(dateKey)) {
+      uniqueDates.push(dateKey); 
+      return true;
+    }
+    return false;
+  });
+
+
   return (
     <>
       <section className="film-detail">
@@ -527,18 +538,17 @@ export default function filmdetail({ params }) {
 
       <div className="date-order">
         <div className="date text-light">
-          {phimHienTai.length > 0 ? (
-            phimHienTai
-              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))
+          {filteredPhim.length > 0 ? (
+            filteredPhim
+              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu)) 
               .map((item) => (
                 <div
-                  className={`text  ${ngaychieuSelected === (item.ngaychieu) ? 'selected' : ''}`}
+                  className={`text ${ngaychieuSelected === item.ngaychieu ? 'selected' : ''}`}
                   key={item.id}
                   onClick={() => {
                     setDataSelected(item._id);
                     setNgayChieuSelected(item.ngaychieu);
                     dispatch(updateNgayChieu(item.ngaychieu));
-
                   }}
                 >
                   <p>Tháng {new Date(item.ngaychieu).getMonth() + 1}</p>
@@ -561,6 +571,7 @@ export default function filmdetail({ params }) {
           ) : (
             <p className="mt-2">Phim tạm thời chưa có ca chiếu.</p>
           )}
+
         </div>
         <div className="note">
           <p>
