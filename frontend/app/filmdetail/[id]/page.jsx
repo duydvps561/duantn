@@ -48,6 +48,9 @@ export default function filmdetail({ params }) {
       setShow(false);
     }
   }, [timeleft]);
+  const [GheThuongColor, setGheThuongColor] = useState('');
+  const [GheVipColor, setGheVipColor] = useState('');
+  const [GheDoiColor, setGheDoiColor] = useState('');
 
   const [phongchieuid, setPhongChieuid] = useState([]);
   const [phimCachieu, setPhimCachieu] = useState([]);
@@ -421,12 +424,11 @@ export default function filmdetail({ params }) {
   const filteredPhim = phimHienTai.filter((item) => {
     const dateKey = new Date(item.ngaychieu).toDateString();
     if (!uniqueDates.includes(dateKey)) {
-      uniqueDates.push(dateKey); 
+      uniqueDates.push(dateKey);
       return true;
     }
     return false;
   });
-
 
   return (
     <>
@@ -540,7 +542,7 @@ export default function filmdetail({ params }) {
         <div className="date text-light">
           {filteredPhim.length > 0 ? (
             filteredPhim
-              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu)) 
+              .sort((a, b) => new Date(a.ngaychieu) - new Date(b.ngaychieu))
               .map((item) => (
                 <div
                   className={`text ${ngaychieuSelected === item.ngaychieu ? 'selected' : ''}`}
@@ -647,7 +649,6 @@ export default function filmdetail({ params }) {
                                   const isSelected = seatSelected.includes(seat);
                                   const giaLoaighe = giaghedata || 0;
                                   const loaigheItem = loaighe.find((item) => item._id === ghe.loaighe_id) || {};
-                                  // Lọc ghế đã mua dựa trên ngày chiếu
 
                                   const isPurchased = purchasedSeats.has(ghe._id);
                                   // Định nghĩa kiểu dáng ghế
@@ -657,13 +658,21 @@ export default function filmdetail({ params }) {
                                     style.cursor = "not-allowed";
                                   } else if (loaigheItem) {
                                     style.backgroundColor = loaigheItem.mau;
+
+                                    if (loaigheItem.loaighe === 'Ghế thường Standard' && GheThuongColor !== loaigheItem.mau) {
+                                      setGheThuongColor(loaigheItem.mau);
+                                    } else if (loaigheItem.loaighe === 'Ghế Vip' && GheVipColor !== loaigheItem.mau) {
+                                      setGheVipColor(loaigheItem.mau);
+                                    } else if (loaigheItem.loaighe === 'Ghế Đôi' && GheDoiColor !== loaigheItem.mau) {
+                                      setGheDoiColor(loaigheItem.mau);
+                                    }
+
                                   }
                                   if (isSelected) {
                                     style.backgroundColor = "#005AD8";
                                     style.color = "white";
                                   }
 
-                                  // Xử lý sự kiện click
                                   const handleClick = () => {
                                     if (isPurchased) {
                                       alert(`Ghế ${seat} đã được mua. Vui lòng chọn ghế khác.`);
@@ -710,15 +719,15 @@ export default function filmdetail({ params }) {
                   <p className="mt-1">Ghế bạn chọn</p>
                 </div>
                 <div className="note d-flex gap-2">
-                  <p className="box-color-3"></p>
-                  <p className="mt-1">ghế thường</p>
+                <p className="box-color-3" style={{ backgroundColor: GheThuongColor }}></p>
+                <p className="mt-1">ghế thường</p>
                 </div>
                 <div className="note d-flex gap-2">
-                  <p className="box-color-4"></p>
-                  <p className="mt-1">Ghế VIP</p>
+                <p className="box-color-3" style={{ backgroundColor: GheVipColor }}></p>
+                <p className="mt-1">Ghế VIP</p>
                 </div>
                 <div className="note d-flex gap-2">
-                  <p className="box-color-5"></p>
+                <p className="box-color-3" style={{ backgroundColor: GheDoiColor}}></p>
                   <p className="mt-1">Ghế đôi</p>
                 </div>
               </div>
