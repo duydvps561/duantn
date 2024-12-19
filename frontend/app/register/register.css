@@ -1,17 +1,17 @@
-.module_modal{
+.module_modal {
   width: 100%;
   height: 100vh;
-  background-color:rgba(5, 11, 23, 0.7);
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:9999;
+  background-color: rgba(5, 11, 23, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
 }
 .modal-overlay {
   position: fixed;
-  top: 345px;
+  top: 420px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -31,19 +31,15 @@
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Thêm bóng cho modal */
 }
-.input{
+.input {
   margin-top: 20px;
 }
-.gender-birthdate{
-  margin-top: 20px;
-}
-.gender{
-  margin-top: 20px;
 
-}
-.birthdate{
+.gender {
   margin-top: 20px;
-
+}
+.birthdate {
+  margin-top: 20px;
 }
 .password-group {
   margin: 20px 0;
@@ -58,7 +54,7 @@ label {
   font-size: 20px; /* Kích thước chữ cho label */
 }
 .modal-register h2 {
-  font-size: 28px; 
+  font-size: 28px;
   text-align: center; /* Căn giữa tiêu đề */
 }
 
@@ -129,12 +125,10 @@ select:focus {
 }
 /* Thông báo lỗi */
 .error {
-  color: #ff6b6b; 
-  font-size: 14px; 
+  color: #ff6b6b;
+  font-size: 14px;
   position: absolute;
   right: 20px;
-
-  
 }
 /* Responsive */
 @media (max-width: 768px) {
