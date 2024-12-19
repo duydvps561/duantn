@@ -42,6 +42,10 @@ const MovieCategoryManagement = () => {
   const currentItems = categories.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(categories.length / itemsPerPage);
 
+  const paginate = (page) => {
+    setCurrentPage(page);
+  };
+
   // Toggle add/edit category form visibility and set form for adding or editing
   const openCategoryForm = (category = null) => {
     if (category) {
@@ -183,7 +187,30 @@ const MovieCategoryManagement = () => {
                 ))}
               </tbody>
             </table>
+            <nav aria-label="Pagination">
+            <ul className="pagination pagination-sm justify-content-center">
+              <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                <button onClick={() => paginate(currentPage - 1)} className="page-link">
+                  &laquo;
+                </button>
+              </li>
+              {[...Array(totalPages)].map((_, index) => (
+                <li key={index + 1} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+                  <button onClick={() => paginate(index + 1)} className="page-link">
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+              <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                <button onClick={() => paginate(currentPage + 1)} className="page-link">
+                  &raquo;
+                </button>
+              </li>
+            </ul>
+          </nav>
           </div>
+
+          
 
           {selectedMovies.length > 0 && (
             <div className="movies-list">
@@ -212,6 +239,7 @@ const MovieCategoryManagement = () => {
           )}
         </div>
       </div>
+      
     </Layout>
   );
 };
