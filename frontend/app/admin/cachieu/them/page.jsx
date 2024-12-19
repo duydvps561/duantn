@@ -160,7 +160,7 @@ export default function ThemCaChieu() {
         <h1 className="my-4">Thêm Ca Chiếu Mới</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className="row">
-            <div className="col-md-5 mb-3">
+            <div className="col-md-6 mb-3">
               <label>Phim</label>
               <input
                 type="text"
@@ -173,13 +173,13 @@ export default function ThemCaChieu() {
                 <ul className="suggestions">
                   {phimSuggestions.map((phim) => (
                     <li key={phim._id} onClick={() => handleSelectPhim(phim)}>
-                      {phim.tenphim} - {phim.trangthai}
+                      {phim.tenphim} - {phim.trangthai === '0' ? "Đang Chiếu" : phim.trangthai === '1' ? "Sắp Chiếu" : phim.trangthai === '2' ? "Hết Hạn" : "Trạng thái không xác định"}
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-            <div className="col-md-5 mb-3">
+            <div className="col-md-6 mb-3">
               <label>Phòng Chiếu</label>
               <select
                 name="phongchieu_id"

@@ -191,7 +191,7 @@ export default function UpdateCaChieu() {
                 <option value="">Chọn phim</option>
                 {phims.map((phim) => (
                   <option key={phim._id} value={phim._id}>
-                    {phim.tenphim}
+                    {phim.tenphim} - {phim.trangthai === '0' ? "Đang Chiếu" : phim.trangthai === '1' ? "Sắp Chiếu" : phim.trangthai === '2' ? "Hết Hạn" : "Trạng thái không xác định"}
                   </option>
                 ))}
               </select>

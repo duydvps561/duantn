@@ -124,7 +124,7 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", upload.single("img"), async (req, res) => {
   try {
-    const { email, tentaikhoan, sdt, ngaysinh } = req.body;
+    const { email, tentaikhoan, sdt, ngaysinh, vaitro } = req.body;
 
     // Kiểm tra ID tài khoản
     const taikhoan = await Taikhoan.findById(req.params.id);
@@ -142,7 +142,7 @@ router.put("/:id", upload.single("img"), async (req, res) => {
     if (tentaikhoan) taikhoan.tentaikhoan = tentaikhoan;
     if (sdt) taikhoan.sdt = sdt;
     if (ngaysinh) taikhoan.ngaysinh = ngaysinh;
-
+    if (vaitro) taikhoan.vaitro = vaitro;
     // Cập nhật hình ảnh nếu có
     if (req.file) {
       console.log("Uploaded file:", req.file.filename);

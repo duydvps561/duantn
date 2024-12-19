@@ -19,7 +19,7 @@ async function updateMovieStatus() {
         phim.trangthai = '1'; 
       } else if (currentDate >= phim.ngayhieuluc && currentDate <= phim.ngayhieulucden) {
         phim.trangthai = '0'; 
-      } else if (currentDate > phim.ngayhieuluc && currentDate > phim.ngayhieulucden ) {
+      } else if (currentDate > phim.ngayhieuluc && currentDate > phim.ngayhieulucden || phim.ngayhieulucden > phim.ngayhieuluc) {
         phim.trangthai = '2'; 
       }
 

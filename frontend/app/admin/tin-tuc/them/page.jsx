@@ -67,7 +67,7 @@ const ThemTinTuc = () => {
               value={formData.title}
               onChange={handleInputChange}
               required
-              className="input new-tap"
+              className="form-control"
             />
           </div>
 
@@ -79,7 +79,7 @@ const ThemTinTuc = () => {
               value={formData.describe}
               onChange={handleInputChange}
               required
-              className="input new-tap"
+              className="form-control"
             />
           </div>
 
