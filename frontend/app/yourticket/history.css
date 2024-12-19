@@ -1,15 +1,21 @@
-*{
+/* General Reset */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-.his-box-tool{
+
+/* Tool Box for the Header */
+.his-box-tool {
     display: flex;
     justify-content: center;
     gap: 10px;
     align-items: center;
     margin: 10px;
+    flex-wrap: wrap; /* Added to wrap items on smaller screens */
 }
+
+/* Date Input Styling */
 .his-tool-day {
     position: relative;
     border-radius: 10px;
@@ -18,7 +24,7 @@
     justify-content: space-evenly;
 }
 
-
+/* Date Input */
 .his-tool-day input[type="date"] {
     margin: 0;
     width: 250px;
@@ -30,45 +36,40 @@
     border: 2px solid #ccc;
     border-radius: 10px;
     outline: none;
-    transition: all 0.3s ease; 
-    box-sizing: border-box; 
+    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
+/* Date Input Focus Effect */
 .his-tool-day input[type="date"]:focus {
-    border-color: #5059be;  
-    background-color: #fff; 
-    box-shadow: 0 0 5px rgba(80, 89, 190, 0.6); 
+    border-color: #5059be;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(80, 89, 190, 0.6);
 }
 
-.his-tool-day input[type="date"]::-webkit-calendar-picker-indicator {
-    background-color: #5059be;
-    border-radius: 5px;
-    color: white;
-    padding: 2px;
-    cursor: pointer;
-}
-
-/* Hiệu ứng hover cho input */
+/* Date Input Hover Effect */
 .his-tool-day input[type="date"]:hover {
     border-color: #5059be;
 }
 
-/* Điều chỉnh cho mobile */
-@media (max-width: 480px) {
-    .his-tool-day {
-        width: 100%;
+/* Mobile responsiveness for Date Input */
+@media (max-width: 768px) {
+    .his-tool-day input[type="date"] {
+        width: 100%; /* Make the date input full width on smaller screens */
     }
 }
 
-
-.his-tool-search{
+/* Search Input Styling */
+.his-tool-search {
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
     margin: 0;
 }
-.his-tool-search input{
+
+/* Search Input */
+.his-tool-search input {
     width: 250px;
     margin: 0;
     padding: 10px;
@@ -77,18 +78,31 @@
     font-size: 16px;
     color: #000;
     position: relative;
-    background-color:none;
+    background-color: none;
 }
-.his-tool-search .his-search-icon{
+
+/* Search Icon */
+.his-tool-search .his-search-icon {
     font-size: 30px;
     position: absolute;
     color: #5059be;
     right: 0;
     margin-right: 20px;
 }
-.his-table-content{
-    margin: 20px 0 0 0;
+
+/* Mobile responsiveness for Search Input */
+@media (max-width: 768px) {
+    .his-tool-search input {
+        width: 100%; /* Full width search input */
+    }
+
+    .his-tool-search .his-search-icon {
+        font-size: 25px; /* Adjust the icon size */
+        margin-right: 10px; /* Reduce the margin */
+    }
 }
+
+/* Table Styling */
 .his-table {
     width: 100%;
     border-collapse: separate;
@@ -98,6 +112,8 @@
     text-align: left;
     border: 2px solid #0f273c;
     border-radius: 10px;
+    overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for touch devices */
 }
 
 .his-table thead th {
@@ -106,6 +122,7 @@
     text-align: center;
     font-size: 16px;
     color: #fff;
+    white-space: nowrap; /* Prevent text from breaking */
 }
 
 .his-table tbody tr {
@@ -113,19 +130,12 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.his-table tbody tr:hover {
-    transform: scale(1.02);
-    cursor: pointer;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1), 0px -4px 8px rgba(168, 30, 30, 0.1); 
-}
-
-
-
 .his-table tbody td {
     padding: 12px;
     text-align: center;
     font-size: 14px;
     color: #fff;
+    white-space: nowrap; /* Prevent text from breaking */
 }
 
 .his-table tbody td:last-child span {
@@ -138,6 +148,89 @@
     color: #0056b3;
 }
 
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .his-table {
+        font-size: 0.9rem;
+        width: 100%;
+        overflow-x: auto; /* Enable horizontal scrolling for small screens */
+    }
+
+    .his-table thead th,
+    .his-table tbody td {
+        padding: 8px; /* Reduce padding for small screens */
+    }
+
+    .his-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 0;
+        text-align: left; /* Align text to the left for better readability */
+    }
+
+    .his-table tbody tr {
+        display: block;
+        margin-bottom: 10px;
+        border: none; /* Remove border for better mobile readability */
+    }
+
+    .his-table thead {
+        display: none; /* Hide table header for smaller screens */
+    }
+
+    .his-table tbody tr::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #5059be;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .his-table tbody td {
+        padding-left: 0; /* Remove extra left padding */
+    }
+
+    .his-table tbody td:last-child {
+        padding-left: 0;
+    }
+}
+
+
+/* Pagination */
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+/* Pagination Button */
+.pagination button {
+    padding: 5px 10px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Pagination Button Hover */
+.pagination button:hover {
+    background-color: #f1c40f;
+    color: #2c3e50;
+}
+
+/* Pagination Disabled Button */
+.pagination button:disabled {
+    background-color: #7f8c8d;
+    color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* Status Badge Styling */
 .status {
     font-weight: bold;
     padding: 6px 10px;
@@ -155,164 +248,7 @@
     border-color: #dc3545;
 }
 
-
-/* Responsive */
-@media (max-width: 768px) {
-    .his-table {
-        font-size: 0.9rem;
-    }
-
-    .his-table thead tr th,
-    .his-table tbody td {
-        padding: 10px;
-    }
-}
-
-.ticket-modal-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Nền mờ tối */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.ticket-modal-content {
-    width: 400px;
-    background: #2c3e50; /* Nền xanh đen */
-    color: #ecf0f1; /* Chữ trắng nhạt */
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.ticket-header {
-    text-align: center;
-    background: #6d9ccb; /* Màu vàng */
-    padding: 15px;
-    border-bottom: 2px solid #34495e;
-}
-
-.ticket-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #2c3e50; /* Chữ đen đậm */
-}
-
-.ticket-header h5 {
-    margin: 10px 0 0;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-.qr img {
-    margin-top: 10px;
-    width: 200px;
-    height: 200px;
-    border: 2px solid #ecf0f1;
-    border-radius: 10px;
-}
-
-.ticket-body {
-    padding: 20px;
-    line-height: 1.8;
-    font-size: 1rem;
-}
-
-.ticket-body p {
-    margin: 10px 0;
-}
-
-.ticket-body strong {
-    color: #f1c40f; /* Chữ vàng nổi bật */
-}
-
-.ticket-footer {
-    text-align: center;
-    padding: 15px;
-    border-top: 2px solid #34495e;
-    background: #2c3e50; /* Nền đồng bộ với thân */
-}
-
-.close-btn {
-    padding: 10px 20px;
-    background: #e74c3c; /* Đỏ */
-    color: #ecf0f1; /* Chữ trắng */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s;
-}
-
-.close-btn:hover {
-    background: #c0392b; /* Đỏ đậm hơn khi hover */
-}
-
-/* Hiệu ứng mờ xuất hiện */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.page-btn {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.pagination {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-}
-
-.pagination button {
-    padding: 5px 10px;
-    background-color: #2c3e50; /* Nền xanh đen */
-    color: #ecf0f1; /* Chữ trắng */
-    border: 1px solid #34495e;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.pagination button:hover {
-    background-color: #f1c40f; /* Vàng nhạt */
-    color: #2c3e50; /* Chữ xanh đen */
-}
-
-.pagination button:disabled {
-    background-color: #7f8c8d; /* Xám nhạt */
-    color: #bdc3c7; /* Chữ xám */
-    cursor: not-allowed;
-}
-
-.pagination span {
-    color: #2c3e50;
-    font-weight: bold;
-    padding: 0 5px;
-}
-
-.pagination .first,
-.pagination .last {
-    font-size: 12px;
-    padding: 5px 8px;
-}
-
+/* Tool Status Dropdown */
 .his-tool-status {
     position: relative;
     width: 250px;
@@ -321,35 +257,33 @@
     border-radius: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-between;  
+    justify-content: space-between;
     padding: 0 10px;
     transition: background-color 0.3s ease;
     cursor: pointer;
 }
 
-.his-tool-status:hover {
-    background-color: #4049a1;
-}
-
+/* Dropdown Content */
 .his-dropdown-content {
     position: absolute;
-    top: 100%;  
+    top: 100%;
     left: 0;
     background-color: #ffffff;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1; 
+    z-index: 1;
     border-radius: 10px;
-    display: none;  
+    display: none;
     opacity: 0;
-    transition: opacity 0.3s ease;  
+    transition: opacity 0.3s ease;
 }
 
 .his-tool-status:hover .his-dropdown-content {
     display: block;
-    opacity: 1;  
+    opacity: 1;
 }
 
+/* Dropdown Buttons */
 .his-dropdown-content button {
     background-color: #f9f9f9;
     color: black;
@@ -357,16 +291,28 @@
     text-align: left;
     border: none;
     width: 100%;
-    border-radius: 8px;  
-    margin: 4px 0; 
-    transition: background-color 0.2s ease, transform 0.2s ease; 
+    border-radius: 8px;
+    margin: 4px 0;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .his-dropdown-content button:hover {
-    background-color: #ddd;  
-    transform: scale(1.05);  
+    background-color: #ddd;
+    transform: scale(1.05);
 }
 
 .his-dropdown-content button:active {
-    transform: scale(0.98); 
+    transform: scale(0.98);
 }
+
+/* Mobile responsiveness for Status Dropdown */
+@media (max-width: 768px) {
+    .his-tool-status {
+        width: 80%; /* Full width for mobile */
+    }
+
+    .his-dropdown-content {
+        min-width: 100%; /* Full width dropdown on mobile */
+    }
+}
+

@@ -301,12 +301,11 @@ export default function filmdetail({ params }) {
 
 
     const handleSingleSeat = () => {
-      const seatNumber = parseInt(seat.substring(1)); // Số ghế
-      const seatRow = seat.charAt(0); // Hàng ghế
+      const seatNumber = parseInt(seat.substring(1));
+      const seatRow = seat.charAt(0);
 
-      const isSeatSelected = seatSelected.includes(seat); // Kiểm tra ghế đã chọn
+      const isSeatSelected = seatSelected.includes(seat);
 
-      // Lấy danh sách ghế đã mua trong cùng hàng
       const purchasedSeatsInRow = vedata
         .filter(
           (item) =>
@@ -319,15 +318,14 @@ export default function filmdetail({ params }) {
       if (purchasedSeatsInRow.length > 0) {
         const lastPurchasedSeat = purchasedSeatsInRow[purchasedSeatsInRow.length - 1];
 
-        // Chặn chọn ghế trước ghế đã mua
-        if (seatNumber <= lastPurchasedSeat) {
-          alert(`Bạn chỉ có thể chọn ghế tiếp theo sau ghế ${seatRow}${lastPurchasedSeat}`);
+        if (selectedSeatsInRow[i + 1] - selectedSeatsInRow[i] > 1) {
+          alert(`Bạn không thể chọn ghế cách một ghế. Vui lòng chọn ghế tiếp theo.`);
           return;
-        }
+      }
+      
       }
 
       if (isSeatSelected) {
-        // Kiểm tra trạng thái ghế xung quanh nếu hủy
         const selectedSeatsInRow = seatSelected
           .filter((selectedSeat) => selectedSeat.charAt(0) === seatRow)
           .map((selectedSeat) => parseInt(selectedSeat.substring(1)))
@@ -335,14 +333,10 @@ export default function filmdetail({ params }) {
 
         const seatIndex = selectedSeatsInRow.indexOf(seatNumber);
 
-        if (
-          seatIndex > 0 && // Không phải ghế đầu
-          seatIndex < selectedSeatsInRow.length - 1 && // Không phải ghế cuối
-          selectedSeatsInRow[seatIndex + 1] - selectedSeatsInRow[seatIndex - 1] === 2
-        ) {
+        if (seatIndex > 0 && seatIndex < selectedSeatsInRow.length - 1 && selectedSeatsInRow[seatIndex + 1] - selectedSeatsInRow[seatIndex - 1] === 2) {
           alert(`Bạn không thể hủy ghế giữa dãy. Vui lòng hủy ghế đầu hoặc cuối.`);
           return;
-        }
+      }      
 
         setSeatSelected((prevSeats) =>
           prevSeats.filter((selected) => selected !== seat)
@@ -651,7 +645,6 @@ export default function filmdetail({ params }) {
                                   const loaigheItem = loaighe.find((item) => item._id === ghe.loaighe_id) || {};
 
                                   const isPurchased = purchasedSeats.has(ghe._id);
-                                  // Định nghĩa kiểu dáng ghế
                                   let style = {};
                                   if (isPurchased) {
                                     style.backgroundColor = "gray";
