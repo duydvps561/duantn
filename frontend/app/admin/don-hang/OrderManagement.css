@@ -75,3 +75,80 @@
   color: black;
  
 }
+/* Search section container */
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Date input styling */
+.search-section input[type="date"] {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.search-section input[type="date"]:focus {
+  outline: none;
+  border-color: #4d6950;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Search button styling */
+.search-section .search-button {
+  padding: 8px 15px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #4d6950;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-section .search-button:hover {
+  background-color: #4d6950;
+}
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 200px;
+}
+
+.filter-label {
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 500;
+
+}
+
+.filter-select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000000;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-select:focus {
+  border-color: #858585;
+  box-shadow: 0px 0px 4px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.filter-select:hover {
+  border-color: #ffffff;
+}

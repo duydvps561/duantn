@@ -15,7 +15,8 @@
     const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
     const ITEMS_PER_PAGE = 10; // Số lượng đơn hàng mỗi trang
     const [totalPages, setTotalPages] = useState(1); // Tổng số trang
-
+    const [searchDate, setSearchDate] = useState(""); // Ngày tìm kiếm
+    const [statusFilter, setStatusFilter] = useState(""); // Trạng thái lọc
     // Fetch danh sách đơn hàng khi component load
     useEffect(() => {
       const fetchOrders = async () => {
@@ -44,6 +45,39 @@
       fetchOrders();
     }, []);
 
+    const handleFilterByStatus = (status) => {
+      setStatusFilter(status);
+      if (!status) {
+        setFilteredOrders(orders.slice(0, ITEMS_PER_PAGE));
+        setTotalPages(Math.ceil(orders.length / ITEMS_PER_PAGE));
+        setCurrentPage(1);
+        return;
+      }
+    
+      const filtered = orders.filter((order) => {
+        return order.trangthai === status;
+      });
+    
+      setFilteredOrders(filtered.slice(0, ITEMS_PER_PAGE));
+      setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
+      setCurrentPage(1);
+    };
+// Tìm kiếm đơn hàng theo ngày
+const handleSearchByDate = () => {
+  if (!searchDate) {
+    setFilteredOrders(orders.slice(0, ITEMS_PER_PAGE));
+    return;
+  }
+
+  const filtered = orders.filter((order) => {
+    const orderDate = new Date(order.ngaylap).toLocaleDateString("en-CA");
+    return orderDate === searchDate;
+  });
+
+  setFilteredOrders(filtered);
+  setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  setCurrentPage(1);
+};
     // Phân trang
     const paginate = (page) => {
       setCurrentPage(page);
@@ -69,16 +103,48 @@
 
     return (
       <Layout>
+ 
         <div className="order-management-container">
+       
           {/* Bảng danh sách đơn hàng */}
           <div className="orders-list">
             <div className="tableSection">
               <h2 className="tableTitle">Danh sách đơn hàng</h2>
+              
+   {/* Tìm kiếm theo ngày */}
+   <div className="search-section">
+          <label htmlFor="searchDate"></label>
+          <input
+            type="date"
+            id="searchDate"
+            value={searchDate}
+            onChange={(e) => setSearchDate(e.target.value)}
+          />
+ <button onClick={handleSearchByDate} className="search-button">
+            Tìm kiếm
+          </button>
+          <div className="filter-section">
 
+  <select
+    id="statusFilter"
+    value={statusFilter}
+    onChange={(e) => handleFilterByStatus(e.target.value)}
+    className="filter-select"
+  >
+    <option value="">Tất cả</option>
+    <option value="1">Chờ Checkin</option>
+    <option value="2">Đã Checkin</option>
+  </select>
+</div>
+         
+          
+        </div>
+        
               {error && <p style={{ color: "red" }}>{error}</p>}
               <table className="table">
                 <thead>
                   <tr>
+                  <th>Tên tài khoản</th>
                     <th>Mã đơn hàng</th>
                     <th>Ngày lập</th>
                     <th>Trạng thái</th>
@@ -88,13 +154,14 @@
                 <tbody>
                   {filteredOrders.map((order) => (
                     <tr key={order._id}>
+                       <td>{order.taikhoan_id?.tentaikhoan || "Không xác định"}</td>
                       <td>{order._id}</td>
                       <td>{new Date(order.ngaylap).toLocaleDateString()}</td>
                       <td>
         {order.trangthai === "1"
-          ? "Chờ xác nhận"
+          ? "Chờ Checkin"
           : order.trangthai === "2"
-          ? "Đã xác nhận"
+          ? "Đã Checkin"
           : "Không rõ"}
       </td>
                       <td>
