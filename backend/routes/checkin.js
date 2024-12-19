@@ -62,7 +62,7 @@ router.put('/scan-qr/:hoadonId', async (req, res) => {
         const checkInTime = new Date(`${ngaychieuDate}T${giobatdau}`); // Thời gian bắt đầu suất chiếu
         const timeDifference = (checkInTime - now) / (60 * 1000); // Chênh lệch phút
 
-        if ( timeDifference > 30 || timeDifference) {
+        if ( timeDifference > 30) {
             return res.status(400).json({
                 message: 'Chưa đến thời gian check-in. Vui lòng đợi trong vòng 30 phút trước giờ chiếu',
             });
