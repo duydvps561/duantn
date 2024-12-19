@@ -13,7 +13,7 @@ const Header = () => {
   const user = useSelector((state) => state.auth.user);
   const handleLogout = () => {
     dispatch(logout());
-    router.push('/');
+    router.replace('/');
   };
   return (
     <header className="headerstyle">
