@@ -442,14 +442,14 @@ export default function filmdetail({ params }) {
               <h1 className="card-title">
                 {phimChitiet.tenphim || "Loading..."}
               </h1>
-              <ul>
-                <li><a href="#">Kinh dị</a></li>
-                <li><a href="#">America</a></li>
-                <li><a href="#">{phimChitiet.thoiluong}</a></li>
-                <li><a href="#">{phimChitiet.daodien}</a></li>
-              </ul>
+              <p>Thể loại : </p>
+              <p>Đạo diễn : {phimChitiet.daodien}</p>
+
               <p className="card-text">
-                {phimChitiet.dienvien}
+                Thời lượng: {phimChitiet.thoiluong} phút
+              </p>
+              <p className="card-text">
+                Diễn viên: {phimChitiet.dienvien}
               </p>
               <p className="card-text">
                 Khởi chiếu: {ngayHieuLuc}
@@ -657,7 +657,7 @@ export default function filmdetail({ params }) {
                                     if (isPurchased) {
                                       alert(`Ghế ${seat} đã được mua. Vui lòng chọn ghế khác.`);
                                       return;
-                                    }                                    
+                                    }
                                     handleSeatClick(ghe, seat, loaigheItem, giaLoaighe, isSelected, gheData);
                                   };
 

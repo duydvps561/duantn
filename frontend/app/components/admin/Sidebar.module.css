@@ -5,24 +5,68 @@
   padding: 20px 0;
   height: 100vh;
   position: fixed;
-  padding: .3rem;
+  padding: 0.3rem;
   top: 0;
   z-index: 100;
   left: 0;
   width: 230px;
-  color: #fff;
+  color: #000; /* Màu chữ */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); */
+  overflow-y: auto; /* Cho phép cuộn dọc */
+  scrollbar-width: thin; /* Tùy chỉnh thanh cuộn cho Firefox */
+  scrollbar-color: #c1c1c1 transparent; /* Màu thanh cuộn */
 }
 
-.active {
-  background-color: #4d6950; /* Màu nền cho mục đang active */
+.sidebar::-webkit-scrollbar {
+  width: 8px; /* Chiều rộng thanh cuộn */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1; /* Màu thanh cuộn */
+  border-radius: 4px; /* Bo góc thanh cuộn */
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent; /* Nền track */
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.menuItem {
+  width: 100%;
+  display: flex;
+  border-radius: 0.3rem;
+  align-items: center;
+  justify-content: start;
+  color: black;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px; /* Khoảng cách giữa các menu */
+}
+
+.menuItem:hover {
+  background-color: #d1deca;
+  color: white;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 4px;
 }
 
 .logo {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -31,6 +75,9 @@
   height: auto;
 }
 
+.active {
+  background-color: #4d6950; /* Màu nền cho mục đang active */
+}
 .menuList {
   list-style: none;
   padding: 0;

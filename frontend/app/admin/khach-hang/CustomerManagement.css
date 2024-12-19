@@ -362,7 +362,7 @@ form input  {
 }
 
 /* CSS cho phân trang */
-.pagination {
+/* .pagination {
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -397,4 +397,15 @@ form input  {
   background-color: #007bff;
   color: white;
   border-color: #007bff;
+} */
+.active>.page-link, .page-link.active{
+  background-color: #4d6950;
+  color: #fff;
+  border-color: unset;
+  
+
+}
+.page-link{
+  color: black;
+ 
 }
