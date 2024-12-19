@@ -9,7 +9,6 @@ const FoodOrder = require('../models/food/foododer');
 const Food = require('../models/food/food');
 const TaiKhoan = require('../models/account/taikhoan');
 
-// Route để quét QR và cập nhật trạng thái
 router.put('/scan-qr/:hoadonId', async (req, res) => {
     try {
         const { hoadonId } = req.params;
@@ -50,30 +49,30 @@ router.put('/scan-qr/:hoadonId', async (req, res) => {
             return res.status(400).json({ message: 'Thông tin ngày chiếu hoặc giờ bắt đầu không hợp lệ' });
         }
 
-        // Bước 2: Kiểm tra ngày chiếu
-        const today = new Date().toISOString().split('T')[0]; // Ngày hiện tại (YYYY-MM-DD)
+        // Kiểm tra ngày chiếu
+        const today = new Date().toISOString().split('T')[0]; 
         const ngaychieuDate = new Date(ngaychieu).toISOString().split('T')[0]; // Loại bỏ phần giờ của ngaychieu
 
         if (today !== ngaychieuDate) {
             return res.status(400).json({ message: 'Ngày chiếu không trùng khớp với ngày hiện tại' });
         }
 
-        // Bước 3: Kiểm tra thời gian
+        // Kiểm tra thời gian
         const now = new Date(); // Thời gian hiện tại
         const checkInTime = new Date(`${ngaychieuDate}T${giobatdau}`); // Thời gian bắt đầu suất chiếu
         const timeDifference = (checkInTime - now) / (60 * 1000); // Chênh lệch phút
 
-        if (timeDifference > 30) {
+        if ( timeDifference > 30 || timeDifference) {
             return res.status(400).json({
                 message: 'Chưa đến thời gian check-in. Vui lòng đợi trong vòng 30 phút trước giờ chiếu',
             });
-        } else if (timeDifference < 0) {
+        } else if (timeDifference < -30) {
             return res.status(400).json({
                 message: 'Đã quá thời gian check-in cho suất chiếu này',
             });
         }
 
-        // Bước 4: Cập nhật trạng thái hóa đơn từ 1 -> 2 (đã check-in)
+        // Cập nhật trạng thái hóa đơn từ 1 -> 2 (đã check-in)
         hoadon.trangthai = '2';
         await hoadon.save();
 
